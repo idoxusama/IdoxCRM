@@ -1,0 +1,553 @@
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+    <div class="container my-3 main-container">
+      <div class="row align-items-center">
+        <div class="col">
+          <h2 class="content-color-primary page-title">Referrer Detail</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4 main-container">
+  <div class="row">
+    <div class="col-12 col-md-12 col-lg-12">
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="media">
+            <div class="media-body">
+              <h4 class="content-color-primary mb-0">Personal Info </h4>
+            </div>
+            <button class="btn btn-sm primary-gradient mr-2" (click)="editReferrerPersonalInfo(template)">Edit</button>
+          </div>
+        </div>
+        <div class="card-body p-1">
+          <div class="row no-gutters">
+            <table class="table" *ngIf="referrerPersonalInfo">
+              <tr>
+                <th>Description</th>
+                <th>Address Line1</th>
+                <th>AddressLine2</th>
+                <th>Referrer Code</th>
+                <th>Country</th>
+                <th>Town</th>
+              </tr>
+              <tr>
+                <td>{{referrerPersonalInfo.description}}</td>
+                <td>{{referrerPersonalInfo.addressLine1}}</td>
+                <td>{{referrerPersonalInfo.addressLine2}}</td>
+                <td>{{referrerPersonalInfo.referrerCode}}</td>
+                <td>{{referrerPersonalInfo.country}}</td>
+                <td>{{referrerPersonalInfo.town}}</td>
+              </tr>
+              <tr>
+                <th>Post Code</th>
+                <th>Phone No</th>
+                <th>Alternate PhoneNo</th>
+                <th>Fax No</th>
+                <th>Email</th>
+                <th>Rpt Due Days</th>
+              </tr>
+              <tr>
+                <td>{{referrerPersonalInfo.postCode}}</td>
+                <td>{{referrerPersonalInfo.phoneNo}}</td>
+                <td>{{referrerPersonalInfo.alternatePhoneNo}}</td>
+                <td>{{referrerPersonalInfo.faxNo}}</td>
+                <td>{{referrerPersonalInfo.email}}</td>
+                <td>{{referrerPersonalInfo.rptDueDays}}</td>
+              </tr>
+
+              <tr>
+                <th>Enable SMS</th>
+                <th>Enable Email</th>
+                <th>Enable Quick Instruction</th>
+                <th>Company No</th>
+                <th>Referrer Type</th>
+                <th>Expert Type</th>
+              </tr>
+              <tr>
+                <td>{{referrerPersonalInfo.enableEmail}}</td>
+                <td>{{referrerPersonalInfo.enableEmail}}</td>
+                <td>{{referrerPersonalInfo.enableQuickInstruction}}</td>
+                <td>{{referrerPersonalInfo.companyNo}}</td>
+                <td>{{referrerPersonalInfo.referrerType}}</td>
+                <td>{{referrerPersonalInfo.expertType}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-header border-bottom">
+          <div class="media">
+            <div class="icon-circle icon-40 bg-light-primary mr-3">
+              <i class="material-icons">business</i>
+            </div>
+            <div class="media-body">
+              <h6 class="my-0 content-color-primary">Bank Details</h6>
+            </div>
+            <button class="btn btn-sm primary-gradient mr-2"
+              (click)="createReferrerBankDetail(templateBankDetail)">Add</button>
+
+          </div>
+        </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush w-100 log-information mt-2" *ngIf="referrrerBankDetails">
+            <li class="list-group-item" *ngFor="let bd of referrrerBankDetails">
+              <div class="avatar avatar-15 border-success"></div>
+              <div class="media experience">
+                <div class="icon-rounded icon-40 bg-light-success mr-3">
+                  <i class="material-icons">camera</i>
+                </div>
+                <div class="media-body">
+                  <h6 class="my-0 content-color-primary">{{bd.bankName}}</h6>
+                  <p class="mb-2"><small class="content-color-secondary">{{bd.accountTitle}}</small></p>
+                  <table class="table">
+                    <tr>
+                      <th>Account No</th>
+                      <th>Sort Code</th>
+                      <th>IBAN</th>
+
+                      <th>
+                        Action
+                      </th>
+                    </tr>
+                    <tr>
+                      <td>{{bd.accountNo}}</td>
+                      <td>{{bd.sortCode}}</td>
+                      <td>{{bd.iban}}</td>
+                      <td>
+                        <a style="cursor: pointer;" class="text-success mr-2"
+                          (click)="editReferrerBankDetail(bd.id,templateBankDetail)"><i
+                            class="material-icons">edit</i></a>
+                        <a style="cursor: pointer;" class="text-danger mr-2"
+                          (click)="deleteReferrerBankDetail(bd.id)"><i class="material-icons">delete</i></a>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-header border-bottom">
+          <div class="media">
+            <div class="icon-circle icon-40 bg-light-primary mr-3">
+              <i class="material-icons">ac_unit</i>
+            </div>
+            <div class="media-body">
+              <h6 class="my-0 content-color-primary">Documents</h6>
+            </div>
+            <button class="btn btn-sm primary-gradient mr-2"
+              (click)="createReferrerDocuments(templateDocuments)">Add</button>
+          </div>
+        </div>
+        <div class="row" *ngIf="referrerDocuments">
+          <div class="col-12 col-md-6 col-lg-3" style="padding: 20px;" *ngFor="let doc of referrerDocuments">
+            <div class="card mb-4 bg-light-danger border border-danger no-shadow">
+              <div class="card-body">
+                <div class="media text-center flex-column">
+                  <div class="media-body w-100">
+                    <img src="img/word.png" alt="" class="mx-auto my-2">
+                    <p class="mb-0">{{doc.documentName}}</p>
+                    <h5 class="mb-0"></h5>
+                  </div>
+                  <a (click)="deleteReferrerDoc(doc.id)" class="icon-rounded mx-auto mt-3" style="cursor: pointer;">
+                    <i class="material-icons text-danger">delete</i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- content page ends -->
+</div>
+
+<!--Edit Referrer Personal Info-->
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit Personal Info</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <form [formGroup]="referrerForm" (ngSubmit)="saveReferrerForm()">
+      <div class="card-body">
+        <div class="row justify-content-center">
+          <div class="col-md-10 mx-auto">
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <label>Description</label>
+                <input type="text" class="form-control" formControlName="description" [ngClass]="{'is-invalid': referrerForm.get('description').errors 
+                          && (referrerForm.get('description').touched||referrerFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(referrerForm.get('description').touched||referrerFormSubmit) && referrerForm.get('description').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <label>Address Line1</label>
+                <input type="text" class="form-control" formControlName="addressLine1" [ngClass]="{'is-invalid': referrerForm.get('addressLine1').errors 
+                          && (referrerForm.get('addressLine1').touched||referrerFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(referrerForm.get('addressLine1').touched||referrerFormSubmit) && referrerForm.get('addressLine1').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <label>Address Line2</label>
+                <input type="text" class="form-control" formControlName="addressLine2" [ngClass]="{'is-invalid': referrerForm.get('addressLine2').errors 
+                          && (referrerForm.get('addressLine2').touched||referrerFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(referrerForm.get('addressLine2').touched||referrerFormSubmit) && referrerForm.get('addressLine2').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <label>Country</label>
+                <input type="text" class="form-control" formControlName="country" [ngClass]="{'is-invalid': referrerForm.get('country').errors 
+                          && (referrerForm.get('country').touched||referrerFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(referrerForm.get('country').touched||referrerFormSubmit) && referrerForm.get('country').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <label>Town</label>
+                <input type="text" class="form-control" formControlName="town" [ngClass]="{'is-invalid': referrerForm.get('town').errors 
+                          && (referrerForm.get('town').touched||referrerFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(referrerForm.get('town').touched||referrerFormSubmit) && referrerForm.get('town').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <label>Post Code</label>
+                <input type="text" class="form-control" formControlName="postCode" [ngClass]="{'is-invalid': referrerForm.get('postCode').errors 
+                          && (referrerForm.get('postCode').touched||referrerFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(referrerForm.get('postCode').touched||referrerFormSubmit) && referrerForm.get('postCode').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <label>Phone No</label>
+                <input type="number" class="form-control" formControlName="phoneNo" [ngClass]="{'is-invalid': referrerForm.get('phoneNo').errors 
+                          && (referrerForm.get('phoneNo').touched||referrerFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(referrerForm.get('phoneNo').touched||referrerFormSubmit) && referrerForm.get('phoneNo').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <label>Alternate PhoneNo</label>
+                <input type="number" class="form-control" formControlName="alternatePhoneNo" [ngClass]="{'is-invalid': referrerForm.get('alternatePhoneNo').errors 
+                          && (referrerForm.get('alternatePhoneNo').touched||referrerFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(referrerForm.get('alternatePhoneNo').touched||referrerFormSubmit) && referrerForm.get('alternatePhoneNo').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-6 col-sm-6">
+                <label>Fax No</label>
+                <input type="numebr" class="form-control" formControlName="faxNo" [ngClass]="{'is-invalid': referrerForm.get('faxNo').errors 
+                          && (referrerForm.get('faxNo').touched||referrerFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(referrerForm.get('faxNo').touched||referrerFormSubmit) && referrerForm.get('faxNo').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6">
+                <label>Email</label>
+                <input type="email" class="form-control" formControlName="email" email="true" [ngClass]="{'is-invalid': referrerForm.get('email').errors 
+                        && (referrerForm.get('email').touched||referrerFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(referrerForm.get('email').touched||referrerFormSubmit) && referrerForm.get('email').hasError('required')">
+                  This field is required
+                </div>
+                <div class="invalid-feedback"
+                  *ngIf="(referrerForm.get('email').touched||referrerFormSubmit) && referrerForm.get('email').hasError('email')">
+                  Email is not correct.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-6 col-sm-6">
+                <label>RptDueDays</label>
+                <input type="numebr" class="form-control" formControlName="rptDueDays" [ngClass]="{'is-invalid': referrerForm.get('rptDueDays').errors 
+                          && (referrerForm.get('rptDueDays').touched||referrerFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(referrerForm.get('rptDueDays').touched||referrerFormSubmit) && referrerForm.get('rptDueDays').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6">
+                <label>ReferrerType</label>
+                <select class="form-control" formControlName="referrerType" [ngClass]="{'is-invalid': referrerForm.get('referrerType').errors 
+                && (referrerForm.get('referrerType').touched||referrerFormSubmit)}">
+                  <option>Select Type</option>
+                  <option *ngFor="let ref of referrerTypes" value="{{ref.id}}">{{ref.referrerTypes}}</option>
+                </select>
+                <div class="invalid-feedback"
+                  *ngIf="(referrerForm.get('referrerType').touched||referrerFormSubmit) && referrerForm.get('referrerType').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-6 col-sm-6">
+                <label>ExpertType</label>
+                <select class="form-control" formControlName="expertType" [ngClass]="{'is-invalid': referrerForm.get('expertType').errors 
+                && (referrerForm.get('expertType').touched||referrerFormSubmit)}">
+                  <option>Select Type</option>
+                  <option *ngFor="let type of expertTypes" value="{{type.expertTypeID}}">{{type.expertCategories}}
+                  </option>
+                </select>
+                <div class="invalid-feedback"
+                  *ngIf="(referrerForm.get('expertType').touched||referrerFormSubmit) && referrerForm.get('expertType').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-6 col-sm-6">
+                <label>Session DueDays</label>
+                <input type="number" class="form-control" formControlName="sessionDueDays" [ngClass]="{'is-invalid': referrerForm.get('sessionDueDays').errors 
+                          && (referrerForm.get('sessionDueDays').touched||referrerFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(referrerForm.get('sessionDueDays').touched||referrerFormSubmit) && referrerForm.get('sessionDueDays').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6">
+                <label>Session Out Of DueDays</label>
+                <input type="number" class="form-control" formControlName="sessionOutOfDueDays" [ngClass]="{'is-invalid': referrerForm.get('sessionOutOfDueDays').errors 
+                        && (referrerForm.get('sessionOutOfDueDays').touched||referrerFormSubmit)}">
+                <div class="text-danger">
+                  <div *ngIf="(referrerForm.get('sessionOutOfDueDays').touched||referrerFormSubmit) && referrerForm.get('sessionOutOfDueDays').hasError('required')">
+                    This field is required
+                  </div>
+                  <div *ngIf="referrerFormSubmit && referrerForm.hasError('greater')">
+                    Please enter less out of days than due days.
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-6 col-sm-6">
+                <label>Approx Due Days Discharge</label>
+                <input type="numebr" class="form-control" formControlName="approxDueDaysDischarge" [ngClass]="{'is-invalid': referrerForm.get('approxDueDaysDischarge').errors 
+                          && (referrerForm.get('approxDueDaysDischarge').touched||referrerFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(referrerForm.get('approxDueDaysDischarge').touched||referrerFormSubmit) && referrerForm.get('approxDueDaysDischarge').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6">
+                <label>Compoany No</label>
+                <input type="numebr" class="form-control" formControlName="companyNo" [ngClass]="{'is-invalid': referrerForm.get('companyNo').errors 
+                          && (referrerForm.get('companyNo').touched||referrerFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(referrerForm.get('companyNo').touched||referrerFormSubmit) && referrerForm.get('companyNo').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+            <div class="row ">
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group ">
+                  <div class="media">
+                    <div class="custom-control custom-checkbox todo-checkbox">
+                      <input type="checkbox" formControlName="enableSMS" class="custom-control-input"
+                        name="payment_option" id="customCheck1payment">
+                      <label class="custom-control-label" for="customCheck1payment"> <span class=""> </span></label>
+                    </div>
+                    <div class="media-body">
+                      <h6 class="my-0 text-truncated">Enable SMS </h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group ">
+                  <div class="media">
+                    <div class="custom-control custom-checkbox todo-checkbox">
+                      <input type="checkbox" formControlName="enableEmail" class="custom-control-input"
+                        name="payment_option" id="customCheck2payment">
+                      <label class="custom-control-label" for="customCheck2payment"> <span class=""> </span></label>
+                    </div>
+                    <div class="media-body">
+                      <h6 class="my-0 text-truncated"> Enable Email
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row ">
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group ">
+                  <div class="media">
+                    <div class="custom-control custom-checkbox todo-checkbox">
+                      <input type="checkbox" formControlName="enableQuickInstruction" class="custom-control-input"
+                        name="payment_option" id="customCheck3payment">
+                      <label class="custom-control-label" for="customCheck3payment"> <span class=""></span></label>
+                    </div>
+                    <div class="media-body">
+                      <h6 class="my-0 text-truncated"> Enable Quick Instruction</h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-center border-top">
+        <button type="submit" class="btn btn-success ">Submit</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #templateBankDetail>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Bank Detail</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="referrerBankDetailForm" (ngSubmit)="saveReferrerBankDetail()">
+      <div class="row">
+        <div class="col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>Bank Name</label>
+            <input type="text" appNotAllowSepacialChatactor class="form-control"
+              [formControl]="referrerBankDetailForm.get('bankName')" [ngClass]="{'is-invalid': referrerBankDetailForm.get('bankName')?.errors 
+                          && (referrerBankDetailForm.get('bankName')?.touched||referrerBankDetailSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(referrerBankDetailForm.get('bankName')?.touched||referrerBankDetailSubmit) && referrerBankDetailForm.get('bankName')?.hasError('required')">
+              This
+              field is required</div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>Account Title</label>
+            <input type="text" class="form-control" [formControl]="referrerBankDetailForm.get('accountTitle')"
+              [ngClass]="{'is-invalid': referrerBankDetailForm.get('accountTitle')?.errors 
+                          && (referrerBankDetailForm.get('accountTitle')?.touched||referrerBankDetailSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(referrerBankDetailForm.get('accountTitle')?.touched||referrerFormSubmit) && referrerBankDetailForm.get('accountTitle')?.hasError('required')">
+              This
+              field is required</div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>Account No</label>
+            <input type="text" class="form-control" [formControl]="referrerBankDetailForm.get('accountNo')" [ngClass]="{'is-invalid': referrerBankDetailForm.get('accountNo')?.errors 
+                        && (referrerBankDetailForm.get('accountNo')?.touched||referrerBankDetailSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(referrerBankDetailForm.get('accountNo')?.touched||referrerBankDetailSubmit) && referrerBankDetailForm.get('accountNo')?.hasError('required')">
+              This
+              field is required</div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>Sort Code</label>
+            <input type="text" class="form-control" [formControl]="referrerBankDetailForm.get('sortCode')" [ngClass]="{'is-invalid': referrerBankDetailForm.get('sortCode')?.errors 
+                          && (referrerBankDetailForm.get('sortCode')?.touched||referrerBankDetailSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(referrerBankDetailForm.get('sortCode')?.touched||referrerBankDetailSubmit) && referrerBankDetailForm.get('sortCode')?.hasError('required')">
+              This
+              field is required</div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>IBAN</label>
+            <input type="text" class="form-control" [formControl]="referrerBankDetailForm.get('iban')" [ngClass]="{'is-invalid': referrerBankDetailForm.get('iban')?.errors 
+                          && (referrerBankDetailForm.get('iban')?.touched||referrerBankDetailSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(referrerBankDetailForm.get('iban')?.touched||referrerBankDetailSubmit) && referrerBankDetailForm.get('iban')?.hasError('required')">
+              This
+              field is required</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="text-right border-top mt-2">
+        <button type="submit" class="btn btn-primary primary-gradient ml-2">
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #templateDocuments>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Upload Document</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="referrerDocsForm" (ngSubmit)="saveReferrerDocuments()">
+      <div class="row">
+        <div class="col-sm-6 col-lg-6">
+          <div class="form-group">
+            <label>Document Name</label>
+            <input type="text" appNotAllowSepacialChatactor class="form-control"
+              [formControl]="referrerDocsForm.get('documentName')" [ngClass]="{'is-invalid': referrerDocsForm.get('documentName')?.errors 
+                          && (referrerDocsForm.get('documentName')?.touched||referrerDocsFormSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(referrerDocsForm.get('documentName')?.touched||referrerFormSubmit) && referrerDocsForm.get('documentName')?.hasError('required')">
+              This
+              field is required</div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-6">
+          <div class="form-group">
+            <label>Account Title</label>
+            <input type="file" #file class="form-control" [formControl]="referrerDocsForm.get('files')" [ngClass]="{'is-invalid': referrerDocsForm.get('files')?.errors 
+                          && (referrerDocsForm.get('files')?.touched||referrerDocsFormSubmit)}" multiple
+              (change)="onSelectFiles(file.files)">
+            <div class="invalid-feedback"
+              *ngIf="(referrerDocsForm.get('files')?.touched||referrerDocsFormSubmit) && referrerDocsForm.get('files')?.hasError('required')">
+              This
+              field is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="text-right border-top mt-2">
+        <button type="submit" class="btn btn-primary primary-gradient ml-2">
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>

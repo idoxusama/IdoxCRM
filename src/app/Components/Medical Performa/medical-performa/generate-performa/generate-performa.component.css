@@ -1,0 +1,8 @@
+.draft-button{
+    position: fixed;
+    width: 100px;
+    bottom: 0;
+    margin-top: -50px;
+    right: 165px;
+    z-index: 11;
+}

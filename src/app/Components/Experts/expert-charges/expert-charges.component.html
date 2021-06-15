@@ -1,0 +1,42 @@
+<form [formGroup]="chargesForm" *ngIf="chargesForm" (ngSubmit)="onNextStep()">
+  
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <div class="form-group ">
+        <label>IA Charges</label>
+        <input class="form-control" appOnlynumbers="true" formControlName="iaCharges" [ngClass]="{'is-invalid': chargesForm.get('iaCharges').errors 
+        && (chargesForm.get('iaCharges').touched||submitted)}" placeholder="IA Charges">
+        <div class="invalid-feedback"
+          *ngIf="(chargesForm.get('iaCharges').touched||submitted) && chargesForm.get('iaCharges').hasError('required')">This
+          field is required</div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12">
+      <div class="form-group ">
+        <label>DC Charges</label>
+        <input class="form-control" appOnlynumbers="true" formControlName="dcCharges" [ngClass]="{'is-invalid': chargesForm.get('dcCharges').errors 
+        && (chargesForm.get('dcCharges').touched||submitted)}" placeholder="DC Charges">
+        <div class="invalid-feedback"
+          *ngIf="(chargesForm.get('dcCharges').touched||submitted) && chargesForm.get('dcCharges').hasError('required')">This
+          field is required</div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12">
+      <div class="form-group ">
+        <label>Per Session Charges</label>
+        <input class="form-control" appOnlynumbers="true" formControlName="perSessionCharges" [ngClass]="{'is-invalid': chargesForm.get('perSessionCharges').errors 
+        && (chargesForm.get('perSessionCharges').touched||submitted)}" placeholder="Per Sesscion Charges">
+        <div class="invalid-feedback"
+          *ngIf="(chargesForm.get('perSessionCharges').touched||submitted) && chargesForm.get('perSessionCharges').hasError('required')">This
+          field is required</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="text-right">
+    <button type="submit" (click)="onNextStep()" class="form-continue-btn">
+      {{ showButtonLabel() }}
+    </button>
+  </div>
+
+</form>

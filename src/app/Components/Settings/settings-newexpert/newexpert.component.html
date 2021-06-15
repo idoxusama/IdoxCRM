@@ -1,0 +1,78 @@
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-12 col-xl-12 u-p-zero">
+         
+        <div class="c-toolbar u-mb-xsmall">     
+          <div class="c-field u-mb-small">
+                <label class="c-field__label" for="NCD">Search Expert Type</label>          
+                    <input class="c-input  u-mr-xsmall"style="width: 50%" type="text" name="filter" placeholder="Search" [(ngModel)]="filter">
+          </div>
+          <div class="c-field row" style="width:20%;margin-right: 20px;margin-bottom: 20px;">
+            <label class="c-field__label" for="input1">Create Expert Type</label> 
+              <button class="c-btn c-btn--info" style="height:42px;margin-right: 20px;margin-bottom: 20px;" data-toggle="modal" data-target="#CreateUserModal">
+                  <i class="fa fa-user u-mr-xsmall"></i>Create Expert Type
+              </button>
+           </div>
+          
+      </div>
+     
+      <div class="row u-m-small">
+
+        <div class="col-md-12">
+             <span class="c-divider has-text u-mb-medium">Expert Type Data</span>
+        </div>
+      
+        <div class="col-md-12">
+          <div class="c-table-responsive">
+              <table class="c-table c-table--zebra u-mb-small" id="datatable3" style="display: inline-table;">
+                  <thead class="c-table__head">
+                      <tr class="c-table__row">
+                        <th class="c-table__cell c-table__cell--head">Sr.</th>
+                        <th class="c-table__cell c-table__cell--head">Expert Type Name</th>
+                        <th class="c-table__cell c-table__cell--head">Created By</th>
+                        <th class="c-table__cell c-table__cell--head">Action</th>
+   
+                      </tr>
+                  </thead>
+  
+                  <tbody>
+                    <tr class="c-table__row" *ngFor="let item of NewExpertTypeData |filter:filter| paginate: { itemsPerPage: 6, currentPage: p };  let i = index">
+                       <td class="c-table__cell">
+                        {{i+1}}
+                      </td>
+                      <td class="c-table__cell">
+                        {{item.ExpertCategories}}
+                      </td>
+                      <td class="c-table__cell">
+                        {{item.CreatedBy}}
+                      </td>
+                      <td class="c-table__cell" *ngIf="item.Status == 'A'">Active</td>
+                      <td class="c-table__cell" *ngIf="item.Status == 'I'">InActive</td>
+                        
+                          
+                          <td class="c-table__cell">
+                            <button class="c-btn c-btn--info" (click)="selectedUserDetail(item)" data-toggle="modal" data-target="#EditMedcoExpertModal" >
+                              <i class="fa fa-pencil-square-o u-mr-xsmall"></i>Edit
+                          </button>
+                            <button class="c-btn c-btn--danger" style="margin-left: 2%;"  (click)="Delete(item.ID)" data-toggle="modal" data-target="#DeleteUserModal" >
+                                <i class="fa fa-trash-o u-mr-xsmall"></i>Delete
+                            </button>
+  
+                          </td>                      
+                      </tr>
+                                                                 
+                  </tbody>
+                   
+              </table>
+  
+          </div><br/>
+          <ul class="pagination">  
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>  
+            </ul> 
+  
+  
+      </div>
+    </div><!-- // .row -->
+
+ </div>
+ </div>

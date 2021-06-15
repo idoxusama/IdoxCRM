@@ -1,0 +1,20 @@
+<div class="alert-box">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            Reason.
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="onCancel()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label>Reason</label>
+            <input type="text" class="form-control" name="reason" [(ngModel)]="reason">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn pink-gradient" (click)="onConfirm()">OK</button>
+        <button type="button" class="btn btn-warning text-white" (click)="onCancel()">Cancel</button>
+    </div>
+</div>

@@ -1,0 +1,122 @@
+<ngx-loading-bar color="#1e90ff" height="5px"></ngx-loading-bar>
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-12 col-xl-12 u-p-zero">
+      
+        <div  class="c-toolbar u-mb-xsmall">
+          <div class="c-field u-mb-small">
+                           <div class="row" style="margin-left: 5%;">
+                            <div class="c-field row" style="width:45%;">
+                              <label class="c-field__label" for="Town">Town</label>
+                              <select class="c-input" id="Town" style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;"  (change)="selectedTown($event.target.value)">
+                           <option value="All">All</option>
+                              </select>
+                            </div>
+                            <div class="c-field row" style="margin-left: 10%;width:45%;">
+                              <label class="c-field__label" for="Status">Status</label>
+                              <select class="c-input" id="Status" style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;"  (change)="selectedStatus($event.target.value)">
+                                <option value="All">All</option>
+                                <option value="Enabled">Enabled</option>
+                                <option value="Disabled">Disabled</option>
+                              </select>
+                            </div>
+                            </div><br/>
+                            <div class="row" style="margin-left: 5%;">
+                              <div class="c-field row" style="width:45%;">
+                                <label class="c-field__label" for="StartDate">From</label> 
+                                <input class="c-input" style="width:90%;height: 30px;" type="date" id="StartDate" [(ngModel)]="StartDate" #CustNam="ngModel"  
+                                [ngModelOptions]="{standalone: true}"  placeholder="Name">
+                              </div>
+                              <div class="c-field row" style="margin-left: 10%;width:45%;">
+                                  <label class="c-field__label" for="EndDate">To</label> 
+                                  <input class="c-input" style="width:90%;height: 30px;" type="date" id="EndDate" [(ngModel)]="EndDate" #CustNam="ngModel"  
+                                  [ngModelOptions]="{standalone: true}"  placeholder="Name">
+                              </div>
+                              </div><br/>
+                         
+
+                  <div class="u-flex" style="margin-top: 15px;">
+                    <button type="submit" class="c-btn c-btn--info" style="margin-left: 89%;" (click)="SearchPBClinicsData()">Search</button>
+                    
+                </div> <br/>
+                </div>
+    </div>
+
+
+    <div class="row u-m-small">
+
+      <div class="col-md-12">
+                <label class="c-field__label" style="margin-left:70%;" for="NCD">Search:</label>          
+          <input class="c-input  u-mr-xsmall" type="text" name="filter" style="width: 30%;margin-left:70%;" placeholder="Search" [(ngModel)]="filter"><br/>
+           <span class="c-divider has-text u-mb-medium">PB Clinics Data</span>
+      </div>
+    
+      <div class="col-md-12">
+        <div class="c-table-responsive">
+
+            <table class="c-table c-table--zebra u-mb-small" id="datatable3" style="display: inline-table;">
+                <thead class="c-table__head">
+                    <tr class="c-table__row">
+                      <th class="c-table__cell c-table__cell--head">Sr.</th>
+                      <th class="c-table__cell c-table__cell--head">Expert</th>
+                      <th class="c-table__cell c-table__cell--head">Date</th>
+                      <th class="c-table__cell c-table__cell--head">Address</th>
+                      <th class="c-table__cell c-table__cell--head">Start Time</th>
+                      <th class="c-table__cell c-table__cell--head">End Time</th>
+                      <th class="c-table__cell c-table__cell--head">Action</th>
+ 
+                    </tr>
+                </thead>
+
+                <tbody>
+                  <tr class="c-table__row" *ngFor="let item of PBCinicData |filter:filter| paginate: { itemsPerPage: 6, currentPage: p };  let i = index">
+                     <td class="c-table__cell">
+                      {{i+1}}
+                    </td>
+                    <td class="c-table__cell">
+                      {{item.FullName}}
+                    </td>
+                    <td class="c-table__cell">
+                      {{item.ClinicDate}}
+                    </td>
+                    <td class="c-table__cell">
+                      {{item.AddressLine1}}
+                    </td>
+                    <td class="c-table__cell">
+                      {{item.StartTime}}
+                    </td>
+                    <td class="c-table__cell">
+                      {{item.EndTime}}
+                    </td>                        
+                        <td class="c-table__cell" *ngIf="item.IsAvailableForIdox == 'True'">
+                          <button class="c-btn c-btn--danger" (click)="ChangeStatus(item)">Disable</button>
+                      </td>
+                        <td class="c-table__cell" *ngIf="item.IsAvailableForIdox == 'False'">
+                          <button class="c-btn c-btn--info" style="margin-left: 2%;"  (click)="ChangeStatus(item)">Enable</button>
+
+                        </td>                      
+                    </tr>
+                                                               
+                </tbody>
+                 
+            </table>
+
+        </div><br/>
+        <ul class="pagination">  
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>  
+          </ul> 
+
+
+    </div>
+  </div><!-- // .row -->
+
+
+
+</div>
+
+
+ </div><!-- // .row -->
+</div><!-- // Container -->
+
+

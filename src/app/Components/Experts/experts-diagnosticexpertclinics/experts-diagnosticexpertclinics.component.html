@@ -1,0 +1,273 @@
+<ngx-loading-bar color="#1e90ff" height="5px"></ngx-loading-bar>
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-12 col-xl-12 u-p-zero">
+      <div class="c-toolbar u-mb-xsmall">     
+        <div class="c-field u-mb-small">
+          <label class="c-field__label" for="input1">Create New Diagnostic Expert Clinic</label> 
+          <button class="c-btn c-btn--info" style="height:42px;" data-toggle="modal" data-target="#CreateDiagnosticExpertClinicModal">
+            <i class="fa fa-user u-mr-xsmall"></i>Create Diagnostic Expert Clinic
+        </button>
+
+        </div>
+        
+    </div>
+
+    <div class="row u-m-small">
+
+      <div class="col-md-12">
+           <span class="c-divider has-text u-mb-medium">Diagnostic Expert Clinic Data</span>
+      </div>
+    
+      <div class="col-md-12">
+        <div class="c-table-responsive">
+            <table class="c-table c-table--zebra u-mb-small" id="datatable3" style="display: inline-table;">
+                <thead class="c-table__head">
+                    <tr class="c-table__row">
+                      <th class="c-table__cell c-table__cell--head">Sr.</th>
+                      <th class="c-table__cell c-table__cell--head">Description</th>
+                      <th class="c-table__cell c-table__cell--head">Address</th>
+                      <th class="c-table__cell c-table__cell--head">Phone No.</th>
+                      <th class="c-table__cell c-table__cell--head">Status</th>
+                      <th class="c-table__cell c-table__cell--head">Action</th>
+
+ 
+                    </tr>
+                </thead>
+
+                <tbody>
+                  <tr class="c-table__row" *ngFor="let item of DiagnosticExpertClinicData |filter:filter| paginate: { itemsPerPage: 6, currentPage: p };  let i = index">
+                     <td class="c-table__cell">
+                      {{i+1}}
+                    </td>
+                    <td class="c-table__cell">
+                      {{item.Description}}
+                    </td>
+                    <td class="c-table__cell">
+                      {{item.AddressLine1}}
+                    </td>
+                    <td class="c-table__cell">
+                      {{item.PhoneNo}}
+                    </td>
+                    <td class="c-table__cell" *ngIf="item.Status == 'A'">Active</td>
+                    <td class="c-table__cell" *ngIf="item.Status == 'I'">InActive</td>
+                      
+                        
+                        <td class="c-table__cell">
+                          <button class="c-btn c-btn--info" (click)="selectedDetails(item)" data-toggle="modal" data-target="#EditDiagnosticExpertClinicModal" >
+                            <i class="fa fa-pencil-square-o u-mr-xsmall"></i>Edit
+                        </button>
+                          <button class="c-btn c-btn--danger" style="margin-left: 2%;"  (click)="Delete(item.ID)">
+                              <i class="fa fa-trash-o u-mr-xsmall"></i>Delete
+                          </button>
+
+                        </td>                      
+                    </tr>
+                                                               
+                </tbody>
+                 
+            </table>
+
+        </div><br/>
+        <ul class="pagination">  
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>  
+          </ul> 
+
+
+    </div>
+  </div><!-- // .row -->
+
+
+</div>
+ </div><!-- // .row -->
+</div><!-- // Container -->
+
+          <div class="c-modal c-modal--xlarge modal fade show" id="CreateDiagnosticExpertClinicModal" tabindex="-1" role="dialog" aria-labelledby="CreateDiagnosticExpertClinicModal" data-backdrop="static">
+            <div class="c-modal__dialog modal-dialog" role="document">
+                <div class="c-modal__content" style="width: 110%;">
+                    
+                    <div class="c-modal__header">
+                        <h3 class="c-modal__title">New Diagnostic Expert Clinic</h3>
+          
+                        <span class="c-modal__close" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-close"></i>
+                        </span>
+                    </div>
+                    <div class="c-modal__body">
+                      <form  style="align-content: center;" #createUserForm= "ngForm" (ngSubmit)="Create()">
+                        <div style="border: 1px solid;border-color: lightgray;padding: 10px;border-radius: 5px;">
+                            <div style="background-color:lightskyblue;border-radius: 5px;"><h4 style="margin-left: 5%;color:white;border-radius: 25px;">Diagnostic Expert Clinic Information</h4></div>
+                       <br />
+                       <div class="row" style="margin-left: 5%;">
+                        <div class="c-field row" style="width:45%;">
+                            <label class="c-field__label" for="Diagnostic">Diagnostic</label>
+                            <select class="c-input" id="Diagnostic" style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;" (change)="selectedDiagnostic($event.target.value)">
+                              <option [value]="">--Please Select--</option>
+                              <option *ngFor="let data of DiagnosticProviderData" [value]="data.ID">{{data.FullName}}</option>
+                            </select>
+                        </div>
+                      </div><br />
+                    <div class="row" style="margin-left: 5%;">
+                      <div class="c-field row">
+                          <label class="c-field__label" for="Venue">Venue</label> 
+                          <input class="c-input" style="width:94%;height: 30px;" type="text" id="Venue"  
+                          name="Venue"   [(ngModel)]="CreateDiagnosticExpertClinic.Description" #CustNam="ngModel">
+                      </div>
+                  </div><br />
+                  <div class="row" style="margin-left: 5%;">
+                    <div class="c-field row">
+                        <label class="c-field__label" for="Address">Address</label> 
+                        <input class="c-input" style="width:94%;height: 30px;" type="text" id="Address"  
+                        name="Address" [(ngModel)]="CreateDiagnosticExpertClinic.AddressLine1" #CustNam="ngModel">
+                    </div>
+                </div><br />
+                    <div class="row" style="margin-left: 5%;">
+                      <div class="c-field row" style="width:45%;">
+                          <label class="c-field__label" for="Country">Country</label> 
+                          <input class="c-input" style="width:90%;height: 30px;" type="text" id="Country"  
+                          name="Country"  [(ngModel)]="CreateDiagnosticExpertClinic.County" #CustNam="ngModel">
+                      </div>
+                      <div class="c-field row" style="margin-left: 10%;width:45%;">
+                        <label class="c-field__label" for="Town">Town</label> 
+                        <input class="c-input" style="width:90%;height: 30px;" type="text" id="Town"  
+                        name="Town"  [(ngModel)]="CreateDiagnosticExpertClinic.Town" #CustNam="ngModel">
+                      </div>
+                  </div><br />
+                  <div class="row" style="margin-left: 5%;">
+                    <div class="c-field row" style="width:45%;">
+                        <label class="c-field__label" for="PostCode">Post Code</label> 
+                        <input class="c-input" style="width:90%;height: 30px;" type="text" id="PostCode"  
+                        name="PostCode"  [(ngModel)]="CreateDiagnosticExpertClinic.PostCode" #CustNam="ngModel">
+                    </div>
+                    <div class="c-field row" style="margin-left: 10%;width:45%;">
+                      <label class="c-field__label" for="VenuePhone">Venue Phone #</label> 
+                      <input class="c-input" style="width:90%;height: 30px;" type="text" id="VenuePhone"  
+                      name="VenuePhone"  [(ngModel)]="CreateDiagnosticExpertClinic.PhoneNo" #CustNam="ngModel">
+                    </div>
+                </div><br />   
+                <div class="row" style="margin-left: 5%;">
+                  <div class="c-field row" style="width:45%;">
+                    <label class="c-field__label" for="status">Status</label>
+                    <select class="c-input" id="status" style="width: 50%;"  (change)="selectedStatus($event.target.value)">
+                      <option value="">--Please Select--</option>
+                      <option value="A">Active</option>
+                      <option value="I">InActive</option> 
+                    </select>
+                  </div>
+                </div><br />
+                     
+
+              <div class="u-flex" style="margin-top: 15px;">
+                <button type="button" style="margin-left: 5%;" class="c-btn c-btn--danger">Clear</button>
+                <button type="submit" class="c-btn c-btn--success" style="margin-left: 2%;" [disabled]="!createUserForm.valid">Save</button>
+                
+            </div> <br/>
+        
+ 
+        </div>
+        </form>
+      </div>
+
+      </div><!-- // .c-modal__content -->
+    </div><!-- // .c-modal__dialog -->
+  </div>
+
+
+
+
+
+
+  <div class="c-modal c-modal--xlarge modal fade show" id="EditDiagnosticExpertClinicModal" tabindex="-1" role="dialog" aria-labelledby="EditDiagnosticExpertClinicModal" data-backdrop="static">
+    <div class="c-modal__dialog modal-dialog" role="document">
+        <div class="c-modal__content" style="width: 110%;">
+            
+            <div class="c-modal__header">
+                <h3 class="c-modal__title">Edit Diagnostic Expert Clinic</h3>
+  
+                <span class="c-modal__close" data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-close"></i>
+                </span>
+            </div>
+            <div class="c-modal__body">
+              <form  style="align-content: center;" #createUserForm= "ngForm" (ngSubmit)="Update()">
+                <div style="border: 1px solid;border-color: lightgray;padding: 10px;border-radius: 5px;">
+                    <div style="background-color:lightskyblue;border-radius: 5px;"><h4 style="margin-left: 5%;color:white;border-radius: 25px;">Diagnostic Expert Clinic Information</h4></div>
+               <br />
+               <div class="row" style="margin-left: 5%;">
+                <div class="c-field row" style="width:45%;">
+                    <label class="c-field__label" for="Diagnostic">Diagnostic</label>
+                    <select class="c-input" id="Diagnostic" style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;" (change)="EditselectedDiagnostic($event.target.value)">
+                      <option [value]="">--Please Select--</option>
+                      <option *ngFor="let data of DiagnosticProviderData" [selected]="SelectedDiagnosticExpertClinic.ExpertID == data.ID"  [value]="data.ID">{{data.FullName}}</option>
+                    </select>
+                </div>
+              </div><br />
+            <div class="row" style="margin-left: 5%;">
+              <div class="c-field row">
+                  <label class="c-field__label" for="Venue">Venue</label> 
+                  <input class="c-input" style="width:94%;height: 30px;" type="text" id="Venue"  
+                  name="Venue"   [(ngModel)]="SelectedDiagnosticExpertClinic.Description" #CustNam="ngModel">
+              </div>
+          </div><br />
+          <div class="row" style="margin-left: 5%;">
+            <div class="c-field row">
+                <label class="c-field__label" for="Address">Address</label> 
+                <input class="c-input" style="width:94%;height: 30px;" type="text" id="Address"  
+                name="Address" [(ngModel)]="SelectedDiagnosticExpertClinic.AddressLine1" #CustNam="ngModel">
+            </div>
+        </div><br />
+            <div class="row" style="margin-left: 5%;">
+              <div class="c-field row" style="width:45%;">
+                  <label class="c-field__label" for="Country">Country</label> 
+                  <input class="c-input" style="width:90%;height: 30px;" type="text" id="Country"  
+                  name="Country"  [(ngModel)]="SelectedDiagnosticExpertClinic.County" #CustNam="ngModel">
+              </div>
+              <div class="c-field row" style="margin-left: 10%;width:45%;">
+                <label class="c-field__label" for="Town">Town</label> 
+                <input class="c-input" style="width:90%;height: 30px;" type="text" id="Town"  
+                name="Town"  [(ngModel)]="SelectedDiagnosticExpertClinic.Town" #CustNam="ngModel">
+              </div>
+          </div><br />
+          <div class="row" style="margin-left: 5%;">
+            <div class="c-field row" style="width:45%;">
+                <label class="c-field__label" for="PostCode">Post Code</label> 
+                <input class="c-input" style="width:90%;height: 30px;" type="text" id="PostCode"  
+                name="PostCode"  [(ngModel)]="SelectedDiagnosticExpertClinic.PostCode" #CustNam="ngModel">
+            </div>
+            <div class="c-field row" style="margin-left: 10%;width:45%;">
+              <label class="c-field__label" for="VenuePhone">Venue Phone #</label> 
+              <input class="c-input" style="width:90%;height: 30px;" type="text" id="VenuePhone"  
+              name="VenuePhone"  [(ngModel)]="SelectedDiagnosticExpertClinic.PhoneNo" #CustNam="ngModel">
+            </div>
+        </div><br />   
+        <div class="row" style="margin-left: 5%;">
+          <div class="c-field row" style="width:45%;">
+            <label class="c-field__label" for="status">Status</label>
+            <select class="c-input" id="status" style="width: 50%;"  (change)="EditselectedStatus($event.target.value)">
+              <option value="">--Please Select--</option>
+              <option [selected]="SelectedDiagnosticExpertClinic.Status=='A'" value="A">Active</option>
+              <option [selected]="SelectedDiagnosticExpertClinic.Status=='I'" value="I">InActive</option> 
+            </select>
+          </div>
+        </div><br />
+             
+
+      <div class="u-flex" style="margin-top: 15px;">
+        <button type="button" style="margin-left: 5%;" class="c-btn c-btn--danger">Clear</button>
+        <button type="submit" class="c-btn c-btn--success" style="margin-left: 2%;" [disabled]="!createUserForm.valid">Save</button>
+        
+    </div> <br/>
+
+
+      </div>
+    </form>
+  </div>
+
+</div><!-- // .c-modal__content -->
+</div><!-- // .c-modal__dialog -->
+</div>
+
+
+
+

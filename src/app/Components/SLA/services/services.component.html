@@ -1,0 +1,275 @@
+<div class="mt-5">
+
+  <div class="tab-panel">
+    <tabset class="service-tabset">
+      <tab *ngFor="let service of slaServices" heading="{{service.expertServiceName}}"
+        (selectTab)="getExpertSlaServices(service.id)">
+        <div class="row" style="margin-top: 20px;">
+          <div *ngFor="let pt of service.paymentTypesList">
+            <div class="col-sm-3" *ngIf="pt.isShown">
+              <div class="custom-control custom-radio">
+                <input type="radio" class="custom-control-input" name="payment_option"
+                  id="{{service.id}}{{pt.paymentType}}"
+                  (click)="openModal(pt.paymentType,service.id,service.expertServiceName)">
+                <label class="custom-control-label" for="{{service.id}}{{pt.paymentType}}">
+                  <span class="">{{pt.paymentType}}
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="expertSLAServices">
+          <div class="col-sm-12 text-right">
+            <div *ngIf="getExpertSLATime; else addTimeManagement">
+              Est Time:
+              <button type="button"
+                (click)="editServiceEstTime(getExpertSLATime.serviceSLAID,getExpertSLATime.slaServices)"
+                class="btn btn-success btn-sm">
+                {{getExpertSLATime?.estTime}} <span *ngIf="getExpertSLATime?.estReturnTime">To</span>
+                {{getExpertSLATime?.estReturnTime}}
+              </button>
+            </div>
+            <ng-template #addTimeManagement>
+              <button class="btn btn-success btn-sm"
+                (click)="openTimeManageModal(service.id,service.expertServiceName)">Est {{service.expertServiceName}}
+                Time</button>
+            </ng-template>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-sm-12">
+            <table class="table mt-4">
+              <tr>
+                <th>Service</th>
+                <th>Start Range Time (minute)</th>
+                <th>End Range Time (minute)</th>
+                <th>Payment</th>
+                <th>PaymentType</th>
+                <th>IsActive</th>
+                <th>Action</th>
+              </tr>
+              <tr *ngFor="let item of expertSLAServices let i = index;">
+                <td>{{item.slaServiceDescription}}</td>
+                <td>{{item.startRangeTime}}</td>
+                <td>{{item.endRangeTime}}</td>
+                <td>{{item.payment}}</td>
+                <td>{{item.paymentType}}</td>
+                <td>
+                  <button title="Update status" type="button" *ngIf="item.status" class="btn btn-success btn-sm"
+                    (click)="updateServiceStatus(item.id,0,service.id)">{{item.status}}</button>
+                  <button title="Update status" type="button" *ngIf="!item.status" class="btn btn-secondary btn-sm"
+                    (click)="updateServiceStatus(item.id,1,service.id)">{{item.status}}</button>
+                </td>
+                <td>
+                  <button class="btn pink-gradient btn-sm mr-1"
+                    (click)="editExpertService(item.id,item.paymentType)">Edit</button>
+
+                  <button class="btn btn-danger btn-sm"
+                    (click)="deleteExpertService(item.id,1,service.id)">Delete</button>
+                </td>
+
+              </tr>
+            </table>
+          </div>
+        </div>
+      </tab>
+    </tabset>
+  </div>
+</div>
+
+
+<ng-template #fixed>
+  <div class="modal-header pink-gradient">
+    <h4 class="modal-title pull-left">Fixed</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="fixedForm" (ngSubmit)="submitFixedForm()">
+      <div class="row ">
+        <div class="col-lg-12 col-md-12">
+          <div class="form-group ">
+            <label>Payment</label>
+            <input type="text" appOnlynumbers class="form-control" formControlName="payment" placeholder="" [ngClass]="{'is-invalid': fixedForm.get('payment').errors 
+            && (fixedForm.get('payment').touched||fixedFormSubmitted)}">
+            <div class="invalid-feedback"
+              *ngIf="(fixedForm.get('payment').touched||fixedFormSubmitted) && fixedForm.get('payment').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-lg-12 col-md-12 text-right">
+          <div class="form-group ">
+            <button type="submit" class="btn btn-success">Save</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #hourly>
+  <div class="modal-header pink-gradient">
+    <h4 class="modal-title pull-left">Hourly</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="hourlyForm" *ngIf="hourlyForm" (ngSubmit)="submitHourlyForm()">
+      <div class="row ">
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group ">
+            <label>Start Range Time (minute)</label>
+            <!-- <timepicker formControlName="startRangeTime" [showMinutes]="showMin" [showMeridian]="isMeridian" [disabled]="!isDisabled" placeholder="" [ngClass]="{'is-invalid': hourlyForm.get('startRangeTime').errors 
+            && (hourlyForm.get('startRangeTime').touched||hourlyFormSubmitted)}"></timepicker> -->
+            <input type="text" appOnlynumbers class="form-control" formControlName="startRangeTime" placeholder="" [ngClass]="{'is-invalid': hourlyForm.get('startRangeTime').errors 
+            && (hourlyForm.get('startRangeTime').touched||hourlyFormSubmitted)}">
+            <div class="invalid-feedback"
+              *ngIf="(hourlyForm.get('startRangeTime').touched||hourlyFormSubmitted) && hourlyForm.get('startRangeTime').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group ">
+            <label>End Range Time (minute)</label>
+            <!-- <timepicker formControlName="endRangeTime" [showMinutes]="showMin" [showMeridian]="isMeridian" [disabled]="!isDisabled" placeholder="" [ngClass]="{'is-invalid': hourlyForm.get('endRangeTime').errors 
+            && (hourlyForm.get('endRangeTime').touched||hourlyFormSubmitted) || (hourlyForm.get('endRangeTime').touched && hourlyForm.hasError('endRangeGreater'))}"></timepicker> -->
+            <input type="text" appOnlynumbers class="form-control" formControlName="endRangeTime" placeholder=""
+              [ngClass]="{'is-invalid': hourlyForm.get('endRangeTime').errors 
+            && (hourlyForm.get('endRangeTime').touched||hourlyFormSubmitted)}">
+            <div class="invalid-feedback"
+              *ngIf="(hourlyForm.get('endRangeTime').touched||hourlyFormSubmitted) && hourlyForm.get('endRangeTime').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-lg-12 col-md-12">
+          <div class="form-group ">
+            <label>Payment</label>
+            <input type="text" appOnlynumbers class="form-control" formControlName="payment" placeholder="" [ngClass]="{'is-invalid': hourlyForm.get('payment').errors 
+            && (hourlyForm.get('payment').touched||hourlyFormSubmitted)}">
+            <div class="invalid-feedback"
+              *ngIf="(hourlyForm.get('payment').touched||hourlyFormSubmitted) && hourlyForm.get('payment').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-lg-12 col-md-12 text-right">
+          <div class="form-group ">
+            <button type="submit" class="btn btn-success">Save</button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+</ng-template>
+
+<ng-template #perPages>
+  <div class="modal-header pink-gradient">
+    <h4 class="modal-title pull-left">Per Pages</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="perPagesForm" (ngSubmit)="submitPerPagesForm()">
+      <div class="row ">
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group ">
+            <label>Start Range Time (minute)</label>
+            <!-- <timepicker formControlName="startRangeTime" [showMinutes]="showMin" [showMeridian]="isMeridian" [disabled]="!isDisabled" [ngClass]="{'is-invalid': perPagesForm.get('startRangeTime').errors 
+            && (perPagesForm.get('startRangeTime').touched||perPagesFormSubmitted)}"></timepicker> -->
+            <input type="text" appOnlynumbers class="form-control" formControlName="startRangeTime" placeholder="" [ngClass]="{'is-invalid': perPagesForm.get('startRangeTime').errors 
+            && (perPagesForm.get('startRangeTime').touched||perPagesFormSubmitted)}">
+            <div class="invalid-feedback"
+              *ngIf="(perPagesForm.get('startRangeTime').touched||perPagesFormSubmitted) && perPagesForm.get('startRangeTime').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group ">
+            <label>End Range Time (minute)</label>
+            <!-- <timepicker formControlName="endRangeTime" [showMinutes]="showMin" [ngClass]="{'is-invalid': perPagesForm.get('endRangeTime').errors 
+            && (perPagesForm.get('endRangeTime').touched||perPagesFormSubmitted) || (hourlyForm.get('endRangeTime').touched&& perPagesForm.hasError('endRangeGreater'))}"></timepicker> -->
+            <input type="text" appOnlynumbers class="form-control" formControlName="endRangeTime" placeholder="" [ngClass]="{'is-invalid': perPagesForm.get('endRangeTime').errors 
+            && (perPagesForm.get('endRangeTime').touched||perPagesFormSubmitted)}">
+            <div class="invalid-feedback"
+              *ngIf="(perPagesForm.get('endRangeTime').touched||perPagesFormSubmitted) && perPagesForm.get('endRangeTime').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row ">
+        <div class="col-lg-12 col-md-12">
+          <div class="form-group ">
+            <label>Payment</label>
+            <input type="text" class="form-control" formControlName="payment" placeholder="" [ngClass]="{'is-invalid': perPagesForm.get('payment').errors 
+            && (perPagesForm.get('payment').touched||perPagesFormSubmitted)}">
+            <div class="invalid-feedback"
+              *ngIf="(perPagesForm.get('payment').touched||perPagesFormSubmitted) && perPagesForm.get('payment').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-lg-12 col-md-12 text-right">
+          <div class="form-group ">
+            <button type="submit" class="btn btn-success">Save</button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #timeManagement>
+  <div class="modal-header pink-gradient">
+    <h4 class="modal-title pull-left">Manage Time</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="timeManagementForm" (ngSubmit)="saveServiceTime()">
+      <div class="row" *ngFor="let est of estColumns">
+        <div class="col-lg-12 col-md-12">
+          <div class="form-group ">
+            <label>{{est.slaTimeManagementInput}} (minute)</label>
+            <input type="time" appOnlynumbers class="form-control" formControlName="{{est.slaTimeManagementInput}}"
+              placeholder="" [ngClass]="{'is-invalid': timeManagementForm.get(est.slaTimeManagementInput).errors 
+            && (timeManagementForm.get(est.slaTimeManagementInput).touched||timeManagementFormSubmitted)}">
+            <div class="invalid-feedback"
+              *ngIf="(timeManagementForm.get(est.slaTimeManagementInput).touched||timeManagementFormSubmitted) && timeManagementForm.get(est.slaTimeManagementInput).hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-lg-12 col-md-12 text-right">
+          <div class="form-group ">
+            <button type="submit" class="btn btn-success">Save</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>

@@ -1,0 +1,164 @@
+<ngx-loading-bar color="#1e90ff" height="4px"></ngx-loading-bar>
+
+<div class="container-fluid bg-light-opac">
+    <div class="row">
+        <div class="container my-3 main-container">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h2 class="content-color-primary page-title">Dashboard</h2>
+                    <p class="content-color-secondary page-sub-title">Dashboard overview.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content page -->
+<div class="container mt-4 main-container">
+    <div class="row" *ngIf="!showPatient">
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="media">
+                        <div class="icon-circle icon-50 bg-light-success mr-3">
+                            <i class="material-icons">settings</i>
+                        </div>
+                        <div class="media-body">
+                            <p class="content-color-secondary mb-0">Referred Patients</p>
+                            <h4 class="content-color-primary mb-3"></h4>
+                        </div>
+                    </div>
+                    <div class="progress progress-small">
+                        <div class="progress-bar bg-success col-6" role="progressbar" aria-valuenow="25"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="media">
+                        <div class="icon-circle icon-50 bg-light-danger mr-3">
+                            <i class="material-icons">settings</i>
+                        </div>
+                        <div class="media-body">
+                            <p class="content-color-secondary mb-0">Due Patients</p>
+                            <h4 class="content-color-primary mb-3"></h4>
+                        </div>
+                    </div>
+                    <div class="progress progress-small">
+                        <div class="progress-bar bg-danger col-6" role="progressbar" aria-valuenow="25"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="media">
+                        <div class="icon-rounded icon-50 bg-light-warning mr-3">
+                            <i class="material-icons">account_balance_wallet</i>
+                        </div>
+                        <div class="media-body">
+                            <p class="content-color-secondary mb-0">In Progress Patients</p>
+                            <h4 class="content-color-primary mb-3"></h4>
+                        </div>
+                    </div>
+                    <div class="progress progress-small">
+                        <div class="progress-bar bg-warning col-6" role="progressbar" aria-valuenow="25"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="icon-rounded icon-50 shadow-light primary-gradient top-right-icon">
+                        <i class="material-icons">assignment_turned_in</i>
+                    </div>
+                    <div class="media">
+                        <div class="media-body">
+                            <p class="content-color-secondary mb-0">Attended Patients</p>
+                            <h4 class="content-color-primary mb-3"></h4>
+                        </div>
+                    </div>
+                    <div class="progress progress-small">
+                        <div class="progress-bar bg-primary col-4" role="progressbar" aria-valuenow="25"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="!showPatient">
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="media">
+                        <div class="icon-rounded icon-50 bg-light-primary mr-3">
+                            <i class="material-icons">assignment_ind</i>
+                        </div>
+                        <div class="media-body">
+                            <p class="content-color-secondary mb-0">NCP Patients</p>
+                            <h4 class="content-color-primary mb-3"></h4>
+                        </div>
+                    </div>
+                    <div class="progress progress-small">
+                        <div class="progress-bar bg-success col-6" role="progressbar" aria-valuenow="25"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="media">
+                        <div class="icon-rounded icon-50 bg-light-warning mr-3">
+                            <i class="material-icons">verified_user</i>
+                        </div>
+                        <div class="media-body">
+                            <p class="content-color-secondary mb-0">Non Attended Patients</p>
+                            <h4 class="content-color-primary mb-3"></h4>
+                        </div>
+                    </div>
+                    <div class="progress progress-small">
+                        <div class="progress-bar bg-warning col-6" role="progressbar" aria-valuenow="25"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-6">
+            <div class="card mb-4 fullscreen">
+                <div class="card-header">
+                    <div class="media">
+                        <div class="media-body">
+                            <h4 class="content-color-primary mb-0">TB Cases Referred & Found Positive </h4>
+                        </div>
+                        <input type="text" class="form-control form-control-sm daterange mr-2" name="daterange"
+                            value="01 Jan 2020 - 23 Feb 2020">
+                        <a href="javascript:void(0);" class="icon-circle icon-30 content-color-secondary fullscreenbtn">
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div *ngIf="showChart">
+                        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels"
+                            [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType"
+                            (chartHoveredBAR)="chartHovered($event)" (chartClickedBAR)="chartClicked($event)"></canvas>
+                        <!-- <button (click)="randomize()">Update</button> -->
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content page ends -->

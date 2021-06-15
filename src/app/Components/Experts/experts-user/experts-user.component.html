@@ -1,0 +1,53 @@
+<ngx-loading-bar color="#1e90ff" height="5px"></ngx-loading-bar>
+
+<!--page header-->
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+    <div class="container my-3 main-container">
+      <div class="row align-items-center">
+        <div class="col">        
+          <h2 class="content-color-primary page-title"*ngIf="isUpdated">Update Expert</h2>
+          <h2 class="content-color-primary page-title" *ngIf="!isUpdated">New Expert</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--page header end-->
+<div class="container mt-2 main-container">
+  <div class="row justify-content-center">
+    <div class="col-md-12 col-lg-12 col-xl-12 mx-auto">
+      <div class="card mb-4" style="padding:14px;">
+        <div class="step-page-container">
+          <div class="card-header">
+            <app-steps></app-steps>
+          </div>
+          <div class="card-body" style="border: 2px solid hsl(300, 5%, 88%);
+          border-radius: 5px;">
+            <div class="step-page-container">
+              <div class="form-step">
+                <ng-container [ngSwitch]="(currentStep | async)?.stepIndex">
+                  <ng-container *ngSwitchCase="'1'">
+                    <app-epert-basic-info [step]="(currentStep|async)"></app-epert-basic-info>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'2'">
+                    <app-expert-contact-info [step]="(currentStep|async)"></app-expert-contact-info>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'3'">
+                    <app-expert-charges [step]="(currentStep|async)"></app-expert-charges>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'4'">
+                    <app-expert-bank-charges [step]="(currentStep|async)"></app-expert-bank-charges>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'5'">
+                    <app-expert-upload-doc [step]="(currentStep|async)"></app-expert-upload-doc>
+                  </ng-container>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

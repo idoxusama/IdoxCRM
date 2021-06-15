@@ -1,0 +1,782 @@
+<!-- sidebar left -->
+<div class="sidebar sidebar-left">
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a (click)="toggleSideBarMenu($event)" class="nav-link dropdwown-toggle" style="cursor: pointer;"><i
+                    class="material-icons icon">insert_chart_outlined</i><span>Dashboard</span><i
+                    class="material-icons icon arrow">expand_more</i></a>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a [routerLink]="['/dashboard']" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Overview</span></a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a (click)="toggleSideBarMenu($event)" class="nav-link dropdwown-toggle" style="cursor: pointer;"><i
+                    class="material-icons icon">filter_none</i><span>Users</span><i
+                    class="material-icons icon arrow">expand_more</i></a>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a [routerLink]="['/Users/User']" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Add New</span></a>
+                    <a [routerLink]="['/Users/Group']" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Group</span></a>
+                    <a [routerLink]="['/Users/SecurityQuestion']" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Security
+                            Question</span></a>
+                    <a [routerLink]="['/Users/ApplicationConfiguration']" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>App. Configuration</span></a>
+                    <a [routerLink]="['/Users/UserPermission']" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>User
+                            Permission</span></a>
+                    <a [routerLink]="['/Users/ApplicationsScreen']" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span> App.
+                            Screen</span></a>
+                    <a [routerLink]="['/Users/ApplicationScreenObject']" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>App. Screen Object</span></a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a (click)="toggleSideBarMenu($event)" class="nav-link dropdwown-toggle" style="cursor: pointer;"><i
+                    class="material-icons icon">shopping_cart</i><span>Experts</span><i
+                    class="material-icons icon arrow">expand_more</i></a>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a [routerLink]="['/Experts/User',{id:0,state:'AddNew'}]" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Add New</span></a>
+                    <a routerLink="/Experts/Experts_Agreement" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>
+                            Agreement</span></a>
+                    <a routerLink="/Experts/list" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>All Experts</span></a>
+
+                    <a routerLink="/Experts/drafts" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Draft Profile's</span></a>
+                    <!-- <a routerLink="/Experts/sla" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>
+                                SLA
+                            </span></a> -->
+                    <a routerLink="/Experts/Medco_Expert_Clinics" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>
+                            Clinics</span></a>
+                    <a routerLink="/Experts/PB_Clinics" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>PB
+                            Clinics</span></a>
+                    <a routerLink="/Experts/Psychologist_Venue" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>
+                            Venue</span></a>
+
+                    <a routerLink="/Experts/Diagnostic_Provider" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Diagnostic
+                            Provider</span></a>
+                    <a routerLink="/Experts/Diagnostic_Expert_Clinics" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Diagnostic Clinics</span></a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a (click)="toggleSideBarMenu($event)" class="nav-link dropdwown-toggle" style="cursor: pointer;"><i
+                    class="material-icons icon">account_circle</i><span>Medical Secretary</span><i
+                    class="material-icons icon arrow">expand_more</i></a>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a routerLink="/MedicalSecretary/AddNew" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Add
+                            New</span></a>
+                    <a routerLink="/MedicalSecretary/List" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>List</span></a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a (click)="toggleSideBarMenu($event)" class="nav-link dropdwown-toggle" style="cursor: pointer;"><i
+                    class="material-icons icon">description</i><span>Medical Performa</span><i
+                    class="material-icons icon arrow">expand_more</i></a>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a routerLink="/MedicalPerforma/Performa" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>
+                            Performa</span></a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/MedicalPerforma/DraftList" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Draft
+                        </span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a routerLink="/MedicalPerforma/Summary" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Summary
+                        </span></a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a (click)="toggleSideBarMenu($event)" class="nav-link dropdwown-toggle" style="cursor: pointer;"><i
+                    class="material-icons icon">date_range</i><span>Clinics</span><i
+                    class="material-icons icon arrow">expand_more</i></a>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a routerLink="/Clinics/Outstanding_Clinic_List" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span> List</span></a>
+                    <a routerLink="/Clinics/Clinic_Availability_Status" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Availability Status</span></a>
+                    <a routerLink="/Clinics/Clinic_Fill_Analysis" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>
+                            Fill Analysis</span></a>
+                    <a routerLink="/Clinics/New_Clinic_Required" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>New
+                            Required</span></a>
+                    <a routerLink="/Clinics/Future_Clinic_Required" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Future
+                            Required</span></a>
+                    <a routerLink="/Clinics/Clinic_Extention_Required" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Extention Required</span></a>
+
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a (click)="toggleSideBarMenu($event)" class="nav-link dropdwown-toggle" style="cursor: pointer;"><i
+                    class="material-icons icon-sm icon">account_balance</i> <span>Idox CMS</span><i
+                    class="material-icons icon arrow">expand_more</i></a>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a routerLink="/MedcoCMS/New_Instructions" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>New
+                            Instructions</span></a>
+                    <a routerLink="/MedcoCMS/DNA_List" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>DNA List</span></a>
+                    <a routerLink="/MedcoCMS/DNA_History" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>DNA
+                            History</span></a>
+                    <a routerLink="/MedcoCMS/Clinics_Schedule" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Clinic's
+                            Schedule</span></a>
+                    <a routerLink="/MedcoCMS/Previous_Clinics" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Previous
+                            Clinics</span></a>
+                    <a routerLink="/MedcoCMS/Clinic_Manager" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Clinic
+                            Manager</span></a>
+                    <a routerLink="/MedcoCMS/Instruction_Manager" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Instruction Manager</span></a>
+                    <a routerLink="/MedcoCMS/Client_Log" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Client
+                            Log</span></a>
+                    <a routerLink="/MedcoCMS/Medical_Expert_Documents" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Med. Sec. Documents</span></a>
+                    <a routerLink="/MedcoCMS/Hold_Cases" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Hold
+                            Cases</span></a>
+
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a (click)="toggleSideBarMenu($event)" class="nav-link dropdwown-toggle" style="cursor: pointer;"><i
+                    class="material-icons icon">equalizer</i><span>Outstanding Reporting</span><i
+                    class="material-icons icon arrow">expand_more</i></a>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a routerLink="/MedcoCMS/Outstanding_Appointments" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span>Appointments</span></a>
+                    <a routerLink="/MedcoCMS/Outstanding_Amendments" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span> Amendments</span></a>
+                    <a routerLink="/MedcoCMS/Outstanding_GP_Record_Review" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span> GP Record Review</span></a>
+                    <a routerLink="/MedcoCMS/Outstanding_Part_35" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span> Part 35</span></a>
+                    <a routerLink="/MedcoCMS/Outstanding_Examinations" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span> Examinations</span></a>
+                    <a routerLink="/MedcoCMS/Outstanding_Examinations" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span> Confirmation</span></a>
+                    <a routerLink="/MedcoCMS/Outstanding_Reports" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span> Reports</span></a>
+                    <a routerLink="/MedcoCMS/Outstanding_Record" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span> Record</span></a>
+                    <a routerLink="/MedcoCMS/Outstanding_GP_Record_Review" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span> Record Review</span></a>
+                    <a routerLink="/MedcoCMS/Outstanding_Approval" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span> Approval</span></a>
+                    <a routerLink="/MedcoCMS/Outstanding_Approval" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span> Proforma</span></a>
+                    <a routerLink="/MedcoCMS/Outstanding_Approval" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span> Refferer Report</span></a>
+                    <a routerLink="/MedcoCMS/Outstanding_Approval" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span> Med. Sec.</span></a>
+                    <a routerLink="/MedcoCMS/Outstanding_Approval" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span> Psych</span></a>
+                    <a routerLink="/MedcoCMS/Outstanding_Approval" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span> Ortho</span></a>
+                    <a routerLink="/MedcoCMS/Outstanding_Approval" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span> Post</span></a>
+                    <a routerLink="/MedcoCMS/Outstanding_Approval" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span> Initial Report</span></a>
+                    <a routerLink="/MedcoCMS/Outstanding_Approval" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span> Discharge Report</span></a>
+
+
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a (click)="toggleSideBarMenu($event)" class="nav-link dropdwown-toggle" style="cursor: pointer;"><i
+                    class="material-icons icon">settings</i><span>Settings</span><i
+                    class="material-icons icon arrow">expand_more</i></a>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a routerLink="/Settings/NewExpert" class="nav-link  pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span>NewExpert</span></a>
+                    <a routerLink="/Settings/Referrer" class="nav-link pink-gradient-active"> <i
+                            class="material-icons icon"></i><span>Add New Referrer</span></a>
+                    <a routerLink="/Settings/Referrers" class="nav-link pink-gradient-active"> <i
+                            class="material-icons icon"></i><span>Referrers</span></a>
+                    <a routerLink="/Settings/Sleeping_Referrer" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i> <span>Sleeping
+                            Referrer</span></a>
+                    <a routerLink="/Settings/Expert_Availability_Settings" class="nav-link pink-gradient-active">
+                        <i class="material-icons icon"></i> <span>Expert Availability</span></a>
+
+                    <a routerLink="/Settings/VenueLocation" class="nav-link pink-gradient-active">
+                        <i class="material-icons icon"></i> <span> Add Venue Location</span></a>
+
+                    <a routerLink="/Settings/VenueLocations" class="nav-link pink-gradient-active">
+                        <i class="material-icons icon"></i> <span> Venue Locations</span></a>
+
+                    <a routerLink="/Settings/Referrer_Slots" class="nav-link pink-gradient-active"> <i
+                            class="material-icons icon"></i><span>Referrer
+                            Slots</span></a>
+                    <a routerLink="/Settings/Solicitors" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span>Solicitors</span></a>
+                    <a routerLink="/Settings/Solicitor_Office" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i> <span>Solicitor
+                            Office</span></a>
+                    <a routerLink="/Settings/Terms_and_Conditions" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i> <span>Terms &
+                            Conditions</span></a>
+                    <a routerLink="/Settings/Agreement" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span>Agreement</span></a>
+                    <a routerLink="/Settings/Modalities" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span>Modalities</span></a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<!-- sidebar left ends -->
+
+<main>
+    <!-- main header -->
+    <header class="main-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-auto pl-0">
+                    <button class="btn pink-gradient btn-icon" id="left-menu"><i class="material-icons">widgets</i>
+                    </button>
+                    <a href="#" class="logo"><img src="../../assets/img/idoxlogo.png" alt=""></a>
+                    <form class="search-header">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search...">
+                            <div class="input-group-append">
+                                <button class="btn " type="button"><i class="material-icons">search</i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col text-center p-xs-0">
+                    <!-- <ul class="time-day">
+                        <li class="text-right">
+                            <p class="header-color-primary"><span class="header-color-secondary">November</span>
+                                <small>2018</small>
+                            </p>
+                            <h2>7</h2>
+                        </li>
+                        <li class="text-left">
+                            <h2>36<span class="header-color-secondary font-weight-light"><sup>o</sup>C</span></h2>
+                            <p class="header-color-primary text-hide-lg"><span class="header-color-secondary">London</span>
+                                <small>11:24 am</small>
+                            </p>
+                        </li>
+                    </ul> -->
+                </div>
+                <div class="col-auto pr-0">
+                    <button class="btn btn-link text-hide-md header-color-secondary font-small px-0" type="button"><i
+                            class="material-icons">text_format</i></button>
+                    <button class="btn btn-link text-hide-md header-color-secondary font-big px-0 mr-3" type="button"><i
+                            class="material-icons">text_format</i></button>
+
+                    <button class="btn btn-search btn-icon header-color-secondary" type="button"><i
+                            class="material-icons">search</i></button>
+
+                    <div class="dropdown d-inline-block" dropdown>
+                        <button dropdownToggle type="button"
+                            class="btn header-color-secondary btn-icon dropdown-toggle caret-none" id="dropdownmessage"
+                            aria-controls="dropdownmessage">
+                            <i class="material-icons">mail_outline</i>
+                            <span class="status-number bg-danger text-white">9+</span>
+                        </button>
+                        <div class="dropdown-menu notification-dropdown align-center arrow-top pt-0"
+                            aria-labelledby="dropdownmessage" id="dropdownmessage" *dropdownMenu>
+                            <div class="arrow pink-gradient"></div>
+                            <div class="pink-gradient py-3 text-center">
+                                <h5 class="mb-0">Messages</h5>
+                                <p class="mb-0">Just Recieved Messages</p>
+                            </div>
+                            <div class="media new">
+                                <figure class="avatar avatar-40">
+                                    <img src="../../assets/img/user2.png" alt="Generic placeholder image">
+                                </figure>
+                                <div class="media-body">
+                                    <h5 class="mt-0">Alizee Johnson</h5>
+                                    <p class="mb-2">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus
+                                        scelerisque ante sollicitudin.</p>
+                                    <a href="">Reply</a>
+                                    <a href="" class="ml-2">View</a>
+                                </div>
+                            </div>
+                            <a href="#" class="media pink-gradient-active new">
+                                <figure class="avatar avatar-40">
+                                    <img src="../../assets/img/user3.png" alt="Generic placeholder image">
+                                </figure>
+                                <div class="media-body">
+                                    <h5 class="my-0">Donald Costapor </h5>
+                                    <small class="text-muted d-block mb-2">2:05 am</small>
+                                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
+                                        sollicitudin.
+                                    </p>
+                                </div>
+                            </a>
+                            <a href="#" class="media pink-gradient-active">
+                                <figure class="avatar avatar-40">
+                                    <img src="../../assets/img/user2.png" alt="Generic placeholder image">
+                                </figure>
+                                <div class="media-body">
+                                    <h5 class="mt-0">Alizee McMohan
+                                        <small class="text-muted float-right">4:05 am</small>
+                                    </h5>
+                                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
+                                        sollicitudin.
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dropdown text-hide-lg d-inline-block" dropdown>
+                        <button type="button" dropdownToggle
+                            class="btn header-color-secondary btn-icon dropdown-toggle caret-none"
+                            id="dropdownnotification">
+                            <i class="material-icons">notifications_none</i>
+                            <span class="status-dot pink-gradient"></span>
+                        </button>
+                        <div class="dropdown-menu notification-dropdown align-center arrow-top  pt-0"
+                            id="dropdownnotification" aria-labelledby="dropdownnotification" *dropdownMenu>
+                            <a href="#" class="media  pink-gradient-active new">
+                                <figure class="avatar avatar-40">
+                                    <img src="../../assets/img/user1.png" alt="Generic placeholder image">
+                                </figure>
+                                <div class="media-body">
+                                    <h5 class="mt-0">Media heading</h5>
+                                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
+                                        sollicitudin.
+                                    </p>
+                                </div>
+                            </a>
+                            <a href="#" class="media  pink-gradient-active">
+                                <figure class="avatar avatar-40">
+                                    <img src="../../assets/img/user1.png" alt="Generic placeholder image">
+                                </figure>
+                                <div class="media-body">
+                                    <h5 class="mt-0">Media heading</h5>
+                                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
+                                        sollicitudin.
+                                    </p>
+                                </div>
+                            </a>
+                            <a href="#" class="media  pink-gradient-active">
+                                <figure class="avatar avatar-40">
+                                    <img src="../../assets/img/user1.png" alt="Generic placeholder image">
+                                </figure>
+                                <div class="media-body">
+                                    <h5 class="mt-0">Media heading</h5>
+                                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
+                                        sollicitudin.
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dropdown d-inline-block" dropdown>
+                        <button type="button" dropdownToggle class="btn header-color-secondary dropdown-toggle username"
+                            id="dropdownMenuLink">
+                            <figure class="userpic"><img src="../../assets/img/user2.png" alt=""></figure>
+                            <h5 class="text-hide-xs">
+                                <small class="header-color-secondary">Welcome,</small>
+                                <span class="header-color-primary">{{username}}</span>
+                            </h5>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right align-center profile-dropdown"
+                            aria-labelledby="dropdownMenuLink" id="dropdownMenuLink" *dropdownMenu>
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <a href="profile.html">
+                                        <figure class="avatar avatar-120 mx-auto my-3">
+                                            <img src="../../assets/img/user2.png" alt="">
+                                        </figure>
+                                        <h5 class="card-title mb-2 header-color-primary">{{username}}</h5>
+                                        <h6 class="card-subtitle mb-3 header-color-secondary"></h6>
+                                    </a>
+                                    <p class="card-text">Some quick example text to build on the card title and make up
+                                        the bulk of the card's content.</p>
+                                    <button class="btn btn-sm pink-gradient border-0 mb-3">Edit</button>
+                                </div>
+                            </div>
+                            <a class="dropdown-item pink-gradient-active" href="javascript:void(0);"
+                                id="open-right-sidebar">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        Setting
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="header-color-secondary ml-2"><i
+                                                class="material-icons vm">settings</i></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider m-0"></div>
+
+                            <div class="dropdown-divider m-0"></div>
+                            <a class="dropdown-item pink-gradient-active" (click)="logout()" [routerLink]="">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        Logout
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="text-danger ml-2"><i class="material-icons vm">exit_to_app</i></div>
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="wrapper">
+        <router-outlet></router-outlet>
+        <div class="sidebar sidebar-right">
+            <button type="button" class="btn close-sidebar"><i class="material-icons">settings</i></button>
+            <div class="row mx-0 pt-2 ">
+                <div class="col-12">
+                    <p class="sidebar-color-primary page-sub-title-small">
+                        <span class="icon-circle mr-2">
+                            <i class="material-icons">settings</i>
+                        </span>Visual Style Setting
+                    </p>
+                    <p class="sidebar-color-secondary">We provide wide range of color scheme to change from</p>
+                    <div class="row">
+                        <ul class="list-group border-top border-bottom list-group-flush w-100">
+                            <li class="list-group-item">
+                                <span class="vm">Boxed Layout</span>
+                                <input type="checkbox" id="boxlayout" class="switch switch-sm">
+                                <label for="boxlayout" class="pink-gradient float-right"></label>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="vm">Full Container</span>
+                                <input type="checkbox" id="full-width2" class="switch switch-sm">
+                                <label for="full-width2" class="pink-gradient float-right"></label>
+                                <p class="sidebar-color-secondary mt-2 mb-0"><small>Container will be full width in big
+                                        screen</small></p>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="vm">RTL</span>
+                                <input type="checkbox" id="rtl" class="switch switch-sm">
+                                <label for="rtl" class="pink-gradient float-right"></label>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="vm">Icon Sidebar</span>
+                                <input type="checkbox" id="iconsibarbar" class="switch switch-sm">
+                                <label for="iconsibarbar" class="pink-gradient float-right"></label>
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="sidebar-color-primary page-sub-title-small mt-2"><span class="icon-circle mr-2"><i
+                                class="material-icons">palette</i></span>Select Color</p>
+                    <div class="row">
+                        <ul class="list-group list-group-flush w-100">
+                            <li class="list-group-item">
+                                <div class="theme-color">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio1" name="style-sheet-color"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label bg-white" for="customRadio1"
+                                            data-title="style"></label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio2" name="style-sheet-color"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label dark-blue" for="customRadio2"
+                                            data-title="dark-blue"></label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio3" name="style-sheet-color"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label dark-purple" for="customRadio3"
+                                            data-title="dark-purple"></label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio4" name="style-sheet-color"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label dark-maroon" for="customRadio4"
+                                            data-title="dark-maroon"></label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio5" name="style-sheet-color"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label dark-grey" for="customRadio5"
+                                            data-title="dark-grey"></label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio6" name="style-sheet-color"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label dark-pink" for="customRadio6"
+                                            data-title="dark-pink"></label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio7" name="style-sheet-color"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label dark-brown" for="customRadio7"
+                                            data-title="dark-brown"></label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio8" name="style-sheet-color"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label dark-green" for="customRadio8"
+                                            data-title="dark-green"></label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio1mat" name="style-sheet-color"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label red" for="customRadio1mat"
+                                            data-title="red"></label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio2mat" name="style-sheet-color"
+                                            class="custom-control-input" checked="">
+                                        <label class="custom-control-label purple" for="customRadio2mat"
+                                            data-title="purple"></label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio4mat" name="style-sheet-color"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label blue" for="customRadio4mat"
+                                            data-title="blue"></label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio6mat" name="style-sheet-color"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label skyblue" for="customRadio6mat"
+                                            data-title="skyblue"></label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio5mat" name="style-sheet-color"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label teal" for="customRadio5mat"
+                                            data-title="teal"></label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio7mat" name="style-sheet-color"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label orange" for="customRadio7mat"
+                                            data-title="orange"></label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio3mat" name="style-sheet-color"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label brown" for="customRadio3mat"
+                                            data-title="brown"></label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio8mat" name="style-sheet-color"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label grey" for="customRadio8mat"
+                                            data-title="grey"></label>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="row">
+                        <ul class="list-group border-top border-bottom list-group-flush w-100">
+                            <li class="list-group-item">
+                                <span class="vm">Sidebar Colored</span>
+                                <input type="checkbox" id="sidebarfill" class="switch switch-sm" checked="">
+                                <label for="sidebarfill" class="pink-gradient float-right"></label>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="vm">Header Colored</span>
+                                <input type="checkbox" id="headerfill" class="switch switch-sm">
+                                <label for="headerfill" class="pink-gradient float-right"></label>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="vm">Full Colored</span>
+                                <input type="checkbox" id="fullcolorfill" class="switch switch-sm">
+                                <label for="fullcolorfill" class="pink-gradient float-right"></label>
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="sidebar-color-primary page-sub-title-small mt-2"><span class="icon-circle mr-2"><i
+                                class="material-icons">photo_library</i></span> Background Image</p>
+                    <div class="row">
+                        <ul class="list-group list-group-flush w-100">
+                            <li class="list-group-item">
+                                <div class="sidebar-image">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio12img" name="background-image-sidebar"
+                                            class="custom-control-input" checked="">
+                                        <label class="custom-control-label " for="customRadio12img"
+                                            data-title="none"></label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio22img" name="background-image-sidebar"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label " for="customRadio22img"
+                                            data-title="img/sidebar-1.png">
+                                            <img src="../../assets/img/sidebar-11.png" alt="" class="w-100">
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio32img" name="background-image-sidebar"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label " for="customRadio32img">
+                                            <img src="../../assets/img/sidebar-12.png" alt="" class="w-100">
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio43img" name="background-image-sidebar"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label " for="customRadio43img"
+                                            data-title="img/sidebar-3.png">
+                                            <img src="../../assets/img/sidebar-13.png" alt="" class="w-100">
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio52img" name="background-image-sidebar"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label " for="customRadio52img"
+                                            data-title="img/sidebar-4.png">
+                                            <img src="../../assets/img/sidebar-14.png" alt="" class="w-100">
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio63img" name="background-image-sidebar"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label " for="customRadio63img"
+                                            data-title="img/sidebar-5.png">
+                                            <img src="../../assets/img/sidebar-15.png" alt="" class="w-100">
+                                        </label>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="sidebar-color-primary page-sub-title-small "><span class="icon-circle mr-2"><i
+                                class="material-icons">gradient</i></span> Sidebar Texture</p>
+                    <div class="row">
+                        <ul class="list-group list-group-flush w-100 mb-4">
+                            <li class="list-group-item">
+                                <div class="sidebar-image">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio14img" name="background-image-sidebar"
+                                            class="custom-control-input bg-repeat">
+                                        <label class="custom-control-label " for="customRadio14img"
+                                            data-title="none"></label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio24img" name="background-image-sidebar"
+                                            class="custom-control-input bg-repeat">
+                                        <label class="custom-control-label " for="customRadio24img"
+                                            data-title="img/sidebar-texture1.png">
+                                            <img src="../../assets/img/pattern-1.png" alt="" class="w-100">
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio34img" name="background-image-sidebar"
+                                            class="custom-control-input bg-repeat">
+                                        <label class="custom-control-label " for="customRadio34img"
+                                            data-title="img/sidebar-texture2.png">
+                                            <img src="../../assets/img/pattern-2.png" alt="" class="w-100">
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio44img" name="background-image-sidebar"
+                                            class="custom-control-input bg-repeat">
+                                        <label class="custom-control-label " for="customRadio44img"
+                                            data-title="img/sidebar-texture3.png">
+                                            <img src="../../assets/img/pattern-3.png" alt="" class="w-100">
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio54img" name="background-image-sidebar"
+                                            class="custom-control-input bg-repeat">
+                                        <label class="custom-control-label " for="customRadio54img"
+                                            data-title="img/sidebar-texture4.png">
+                                            <img src="../../assets/img/pattern-4.png" alt="" class="w-100">
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio64img" name="background-image-sidebar"
+                                            class="custom-control-input bg-repeat">
+                                        <label class="custom-control-label " for="customRadio64img"
+                                            data-title="img/sidebar-texture5.png">
+                                            <img src="../../assets/img/pattern-5.png" alt="" class="w-100">
+                                        </label>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="border-top footer-section">
+        <div class="row">
+            <div class="col-12 col-sm-6">This template is designed by <b>Idox</b> with <span
+                    class="text-danger">❤</span></div>
+            <div class="col-12 col-sm-6 text-right"><a href="" class="content-color-secondary">Privacy Policy</a> | <a
+                    href="" class="content-color-secondary">Terms of use</a></div>
+        </div>
+    </footer>
+</main>

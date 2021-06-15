@@ -1,0 +1,192 @@
+<ngx-loading-bar color="#1e90ff" height="5px"></ngx-loading-bar>
+<!--page header-->
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+    <div class="container my-3 main-container">
+      <div class="row align-items-center">
+        <div class="col-lg-3 col-md-3">
+          <form>
+            <div class="input-group">
+              <input type="text" class="form-control" name="filter" placeholder="Search..." [(ngModel)]="filter">
+              <div class="input-group-append">
+                <button class="btn " type="button"><i class="material-icons">search</i></button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--page header end-->
+
+
+<!--page body-->
+<div class="container mt-2 main-container">
+  <div class="row">
+    <div class="col-lg-8 col-md-8">
+      <div class="card rounded-0 border-0 mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-8">
+              <h3 class="card-title mb-0">Application Screens</h3>
+            </div>
+            <div class="col text-right">
+              <div class="dropdown">
+                <button class="btn btn-link btn-sm text-secondary rounded-0 dropdown-toggle float-right icon"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" type="button">
+                  <i class="fa fa-ellipsis-v"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" x-placement="top-end"
+                  style="position: absolute; transform: translate3d(178px, -147px, 0px); top: 0px; left: 0px !important; will-change: transform;">
+                  <a class="dropdown-item" href="#">
+                    <i class="fa fa-exclamation-circle text-secondary"></i> Report</a>
+                  <a class="dropdown-item" href="#">
+                    <i class="fa fa-cog text-secondary"></i> Settings</a>
+                  <a class="dropdown-item" href="#">
+                    <i class="fa fa-trash text-secondary"></i> Remove</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Sr.</th>
+                <th scope="col">Code</th>
+                <th scope="col">App Screen Object</th>
+                <th scope="col">App Screen</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let  item of ApplicationScreenObjectData |filter:filter| paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
+                <td scope="row"> {{i+1}}</td>
+                <td>{{item.id}}</td>
+                <td>
+                  {{item.description}}
+                </td>
+                <td>
+                  {{item.expr1}}
+                </td>
+                <td class="c-table__cell" *ngIf="item.status == 'A'">Active</td>
+                <td class="c-table__cell" *ngIf="item.status == 'I'">InActive</td>
+                <td>
+                  <div class="btngroup">
+                    <a class="btn btn-info" [routerLink]="" data-toggle="modal"
+                      data-target="#editApplicationScreenModal" (click)="selectedApplicationScreenDetail(item)"><i
+                        class="fa fa-pencil-square-o u-mr-xsmall"></i></a>
+                    <a class="btn btn-danger" (click)="DeleteApplicationScreen(item.id)"><i
+                        class="fa fa-trash-o u-mr-xsmall"></i></a>
+                  </div>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+          <ul class="pagination">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-4">
+      <div class="card mb-4">
+        <div class="card-header border-bottom">
+          <h5 class="content-color-primary mb-0">Create New Application Screen Object</h5>
+        </div>
+        <div class="card-body">
+          <div class="row ">
+            <div class="col-lg-12 col-md-12">
+              <div class="form-group ">
+                <label for="status">App Screen</label>
+                <select class="form-control" id="status" (change)="selectedAppScreen($event.target.value)">
+                  <option>--Please Select--</option>
+                  <option *ngFor="let ASL of ApplicationScreenData" [value]="ASL.id">{{ASL.description}}</option>
+                </select>
+              </div>
+              <div class="form-group ">
+                <label for="Code">Code</label>
+                <input class="form-control" type="tel" maxlength="3" id="Code" [(ngModel)]="CreateApplicationScreen.id"
+                  name="Code" #Apname="ngModel" placeholder="Code" required>
+              </div>
+              <div class="form-group ">
+                <label for="status">Status</label>
+                <select class="form-control" id="status" (change)="selectedStatus($event.target.value)">
+                  <option value="A">Active</option>
+                  <option value="I">InActive</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer text-right">
+          <button type="submit" class="btn btn-success" (click)="createApplicationScreen()">Create Application Screen
+            Object</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--page body end-->
+
+
+
+  <div class="modal fade" id="editApplicationScreenModal" tabindex="-1" role="dialog"
+    aria-labelledby="editApplicationScreenModal" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h3 class="modal-title">Edit Application Screen Object</h3>
+
+          <span class="modal-close" data-dismiss="modal" aria-label="Close">
+            <i class="fa fa-close"></i>
+          </span>
+        </div>
+
+        <div class="modal-body">
+          <form class="" (ngSubmit)="EditApplicationScreen()">
+
+            <div class="form-group">
+              <label for="status">App Screen</label>
+              <select class="form-control" id="status" (change)="selectedAppScreen($event.target.value)">
+                <option>--Please Select--</option>
+                <option *ngFor="let ASL of ApplicationScreenData"
+                  [selected]="selectedApplicationScreen.appScreenID==ASL.id" [value]="ASL.id">{{ASL.description}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="Code">Code</label>
+              <input class="form-control" type="tel" maxlength="3" id="Code" [(ngModel)]="selectedApplicationScreen.id"
+                name="Code" #Apname="ngModel" placeholder="Code" required>
+            </div>
+            <div class="form-group">
+              <label for="ApName">Application Screen</label>
+              <input class="form-control" type="text" id="Apname" [(ngModel)]="selectedApplicationScreen.description"
+                name="Apname" #Apname="ngModel" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+              <label class="" for="status">Status</label>
+              <select class="form-control" id="status"
+                (change)="selectedUpdateStatus($event.target.value)">
+                <option [selected]="selectedApplicationScreen.status=='A'" value="A">Active</option>
+                <option [selected]="selectedApplicationScreen.status=='I'" value="I">InActive</option>
+              </select>
+            </div>
+            <div class="u-flex">
+              <button type="button" data-dismiss="modal" aria-label="Close"
+                class="btn btn-danger">Cancel</button>
+              <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

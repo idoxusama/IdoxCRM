@@ -1,0 +1,8 @@
+.o-page__card{
+    padding-top: 6.25rem;
+}
+.login-error-msg{
+    padding-left: 32px;
+    padding-top: 12px;
+    color: red;
+}

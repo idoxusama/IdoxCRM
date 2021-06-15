@@ -1,0 +1,85 @@
+<ngx-loading-bar color="#1e90ff" height="4px"></ngx-loading-bar>
+<div class="container-fluid h-100 h-sm-auto">
+    <div class="row h-100 h-sm-auto">
+
+        <div class="col-12 col-md-8 p-0 bg-dark ">
+            <img src="../../assets/img/idoxbackground4.jpg" alt="first slide"
+                style="display: block; width: 100%; height: 100vh;">
+            <!-- <carousel>
+                <slide>
+                  <img src="../../assets/img/idoxbackground4.jpg" alt="first slide" style="display: block; width: 100%;">
+                </slide>
+                <slide>
+                  <img src="../../assets/img/idoxbackground4.jpg" alt="second slide" style="display: block; width: 100%;">
+                </slide>
+                <slide>
+                  <img src="../../assets/img/idoxbackground4.jpg" alt="third slide" style="display: block; width: 100%;">
+                </slide>
+              </carousel> -->
+            <!-- <div class="carosel swiper-location-carousel h-100 h-sm-auto">
+
+                <div data-pagination="{&quot;el&quot;: &quot;.swiper-pagination&quot;}" data-space-between="0" data-slides-per-view="1" class="swiper-container swiper-init swiper-signin h-100 swiper-container-horizontal">
+                    <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets"><span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button" aria-label="Go to slide 1"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 2"></span></div>
+                    <div class="swiper-wrapper" style="transform: translate3d(-681px, 0px, 0px); transition-duration: 0ms;">
+                        <div class="swiper-slide text-center swiper-slide-prev" style="width: 681px;">
+                            <div class="background-img"><img src="../../assets/img/banner.png" alt="" class="w-auto float-right"></div>
+                            <div class="row align-items-center h-100 text-white">
+                                <div class="col-10 col-md-8 col-lg-6 mx-auto">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide text-center swiper-slide-active" style="width: 681px;">
+                            <div class="background-img"><img src="../../assets/img/banner2.png" alt="" class="w-auto"></div>
+                            <div class="row align-items-center h-100 text-white">
+                                <div class="col-10 col-md-8 col-lg-6 mx-auto"></div>
+                            </div>
+                        </div>
+                    </div>
+                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+            </div> -->
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="row align-items-center h-100" style="margin-left: 45px !important;">
+                <p class="login-error-msg" *ngIf="errorMsg">{{errorMsg}}</p>
+                <form #loginForm="ngForm" (ngSubmit)="loginSubmit()">
+
+                    <div class="col-lg-12 col-md-12">
+                        <img src="../../assets/img/idoxlogo.png" class="text-center"
+                            style="height: 150px; width: 250px; margin-left: 30px;">
+                        <h4 class="font-weight-light mb-4 content-color-secondary text-left">Welcome back,<br>Please
+                            sign in to your account.</h4>
+                        <div class="card mb-2">
+                            <div class="card-body p-0">
+                                <label for="inputEmail" class="sr-only">Enter Your User Name</label>
+                                <input type="text" id="inputEmail" [(ngModel)]="Username" name="email" #email="ngModel"
+                                    class="form-control form-control-lg border-0" placeholder="clark@dashboard.com"
+                                    required="" autofocus="">
+                                <hr class="my-0">
+                                <label for="inputPassword" class="sr-only">Enter Your Password</label>
+                                <input type="password" id="inputPassword" class="form-control form-control-lg border-0"
+                                    placeholder="Password" [(ngModel)]="Password" name="password" #password="ngModel"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="my-4 row">
+                            <div class="col-12 col-md">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+                                    <label class="custom-control-label" for="customCheck1">Remember Me</label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md text-right">
+                                <a href="" class="content-color-primary">Forgot Password?</a>
+                            </div>
+                        </div>
+                        <div class="text-left mb-4">
+                            <button type="submit" [disabled]="!loginForm.valid"
+                                class=" btn btn-primary btn-block pink-gradient">Sign In</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

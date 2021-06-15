@@ -1,0 +1,103 @@
+<div class="row mt-2 mb-2">
+  <div class="col-sm-12 text-right">
+    <button type="button" class="btn btn-success btn-sm" (click)="openOTOPModal(addUpdateExpertAllowances)">
+      <i class="material-icons">add</i>
+    </button>
+  </div>
+</div>
+
+<div class="row">
+  <table class="table">
+    <tr>
+      <th>Sr.</th>
+      <th>Is TA Paid</th>
+      <th>Is Parking Paid</th>
+      <th>Is Hotel Paid</th>
+      <th>Is Other Paid</th>
+      <th>Action</th>
+    </tr>
+    <tr *ngFor="let item of allowances; let i=index;">
+      <td>{{i+1}}</td>
+      <td>
+        <span class="text-success" *ngIf="item.isTAPaid"><i class="material-icons">check</i></span>
+        <span class="text-danger" *ngIf="!item.isTAPaid"><i class="material-icons">close</i></span>
+      </td>
+      <td>
+        <span class="text-success" *ngIf="item.isParkingPaid"><i class="material-icons">check</i></span>
+        <span class="text-danger" *ngIf="!item.isParkingPaid"><i class="material-icons">close</i></span>
+      </td>
+      <td>
+        <span class="text-success" *ngIf="item.isHotelPaid"><i class="material-icons">check</i></span>
+        <span class="text-danger" *ngIf="!item.isHotelPaid"><i class="material-icons">close</i></span>
+      </td>
+      <td>
+        <span class="text-success" *ngIf="item.isOthersPaid"><i class="material-icons">check</i></span>
+        <span class="text-danger" *ngIf="!item.isOthersPaid"><i class="material-icons">close</i></span>
+      </td>
+      <td>
+        <button type="button" class="btn pink-gradient btn-sm mr-1" (click)="editOTOP(item.id)">Edit</button>
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+<ng-template #addUpdateExpertAllowances>
+  <div class="modal-header pink-gradient">
+    <h4 class="modal-title pull-left">Expert Allowances</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="allowancesForm" *ngIf="allowancesForm" (ngSubmit)="saveExpertAllowance()">
+      <ul class="list-group border-top border-bottom list-group-flush">
+        <li class="list-group-item">
+          <div class="media">
+            <div class="custom-control custom-checkbox todo-checkbox">
+              <input type="checkbox" class="custom-control-input" formControlName="isTAPaid" id="customCheck1">
+              <label class="custom-control-label " for="customCheck1"></label>
+            </div>
+            <div class="media-body">
+              <h6 class="my-0 text-truncated">Is TA Paid</h6>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="media">
+            <div class="custom-control custom-checkbox todo-checkbox">
+              <input type="checkbox" class="custom-control-input" formControlName="isParkingPaid" id="customCheck2">
+              <label class="custom-control-label " for="customCheck2"></label>
+            </div>
+            <div class="media-body">
+              <h6 class="my-0">Is Parking Paid</h6>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="media">
+            <div class="custom-control custom-checkbox todo-checkbox">
+              <input type="checkbox" class="custom-control-input" formControlName="isHotelPaid" id="customCheck3">
+              <label class="custom-control-label " for="customCheck3"></label>
+            </div>
+            <div class="media-body">
+              <h6 class="my-0">Is Hotel Paid</h6>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="media">
+            <div class="custom-control custom-checkbox todo-checkbox">
+              <input type="checkbox" class="custom-control-input" formControlName="isOthersPaid" id="customCheck4">
+              <label class="custom-control-label " for="customCheck4"></label>
+            </div>
+            <div class="media-body">
+              <h6 class="my-0">Is Others Paid</h6>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <button type="submit" class="btn btn-success float-right">Submit</button>
+    </form>
+  </div>
+</ng-template>
