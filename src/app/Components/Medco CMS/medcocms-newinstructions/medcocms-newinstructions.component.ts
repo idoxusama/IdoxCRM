@@ -27,6 +27,7 @@ export class MedcocmsNewinstructionsComponent implements OnInit {
   ngOnInit() {
     this.headerTitle.emit("Medco CMS New Instructions");
     this.MedcoexpertService.getExpertTypesList().subscribe(data => {
+      debugger
       this.ExpertsTypeList = data.outputObject;
     },
       error => {
@@ -142,6 +143,10 @@ export class MedcocmsNewinstructionsComponent implements OnInit {
 
         break;
     }
+  }
+
+  UpdateLeads(){
+    
   }
 
 }

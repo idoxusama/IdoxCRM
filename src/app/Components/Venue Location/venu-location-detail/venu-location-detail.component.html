@@ -185,7 +185,7 @@
               <td>{{locationSiteInfo.amount}}</td>
             </tr>
             <tr>
-              <th>Availability</th>
+              <th>Availability Days</th>
               <td>{{locationSiteInfo.availability}}</td>
             </tr>
             <tr>
@@ -461,7 +461,7 @@
             </div>
             <div class="col-lg-6 col-md-6">
               <div class="form-group ">
-                <label>Availability</label>
+                <label>Availability Days</label>
                 <input type="text" appNotAllowSepacialChatactor class="form-control" placeholder="Availability"
                   formControlName="availability" [ngClass]="{'is-invalid': locationSiteInfoForm.get('availability').errors 
                 && (locationSiteInfoForm.get('availability').touched||locationSiteInfoFormSubmit)}">

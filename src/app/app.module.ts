@@ -271,6 +271,7 @@ import { DisableControlDirective } from './custom-validations/DisableControl.dir
 import { CreateReferrerComponent } from './Components/Referrer/create-referrer/create-referrer.component';
 import { ReferrerDetailComponent } from './Components/Referrer/referrer-detail/referrer-detail.component';
 import { ReferrerListComponent } from './Components/Referrer/referrer-list/referrer-list.component';
+import { NewInstructionComponent } from './Components/Instruction Main/new-instruction/new-instruction.component';
 
 @NgModule({
   declarations: [	
@@ -519,6 +520,7 @@ import { ReferrerListComponent } from './Components/Referrer/referrer-list/refer
     CreateReferrerComponent,
     ReferrerDetailComponent,
     ReferrerListComponent,
+    NewInstructionComponent,
     OnlynumbersDirective,
     AlphabetsOnlyDirective,
     NotAllowSepacialChatactorDirective,

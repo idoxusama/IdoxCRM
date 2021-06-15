@@ -234,6 +234,7 @@ import { VenuLocationDetailComponent } from './Components/Venue Location/venu-lo
 import { CreateReferrerComponent } from './Components/Referrer/create-referrer/create-referrer.component';
 import { ReferrerListComponent } from './Components/Referrer/referrer-list/referrer-list.component';
 import { ReferrerDetailComponent } from './Components/Referrer/referrer-detail/referrer-detail.component';
+import { NewInstructionComponent } from './Components/Instruction Main/new-instruction/new-instruction.component';
 
 const routes: Routes = [
   {
@@ -1153,11 +1154,11 @@ const routes: Routes = [
   ]
 },
 {
-  path: 'MedcoCMS/New_Instructions',
+  path: 'IndoxCMS/Intruction/NewInstruction',
   component: AppLayoutComponent,
   children: [
     {
-      path: '', component: MedcocmsNewinstructionsComponent, pathMatch: 'full', canActivate:[AuthGuard]
+      path: '', component: NewInstructionComponent, pathMatch: 'full', canActivate:[AuthGuard]
     }
   ]
 },

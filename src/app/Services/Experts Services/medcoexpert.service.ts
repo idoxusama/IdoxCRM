@@ -2,17 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient,HttpParams } from '@angular/common/http'
 import { Observable,throwError as observableThrowError } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MedcoexpertService {
-  baseUrl:string="http://localhost:5001";
+  baseUrl:string=environment.apiUrl;
   constructor(private _http:HttpClient,private router:Router) { }
 
   getAllExpertsData():Observable<any>{
 
-    let FullUrl = this.baseUrl+"/api/Expert/GetExpert?ExpertTypeID="+0;
+    let FullUrl = this.baseUrl+`/api/Setting/GetAllExpertType?ExpertTypeID=${0}`;
     const headerDict = {
       'Access-Control-Allow-Origin':'*',
       "Authorization": "Bearer " + localStorage.getItem('access_token'),

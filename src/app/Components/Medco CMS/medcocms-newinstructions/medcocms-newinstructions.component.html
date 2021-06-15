@@ -15,16 +15,14 @@
                                 aria-labelledby="nav-home-tab">
                                 <form style="align-content: center;" #createUserForm="ngForm"
                                     (ngSubmit)="UpdateLeads()">
-                                    <div
-                                        style="border: 1px solid;border-color: lightgray;padding: 10px;border-radius: 5px;">
+                                    <div style="border: 1px solid;border-color: lightgray;padding: 10px;border-radius: 5px;">
                                         <div style="background-color:lightskyblue;border-radius: 5px;">
                                             <h4 style="margin-left: 5%;color:white;border-radius: 25px;">Create New
                                                 Instruction</h4>
                                         </div>
                                         <br />
 
-                                        <!-- Constant Info Header Start -->
-                                        <div class="row" style="margin-left: 5%;">
+                                        <!-- <div class="row" style="margin-left: 5%;">
                                             <div class="c-field row" style="width:90%;">
                                                 <label class="c-field__label" for="salutation">Group</label>
                                                 <select class="c-input" id="expertGrp"
@@ -34,7 +32,6 @@
                                                     <option [value]="0">--Please Select--</option>
                                                     <option *ngFor="let data of ExpertsTypeList"
                                                         [value]="data.ExpertTypeID">{{data.ExpertCategories}}</option>
-                                                    <!-- <option *ngFor="let leadsalutation of LeadsSalutationList" [selected]="SelectedLeadDetails.salutation==leadsalutation.id" [value]="leadsalutation.id">{{leadsalutation.value}}</option> -->
                                                 </select>
                                             </div>
                                         </div><br />
@@ -80,10 +77,8 @@
                                                     id="ADate" name="FName" placeholder="Name">
                                             </div>
                                         </div><br />
-                                        <!-- Constant Info Header End -->
 
 
-                                        <!-- Medco Form Start -->
                                         <div>
                                             <div class="row" style="margin-left: 5%;" *ngIf="dvPhsyco">
                                                 <div class="c-field row" style="width:45%;">
@@ -206,8 +201,8 @@
                                                             placeholder="Medco Ref No">
                                                     </div>
                                                 </div>
-                                            </div>
-
+                                            </div> -->
+<!-- 
                                             <div id="divPODE" *ngIf="dvPODE">
                                                 <div class="row" style="margin-left: 5%;">
                                                     <div class="c-field row" style="width:45%;">
@@ -223,8 +218,8 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                            </div>
-
+                                            </div> -->
+<!-- 
                                             <div id="divMPORDE" *ngIf="dvMPORDE">
                                                 <div class="row" style="margin-left: 5%;">
                                                     <div class="c-field row" style="width:45%;">
@@ -329,8 +324,8 @@
                                                         </div>
                                                     </div>
                                                 </div><br />
-                                            </div><br />
-                                            <div *ngIf="dvRC">
+                                            </div><br /> -->
+                                            <!-- <div *ngIf="dvRC">
                                                 <div class="row" style="margin-left: 5%;">
                                                     <div class="c-field row" style="width:45%;">
                                                         <label class="c-field__label" for="CHE">Initial
@@ -347,8 +342,8 @@
                                                     </div>
 
                                                 </div><br />
-                                            </div><br />
-                                            <div *ngIf="isHiddendvComm">
+                                            </div><br /> -->
+                                            <!-- <div *ngIf="isHiddendvComm">
                                                 <div class="row" style="margin-left: 5%;">
                                                     <div class="c-field row" style="width:45%;">
                                                         <label class="c-field__label" for="Solicitor">Solicitor</label>
@@ -388,9 +383,9 @@
                                                         <textarea class="c-input" id="ASN" name="message"></textarea>
                                                     </div>
                                                 </div>
-                                            </div><br />
+                                            </div><br /> -->
 
-                                            <div *ngIf="dvMPORDE">
+                                            <!-- <div *ngIf="dvMPORDE">
                                                 <div class="row" style="margin-left: 5%;">
                                                     <div class="c-field row" style="width:25%;">
                                                         <p class="c-field__label">Any disabled or special restrictions
@@ -448,10 +443,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div><br />
-                                        </div>
+                                            </div><br /> -->
+                                        <!-- </div> -->
 
-                                        <div *ngIf="dvPO">
+                                        <!-- <div *ngIf="dvPO">
                                             <div class="row" style="margin-left: 5%;">
                                                 <div class="c-field row" style="margin-top: 2%; width:25%;">
                                                     <label class="c-field__label" for="salutation">Record
@@ -549,9 +544,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div><br />
+                                        </div><br /> -->
 
-                                        <div *ngIf="dvMPORDE">
+                                        <!-- <div *ngIf="dvMPORDE">
                                             <div class="row" style="margin-left: 5%;">
                                                 <div class="c-field row" style="width:95%;">
                                                     <label class="c-field__label" for="AC">Accident
@@ -582,12 +577,12 @@
                                                     </div>
                                                 </div>
                                             </div><br />
-                                        </div>
+                                        </div> -->
                                         <!-- Medco Form End -->
 
 
                                         <!-- Constant Info Footer Start -->
-                                        <div *ngIf="dvDocument">
+                                        <!-- <div *ngIf="dvDocument">
                                             <div style="background-color:lightskyblue;border-radius: 5px;">
                                                 <h4 style="margin-left: 5%;color:white;border-radius: 25px;">Document
                                                     Information</h4>
@@ -645,11 +640,10 @@
                                                     [disabled]="!createUserForm.valid">Save</button>
 
                                             </div> <br />
-                                            <!-- Constant Info Footer End -->
-                                        </div>
+                                        </div> -->
 
                                         <!-- Modal Add New Occupancy Type Start-->
-                                        <div class="c-modal c-modal--xlarge modal fade show" id="modalAdOcuupancyType"
+                                        <!-- <div class="c-modal c-modal--xlarge modal fade show" id="modalAdOcuupancyType"
                                             tabindex="-1" role="dialog" aria-labelledby="CreateUserModal"
                                             data-backdrop="static">
                                             <div class="c-modal__dialog modal-dialog" role="document">
@@ -696,11 +690,9 @@
 
                                                     </div>
 
-                                                </div><!-- // .c-modal__content -->
-                                            </div><!-- // .c-modal__dialog -->
-                                        </div>
-                                        <!-- Modal Add New Occupancy Type End-->
-
+                                                </div>
+                                            </div>
+                                        </div> -->
                                     </div>
                                 </form>
                             </div>
