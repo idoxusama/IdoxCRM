@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ENGINE_METHOD_CIPHERS } from 'constants';
-import { ExpertBankDetail, ExpertBasicInfo, ExpertCharges, ExpertContactInfo, ExpertUploadedDocs } from 'src/app/Models/Experts Model/User';
+import { ExpertBankDetail, ExpertBasicInfo, ExpertCharges, ExpertContactInfo, ExpertUploadedDocs, MedicalRequiredRecordList } from 'src/app/Models/Experts Model/User';
 import { ExpertuserService } from 'src/app/Services/Experts Services/expertuser.service';
 
 @Component({
@@ -15,6 +15,7 @@ export class ViewProfileComponent implements OnInit {
   expertCharges:ExpertCharges;
   expertBankDetails: ExpertBankDetail[]=[];
   expertDocs : ExpertUploadedDocs[]=[];
+  expertRequireMedicalRecord:MedicalRequiredRecordList[]=[];
 
   expertID:string;
   profileState:string;
@@ -34,6 +35,7 @@ export class ViewProfileComponent implements OnInit {
       this.getExpertCharges();
       this.getExpertBankDetails();
       this.getExpertDocuments();
+      this.getExpertRequiredMedicalRecord();
     }
   }
 
@@ -76,5 +78,11 @@ export class ViewProfileComponent implements OnInit {
     },error=>{
       console.log(error);
     });
+  }
+
+  getExpertRequiredMedicalRecord(){
+    this.expertUserService.getExpertMedicalRequiredRecord(0,this.expertID).subscribe(response=>{
+      this.expertRequireMedicalRecord=response.outputObject;
+    },error=>console.log(error));
   }
 }

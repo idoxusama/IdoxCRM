@@ -8,7 +8,8 @@ const STEPS = [
   { stepIndex: 2,stepName:"Contact Info", isComplete: false },
   { stepIndex: 3,stepName:"Fee / Charges ", isComplete: false },
   { stepIndex: 4,stepName:"Bank Detail", isComplete: false },
-  { stepIndex: 5,stepName:"Upload Docs", isComplete: false }
+  { stepIndex: 5,stepName:"Medical Record", isComplete: false },
+  { stepIndex: 6,stepName:"Upload Docs", isComplete: false },
 ];
 @Injectable({
   providedIn: 'root'

@@ -40,6 +40,9 @@
                     <app-expert-bank-charges [step]="(currentStep|async)"></app-expert-bank-charges>
                   </ng-container>
                   <ng-container *ngSwitchCase="'5'">
+                    <app-required-medical-record [step]="(currentStep|async)"></app-required-medical-record>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'6'">
                     <app-expert-upload-doc [step]="(currentStep|async)"></app-expert-upload-doc>
                   </ng-container>
                 </ng-container>

@@ -62,3 +62,18 @@ export class ExpertUploadedDocs{
   documentPath:string;
   isActive:boolean;
 }
+
+export class ExpertMedicalRequiredRecord{
+  medicalRequiredRecordList:Array<MedicalRequiredRecordList>=new Array();
+}
+
+export class MedicalRequiredRecordList{
+  id:number;
+  expertTypeID:number;
+  expertID:number;
+  medicalRecordType:string;
+  medicalRecordName:string;
+  isRequired:boolean=true;
+  userID:number;
+  isEditable:boolean=false;
+}

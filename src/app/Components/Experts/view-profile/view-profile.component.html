@@ -98,31 +98,31 @@
                           <i class="material-icons">description</i>
                       </div>
                       <div class="media-body">
-                          <h6 class="my-0 content-color-primary">Documents</h6>
+                          <h6 class="my-0 content-color-primary">Required Medical Record</h6>
                       </div>
                   </div>
               </div>
               <div class="card-body">
-                  <ul class="list-group list-group-flush w-100" *ngIf="expertDocs">
-                      <li class="list-group-item px-0" *ngFor="let doc of expertDocs">
+                  <ul class="list-group list-group-flush w-100" *ngIf="expertRequireMedicalRecord">
+                      <li class="list-group-item px-0" *ngFor="let rec of expertRequireMedicalRecord">
                           <div class="media experience">
                               <div class="icon-circle icon-40 bg-light-secondary mr-3">
                                   <i class="material-icons">camera</i>
                               </div>
                               <div class="media-body">
-                                  <h6 class="my-0 content-color-primary">{{doc.documentName}}</h6>
+                                  <h6 class="my-0 content-color-primary">{{rec.medicalRecordName}}</h6>
                                   <table class="table">
                                     <tr>
-                                      <th>Document Name</th>
-                                      <th>Document Path</th>
-                                      <th>IsActive</th>
+                                      <th>Record Name</th>
+                                      <th>Record Type</th>
+                                      <th>Is Required</th>
                                     </tr>
                                     <tr>
-                                      <td>{{doc.documentName}}</td>
-                                      <td>{{doc.documentPath}}</td>
+                                      <td>{{rec.medicalRecordName}}</td>
+                                      <td>{{rec.medicalRecordType}}</td>
                                       <td>
-                                        <span class="text-success" *ngIf="doc.isActive"><i class="material-icons">check</i></span>
-                                        <span class="text-danger" *ngIf="!doc.isActive"><i class="material-icons">close</i></span>
+                                        <span class="text-success" *ngIf="rec.isRequired"><i class="material-icons">check</i></span>
+                                        <span class="text-danger" *ngIf="!rec.isRequired"><i class="material-icons">close</i></span>
                                       </td>
                                     </tr>
                                   </table>
@@ -132,6 +132,47 @@
                   </ul>
               </div>
           </div>
+          <div class="card mb-4">
+            <div class="card-header border-bottom">
+                <div class="media">
+                    <div class="icon-circle icon-40 bg-light-primary mr-3">
+                        <i class="material-icons">description</i>
+                    </div>
+                    <div class="media-body">
+                        <h6 class="my-0 content-color-primary">Documents</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush w-100" *ngIf="expertDocs">
+                    <li class="list-group-item px-0" *ngFor="let doc of expertDocs">
+                        <div class="media experience">
+                            <div class="icon-circle icon-40 bg-light-secondary mr-3">
+                                <i class="material-icons">camera</i>
+                            </div>
+                            <div class="media-body">
+                                <h6 class="my-0 content-color-primary">{{doc.documentName}}</h6>
+                                <table class="table">
+                                  <tr>
+                                    <th>Document Name</th>
+                                    <th>Document Path</th>
+                                    <th>IsActive</th>
+                                  </tr>
+                                  <tr>
+                                    <td>{{doc.documentName}}</td>
+                                    <td>{{doc.documentPath}}</td>
+                                    <td>
+                                      <span class="text-success" *ngIf="doc.isActive"><i class="material-icons">check</i></span>
+                                      <span class="text-danger" *ngIf="!doc.isActive"><i class="material-icons">close</i></span>
+                                    </td>
+                                  </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
       </div>
       <div class="col-12 col-md-12 col-lg-4">
           <div class="card mb-4 fullscreen">

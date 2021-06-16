@@ -1,4 +1,10 @@
 <div class="row" style="min-height: 50px;">
+  <div class="col-sm-12 col-sm-12 text-right">
+    <button type="button" class="btn btn-sm primary-gradient mr-2" (click)="addBankDetail()">
+      <i class="material-icons">add</i>
+    </button>
+  </div>
+ 
   <div class="col-lg-12 col-md-12">
     <form [formGroup]="bankDetailForm" *ngIf="bankDetailForm" (ngSubmit)="saveBankDetail()">
       <table class="table">
@@ -10,9 +16,7 @@
             <th>IBAN</th>
             <th>Sort Code</th>
             <th>
-              <button type="button" class="btn icon-40 icon-circle align-self-start bg-success text-white" (click)="addBankDetail()">
-                <i class="material-icons">add</i>
-              </button>
+             Actions
             </th>
           </tr>
         </thead>

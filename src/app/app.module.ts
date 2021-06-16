@@ -272,6 +272,7 @@ import { CreateReferrerComponent } from './Components/Referrer/create-referrer/c
 import { ReferrerDetailComponent } from './Components/Referrer/referrer-detail/referrer-detail.component';
 import { ReferrerListComponent } from './Components/Referrer/referrer-list/referrer-list.component';
 import { NewInstructionComponent } from './Components/Instruction Main/new-instruction/new-instruction.component';
+import { RequiredMedicalRecordComponent } from './Components/Experts/required-medical-record/required-medical-record.component';
 
 @NgModule({
   declarations: [	
@@ -502,6 +503,7 @@ import { NewInstructionComponent } from './Components/Instruction Main/new-instr
     StepsComponent,
     ExpertBankChargesComponent,
     EpertBasicInfoComponent,
+    RequiredMedicalRecordComponent,
     ExpertUploadDocComponent,
     ExpertContactInfoComponent,
     ExpertChargesComponent,

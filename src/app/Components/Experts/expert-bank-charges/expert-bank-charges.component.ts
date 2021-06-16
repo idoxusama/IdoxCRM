@@ -132,9 +132,9 @@ export class ExpertBankChargesComponent implements OnInit {
       this.toaserService.success('Bank detail has been added!');
     }, error => {
       console.log(error);
+    },()=>{
+      this.getBankAccountsDetail(this.expertBankDetail.expertID);
     });
-    
-    this.ngOnInit();
   }
   update(group: FormGroup) {
     debugger
@@ -145,9 +145,9 @@ export class ExpertBankChargesComponent implements OnInit {
       this.toaserService.success('Bank detail has been updated!');
     }, error => {
       console.log(error);
+    },()=>{
+      this.getBankAccountsDetail(this.expertBankDetail.expertID);
     });
-    
-    this.ngOnInit();
   }
 
   onNextStep() {

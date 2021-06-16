@@ -257,4 +257,47 @@ export class ExpertuserService {
     };
     return this._http.post(requestUrl,data,requestOptions);
   }
+
+  //Expert ExpertMedicalRequiredRecord
+  getExpertMedicalRequiredRecord(id,expertId):Observable<any>{
+    let requestUrl = this.baseUrl+`/api/Expert/GetMedicalRequiredRecord?ID=${id}&ExpertID=${expertId}`;
+    
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict),
+    };
+    return this._http.get(requestUrl,requestOptions);
+  }
+
+  createExpertMedicalRequiredRecord(data):Observable<any>{
+    let requestUrl = this.baseUrl+`/api/Expert/CreateMedicalRequiredRecord`;
+    
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict),
+    };
+    return this._http.post(requestUrl,data,requestOptions);
+  }
+
+  updateExpertMedicalRequiredRecord(data):Observable<any>{
+    let requestUrl = this.baseUrl+`/api/Expert/UpdateExpertMedicalRequiredRecord`;
+    
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict),
+    };
+    return this._http.post(requestUrl,data,requestOptions);
+  }
 }
