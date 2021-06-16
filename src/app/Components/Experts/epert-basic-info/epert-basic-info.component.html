@@ -1,0 +1,101 @@
+<form [formGroup]="basicInfoForm" *ngIf="basicInfoForm" (ngSubmit)="onNextStep()">
+  <div class="row ">
+    <div class="col-lg-6 col-md-6">
+      <div class="form-group ">
+        <label>First Name</label>
+        <input type="text" class="form-control" appAlphabetsOnly formControlName="firstName" [ngClass]="{'is-invalid': basicInfoForm.get('firstName').errors 
+        && (basicInfoForm.get('firstName').touched||submitted)}" placeholder="First Name">
+        <div class="invalid-feedback"
+          *ngIf="(basicInfoForm.get('firstName').touched||submitted) && basicInfoForm.get('firstName').hasError('required')">
+          This
+          field is required</div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+      <div class="form-group ">
+        <label>Last Name</label>
+        <input type="text" class="form-control" appAlphabetsOnly formControlName="lastName" [ngClass]="{'is-invalid': basicInfoForm.get('lastName').errors 
+        && (basicInfoForm.get('lastName').touched||submitted)}" placeholder="Last Name">
+        <div class="invalid-feedback"
+          *ngIf="(basicInfoForm.get('lastName').touched||submitted) && basicInfoForm.get('lastName').hasError('required')">
+          This
+          field is required</div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+      <div class="form-group ">
+        <label>Midel Name</label>
+        <input type="text" class="form-control" appAlphabetsOnly formControlName="middleName" [ngClass]="{'is-invalid': basicInfoForm.get('middleName').errors 
+        && (basicInfoForm.get('middleName').touched||submitted)}" placeholder="Midel Name">
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+      <div class="form-group ">
+        <label>Gender</label>
+        <select class="form-control" formControlName="gender" [ngClass]="{'is-invalid': basicInfoForm.get('gender').errors 
+        && (basicInfoForm.get('gender').touched||submitted)}">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+        <div class="invalid-feedback"
+          *ngIf="(basicInfoForm.get('gender').touched||submitted) && basicInfoForm.get('gender').hasError('required')">
+          This
+          field is required</div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+      <div class="form-group ">
+        <label>Address 1</label>
+        <input type="text" class="form-control" formControlName="addressLine1" [ngClass]="{'is-invalid': basicInfoForm.get('addressLine1').errors 
+        && (basicInfoForm.get('addressLine1').touched||submitted)}" placeholder="Address">
+        <div class="invalid-feedback"
+          *ngIf="(basicInfoForm.get('addressLine1').touched||submitted) && basicInfoForm.get('addressLine1').hasError('required')">
+          This
+          field is required</div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+      <div class="form-group ">
+        <label>Address 2</label>
+        <input type="text" class="form-control" formControlName="addressLine2" [ngClass]="{'is-invalid': basicInfoForm.get('addressLine2').errors 
+        && (basicInfoForm.get('addressLine2').touched||submitted)}" placeholder="Address">
+        <div class="invalid-feedback"
+          *ngIf="(basicInfoForm.get('addressLine2').touched||submitted) && basicInfoForm.get('addressLine2').hasError('required')">
+          This
+          field is required</div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+      <div class="form-group ">
+        <label>Speciality</label>
+        <select class="form-control" formControlName="specialityID" [ngClass]="{'is-invalid': basicInfoForm.get('specialityID').errors 
+        && (basicInfoForm.get('specialityID').touched||submitted)}" (change)="getSubSpecialities($event.target.value)">
+          <option *ngFor="let opt of specialities" value="{{opt.id}}">{{opt.description}}</option>
+        </select>
+        <div class="invalid-feedback"
+          *ngIf="(basicInfoForm.get('specialityID').touched||submitted) && basicInfoForm.get('specialityID').hasError('required')">
+          This
+          field is required</div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+      <div class="form-group ">
+        <label>Sub Speciality</label>
+        <select class="form-control" formControlName="subSpecialityID" [ngClass]="{'is-invalid': basicInfoForm.get('subSpecialityID').errors 
+        && (basicInfoForm.get('subSpecialityID').touched||submitted)}">
+          <option *ngFor="let opt of subSpecailities" value="{{opt.id}}">{{opt.decription}}</option>
+        </select>
+        <div class="invalid-feedback"
+          *ngIf="(basicInfoForm.get('subSpecialityID').touched||submitted) && basicInfoForm.get('subSpecialityID').hasError('required')">
+          This
+          field is required</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-right">
+    <button type="submit" (click)="onNextStep()" class="form-continue-btn">
+      {{ showButtonLabel() }}
+    </button>
+  </div>
+</form>

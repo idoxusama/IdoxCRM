@@ -1,0 +1,11 @@
+<nav class="form-step-container">
+  <ng-container *ngFor="let step of steps | async; let i = index;">
+    <button (click)="onStepClick(step)" [disabled]="((currentStep|async)?.stepIndex!==step.stepIndex && !step.isComplete)">
+      <span
+        [ngClass]="{'step-complete':step.isComplete,'step-current':(currentStep|async)?.stepIndex==step.stepIndex,'step-disabled':((currentStep|async)?.stepIndex!==step.stepIndex && !step.isComplete)}"
+        class="step-number">{{step.stepIndex}}</span>
+      <span [ngClass]="{'step-name-disabled':((currentStep|async)?.stepIndex!==step.stepIndex && !step.isComplete)}"
+        class="step-Name">{{step.stepName}}</span>
+    </button>
+  </ng-container>
+</nav>

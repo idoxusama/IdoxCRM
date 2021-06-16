@@ -1,0 +1,111 @@
+<div class="row">
+  <div class="col-lg-12 col-sm-12 text-right">
+    <button class="btn btn-sm primary-gradient mr-2" (click)="addUpload()"><i
+        class="material-icons">add</i></button>
+  </div>
+</div>
+<form [formGroup]="uploadDocsForm" *ngIf="uploadDocsForm" (ngSubmit)="upload()">
+  <div class="row" *ngIf="uploadMore">
+    <div class="col-sm-4">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" formControlName="documentName" [ngClass]="{'is-invalid': uploadDocsForm.get('documentName').errors 
+      && (uploadDocsForm.get('documentName').touched||submitted)}">
+        <div class="invalid-feedback"
+          *ngIf="(uploadDocsForm.get('documentName').touched||submitted) && uploadDocsForm.get('documentName').hasError('required')">
+          This
+          field is required</div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="form-group">
+        <label>Upload Documents</label>
+        <input type="file" #file placeholder="Choose file" (change)="onSelectFiles(file.files)" formControlName="document" class="form-control" [ngClass]="{'is-invalid': uploadDocsForm.get('document').errors 
+      && (uploadDocsForm.get('document').touched||submitted)}" multiple>
+        <div class="invalid-feedback"
+          *ngIf="(uploadDocsForm.get('document').touched||submitted) && uploadDocsForm.get('document').hasError('required')">
+          This
+          field is required</div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <button type="submit" class="btn btn-success" style="margin-top: 30px;">Upload</button>
+    </div>
+  </div>
+
+</form>
+
+
+<!-- <div class="row" *ngIf="uploadMore">
+    <div class="col-lg-4 col-md-4">
+      <div class="form-group">
+        <h3>Upload Docs</h3>
+        <div ng2FileDrop [ngClass]="{'nv-file-over-cv': hasDropZoneOver}" (fileOver)="fileOverBase($event)"
+          [uploader]="uploader" class="text-center well my-drop-zone">
+          <i class=" fa fa-upload fa-3x"></i>
+          Drag files Here
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8 col-md-8" style="margin-bottom: 40px" *ngIf="uploader?.queue?.length">
+      <h3>Upload queue</h3>
+      <p>Queue length: {{ uploader?.queue?.length }}</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th width="50%">Name</th>
+            <th>Size</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of uploader.queue">
+            <td><strong>{{ item?.file?.name }}</strong></td>
+            <td *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+          </tr>
+        </tbody>
+      </table>
+      <div>
+        <div>
+          Queue progress:
+          <div class="progress mb-4">
+            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()"
+          [disabled]="!uploader.getNotUploadedItems().length">
+          <span class="fa fa-upload"></span> Upload
+        </button>
+        <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()"
+          [disabled]="!uploader.isUploading">
+          <span class="fa fa-ban"></span> Cancel
+        </button>
+        <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()"
+          [disabled]="!uploader.queue.length">
+          <span class="fa fa-trash"></span> Remove
+        </button>
+      </div>
+    </div>
+  </div> -->
+
+<div class="row">
+  <div class="col-lg-12 col-sm-12">
+    <table class="table">
+      <thead>
+        <th>Document</th>
+        <th>Action</th>
+      </thead>
+      <tr *ngFor="let doc of expertuploadDocs">
+        <td>{{doc.documentName}}</td>
+        <td>
+          <button class="btn pink-gradient px-3 btn-sm">Delete</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div class="text-right">
+  <button type="button" (click)="onNextStep()" class="form-continue-btn">
+    {{ showButtonLabel() }}
+  </button>
+</div>

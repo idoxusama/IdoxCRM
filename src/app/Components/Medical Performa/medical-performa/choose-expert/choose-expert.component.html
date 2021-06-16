@@ -1,0 +1,85 @@
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+    <div class="container my-3 main-container">
+      <div class="row align-items-center">
+        <div class="col">
+          <h2 class="content-color-primary page-title">Medical Performa</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mt-2 main-container">
+  <div class="card mb-4">
+    <div class="card-header border-bottom">
+      <h5 class="content-color-primary mb-0">Medical Performa Questionaries</h5>
+    </div>
+    <div class="card-body">
+      <div class="ml-5 mr-5">
+        <div class="row">
+
+          <div class="col-sm-4">
+            <label>Select Expert Type</label>
+            <div class="form-group ">
+              <select class="form-control" (change)="getExperts($event.target.value)">
+                <option>Select Expert Type</option>
+                <option *ngFor="let type of ExpertTypes" value="{{type.expertTypeID}}">
+                  {{type.expertTypeID}}-{{type.expertCategories}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group ">
+              <label>Select Expert</label>
+              <select class="form-control" (change)="changeExpert($event.target.value)">
+                <option>Select Expert</option>
+                <option *ngFor="let type of Experts" value="{{type.ExpertID}}">
+                  {{type.ExpertID}}-{{type.FirstName}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-4 text-right">
+            <div class="form-group ">
+              <div class="custom-control custom-checkbox" style="margin-top: 30px;">
+                <button type="button" class="btn pink-gradient" (click)="openModal(existingDraftModel)">Open
+                  Draft</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="border-top">
+          </div>
+        </div>
+        <app-generate-performa [change]="change" [draftCode]="draftCode"></app-generate-performa>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #existingDraftModel>
+    <div class="modal-header pink-gradient">
+      <h4 class="modal-title pull-left">Open Existing Draft</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form (ngSubmit)="openExistingDraft()">
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="recipient-name" class="col-form-label">Performa Code:</label>
+          <input type="text" class="form-control" id="recipient-name" name="PerformaCode"
+            [(ngModel)]="model.PerformaCode">
+        </div>
+        <div class="text-center">
+          <span>OR</span>
+        </div>
+        <div class="form-group">
+          <label for="message-text" class="col-form-label">Case Ref No:</label>
+          <input class="form-control" id="message-text" name="CaseRefNo" [(ngModel)]="model.CaseRefNo" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+        <button type="submit" class="btn btn-primary">Open</button>
+      </div>
+    </form>
+  </ng-template>

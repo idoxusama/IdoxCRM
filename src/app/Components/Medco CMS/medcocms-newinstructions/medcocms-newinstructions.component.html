@@ -1,0 +1,708 @@
+<ngx-loading-bar color="#1e90ff" height="5px"></ngx-loading-bar>
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-12 col-xl-12 u-p-zero">
+
+
+            <div class="row u-m-small">
+
+                <div class="col-md-12">
+
+                    <div class="c-tabs">
+                        <div class="c-tabs__content tab-content" id="nav-tabContent">
+                            <div class="c-tabs__pane active" id="nav-home" role="tabpanel"
+                                aria-labelledby="nav-home-tab">
+                                <form style="align-content: center;" #createUserForm="ngForm"
+                                    (ngSubmit)="UpdateLeads()">
+                                    <div style="border: 1px solid;border-color: lightgray;padding: 10px;border-radius: 5px;">
+                                        <div style="background-color:lightskyblue;border-radius: 5px;">
+                                            <h4 style="margin-left: 5%;color:white;border-radius: 25px;">Create New
+                                                Instruction</h4>
+                                        </div>
+                                        <br />
+
+                                        <!-- <div class="row" style="margin-left: 5%;">
+                                            <div class="c-field row" style="width:90%;">
+                                                <label class="c-field__label" for="salutation">Group</label>
+                                                <select class="c-input" id="expertGrp"
+                                                    style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;"
+                                                    [disabled]='toggleButton'
+                                                    (change)="SelectedExpertType($event.target.value)">
+                                                    <option [value]="0">--Please Select--</option>
+                                                    <option *ngFor="let data of ExpertsTypeList"
+                                                        [value]="data.ExpertTypeID">{{data.ExpertCategories}}</option>
+                                                </select>
+                                            </div>
+                                        </div><br />
+                                        <div class="row" style="margin-left: 5%;">
+                                            <div class="c-field row" style="width:40%;">
+                                                <label class="c-field__label" for="FName">Instruction Date</label>
+                                                <input class="c-input" style="width:90%;height: 30px;" type="date"
+                                                    id="FName" name="FName" placeholder="Name">
+                                            </div>
+                                            <div class="c-field row" style="margin-left: 6%;width:40%;">
+                                                <label class="c-field__label" for="LName">Post Code</label>
+                                                <input class="c-input" style="width:90%;height: 30px;" type="text"
+                                                    id="LName" name="LName" placeholder="Name">
+                                            </div>
+                                        </div><br />
+                                        <div class="row" style="margin-left: 5%;">
+                                            <div class="c-field row" style="width:90%;">
+                                                <label class="c-field__label" for="Pcode">Case Ref #</label>
+                                                <input class="c-input" style="width:90%;height: 30px;" type="text"
+                                                    id="Pcode" name="LName" placeholder="Name">
+                                            </div>
+                                        </div><br />
+
+                                        <div class="row" style="margin-left: 5%;">
+                                            <h3>Client's Details</h3>
+                                        </div><br />
+
+                                        <div *ngIf="dvReqSelection">
+                                            <div class="row"
+                                                style="margin-left: 4%; background-color: #f75a5a;; width:78%; ">
+                                                <div class="c-field row">
+                                                    <label class="c-field__label" for="ADate"
+                                                        style="margin-left: 40%; font-weight: bold; color:white; margin-top: 4px;">Please
+                                                        Select Instruction Group</label>
+                                                </div>
+                                            </div><br />
+                                        </div>
+
+                                        <div class="row" style="margin-left: 5%;" *ngIf="isHiddendvComm">
+                                            <div class="c-field row" style="width:45%;">
+                                                <label class="c-field__label" for="ADate">Accident Date</label>
+                                                <input class="c-input" style="width:90%;height: 30px;" type="date"
+                                                    id="ADate" name="FName" placeholder="Name">
+                                            </div>
+                                        </div><br />
+
+
+                                        <div>
+                                            <div class="row" style="margin-left: 5%;" *ngIf="dvPhsyco">
+                                                <div class="c-field row" style="width:45%;">
+                                                    <label class="c-field__label" for="salutation">Type</label>
+                                                    <select class="c-input" id="salutation"
+                                                        style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;"
+                                                        [disabled]='toggleButton'
+                                                        (change)="selectedLeadSalutation($event.target.value)"
+                                                        id="select1">
+                                                        <option *ngFor="let leadsalutation of LeadsSalutationList"
+                                                            [selected]="SelectedLeadDetails.salutation==leadsalutation.id"
+                                                            [value]="leadsalutation.id">{{leadsalutation.value}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div id="divCommon" *ngIf="isHiddendvComm">
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:45%;">
+                                                        <label class="c-field__label" for="salutation">Title</label>
+                                                        <select class="c-input" id="salutation"
+                                                            style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;"
+                                                            [disabled]='toggleButton'
+                                                            (change)="selectedLeadSalutation($event.target.value)"
+                                                            id="select1">
+                                                            <option *ngFor="let leadsalutation of LeadsSalutationList"
+                                                                [selected]="SelectedLeadDetails.salutation==leadsalutation.id"
+                                                                [value]="leadsalutation.id">{{leadsalutation.value}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="c-field row" style="margin-left: 10%;width:45%;">
+                                                        <label class="c-field__label" for="salutation">Gender</label>
+                                                        <div class="c-choice c-choice--radio" style="width: 90%;">
+                                                            <input class="c-choice__input" id="radio1" name="gender"
+                                                                type="radio">
+                                                            <label class="c-choice__label" for="radio1">Male</label>
+                                                            <input class="c-choice__input" id="radio2" name="gender"
+                                                                type="radio">
+                                                            <label class="c-choice__label" style="margin-left: 2%;"
+                                                                for="radio2">Female</label>
+                                                        </div>
+                                                    </div>
+                                                </div><br />
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:45%;">
+                                                        <label class="c-field__label" for="FName">First Name</label>
+                                                        <input class="c-input" style="width:90%;height: 30px;"
+                                                            type="text" id="FName" name="FName" placeholder="Name">
+                                                    </div>
+                                                    <div class="c-field row" style="margin-left: 10%;width:45%;">
+                                                        <label class="c-field__label" for="LName">Last Name</label>
+                                                        <input class="c-input" style="width:90%;height: 30px;"
+                                                            type="text" id="LName" name="LName" placeholder="Name">
+                                                    </div>
+                                                </div><br />
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:45%;">
+                                                        <label class="c-field__label" for="MName">Middle Name</label>
+                                                        <input class="c-input" style="width:90%;height: 30px;"
+                                                            type="text" id="MName" name="FName" placeholder="Name">
+                                                    </div>
+                                                    <div class="c-field row" style="margin-left: 10%;width:45%;">
+                                                        <label class="c-field__label" for="DOB">DOB</label>
+                                                        <input class="c-input" style="width:90%;height: 30px;"
+                                                            type="date" id="DOB" name="LName" placeholder="Name">
+                                                    </div>
+                                                </div><br />
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:45%;">
+                                                        <label class="c-field__label" for="Address">Address</label>
+                                                        <input class="c-input" style="width:90%;height: 30px;"
+                                                            type="text" id="Address" name="FName" placeholder="Name">
+                                                    </div>
+                                                    <div class="c-field row" style="margin-left: 10%;width:45%;">
+                                                        <label class="c-field__label" for="CO">C/O</label>
+                                                        <input class="c-input" style="width:90%;height: 30px;"
+                                                            type="text" id="CO" name="LName" placeholder="Name">
+                                                    </div>
+                                                </div><br />
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:45%;">
+                                                        <label class="c-field__label" for="Town">Town</label>
+                                                        <input class="c-input" style="width:90%;height: 30px;"
+                                                            type="text" id="Town" name="FName" placeholder="Name">
+                                                    </div>
+                                                    <div class="c-field row" style="margin-left: 10%;width:45%;">
+                                                        <label class="c-field__label" for="Mobile">Mobile</label>
+                                                        <input class="c-input" style="width:90%;height: 30px;"
+                                                            type="text" id="Mobile" name="LName" placeholder="Name">
+                                                    </div>
+                                                </div><br />
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:45%;">
+                                                        <label class="c-field__label" for="Country">Country</label>
+                                                        <input class="c-input" style="width:90%;height: 30px;"
+                                                            type="text" id="Country" name="FName" placeholder="Name">
+                                                    </div>
+                                                    <div class="c-field row" style="margin-left: 10%;width:45%;">
+                                                        <label class="c-field__label" for="clientName">Client's
+                                                            Name</label>
+                                                        <input class="c-input" style="width:90%;height: 30px;"
+                                                            type="text" id="clientName" name="LName" placeholder="Name">
+                                                    </div>
+                                                </div><br />
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:45%;">
+                                                        <label class="c-field__label" for="CHE">Case Handler
+                                                            Email</label>
+                                                        <input class="c-input" style="width:90%;height: 30px;"
+                                                            type="text" id="CHE" name="FName"
+                                                            placeholder="Case Handler Email">
+                                                    </div>
+                                                    <div class="c-field row" style="margin-left: 10%;width:45%;">
+                                                        <label class="c-field__label" for="MRN">Medco Ref
+                                                            No.</label>
+                                                        <input class="c-input" style="width:90%;height: 30px;"
+                                                            type="text" id="MRN" name="LName"
+                                                            placeholder="Medco Ref No">
+                                                    </div>
+                                                </div>
+                                            </div> -->
+<!-- 
+                                            <div id="divPODE" *ngIf="dvPODE">
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:45%;">
+                                                        <label class="c-field__label" for="OT">Medical Secretary</label>
+                                                        <select class="c-input" id="OT"
+                                                            style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;"
+                                                            (change)="selectedLeadSalutation($event.target.value)"
+                                                            id="select1">
+                                                            <option *ngFor="let leadsalutation of LeadsSalutationList"
+                                                                [selected]="SelectedLeadDetails.salutation==leadsalutation.id"
+                                                                [value]="leadsalutation.id">{{leadsalutation.value}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+<!-- 
+                                            <div id="divMPORDE" *ngIf="dvMPORDE">
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:45%;">
+                                                        <label class="c-field__label" for="OT">Occupancy Type</label>
+                                                        <select class="c-input" id="OT"
+                                                            style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;"
+                                                            (change)="selectedLeadSalutation($event.target.value)"
+                                                            id="select1">
+                                                            <option *ngFor="let leadsalutation of LeadsSalutationList"
+                                                                [selected]="SelectedLeadDetails.salutation==leadsalutation.id"
+                                                                [value]="leadsalutation.id">{{leadsalutation.value}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="c-field row" style="margin-left: 10%;width:45%;">
+                                                        <label class="c-field__label"
+                                                            for="Occupation">Occupation</label>
+                                                        <select class="c-input" id="Occupation"
+                                                            style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;"
+                                                            [disabled]='toggleButton'
+                                                            (change)="selectedLeadSalutation($event.target.value)"
+                                                            id="select1">
+                                                            <option *ngFor="let leadsalutation of LeadsSalutationList"
+                                                                [selected]="SelectedLeadDetails.salutation==leadsalutation.id"
+                                                                [value]="leadsalutation.id">{{leadsalutation.value}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:20%;">
+                                                        <div class="c-field row">
+                                                            <button type="button"
+                                                                (click)="showLeadsDetails = !showLeadsDetails"
+                                                                class="c-btn c-btn--info"
+                                                                style="margin-left: 5%; width: 74%;"
+                                                                data-toggle="modal" data-target="#modalAdOcuupancyType">Add
+                                                                New Occupancy Type</button>
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    <div class="c-field row" style="width:20%; margin-left:36%;">
+                                                        <div class="c-field row">
+                                                            <button type="button"
+                                                                (click)="showLeadsDetails = !showLeadsDetails"
+                                                                class="c-btn c-btn--info" style="width: 74%;">Add New
+                                                                Occupation</button>
+                                                        </div>
+                                                    </div>
+                                                </div><br />
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:45%;">
+                                                        <label class="c-field__label" for="TOE">Type Of Expert</label>
+                                                        <select class="c-input" id="TOE"
+                                                            style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;"
+                                                            [disabled]='toggleButton'
+                                                            (change)="selectedLeadSalutation($event.target.value)"
+                                                            id="select1">
+                                                            <option *ngFor="let leadsalutation of LeadsSalutationList"
+                                                                [selected]="SelectedLeadDetails.salutation==leadsalutation.id"
+                                                                [value]="leadsalutation.id">{{leadsalutation.value}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="c-field row" style="margin-left: 10%;width:45%;">
+                                                        <label class="c-field__label" for="TOR">Type Of Report</label>
+                                                        <select class="c-input" id="TOR"
+                                                            style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;"
+                                                            [disabled]='toggleButton'
+                                                            (change)="selectedLeadSalutation($event.target.value)"
+                                                            id="select1">
+                                                            <option *ngFor="let leadsalutation of LeadsSalutationList"
+                                                                [selected]="SelectedLeadDetails.salutation==leadsalutation.id"
+                                                                [value]="leadsalutation.id">{{leadsalutation.value}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div><br />
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:45%;">
+                                                        <label class="c-field__label" for="TOI">Type Of Incident</label>
+                                                        <select class="c-input" id="TOI"
+                                                            style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;"
+                                                            [disabled]='toggleButton'
+                                                            (change)="selectedLeadSalutation($event.target.value)"
+                                                            id="select1">
+                                                            <option *ngFor="let leadsalutation of LeadsSalutationList"
+                                                                [selected]="SelectedLeadDetails.salutation==leadsalutation.id"
+                                                                [value]="leadsalutation.id">{{leadsalutation.value}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:20%;">
+                                                        <div class="c-field row">
+                                                            <button type="button"
+                                                                (click)="showLeadsDetails = !showLeadsDetails"
+                                                                class="c-btn c-btn--info"
+                                                                style="margin-left: 5%; width: 74%;">Add
+                                                                New Incident Type</button>
+                                                        </div>
+                                                    </div>
+                                                </div><br />
+                                            </div><br /> -->
+                                            <!-- <div *ngIf="dvRC">
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:45%;">
+                                                        <label class="c-field__label" for="CHE">Initial
+                                                            Assessment</label>
+                                                        <input class="c-input" style="width:90%;height: 30px;"
+                                                            type="text" id="CHE" name="FName" placeholder="Name">
+                                                    </div>
+
+                                                    <div class="c-field row" style="margin-left:10%; width:45%;">
+                                                        <label class="c-field__label" for="CHE">No of
+                                                            Sessions</label>
+                                                        <input class="c-input" style="width:90%;height: 30px;"
+                                                            type="text" id="CHE" name="FName" placeholder="Name">
+                                                    </div>
+
+                                                </div><br />
+                                            </div><br /> -->
+                                            <!-- <div *ngIf="isHiddendvComm">
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:45%;">
+                                                        <label class="c-field__label" for="Solicitor">Solicitor</label>
+                                                        <select class="c-input" id="Solicitor"
+                                                            style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;"
+                                                            [disabled]='toggleButton'
+                                                            (change)="selectedLeadSalutation($event.target.value)"
+                                                            id="select1">
+                                                            <option *ngFor="let leadsalutation of LeadsSalutationList"
+                                                                [selected]="SelectedLeadDetails.salutation==leadsalutation.id"
+                                                                [value]="leadsalutation.id">{{leadsalutation.value}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="c-field row" style="margin-left: 10%;width:45%;">
+                                                        <label class="c-field__label" for="SRN">Solicitor Ref
+                                                            No.</label>
+                                                        <input class="c-input" style="width:90%;height: 30px;"
+                                                            type="text" id="SRN" name="LName" placeholder="Name">
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:20%;">
+                                                        <div class="c-field row">
+                                                            <button type="button"
+                                                                (click)="showLeadsDetails = !showLeadsDetails"
+                                                                class="c-btn c-btn--info"
+                                                                style="margin-left: 5%; width: 74%;">Add
+                                                                New Solicitor</button>
+                                                        </div>
+                                                    </div>
+                                                </div><br />
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:95%;">
+                                                        <label class="c-field__label" for="ASN">Any Special
+                                                            Note</label>
+                                                        <textarea class="c-input" id="ASN" name="message"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div><br /> -->
+
+                                            <!-- <div *ngIf="dvMPORDE">
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:25%;">
+                                                        <p class="c-field__label">Any disabled or special restrictions
+                                                            need?</p>
+                                                    </div>
+                                                    <div class="c-field row" style="width:45%;">
+                                                        <div class="c-choice c-choice--radio" style="width: 90%;">
+                                                            <input class="c-choice__input" id="radio3" name="radioRow1"
+                                                                type="radio">
+                                                            <label class="c-choice__label" for="radio3">Yes</label>
+                                                            <input class="c-choice__input" id="radio4" name="radioRow1"
+                                                                type="radio">
+                                                            <label class="c-choice__label" style="margin-left: 2%;"
+                                                                for="radio4">No</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:95%;">
+                                                        <textarea class="c-input" id="ASN" name="message"></textarea>
+                                                    </div>
+                                                </div><br />
+
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:25%;">
+                                                        <p class="c-field__label">Hospital record needs to be reviewed?
+                                                        </p>
+                                                    </div>
+                                                    <div class="c-field row" style="width:45%;">
+                                                        <div class="c-choice c-choice--radio" style="width: 90%;">
+                                                            <input class="c-choice__input" id="radio5" name="radioRow2"
+                                                                type="radio">
+                                                            <label class="c-choice__label" for="radio5">Yes</label>
+                                                            <input class="c-choice__input" id="radio6" name="radioRow2"
+                                                                type="radio">
+                                                            <label class="c-choice__label" style="margin-left: 2%;"
+                                                                for="radio6">No</label>
+                                                        </div>
+                                                    </div>
+                                                </div><br />
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:25%;">
+                                                        <p class="c-field__label">GP record needs to be reviewed?</p>
+                                                    </div>
+                                                    <div class="c-field row" style="width:45%;">
+                                                        <div class="c-choice c-choice--radio" style="width: 90%;">
+                                                            <input class="c-choice__input" id="radio7" name="radioRow3"
+                                                                type="radio">
+                                                            <label class="c-choice__label" for="radio7">Yes</label>
+                                                            <input class="c-choice__input" id="radio8" name="radioRow3"
+                                                                type="radio">
+                                                            <label class="c-choice__label" style="margin-left: 2%;"
+                                                                for="radio8">No</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><br /> -->
+                                        <!-- </div> -->
+
+                                        <!-- <div *ngIf="dvPO">
+                                            <div class="row" style="margin-left: 5%;">
+                                                <div class="c-field row" style="margin-top: 2%; width:25%;">
+                                                    <label class="c-field__label" for="salutation">Record
+                                                        Received</label>
+                                                </div>
+                                                <div class="c-field row" style="margin-top: 2%; width:20%;">
+                                                    <div class="c-choice c-choice--radio" style="width: 90%;">
+                                                        <input class="c-choice__input" id="radio1radioRecordRec"
+                                                            name="RecordRec" type="radio">
+                                                        <label class="c-choice__label"
+                                                            for="radio1radioRecordRec">Yes</label>
+                                                        <input class="c-choice__input" id="radio2radioRecordRec"
+                                                            name="RecordRec" type="radio">
+                                                        <label class="c-choice__label" style="margin-left: 4%;"
+                                                            for="radio2RecordRec">No</label>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="c-field row" style="margin-left:12%; width:45%;">
+                                                    <label class="c-field__label" for="FName">Received Date</label>
+                                                    <input class="c-input" style="width:90%;height: 30px;" type="date"
+                                                        id="FName" name="FName" placeholder="Name">
+                                                </div>
+                                            </div><br />
+
+                                            <div class="row" style="margin-left: 5%;">
+                                                <div class="c-field row" style="width:45%;">
+                                                    <label class="c-field__label" for="FName">Record Pages</label>
+                                                    <input class="c-input" style="width:90%;height: 30px;" type="text"
+                                                        id="FName" name="FName" placeholder="Name">
+                                                </div>
+                                                <div class="c-field row" style="margin-left: 10%;width:45%;">
+                                                    <label class="c-field__label" for="salutation">Record Assign To
+                                                        BO</label>
+                                                    <select class="c-input" id="salutation"
+                                                        style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;"
+                                                        [disabled]='toggleButton'
+                                                        (change)="selectedLeadSalutation($event.target.value)"
+                                                        id="select1">
+                                                        <option *ngFor="let leadsalutation of LeadsSalutationList"
+                                                            [selected]="SelectedLeadDetails.salutation==leadsalutation.id"
+                                                            [value]="leadsalutation.id">{{leadsalutation.value}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div><br />
+                                            <div class="row" style="margin-left: 5%;">
+                                                <div class="c-field row" style="width:45%;">
+                                                    <label class="c-field__label" for="FName">Record Assign
+                                                        Date</label>
+                                                    <input class="c-input" style="width:90%;height: 30px;" type="date"
+                                                        id="FName" name="FName" placeholder="Name">
+                                                </div>
+                                            </div><br />
+
+                                            <div class="row" style="margin-left: 5%;">
+                                                <div class="c-field row" style="margin-top: 2%; width:25%;">
+                                                    <label class="c-field__label" for="salutation">Referrer Report
+                                                        Received</label>
+                                                </div>
+                                                <div class="c-field row" style="margin-top: 2%; width:20%;">
+                                                    <div class="c-choice c-choice--radio" style="width: 90%;">
+                                                        <input class="c-choice__input" id="radioRefReportRec"
+                                                            name="rdoRefReportRec" type="radio">
+                                                        <label class="c-choice__label"
+                                                            for="radioRefReportRec">Yes</label>
+                                                        <input class="c-choice__input" id="radio2RefReportRec"
+                                                            name="rdoRefReportRec" type="radio">
+                                                        <label class="c-choice__label" style="margin-left: 2%;"
+                                                            for="radio2RefReportRec">No</label>
+                                                    </div>
+                                                </div>
+                                                <div class="c-field row" style="width:45%; margin-left:12%;">
+                                                    <label class="c-field__label" for="FName">Received Date</label>
+                                                    <input class="c-input" style="width:90%;height: 30px;" type="date"
+                                                        id="FName" name="FName" placeholder="Name">
+                                                </div>
+                                            </div><br />
+
+                                            <div class="row" style="margin-left: 5%;">
+                                                <div class="c-field row" style="width:25%;">
+                                                    <label class="c-field__label" for="salutation">Referrer Report
+                                                        needs to be reviewed?</label>
+                                                </div>
+                                                <div class="c-field row" style="width:20%;">
+                                                    <div class="c-choice c-choice--radio" style="width: 90%;">
+                                                        <input class="c-choice__input" id="radioRefReport"
+                                                            name="rdoRefReport" type="radio">
+                                                        <label class="c-choice__label" for="radioRefReport">Yes</label>
+                                                        <input class="c-choice__input" id="radio2RefReport"
+                                                            name="rdoRefReport" type="radio">
+                                                        <label class="c-choice__label" style="margin-left: 2%;"
+                                                            for="radio2RefReport">No</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><br /> -->
+
+                                        <!-- <div *ngIf="dvMPORDE">
+                                            <div class="row" style="margin-left: 5%;">
+                                                <div class="c-field row" style="width:95%;">
+                                                    <label class="c-field__label" for="AC">Accident
+                                                        Circumstances</label>
+                                                    <textarea class="c-input" id="AC" name="message"></textarea>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div *ngIf="dvPO">
+                                                <div class="row" style="margin-left: 5%;">
+                                                    <div class="c-field row" style="width:45%;">
+                                                        <label class="c-field__label" for="FName">Court Date</label>
+                                                        <input class="c-input" style="width:90%;height: 30px;"
+                                                            type="date" id="FName" name="FName" placeholder="Name">
+                                                    </div>
+                                                    <div class="c-field row" style="margin-left: 10%; width:45%;">
+                                                        <label class="c-field__label" for="TOI">Expert</label>
+                                                        <select class="c-input" id="TOI"
+                                                            style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;"
+                                                            [disabled]='toggleButton'
+                                                            (change)="selectedLeadSalutation($event.target.value)"
+                                                            id="select1">
+                                                            <option *ngFor="let leadsalutation of LeadsSalutationList"
+                                                                [selected]="SelectedLeadDetails.salutation==leadsalutation.id"
+                                                                [value]="leadsalutation.id">{{leadsalutation.value}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div><br />
+                                        </div> -->
+                                        <!-- Medco Form End -->
+
+
+                                        <!-- Constant Info Footer Start -->
+                                        <!-- <div *ngIf="dvDocument">
+                                            <div style="background-color:lightskyblue;border-radius: 5px;">
+                                                <h4 style="margin-left: 5%;color:white;border-radius: 25px;">Document
+                                                    Information</h4>
+                                            </div>
+                                            <br />
+                                            <div class="row" style="margin-left: 5%;">
+                                                <div class="c-field row" style="width:45%;">
+                                                    <label class="c-field__label" for="DT">Document Type</label>
+                                                    <select class="c-input" id="DT"
+                                                        style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;"
+                                                        [disabled]='toggleButton'
+                                                        (change)="selectedLeadSalutation($event.target.value)"
+                                                        id="select1">
+                                                        <option *ngFor="let leadsalutation of LeadsSalutationList"
+                                                            [selected]="SelectedLeadDetails.salutation==leadsalutation.id"
+                                                            [value]="leadsalutation.id">{{leadsalutation.value}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div><br />
+                                            <div class="row" style="margin-left: 5%;">
+                                                <div class="c-field row" style="width:45%;">
+                                                    <label class="c-field__label" for="DN">Document Name</label>
+                                                    <input class="c-input" style="width:90%;height: 30px;" type="text"
+                                                        id="DN" name="FName" placeholder="Name">
+                                                </div>
+                                            </div><br />
+                                            <div class="row" style="margin-left:4%;width: 30%;">
+                                                <label class="c-field__label" for="Document1">Document</label>
+                                                <input class="c-input" type="file" id="Document">
+                                            </div>
+                                            <div class="row" style="margin-left: 5%;">
+                                                <div class="c-field row" style="width:95%;">
+                                                    <label class="c-field__label" for="Comments">Comments</label>
+                                                    <textarea class="c-input" id="Comments" name="message"></textarea>
+                                                </div>
+                                            </div><br />
+                                            <div class="row" style="margin-left: 5%;">
+                                                <div class="c-field row" style="width:10%;">
+                                                    <button type="button" (click)="showLeadsDetails = !showLeadsDetails"
+                                                        style="margin-left: 5%;"
+                                                        class="c-btn c-btn--info">Upload</button>
+                                                </div>
+                                                <div class="c-field row" style="width:10%;">
+                                                    <button type="submit" class="c-btn c-btn--info"
+                                                        style="margin-left: 2%;"
+                                                        [disabled]="!createUserForm.valid">Clear</button>
+                                                </div>
+                                            </div><br />
+                                            <div class="u-flex" style="margin-top: 15px;">
+                                                <button type="button" (click)="showLeadsDetails = !showLeadsDetails"
+                                                    style="margin-left: 75%;" class="c-btn c-btn--danger">Clear</button>
+                                                <button type="submit" class="c-btn c-btn--success"
+                                                    style="margin-left: 2%;"
+                                                    [disabled]="!createUserForm.valid">Save</button>
+
+                                            </div> <br />
+                                        </div> -->
+
+                                        <!-- Modal Add New Occupancy Type Start-->
+                                        <!-- <div class="c-modal c-modal--xlarge modal fade show" id="modalAdOcuupancyType"
+                                            tabindex="-1" role="dialog" aria-labelledby="CreateUserModal"
+                                            data-backdrop="static">
+                                            <div class="c-modal__dialog modal-dialog" role="document">
+                                                <div class="c-modal__content" style="width: 110%;">
+
+                                                    <div class="c-modal__header">
+                                                        <h3 class="c-modal__title">New Occupancy Tyoe</h3>
+
+                                                        <span class="c-modal__close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <i class="fa fa-close"></i>
+                                                        </span>
+                                                    </div>
+                                                    <div class="c-modal__body">
+                                                        <form style="align-content: center;" #createUserForm="ngForm"
+                                                            (ngSubmit)="createUser()">
+                                                            <div
+                                                                style="border: 1px solid;border-color: lightgray;padding: 10px;border-radius: 5px;">
+                                                                
+                                                                <br />
+                                                                
+                                                                <div class="row" style="margin-left: 5%;">
+                                                                    <div class="c-field row" style="width:90%;">
+                                                                        <label class="c-field__label" for="FName">Occupancy Type</label>
+                                                                        <input class="c-input"
+                                                                            style="height: 30px;" type="text"
+                                                                            id="FName" name="FName" placeholder="Name">
+                                                                    </div>
+                                                                </div><br />
+
+                                                                <div class="u-flex" style="margin-top: 15px;">
+                                                                    <button type="button" data-dismiss="modal"
+                                                                        aria-label="Close" style="margin-left: 66%;;"
+                                                                        class="c-btn c-btn--danger">Cancel</button>
+                                                                    <button type="submit" class="c-btn c-btn--success"
+                                                                        style="margin-left: 2%;">Add</button>
+
+                                                                </div> <br />
+
+
+                                                            </div>
+
+                                                        </form>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div><!-- // .row -->
+</div><!-- // Container -->

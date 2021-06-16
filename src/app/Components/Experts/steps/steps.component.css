@@ -1,0 +1,67 @@
+nav{
+    position: relative;
+    display: flex;
+}
+
+nav:before{
+    content: "";
+    width: calc(100% - 200px);
+    height: 2px;
+    background-color: #5d2cb4;
+    position: absolute;
+    top: 26px;
+    left: 100px;
+}
+.form-step-container button{
+    background-color: transparent;
+    position: relative;
+    padding-top: 10px;
+    border: 0;
+    color: #5d2cb4;
+    flex: 1;
+}
+.step-divider{
+    height: 2px;
+    background: #5d2cb4;
+    flex: 1;
+    margin: 0px 0px;
+}
+
+.step-current,.step-complete{
+    background-color: #5d2cb4 !important;
+    border: 3px solid #5d2cb4 !important;
+    color: white !important;
+}
+
+.step-incomplete{
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+
+.step-number{
+    width: 34px;
+    height: 34px;
+    position: relative;
+    background-color: #fff;
+    border: 3px solid #5d2cb4 ;
+    border-radius: 50%;
+    line-height: 27px;
+    display: inline-block;
+}
+.step-Name{
+    padding-top: 20px;
+    text-align: center;
+    transform: scale(1);
+    transition: transform .2s ease-out;
+    display: block;
+}
+
+.step-disabled{
+    color: gray !important;
+    border: 3px solid gray !important;
+}
+
+.step-name-disabled{
+    color: gray !important;
+}

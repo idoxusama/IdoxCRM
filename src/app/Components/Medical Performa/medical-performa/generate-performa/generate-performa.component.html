@@ -1,0 +1,304 @@
+<div *ngIf="performaForm">
+  <form (ngSubmit)="onSubmit()" [formGroup]="performaForm">
+
+    <!-- Client Questionaries -->
+    <div *ngFor="let section of clientQuestions">
+      <div class="text-center mt-1 mb-5">
+        <h3><span style="border-bottom:solid 2px black;">{{section.sectionName}}</span></h3>
+      </div>
+      <div *ngFor="let question of section.questionList let i = index">
+        <div *ngIf="section.sectionName=='PersonalInfo';else clientQuestionairesSections">
+          <div *ngIf="question.questionType=='TextBox'">
+            <div class="form-group row">
+              <div class="col-sm-3">
+                <label [innerHTML]="question.questionName"></label>
+              </div>
+              <div class="col-sm-9">
+                <input class="form-control" type="{{question.questionType}}" formControlName="{{question.questionName+question.id}}"
+                  [ngClass]="{'is-invalid':performaForm.get(question.questionName+question.id).errors && (performaForm.get(question.questionName+question.id).touched||formSumitted)}"
+                  (change)="draftFillAnswersForClient($event.target.value,question.id,question.questionName)" />
+                <div class="text-danger"
+                  *ngIf="(performaForm.get(question.questionName+question.id).touched||formSumitted) && performaForm.get(question.questionName+question.id).hasError('required')">
+                  This field is required.</div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="question.questionType=='date'">
+            <div class="form-group row">
+              <div class="col-sm-3">
+                <label [innerHTML]="question.questionName"></label>
+              </div>
+              <div class="col-sm-9">
+                <input class="form-control" type="{{question.questionType}}"
+                  (change)="draftFillAnswersForClient($event.target.value,question.id,question.questionName)"
+                  formControlName="{{question.questionName+question.id}}"
+                  [ngClass]="{'is-invalid':performaForm.get(question.questionName+question.id)?.errors && (performaForm.get(question.questionName+question.id)?.touched||formSumitted)}" />
+                <div class="text-danger"
+                  *ngIf="(performaForm.get(question.questionName+question.id)?.touched||formSumitted) && performaForm.get(question.questionName+question.id)?.hasError('required')">
+                  This field is required.</div>
+
+              </div>
+            </div>
+          </div>
+          <div *ngIf="question.questionType=='Checkbox'">
+            <div class="form-group row">
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="custom-control custom-checkbox">
+                  <label class="custom-control-label" for="{{question.id}}">{{question.questionName}}</label>
+                  <input type="{{question.questionType}}" id="{{question.id}}" class="custom-control-input"
+                    formControlName="{{question.questionName}}"
+                    (change)="draftFillAnswersForClient($event.target.value,question.id)" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="question.questionType=='radio'">
+            <div class="form-group row">
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="custom-control custom-radio">
+                  <input type="{{question.questionType}}" id="{{question.id}}" name="customRadio"
+                    class="custom-control-input" checked=""
+                    (change)="draftFillAnswersForClient($event.target.value,question.id,question.questionName)"
+                    formControlName="{{question.questionName}}" />
+                  <label class="custom-control-label" for="{{question.id}}">{{question.questionName}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #clientQuestionairesSections>
+          <div *ngIf="question.questionType=='TextBox'">
+            <div class="form-group row">
+              <div class="col-sm-12">
+                <label [innerHTML]="question.questionName"></label>
+                <input class="form-control" type="{{question.questionType}}"
+                  (change)="draftFillAnswersForClient($event.target.value,question.id,question.questionName)"
+                  formControlName="{{question.questionName+question.id}}"
+                  [ngClass]="{'is-invalid':performaForm.get(question.questionName+question.id)?.errors && (performaForm.get(question.questionName+question.id)?.touched||formSumitted)}" />
+                <div class="text-danger"
+                  *ngIf="(performaForm.get(question.questionName+question.id)?.touched||formSumitted) && performaForm.get(question.questionName+question.id)?.hasError('required')">
+                  This field is required.</div>
+
+              </div>
+            </div>
+          </div>
+          <div *ngIf="question.questionType=='date'">
+            <div class="form-group row">
+              <div class="col-sm-12">
+                <label [innerHTML]="question.questionName"></label>
+                <input class="form-control" type="{{question.questionType}}"
+                  (change)="draftFillAnswersForClient($event.target.value,question.id,question.questionName)"
+                  formControlName="{{question.questionName+question.id}}"
+                  [ngClass]="{'is-invalid':performaForm.get(question.questionName+question.id)?.errors && (performaForm.get(question.questionName+question.id)?.touched || formSumitted)}" />
+                <div class="text-danger"
+                  *ngIf="(performaForm.get(question.questionName+question.id)?.touched||formSumitted) && performaForm.get(question.questionName+question.id)?.hasError('required')">
+                  This field is required.</div>
+
+              </div>
+            </div>
+          </div>
+          <div *ngIf="question.questionType=='Checkbox'">
+            <div class="form-group row">
+              <div class="col-lg-12 col-md-12">
+                <div class="form-group ">
+                  <div class="custom-control custom-checkbox">
+                    <input type="{{question.questionType}}" class="custom-control-input" id="{{question.id}}"
+                      (change)="draftFillAnswersForClient($event.target.checked,question.id,question.questionName)"
+                      formControlName="{{question.questionName}}" />
+                    <label class="custom-control-label" for="{{question.id}}">{{question.questionName}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="question.questionType=='radio'">
+              <div class="form-group row">
+                <div class="col-lg-12 col-md-12">
+                  <div class="form-group ">
+                    <div class="custom-control custom-radio">
+                      <input type="{{question.questionType}}" name="radiogroup-{{question.id}}" class="custom-control-input"
+                        id="{{question.id}}"
+                        (change)="draftFillAnswersForClient($event.target.checked,question.id,question.questionName)"
+                        formControlName="{{question.questionName}}" />
+                      <label class="custom-control-label" for="{{question.id}}">{{question.questionName}}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <!-- Expert Questionaries -->
+    <div *ngFor="let expertSection of expertQuestions">
+      <div class="text-center mt-3 mb-5">
+        <h3><span style="border-bottom:solid 2px black;">{{expertSection.sectionName}}</span></h3>
+      </div>
+      <div *ngFor="let question of expertSection.questionList">
+        <div *ngIf="question.qType=='TextBox' && !question.isOptional">
+          <div *ngIf="question.options.length>0;else signleTextBox">
+            <label [innerHTML]="question.questionName"></label>
+            <div class="row">
+              <div *ngFor="let textBoxOption of question.options">
+                <div *ngIf="textBoxOption.optionType=='CheckBox'">
+                  <div class="form-group">
+                    <div class="col-sm-12">
+                      <div class="custom-control custom-checkbox">
+                        <input type="{{textBoxOption.optionType}}" formControlName="{{question.questionName}}"
+                          class="custom-control-input" id="{{textBoxOption.id}}" value="{{textBoxOption.id}}"
+                          (change)="draftFillAnswersForExpert($event.target.value,question.id,question.questionName,question.isOptional)"
+                          [checked]="(+textBoxOption.answer==textBoxOption.id)?textBoxOption.answer:''" />
+                        <label class="custom-control-label"
+                          for="{{textBoxOption.id}}">{{textBoxOption.optionName}}</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="textBoxOption.optionType=='radio'">
+                  <div class="form-group">
+                    <div class="col-sm-12">
+                      <div class="custom-control custom-radio">
+                        <input type="{{textBoxOption.optionType}}" name="radiogroup-14"
+                          formControlName="{{question.questionName}}" class="custom-control-input"
+                          id="{{textBoxOption.id}}" value="{{textBoxOption.id}}"
+                          (change)="draftFillAnswersForExpert($event.target.value,question.id,question.questionName,question.isOptional)"
+                          [checked]="(+textBoxOption.answer==textBoxOption.id)?textBoxOption.answer:''" />
+                        <label class="custom-control-label"
+                          for="{{textBoxOption.id}}">{{textBoxOption.optionName}}</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="textBoxOption.optionType=='TextBox'">
+                  <div class="form-group">
+                    <div class="col-sm">
+                      <label>{{textBoxOption.optionName}}</label>
+                      <input class="form-control" type="{{textBoxOption.optionType}}"
+                        formControlName="{{question.questionName}}"
+                        (change)="draftFillAnswersForExpert($event.target.value,question.id,question.questionName,question.isOptional)" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-template #signleTextBox>
+            <div class="form-group row">
+              <div class="col-sm-12">
+                <label [innerHTML]="question.questionName"></label>
+                <input class="form-control" type="{{question.qType}}" formControlName="{{question.questionName+question.id}}"
+                  [ngClass]="{'is-invalid': performaForm.get(question.questionName+question.id)?.errors && performaForm.get(question.questionName+question.id)?.touched}"
+                  (change)="draftFillAnswersForExpert($event.target.value,question.id,question.questionName,question.isOptional)" />
+                <div class="text-danger"
+                  *ngIf="(performaForm.get(question.questionName+question.id)?.touched || formSumitted) && performaForm.get(question.questionName+question.id)?.hasError('required')">
+                  This field is required.</div>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+        <div *ngIf="question.qType=='date' && !question.isOptional">
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label [innerHTML]="question.questionName"></label>
+              <input class="form-control" type="date" formControlName="{{question.questionName+question.id}}"
+                [ngClass]="{'is-invalid': performaForm.get(question.questionName+question.id)?.errors && performaForm.get(question.questionName+question.id)?.touched}"
+                (change)="draftFillAnswersForExpert($event.target.value,question.id,question.questionName,question.isOptional)" />
+              <div class="text-danger"
+                *ngIf="(performaForm.get(question.questionName+question.id)?.touched||formSumitted) && performaForm.get(question.questionName+question.id)?.hasError('required')">
+                This field is required.</div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="question.qType=='Textarea' && !question.isOptional">
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label [innerHTML]="question.questionName"></label>
+              <textarea class="form-control" formControlName="{{question.questionName+question.id}}"
+                [ngClass]="{'is-invalid': performaForm.get(question.questionName+question.id)?.errors && (performaForm.get(question.questionName+question.id)?.touched||formSumitted)}"
+                (change)="draftFillAnswersForExpert($event.target.value,question.id,question.questionName,question.isOptional)">
+              </textarea>
+              <div class="text-danger"
+                *ngIf="(performaForm.get(question.questionName+question.id)?.touched || formSumitted) && performaForm.get(question.questionName+question.id)?.hasError('required')">
+                This field is required.</div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="question.qType=='DropDown' && !question.isOptional">
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label [innerHTML]="question.questionName"></label>
+              <select class="form-control"
+                [ngClass]="{'is-invalid': performaForm.get(question.questionName+question.id)?.errors && performaForm.hasError('match')&& (performaForm.get(question.questionName+question.id)?.touched||formSumitted)}"
+                (change)="draftFillAnswersForExpert($event.target.value,question.id,question.questionName,question.isOptional)"
+                formControlName="{{question.questionName+question.id}}">
+                <option *ngFor="let option of question.options" value="{{option.id}}">{{option.optionName}}</option>
+              </select>
+              <div class="text-danger"
+                *ngIf="(performaForm.get(question.questionName+question.id)?.touched || formSumitted) && performaForm.get(question.questionName+question.id)?.hasError('required')">
+                This field is required.</div>
+
+                <div class="text-danger"
+                *ngIf="performaForm.hasError('match')">
+                This value must not match for same name question.</div>
+              </div>
+          </div>
+        </div>
+        <div *ngIf="question.qType=='CheckBox' && !question.isOptional">
+          <div class="form-group row">
+            <div class="col-lg-12">
+              <label [innerHTML]="question.questionName"></label>
+              <div *ngFor="let checkOption of question.options let i= index;">
+                <div class="custom-control custom-checkbox">
+                  <input type="{{checkOption.optionType}}" formControlName="{{question.questionName}}"
+                    class="custom-control-input" id="{{checkOption.id}}" value="{{checkOption.id}}"
+                    (change)="draftFillAnswersForExpert($event.target.value,question.id,question.questionName,question.isOptional)"
+                    [checked]="(+checkOption.answer==checkOption.id)?checkOption.answer:''" />
+                  <label class="custom-control-label" for="{{checkOption.id}}">{{checkOption.optionName}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="question.qType=='radio' && !question.isOptional">
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label [innerHTML]="question.questionName"></label>
+              <div *ngFor="let radioOption of question.options">
+                <div class="custom-control custom-radio">
+                  <input type="{{radioOption.optionType}}" formControlName="{{question.questionName}}"
+                    value="{{radioOption.id}}" name="radiogroup-{{radioOption.id}}" class="custom-control-input" id="{{radioOption.id}}"
+                    [checked]="(+question.selectedOption==radioOption.id)?question.selectedOption:''"
+                    (change)="draftFillAnswersForExpert($event.target.value,question.id,question.questionName,question.isOptional)" />
+                  <label class="custom-control-label" for="{{radioOption.id}}">{{radioOption.optionName}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="checkIsOptionalExist(expertSection.questionList)">
+        <div class="col-sm-9">
+          <span>If there is more than one {{expertSection.sectionName}} please click on Add More option.</span>
+        </div>
+        <div class="col-sm-3 text-right">
+          <button class="btn btn-sm btn-success" (click)="addMoreQuestion(expertSection.sectionName)">Add More</button>
+        </div>
+      </div>
+    </div>
+    <div class="text-right">
+      <div *ngIf="(clientQuestions!=null) && (expertQuestions!=null)">
+        <button type="submit" class="btn pink-gradient text-uppercase pr-3"><i
+            class="material-icons">add</i>
+          <span class="text-hide-xs mr-1">Save</span></button>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+
+<div class="draft-button">
+  <button (click)="saveDraft()" class="btn btn-rounded pink-gradient text-uppercase pr-3"><span
+      class="text-hide-xs">Draft</span></button>
+</div>

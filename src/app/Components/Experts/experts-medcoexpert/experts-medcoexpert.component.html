@@ -1,0 +1,870 @@
+<ngx-loading-bar color="#1e90ff" height="5px"></ngx-loading-bar>
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-12 col-xl-12 u-p-zero">
+      <div class="c-toolbar u-mb-xsmall">     
+        <div class="c-field u-mb-small">
+          <div class="row" style="margin-left: 5%;">
+            <div class="c-field row" style="width:45%;">
+              <label class="c-field__label" for="ExpertType">Expert Type:</label>
+              <select class="c-input" id="ExpertType" style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;" (change)="GetSelectedExpertsData($event.target.value)">
+                <option value="0">All</option>
+           <option *ngFor="let data of ExpertsTypeList"  [value]="data.ExpertTypeID">{{data.ExpertCategories}}</option>
+              </select>
+            </div>
+            <div class="c-field row" style="width:20%;margin-left: 30%;">
+              <label class="c-field__label" for="input1">Create Expert</label> 
+                <button class="c-btn c-btn--info" style="height:42px;" data-toggle="modal" data-target="#CreateUserModal">
+                    <i class="fa fa-user u-mr-xsmall"></i>Create Expert
+                </button>
+             </div>
+          </div>
+
+        </div>
+        
+    </div>
+
+    <div class="row u-m-small">
+
+      <div class="col-md-12">
+           <span class="c-divider has-text u-mb-medium">Expert Data</span>
+      </div>
+    
+      <div class="col-md-12">
+        <div class="c-table-responsive">
+            <table class="c-table c-table--zebra u-mb-small" id="datatable3" style="display: inline-table;">
+                <thead class="c-table__head">
+                    <tr class="c-table__row">
+                      <th class="c-table__cell c-table__cell--head">Sr.</th>
+                      <th class="c-table__cell c-table__cell--head">Name</th>
+                      <th class="c-table__cell c-table__cell--head">Expert Email</th>
+                      <th class="c-table__cell c-table__cell--head">Status</th>
+                      <th class="c-table__cell c-table__cell--head">Action</th>
+ 
+                    </tr>
+                </thead>
+
+                <tbody>
+                  <tr class="c-table__row" *ngFor="let item of MedcoExpertData |filter:filter| paginate: { itemsPerPage: 6, currentPage: p };  let i = index">
+                     <td class="c-table__cell">
+                      {{i+1}}
+                    </td>
+                    <td class="c-table__cell">
+                      {{item.FullName}}
+                    </td>
+                    <td class="c-table__cell">
+                      {{item.Email}}
+                    </td>
+                    <td class="c-table__cell" *ngIf="item.Status == 'A'">Active</td>
+                    <td class="c-table__cell" *ngIf="item.Status == 'I'">InActive</td>
+                      
+                        
+                        <td class="c-table__cell">
+                          <button class="c-btn c-btn--info" (click)="selectedUserDetail(item)" data-toggle="modal" data-target="#EditMedcoExpertModal" >
+                            <i class="fa fa-pencil-square-o u-mr-xsmall"></i>Edit
+                        </button>
+                          <button class="c-btn c-btn--danger" style="margin-left: 2%;"  (click)="Delete(item.ID)" data-toggle="modal" data-target="#DeleteUserModal" >
+                              <i class="fa fa-trash-o u-mr-xsmall"></i>Delete
+                          </button>
+
+                        </td>                      
+                    </tr>
+                                                               
+                </tbody>
+                 
+            </table>
+
+        </div><br/>
+        <ul class="pagination">  
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>  
+          </ul> 
+
+
+    </div>
+  </div><!-- // .row -->
+
+
+</div>
+ </div><!-- // .row -->
+</div><!-- // Container -->
+
+<div class="c-modal c-modal--xlarge modal fade show" id="CreateUserModal" tabindex="-1" role="dialog" aria-labelledby="CreateUserModal" data-backdrop="static">
+  <div class="c-modal__dialog modal-dialog" role="document">
+      <div class="c-modal__content" style="width: 110%;">
+          
+          <div class="c-modal__header">
+              <h3 class="c-modal__title">New Expert</h3>
+
+              <span class="c-modal__close" data-dismiss="modal" aria-label="Close">
+                  <i class="fa fa-close"></i>
+              </span>
+          </div>
+          <div class="c-modal__body">
+            <form  style="align-content: center;" #createUserForm= "ngForm" (ngSubmit)="Create()">
+              <div style="border: 1px solid;border-color: lightgray;padding: 10px;border-radius: 5px;">
+                <div class="row" style="margin-left: 5%;">
+                  <div class="c-field row" style="width:45%;">
+                    <label class="c-field__label" for="ExpertType">Expert Type:</label>
+                    <select class="c-input" id="ExpertType" style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;" (change)="SelectedExpertType($event.target.value)">
+                      <option>--Please Select--</option>
+                 <option *ngFor="let data of ExpertsTypeList"  [value]="data.ExpertTypeID">{{data.ExpertCategories}}</option>
+                    </select>
+                  </div>
+                </div><br/>
+                  <div style="background-color:lightskyblue;border-radius: 5px;">
+                    <h4 style="margin-left: 5%;color:white;border-radius: 25px;" *ngIf="ShowMedcoExpertForm">Medco Expert Information</h4>
+                    <h4 style="margin-left: 5%;color:white;border-radius: 25px;" *ngIf="ShowPsychologistExpertForm">Psychologist Expert Information</h4>
+                    <h4 style="margin-left: 5%;color:white;border-radius: 25px;" *ngIf="ShowOrthopaedicExpertForm">Orthopaedic Expert Information</h4>
+                    <h4 style="margin-left: 5%;color:white;border-radius: 25px;" *ngIf="ShowRehabExpertForm">Rehab Expert Information</h4>
+                    <h4 style="margin-left: 5%;color:white;border-radius: 25px;" *ngIf="ShowENTExpertForm">ENT Expert Information</h4>
+                    <h4 style="margin-left: 5%;color:white;border-radius: 25px;" *ngIf="ShowCBTExpertForm">CBT Expert Information</h4>
+                    <h4 style="margin-left: 5%;color:white;border-radius: 25px;" *ngIf="ShowHealthExpertForm">Health Expert Information</h4>
+                  </div>
+             <br />
+             <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+              <div class="c-field row" style="width:45%;">
+                  <label class="c-field__label" for="Title">Title</label>
+                  <select class="c-input" id="Title" style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;"  (change)="selectedTitle($event.target.value)">
+                    <option value="">--Please Select--</option>
+                    <option value="Mr.">Mr.</option>
+                    <option value="Mrs.">Mrs.</option>
+                    <option value="Miss">Mr.</option>
+                    <option value="Dr.">Dr.</option>
+                    <option value="Master">Master</option>
+                    <option value="Minor">Minor</option>
+                    <option value="Lord">Lord</option>
+                    <option value="Professor">Professor</option>
+                    <option value="Captain">Captain</option>
+                  </select>
+              </div>
+            <div class="c-field row" style="margin-left: 10%;width:45%;">
+              <label class="c-field__label" for="Gender">Gender</label>
+                <div class="c-choice c-choice--radio" style="width: 90%;">
+                    <input class="c-choice__input" value="Male" id="radio1" name="Gender" [(ngModel)]="CreateMedcoExpert.Gender" #CustNam="ngModel" type="radio">
+                    <label class="c-choice__label" for="radio1">Male</label>
+                    <input class="c-choice__input" value="Female" id="radio2" name="Gender" [(ngModel)]="CreateMedcoExpert.Gender" #CustNam="ngModel" type="radio">
+                    <label class="c-choice__label" style="margin-left: 2%;" for="radio2">Female</label>
+                </div>
+            </div>
+          </div>
+          <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+            <div class="c-field row" style="width:45%;">
+                <label class="c-field__label" for="FName">First Name</label> 
+                <input class="c-input" style="width:90%;height: 30px;" type="text" id="FName" [(ngModel)]="CreateMedcoExpert.FirstName" #CustNam="ngModel" 
+                [ngModelOptions]="{standalone: true}"  placeholder="FirstName">
+            </div>
+            <div class="c-field row" style="margin-left: 10%;width:45%;">
+                <label class="c-field__label" for="LName">Last Name</label> 
+                <input class="c-input" style="width:90%;height: 30px;" type="text" id="LName" [(ngModel)]="CreateMedcoExpert.LastName" #CustNam="ngModel"
+                [ngModelOptions]="{standalone: true}"  placeholder="Last Name">
+            </div>
+        </div>
+          <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+            <div class="c-field row">
+                <label class="c-field__label" for="Address">Address</label> 
+                <input class="c-input" style="width:94%;height: 30px;" type="text" id="Address" [(ngModel)]="CreateMedcoExpert.AddressLine1" #CustNam="ngModel"  
+                [ngModelOptions]="{standalone: true}"  placeholder="Address">
+            </div>
+          </div>
+          <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+            <div class="c-field row" style="width:45%;">
+                <label class="c-field__label" for="Country">Country</label> 
+                <input class="c-input" style="width:90%;height: 30px;" type="text" id="Country" [(ngModel)]="CreateMedcoExpert.County" #CustNam="ngModel"  
+                [ngModelOptions]="{standalone: true}"  placeholder="Country">
+            </div>
+            <div class="c-field row" style="margin-left: 10%;width:45%;">
+              <label class="c-field__label" for="Town">Town</label> 
+              <input class="c-input" style="width:90%;height: 30px;" type="text" id="Town"  [(ngModel)]="CreateMedcoExpert.Town" #CustNam="ngModel"
+              [ngModelOptions]="{standalone: true}"  placeholder="">
+            </div>
+        </div>
+        <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+          <div class="c-field row" style="width:45%;">
+              <label class="c-field__label" for="PostCode">Post Code</label> 
+              <input class="c-input" style="width:90%;height: 30px;" type="text" id="PostCode" [(ngModel)]="CreateMedcoExpert.PostCode" #CustNam="ngModel" 
+              [ngModelOptions]="{standalone: true}"  placeholder="Code">
+          </div>
+          <div class="c-field row" style="margin-left: 10%;width:45%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+            <label class="c-field__label" for="ReportSpeciality">Report Speciality</label>
+            <select class="c-input" id="ReportSpeciality" style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;" (change)="selectedReportSpecialities($event.target.value)">
+              <option>--Please Select--</option>
+         <option *ngFor="let data of ReportSpecialitiesData"  [value]="data.ID">{{data.Description}}</option>
+            </select>
+          </div>
+      </div>
+        <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+          <div class="c-field row" style="width:45%;">
+            <label class="c-field__label" for="Mobile">Mobile No.</label> 
+            <input class="c-input" style="width:90%;height: 30px;" type="text" id="Mobile" [(ngModel)]="CreateMedcoExpert.MobileNumber" #CustNam="ngModel"
+            [ngModelOptions]="{standalone: true}"  placeholder="Mobile #">
+          </div>
+          <div class="c-field row" style="margin-left: 10%;width:45%;">
+              <label class="c-field__label" for="ExpertEmail">Expert Email</label> 
+              <input class="c-input" style="width:90%;height: 30px;" type="text" id="ExpertEmail" [(ngModel)]="CreateMedcoExpert.Email" #CustNam="ngModel"
+              [ngModelOptions]="{standalone: true}"  placeholder="Email">
+          </div>
+          </div>
+          <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+            <div class="c-field row" style="width:45%;">
+              <label class="c-field__label" for="Qualifications">Qualifications</label> 
+              <input class="c-input" style="width:90%;height: 30px;" type="text" id="Qualifications" [(ngModel)]="CreateMedcoExpert.QualificationDescription" #CustNam="ngModel"
+              [ngModelOptions]="{standalone: true}" placeholder=""><br/>
+              <p *ngFor="let item of Qualification; let i = index" style="width: 100%;">
+                <small>{{item.Qualifications}}</small>
+                <a (click)="RemoveQualification(i)" style="color:orangered;margin-left: 5%;"><i class="fa fa-times-circle"></i></a>
+              </p>
+            </div>
+            <div class="c-field row" style="margin-left: 10%;width:45%;">
+                <label class="c-field__label" for="FurtherSpecialities">Further Specialities</label> 
+                <input class="c-input" style="width:90%;height: 30px;" type="text" id="Further Specialities"[(ngModel)]="CreateMedcoExpert.FurtherSpeciality" #CustNam="ngModel"
+                [ngModelOptions]="{standalone: true}" placeholder=""><br/>
+                <p *ngFor="let item of FurtherSpecialites" style="width: 100%;">
+                  <small>{{item.Specialities}}</small>
+                  <a (click)="RemoveFurtherSpecialites(i)" style="color:orangered;margin-left: 5%;"><i class="fa fa-times-circle"></i></a>
+                </p>
+            </div>
+            </div>
+            <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+              <div class="c-field row" style="width:45%;">
+                <button type="button"  class="c-btn c-btn--info" style="margin-left: 2%;" (click)="AddQualifcations()">Add</button>
+              </div>
+              <div class="c-field row" style="margin-left: 10%;width:45%;">
+                <button type="button" class="c-btn c-btn--info" style="margin-left: 2%;" (click)="AddFurtherSpecialites()">Add</button>
+              </div>
+              </div>
+              <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+                <div class="c-field row" style="width:45%;">
+                    <label class="c-field__label" for="BankName">Bank Name</label> 
+                    <input class="c-input" style="width:90%;height: 30px;" type="text" id="BankName"  [(ngModel)]="CreateMedcoExpert.BankName" #CustNam="ngModel"
+                    [ngModelOptions]="{standalone: true}"  placeholder="Bank Name">
+                </div>
+                <div class="c-field row" style="margin-left: 10%;width:45%;">
+                  <label class="c-field__label" for="AccountTitle">Account Title</label> 
+                  <input class="c-input" style="width:90%;height: 30px;" type="text" id="AccountTitle" [(ngModel)]="CreateMedcoExpert.AccountTitle" #CustNam="ngModel" 
+                  [ngModelOptions]="{standalone: true}"  placeholder="Account Title">
+                </div>
+            </div>
+            <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+              <div class="c-field row" style="width:45%;">
+                  <label class="c-field__label" for="AccountNo">Account No</label> 
+                  <input class="c-input" style="width:90%;height: 30px;" type="text" id="AccountNo"  [(ngModel)]="CreateMedcoExpert.AccountNo" #CustNam="ngModel"
+                  [ngModelOptions]="{standalone: true}"  placeholder="Account #">
+              </div>
+              <div class="c-field row" style="margin-left: 10%;width:45%;">
+                <label class="c-field__label" for="SortCode">Sort Code</label> 
+                <input class="c-input" style="width:90%;height: 30px;" type="text" id="SortCode" [(ngModel)]="CreateMedcoExpert.SortCode" #CustNam="ngModel" 
+                [ngModelOptions]="{standalone: true}"  placeholder="Code">
+              </div>
+          </div>
+          <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+            <div class="c-field row" style="width:45%;">
+                <label class="c-field__label" for="GMC/HCPC">GMC/HCPC</label> 
+                <input class="c-input" style="width:90%;height: 30px;" type="text" id="GMC/HCPC" [(ngModel)]="CreateMedcoExpert.GmcHcpc" #CustNam="ngModel" 
+                [ngModelOptions]="{standalone: true}"  placeholder="">
+            </div>
+            <div class="c-field row" style="margin-left: 10%;width:45%;">
+              <label class="c-field__label" for="INDEMINITY">INDEMINITY</label> 
+              <input class="c-input" style="width:90%;height: 30px;" type="text" id="INDEMINITY" [(ngModel)]="CreateMedcoExpert.Indeminity" #CustNam="ngModel" 
+              [ngModelOptions]="{standalone: true}"  placeholder="">
+            </div>
+        </div>
+        <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+          <div class="c-field row" style="width:45%;">
+              <label class="c-field__label" for="ICO">ICO</label> 
+              <input class="c-input" style="width:90%;height: 30px;" type="text" id="ICO"  [(ngModel)]="CreateMedcoExpert.Ico" #CustNam="ngModel"
+              [ngModelOptions]="{standalone: true}"  placeholder="">
+          </div>
+          <div class="c-field row" style="margin-left: 10%;width:45%;">
+            <label class="c-field__label" for="MEDCO NO">MEDCO NO</label> 
+            <input class="c-input" style="width:90%;height: 30px;" type="text" id="MEDCO NO" [(ngModel)]="CreateMedcoExpert.MedcoNo" #CustNam="ngModel" 
+            [ngModelOptions]="{standalone: true}"  placeholder="">
+          </div>
+      </div>
+      <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+        <div class="c-field row" style="width:45%;">
+            <label class="c-field__label" for="ACCREDITATION">ACCREDITATION</label> 
+            <input class="c-input" style="width:90%;height: 30px;" type="text" id="ACCREDITATION" [(ngModel)]="CreateMedcoExpert.AccreditationNo" #CustNam="ngModel" 
+            [ngModelOptions]="{standalone: true}"  placeholder="">
+        </div>
+        <div class="c-field row" style="margin-left: 10%;width:45%;">
+          <label class="c-field__label" for="PINCode">PIN Code</label> 
+          <input class="c-input" style="width:90%;height: 30px;" type="text" id="PINCode"  [(ngModel)]="CreateMedcoExpert.PINCode" #CustNam="ngModel"
+          [ngModelOptions]="{standalone: true}"  placeholder="Code">
+        </div>
+    </div>
+    <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowCBTExpertForm">
+      <div class="c-field row">
+          <label class="c-field__label" for="BABCP">BABCP</label> 
+          <input class="c-input" style="width:40.5%;height: 30px;" type="text" id="BABCP" [(ngModel)]="CreateMedcoExpert.GmcHcpc" #CustNam="ngModel"  
+          [ngModelOptions]="{standalone: true}"  placeholder="Address">
+      </div>
+    </div>
+    <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+      <div class="c-field row" style="width:45%;">
+        <label class="c-field__label" for="Contract">Contract</label>
+        <select class="c-input" id="Contract" style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;" (change)="selectedContract($event.target.value)">
+          <option value="">--Please Select--</option>
+          <option value="1">Per Report</option>
+          <option value="2">Hourly</option>
+          <option value="3">External Expert</option>
+        </select>
+
+      </div>
+      <div class="c-field row" style="margin-left: 10%;width:45%;">
+        <label class="c-field__label" for="Amount">Amount</label> 
+        <input class="c-input" style="width:90%;height: 30px;" type="text" id="Amount"  [(ngModel)]="CreateMedcoExpert.AmountRate" #CustNam="ngModel"
+        [ngModelOptions]="{standalone: true}" placeholder="">
+  </div>
+    </div>
+    <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowRehabExpertForm">
+      <div class="c-field row" style="width:45%;">
+          <label class="c-field__label" for="IACharges">IA Charges</label> 
+          <input class="c-input" style="width:90%;height: 30px;" type="number" id="IACharges"  [(ngModel)]="CreateMedcoExpert.IACharges" #CustNam="ngModel"
+          [ngModelOptions]="{standalone: true}"  placeholder="">
+      </div>
+      <div class="c-field row" style="margin-left: 10%;width:45%;">
+        <label class="c-field__label" for="DCCharges">DC Charges</label> 
+        <input class="c-input" style="width:90%;height: 30px;" type="number" id="DCCharges" [(ngModel)]="CreateMedcoExpert.DCCharges" #CustNam="ngModel" 
+        [ngModelOptions]="{standalone: true}"  placeholder="">
+      </div>
+  </div>
+  <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowRehabExpertForm">
+    <div class="c-field row" style="width:45%;">
+        <label class="c-field__label" for="PerSessionCharges">Per Session Charges</label> 
+        <input class="c-input" style="width:90%;height: 30px;" type="number" id="PerSessionCharges"  [(ngModel)]="CreateMedcoExpert.PerSessionCharges" #CustNam="ngModel"
+        [ngModelOptions]="{standalone: true}"  placeholder="">
+    </div>
+    <div class="c-field row" style="margin-left: 10%;width:45%;">
+      <label class="c-field__label" for="DNACharges">DNA Charges</label> 
+      <input class="c-input" style="width:90%;height: 30px;" type="number" id="DNACharges" [(ngModel)]="CreateMedcoExpert.DNACharges" #CustNam="ngModel" 
+      [ngModelOptions]="{standalone: true}"  placeholder="">
+    </div>
+</div>
+<div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowPsychologistExpertForm || ShowOrthopaedicExpertForm ||  ShowENTExpertForm">
+  <div class="c-field row">
+      <label class="c-field__label" for="DueDays">Due Days</label> 
+      <input class="c-input" style="width:43%;height: 30px;" type="text" id="DueDays" [(ngModel)]="CreateMedcoExpert.DueDays" #CustNam="ngModel"  
+      [ngModelOptions]="{standalone: true}"  placeholder="Address">
+  </div>
+</div>
+  <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+    <div class="c-field row" style="width:45%;">
+      <label class="c-field__label" for="Signature">Signature</label> 
+      <input class="c-input" style="width:90%;" type="file" id="Signature" (change)="Signature($event.target.files)">
+    </div>
+    <div class="c-field row" style="margin-left: 10%;width:45%;">
+      <label class="c-field__label" for="UploadCV">Upload CV</label> 
+      <input class="c-input" style="width:90%;" type="file" id="UploadCV" (change)="UploadCV($event.target.files)">
+</div>
+</div>
+<div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+  <div class="c-field row" style="width:45%;">
+    <label class="c-field__label" for="AccCertificate">Acc Certificate</label> 
+    <input class="c-input" style="width:90%;" type="file" id="AccCertificate" (change)="AccCertificate($event.target.files)">
+  </div>
+  <div class="c-field row" style="margin-left: 10%;width:45%;">
+    <label class="c-field__label" for="Contract">Contract</label> 
+    <input class="c-input" style="width:90%;" type="file" id="Contract" (change)="Contract($event.target.files)">
+</div>
+</div>
+<div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowCBTExpertForm">
+<div class="c-field row" style="width:45%;">
+  <label class="c-field__label" for="Contract">Contract</label> 
+  <input class="c-input" style="width:90%;" type="file" id="Contract" (change)="Contract($event.target.files)">
+</div>
+</div>
+<div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm">
+<div class="c-field row" style="width:45%;">
+  <label class="c-field__label" for="MedcoCertificate">Medco Certificate</label> 
+  <input class="c-input" style="width:90%;" type="file" id="MedcoCertificate" (change)="MedcoCertificate($event.target.files)">
+</div>
+<div class="c-field row" style="margin-left: 10%;width:45%;">
+  <label class="c-field__label" for="ICOfile">ICO</label> 
+  <input class="c-input" style="width:90%;" type="file" id="ICOfile" (change)="ICO($event.target.files)">
+</div>
+</div>
+  <div class="row" style="margin-left:4%;width: 43%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm">
+    <label class="c-field__label" for="Insurance">Insurance</label> 
+    <input class="c-input" style="width:90%;" type="file" id="Insurance" (change)="Insurance($event.target.files)">
+  </div>
+  <div class="row" style="margin-left:4%;width: 30%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+    <div class="c-choice c-choice--checkbox" style="width:90%;">
+      <input class="c-choice__input" id="checkbox1" name="checkboxes" type="checkbox" [(ngModel)]="CreateMedcoExpert.IsAvailableForReferrer" #CustNam="ngModel"
+      [ngModelOptions]="{standalone: true}">
+      <label class="c-choice__label" for="checkbox1">Is Available for Referrer?</label>
+  </div>
+  </div>
+  <div class="row" style="margin-left:4%;width: 30%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+    <div class="c-choice c-choice--checkbox" style="width:90%;">
+      <input class="c-choice__input" id="checkbox2" name="checkboxes" type="checkbox" [(ngModel)]="CreateMedcoExpert.IsVATRegistered" #CustNam="ngModel"
+      [ngModelOptions]="{standalone: true}">
+      <label class="c-choice__label" for="checkbox2">Is VAT Registered?</label>
+  </div>
+  </div>
+  <div class="row" style="margin-left:4%;width: 30%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowCBTExpertForm">
+    <div class="c-choice c-choice--checkbox" style="width:90%;">
+      <input class="c-choice__input" id="checkbox3" name="checkboxes" type="checkbox" [(ngModel)]="CreateMedcoExpert.IsLocumAgencyExpert" #CustNam="ngModel"
+      [ngModelOptions]="{standalone: true}">
+      <label class="c-choice__label" for="checkbox3">Is Locum Agency Expert?</label>
+  </div>
+  </div>
+  <div class="row" style="margin-left:4%;width: 30%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+    <div class="c-choice c-choice--checkbox" style="width:90%;">
+      <input class="c-choice__input" id="checkbox4" name="checkboxes" type="checkbox" [(ngModel)]="CreateMedcoExpert.IsAvailableForGoPrivate" #CustNam="ngModel"
+      [ngModelOptions]="{standalone: true}">
+      <label class="c-choice__label" for="checkbox4">Is Available for Go Private?</label>
+  </div>
+  </div> 
+  <div class="row" style="margin-left:4%;width: 30%;margin-bottom: 3%;" *ngIf="ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowCBTExpertForm">
+    <div class="c-choice c-choice--checkbox" style="width:90%;">
+      <input class="c-choice__input" id="checkbox5" name="checkboxes" type="checkbox" [(ngModel)]="CreateMedcoExpert.IsAvailableForIdox" #CustNam="ngModel"
+      [ngModelOptions]="{standalone: true}">
+      <label class="c-choice__label" for="checkbox5">Is Available for I-dox?</label>
+  </div>
+  </div>
+  <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowPsychologistExpertForm">
+    <div class="c-field row" style="width:45%;">
+      <label class="c-field__label" for="Classifications">Classifications</label>
+      <select class="c-input" id="Classifications" style="width: 50%;"  (change)="selectedClassifications($event.target.value)">
+        <option  value="">--Please Select--</option>
+        <option  value="1">Both</option>
+        <option  value="2">Pediatrics</option>
+        <option  value="3">Adults</option>
+      </select>
+    </div>
+  </div>
+  <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowCBTExpertForm">
+    <div class="c-field row" style="width:45%;">
+      <label class="c-field__label" for="OnPanel">On Panel</label>
+      <select class="c-input" id="OnPanel" style="width: 50%;"  (change)="selectedOnPanel($event.target.value)">
+        <option  value="">--Please Select--</option>
+        <option value="1">I-dox</option>
+        <option value="2">Go Private</option>
+      </select>
+    </div>
+  </div>    
+    <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+      <div class="c-field row" style="width:45%;">
+        <label class="c-field__label" for="status">Status</label>
+        <select class="c-input" id="status" style="width: 50%;"  (change)="selectedStatus($event.target.value)">
+          <option  value="">--Please Select--</option>
+          <option  value="A">Active</option>
+          <option  value="I">InActive</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="u-flex" style="margin-top: 15px;">
+      <button type="button" (click)="showLeadsDetails = !showLeadsDetails" style="margin-left: 5%;" class="c-btn c-btn--danger">Clear</button>
+      <button type="submit" class="c-btn c-btn--success" style="margin-left: 2%;" [disabled]="!createUserForm.valid">Save</button>
+      
+  </div> <br/>
+
+    
+
+</div>
+
+
+
+
+            </form>
+              
+          </div>
+
+      </div><!-- // .c-modal__content -->
+  </div><!-- // .c-modal__dialog -->
+</div>
+
+
+
+<div class="c-modal c-modal--xlarge modal fade show" id="EditMedcoExpertModal" tabindex="-1" role="dialog" aria-labelledby="EditMedcoExpertModal" data-backdrop="static">
+  <div class="c-modal__dialog modal-dialog" role="document">
+      <div class="c-modal__content" style="width: 110%;">
+          
+          <div class="c-modal__header">
+              <h3 class="c-modal__title">Edit Medco Expert</h3>
+
+              <span class="c-modal__close" data-dismiss="modal" aria-label="Close">
+                  <i class="fa fa-close"></i>
+              </span>
+          </div>
+          <div class="c-modal__body">
+            <form  style="align-content: center;" #createUserForm= "ngForm" (ngSubmit)="Update()">
+              <div style="border: 1px solid;border-color: lightgray;padding: 10px;border-radius: 5px;">
+                  <div style="background-color:lightskyblue;border-radius: 5px;">
+                    <h4 style="margin-left: 5%;color:white;border-radius: 25px;" *ngIf="ShowMedcoExpertForm">Medco Expert Information</h4>
+                    <h4 style="margin-left: 5%;color:white;border-radius: 25px;" *ngIf="ShowPsychologistExpertForm">Psychologist Expert Information</h4>
+                    <h4 style="margin-left: 5%;color:white;border-radius: 25px;" *ngIf="ShowOrthopaedicExpertForm">Orthopaedic Expert Information</h4>
+                    <h4 style="margin-left: 5%;color:white;border-radius: 25px;" *ngIf="ShowRehabExpertForm">Rehab Expert Information</h4>
+                    <h4 style="margin-left: 5%;color:white;border-radius: 25px;" *ngIf="ShowENTExpertForm">ENT Expert Information</h4>
+                    <h4 style="margin-left: 5%;color:white;border-radius: 25px;" *ngIf="ShowCBTExpertForm">CBT Expert Information</h4>
+                    <h4 style="margin-left: 5%;color:white;border-radius: 25px;" *ngIf="ShowHealthExpertForm">Health Expert Information</h4>
+                  </div>
+             <br />
+             <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+              <div class="c-field row" style="width:45%;">
+                  <label class="c-field__label" for="Title">Title</label>
+                  <select class="c-input" id="Title" style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;"  (change)="EditselectedTitle($event.target.value)">
+                    <option value="">--Please Select--</option>
+                    <option [selected]="SelectedMedcoExpert.NamePrefix=='Mr.'" value="Mr.">Mr.</option>
+                    <option [selected]="SelectedMedcoExpert.NamePrefix=='Mrs.'" value="Mrs.">Mrs.</option>
+                    <option [selected]="SelectedMedcoExpert.NamePrefix=='Miss'"  value="Miss">Mr.</option>
+                    <option [selected]="SelectedMedcoExpert.NamePrefix=='Dr.'" value="Dr.">Dr.</option>
+                    <option [selected]="SelectedMedcoExpert.NamePrefix=='Master'" value="Master">Master</option>
+                    <option [selected]="SelectedMedcoExpert.NamePrefix=='Minor'" value="Minor">Minor</option>
+                    <option [selected]="SelectedMedcoExpert.NamePrefix=='Lord'" value="Lord">Lord</option>
+                    <option [selected]="SelectedMedcoExpert.NamePrefix=='Professor'" value="Professor">Professor</option>
+                    <option [selected]="SelectedMedcoExpert.NamePrefix=='Captain'" value="Captain">Captain</option>
+                  </select>
+              </div>
+            <div class="c-field row" style="margin-left: 10%;width:45%;">
+              <label class="c-field__label" for="Gender">Gender</label>
+                <div class="c-choice c-choice--radio" style="width: 90%;">
+                    <input class="c-choice__input" value="Male" id="radio3" name="Gender" value="Male" [(ngModel)]="SelectedMedcoExpert.Gender" #CustNam="ngModel" type="radio">
+                    <label class="c-choice__label" for="radio3">Male</label>
+                    <input class="c-choice__input" value="Female" id="radio4" name="Gender" value="Female" [(ngModel)]="SelectedMedcoExpert.Gender" #CustNam="ngModel" type="radio">
+                    <label class="c-choice__label" style="margin-left: 2%;" for="radio4">Female</label>
+                </div>
+            </div>
+          </div>
+          <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+            <div class="c-field row" style="width:45%;">
+                <label class="c-field__label" for="FName">First Name</label> 
+                <input class="c-input" style="width:90%;height: 30px;" type="text" id="FName" [(ngModel)]="SelectedMedcoExpert.FirstName" #CustNam="ngModel" 
+                [ngModelOptions]="{standalone: true}"  placeholder="FirstName">
+            </div>
+            <div class="c-field row" style="margin-left: 10%;width:45%;">
+                <label class="c-field__label" for="LName">Last Name</label> 
+                <input class="c-input" style="width:90%;height: 30px;" type="text" id="LName" [(ngModel)]="SelectedMedcoExpert.LastName" #CustNam="ngModel"
+                [ngModelOptions]="{standalone: true}"  placeholder="Last Name">
+            </div>
+        </div>
+          <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+            <div class="c-field row">
+                <label class="c-field__label" for="Address">Address</label> 
+                <input class="c-input" style="width:94%;height: 30px;" type="text" id="Address" [(ngModel)]="SelectedMedcoExpert.AddressLine1" #CustNam="ngModel"  
+                [ngModelOptions]="{standalone: true}"  placeholder="Address">
+            </div>
+          </div>
+          <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+            <div class="c-field row" style="width:45%;">
+                <label class="c-field__label" for="Country">Country</label> 
+                <input class="c-input" style="width:90%;height: 30px;" type="text" id="Country" [(ngModel)]="SelectedMedcoExpert.County" #CustNam="ngModel"  
+                [ngModelOptions]="{standalone: true}"  placeholder="Country">
+            </div>
+            <div class="c-field row" style="margin-left: 10%;width:45%;">
+              <label class="c-field__label" for="Town">Town</label> 
+              <input class="c-input" style="width:90%;height: 30px;" type="text" id="Town"  [(ngModel)]="SelectedMedcoExpert.Town" #CustNam="ngModel"
+              [ngModelOptions]="{standalone: true}"  placeholder="">
+            </div>
+        </div>
+        <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+          <div class="c-field row" style="width:45%;">
+              <label class="c-field__label" for="PostCode">Post Code</label> 
+              <input class="c-input" style="width:90%;height: 30px;" type="text" id="PostCode" [(ngModel)]="SelectedMedcoExpert.PostCode" #CustNam="ngModel" 
+              [ngModelOptions]="{standalone: true}"  placeholder="Code">
+          </div>
+          <div class="c-field row" style="margin-left: 10%;width:45%;">
+            <label class="c-field__label" for="ReportSpeciality">Report Speciality</label>
+            <select class="c-input" id="ReportSpeciality" style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;" (change)="EditselectedReportSpecialities($event.target.value)">
+              <option>--Please Select--</option>
+         <option *ngFor="let data of ReportSpecialitiesData"  [selected]="SelectedMedcoExpert.SpecialityID==data.ID" [value]="data.ID">{{data.Description}}</option>
+            </select>
+          </div>
+      </div>
+        <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+          <div class="c-field row" style="width:45%;">
+            <label class="c-field__label" for="Mobile">Mobile No.</label> 
+            <input class="c-input" style="width:90%;height: 30px;" type="text" id="Mobile" [(ngModel)]="SelectedMedcoExpert.MobileNumber" #CustNam="ngModel"
+            [ngModelOptions]="{standalone: true}"  placeholder="Mobile #">
+          </div>
+          <div class="c-field row" style="margin-left: 10%;width:45%;">
+              <label class="c-field__label" for="ExpertEmail">Expert Email</label> 
+              <input class="c-input" style="width:90%;height: 30px;" type="text" id="ExpertEmail" [(ngModel)]="SelectedMedcoExpert.Email" #CustNam="ngModel"
+              [ngModelOptions]="{standalone: true}"  placeholder="Email">
+          </div>
+          </div>
+          <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+            <div class="c-field row" style="width:45%;">
+              <label class="c-field__label" for="Qualifications">Qualifications</label> 
+              <input class="c-input" style="width:90%;height: 30px;" type="text" id="Qualifications" [(ngModel)]="SelectedMedcoExpert.QualificationDescription" #CustNam="ngModel"
+              [ngModelOptions]="{standalone: true}" placeholder=""><br/>
+              <p *ngFor="let item of Qualification; let i = index" style="width: 100%;">
+                <small>{{item.Qualifications}}</small>
+                <a (click)="EditRemoveQualification(i)" style="color:orangered;margin-left: 5%;"><i class="fa fa-times-circle"></i></a>
+              </p>
+            </div>
+            <div class="c-field row" style="margin-left: 10%;width:45%;">
+                <label class="c-field__label" for="FurtherSpecialities">Further Specialities</label> 
+                <input class="c-input" style="width:90%;height: 30px;" type="text" id="Further Specialities" [(ngModel)]="SelectedMedcoExpert.FurtherSpeciality" #CustNam="ngModel"
+                [ngModelOptions]="{standalone: true}" placeholder=""><br/>
+                <p *ngFor="let item of FurtherSpecialites" style="width: 100%;">
+                  <small>{{item.Specialities}}</small>
+                  <a (click)="EditRemoveFurtherSpecialites(i)" style="color:orangered;margin-left: 5%;"><i class="fa fa-times-circle"></i></a>
+                </p>
+            </div>
+            </div>
+            <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+              <div class="c-field row" style="width:45%;">
+                <button type="button"  class="c-btn c-btn--info" style="margin-left: 2%;" (click)="EditAddQualifcations()">Add</button>
+              </div>
+              <div class="c-field row" style="margin-left: 10%;width:45%;">
+                <button type="button" class="c-btn c-btn--info" style="margin-left: 2%;" (click)="EditAddFurtherSpecialites()">Add</button>
+              </div>
+              </div>
+              <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+                <div class="c-field row" style="width:45%;">
+                    <label class="c-field__label" for="BankName">Bank Name</label> 
+                    <input class="c-input" style="width:90%;height: 30px;" type="text" id="BankName"  [(ngModel)]="SelectedMedcoExpert.BankName" #CustNam="ngModel"
+                    [ngModelOptions]="{standalone: true}"  placeholder="Bank Name">
+                </div>
+                <div class="c-field row" style="margin-left: 10%;width:45%;">
+                  <label class="c-field__label" for="AccountTitle">Account Title</label> 
+                  <input class="c-input" style="width:90%;height: 30px;" type="text" id="AccountTitle" [(ngModel)]="SelectedMedcoExpert.AccountTitle" #CustNam="ngModel" 
+                  [ngModelOptions]="{standalone: true}"  placeholder="Account Title">
+                </div>
+            </div>
+            <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+              <div class="c-field row" style="width:45%;">
+                  <label class="c-field__label" for="AccountNo">Account No</label> 
+                  <input class="c-input" style="width:90%;height: 30px;" type="text" id="AccountNo"  [(ngModel)]="SelectedMedcoExpert.AccountNo" #CustNam="ngModel"
+                  [ngModelOptions]="{standalone: true}"  placeholder="Account #">
+              </div>
+              <div class="c-field row" style="margin-left: 10%;width:45%;">
+                <label class="c-field__label" for="SortCode">Sort Code</label> 
+                <input class="c-input" style="width:90%;height: 30px;" type="text" id="SortCode" [(ngModel)]="SelectedMedcoExpert.SortCode" #CustNam="ngModel" 
+                [ngModelOptions]="{standalone: true}"  placeholder="Code">
+              </div>
+          </div>
+          <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+            <div class="c-field row" style="width:45%;">
+                <label class="c-field__label" for="GMC/HCPC">GMC/HCPC</label> 
+                <input class="c-input" style="width:90%;height: 30px;" type="text" id="GMC/HCPC" [(ngModel)]="SelectedMedcoExpert.GmcHcpc" #CustNam="ngModel" 
+                [ngModelOptions]="{standalone: true}"  placeholder="">
+            </div>
+            <div class="c-field row" style="margin-left: 10%;width:45%;">
+              <label class="c-field__label" for="INDEMINITY">INDEMINITY</label> 
+              <input class="c-input" style="width:90%;height: 30px;" type="text" id="INDEMINITY" [(ngModel)]="SelectedMedcoExpert.Indeminity" #CustNam="ngModel" 
+              [ngModelOptions]="{standalone: true}"  placeholder="">
+            </div>
+        </div>
+        <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+          <div class="c-field row" style="width:45%;">
+              <label class="c-field__label" for="ICO">ICO</label> 
+              <input class="c-input" style="width:90%;height: 30px;" type="text" id="ICO"  [(ngModel)]="SelectedMedcoExpert.Ico" #CustNam="ngModel"
+              [ngModelOptions]="{standalone: true}"  placeholder="">
+          </div>
+          <div class="c-field row" style="margin-left: 10%;width:45%;">
+            <label class="c-field__label" for="MEDCO NO">MEDCO NO</label> 
+            <input class="c-input" style="width:90%;height: 30px;" type="text" id="MEDCO NO" [(ngModel)]="SelectedMedcoExpert.MedcoNo" #CustNam="ngModel" 
+            [ngModelOptions]="{standalone: true}"  placeholder="">
+          </div>
+      </div>
+      <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+        <div class="c-field row" style="width:45%;">
+            <label class="c-field__label" for="ACCREDITATION">ACCREDITATION</label> 
+            <input class="c-input" style="width:90%;height: 30px;" type="text" id="ACCREDITATION" [(ngModel)]="SelectedMedcoExpert.AccreditationNo" #CustNam="ngModel" 
+            [ngModelOptions]="{standalone: true}"  placeholder="">
+        </div>
+        <div class="c-field row" style="margin-left: 10%;width:45%;">
+          <label class="c-field__label" for="PINCode">PIN Code</label> 
+          <input class="c-input" style="width:90%;height: 30px;" type="text" id="PINCode"  [(ngModel)]="SelectedMedcoExpert.PINCode" #CustNam="ngModel"
+          [ngModelOptions]="{standalone: true}"  placeholder="Code">
+        </div>
+    </div>
+    <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowCBTExpertForm">
+      <div class="c-field row">
+          <label class="c-field__label" for="BABCP">BABCP</label> 
+          <input class="c-input" style="width:40.5%;height: 30px;" type="text" id="BABCP" [(ngModel)]="SelectedMedcoExpert.GmcHcpc" #CustNam="ngModel"  
+          [ngModelOptions]="{standalone: true}"  placeholder="Address">
+      </div>
+    </div>
+    <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+      <div class="c-field row" style="width:45%;">
+        <label class="c-field__label" for="Contract">Contract</label>
+        <select class="c-input" id="Contract" style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;" (change)="EditselectedContract($event.target.value)">
+          <option value="">--Please Select--</option>
+          <option [selected]="SelectedMedcoExpert.ExpertContractType=='1'" value="Per Report">Per Report</option>
+          <option [selected]="SelectedMedcoExpert.ExpertContractType=='2'" value="Hourly">Hourly</option>
+          <option [selected]="SelectedMedcoExpert.ExpertContractType=='3'" value="External Expert">External Expert</option>
+        </select>
+
+      </div>
+      <div class="c-field row" style="margin-left: 10%;width:45%;">
+        <label class="c-field__label" for="Amount">Amount</label> 
+        <input class="c-input" style="width:90%;height: 30px;" type="text" id="Amount"  [(ngModel)]="SelectedMedcoExpert.AmountRate" #CustNam="ngModel"
+        [ngModelOptions]="{standalone: true}" placeholder="">
+  </div>
+    </div>
+    <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowRehabExpertForm">
+      <div class="c-field row" style="width:45%;">
+          <label class="c-field__label" for="IACharges">IA Charges</label> 
+          <input class="c-input" style="width:90%;height: 30px;" type="number" id="IACharges"  [(ngModel)]="SelectedMedcoExpert.IACharges" #CustNam="ngModel"
+          [ngModelOptions]="{standalone: true}"  placeholder="">
+      </div>
+      <div class="c-field row" style="margin-left: 10%;width:45%;">
+        <label class="c-field__label" for="DCCharges">DC Charges</label> 
+        <input class="c-input" style="width:90%;height: 30px;" type="number" id="DCCharges" [(ngModel)]="SelectedMedcoExpert.DCCharges" #CustNam="ngModel" 
+        [ngModelOptions]="{standalone: true}"  placeholder="">
+      </div>
+  </div>
+  <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowRehabExpertForm">
+    <div class="c-field row" style="width:45%;">
+        <label class="c-field__label" for="PerSessionCharges">Per Session Charges</label> 
+        <input class="c-input" style="width:90%;height: 30px;" type="number" id="PerSessionCharges"  [(ngModel)]="SelectedMedcoExpert.PerSessionCharges" #CustNam="ngModel"
+        [ngModelOptions]="{standalone: true}"  placeholder="">
+    </div>
+    <div class="c-field row" style="margin-left: 10%;width:45%;">
+      <label class="c-field__label" for="DNACharges">DNA Charges</label> 
+      <input class="c-input" style="width:90%;height: 30px;" type="number" id="DNACharges" [(ngModel)]="SelectedMedcoExpert.DNACharges" #CustNam="ngModel" 
+      [ngModelOptions]="{standalone: true}"  placeholder="">
+    </div>
+</div>
+<div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowPsychologistExpertForm || ShowOrthopaedicExpertForm ||  ShowENTExpertForm">
+  <div class="c-field row">
+      <label class="c-field__label" for="DueDays">Due Days</label> 
+      <input class="c-input" style="width:43%;height: 30px;" type="text" id="DueDays" [(ngModel)]="SelectedMedcoExpert.DueDays" #CustNam="ngModel"  
+      [ngModelOptions]="{standalone: true}"  placeholder="Address">
+  </div>
+</div>
+  <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+    <div class="c-field row" style="width:45%;">
+      <label class="c-field__label" for="Signature">Signature</label> 
+      <input class="c-input" style="width:90%;" type="file" id="Signature" (change)="EditSignature($event.target.files)">
+      <a [href]="SelectedMedcoExpert.SignaturePath">{{SelectedMedcoExpert.SignaturePath}}</a>
+    </div>
+    <div class="c-field row" style="margin-left: 10%;width:45%;">
+      <label class="c-field__label" for="UploadCV">Upload CV</label> 
+      <input class="c-input" style="width:90%;" type="file" id="UploadCV" (change)="EditUploadCV($event.target.files)">
+      <a>{{SelectedMedcoExpert.CVPath}}</a>
+</div>
+</div>
+<div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+  <div class="c-field row" style="width:45%;">
+    <label class="c-field__label" for="AccCertificate">Acc Certificate</label> 
+    <input class="c-input" style="width:90%;" type="file" id="AccCertificate" (change)="EditAccCertificate($event.target.files)">
+    <a>{{SelectedMedcoExpert.AccreditationCertificatePath}}</a>
+  </div>
+  <div class="c-field row" style="margin-left: 10%;width:45%;">
+    <label class="c-field__label" for="Contract">Contract</label> 
+    <input class="c-input" style="width:90%;" type="file" id="Contract" (change)="EditContract($event.target.files)">
+    <a>{{SelectedMedcoExpert.ContractDocumentPath}}</a>
+</div>
+</div>
+<div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowCBTExpertForm">
+  <div class="c-field row" style="width:45%;">
+    <label class="c-field__label" for="Contract">Contract</label> 
+    <input class="c-input" style="width:90%;" type="file" id="Contract" (change)="EditContract($event.target.files)">
+  </div>
+  </div>
+<div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm">
+<div class="c-field row" style="width:45%;">
+  <label class="c-field__label" for="MedcoCertificate">Medco Certificate</label> 
+  <input class="c-input" style="width:90%;" type="file" id="MedcoCertificate" (change)="EditMedcoCertificate($event.target.files)">
+  <a>{{SelectedMedcoExpert.MedcoCertificatePath}}</a>
+</div>
+<div class="c-field row" style="margin-left: 10%;width:45%;">
+  <label class="c-field__label" for="ICOfile">ICO</label> 
+  <input class="c-input" style="width:90%;" type="file" id="ICOfile" (change)="EditICO($event.target.files)">
+  <a>{{SelectedMedcoExpert.InsuranceDocumentPath}}</a>
+</div>
+</div>
+  <div class="row" style="margin-left:4%;width: 43%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm">
+    <label class="c-field__label" for="Insurance">Insurance</label> 
+    <input class="c-input" style="width:90%;" type="file" id="Insurance" (change)="EditInsurance($event.target.files)">
+    <a>{{SelectedMedcoExpert.IcoPath}}</a>
+  </div>
+  <div class="row" style="margin-left:4%;width: 30%;margin-bottom: 3%;"  *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+    <div class="c-choice c-choice--checkbox" style="width:90%;">
+      <input class="c-choice__input" id="checkbox6" name="checkboxes5"  type="checkbox" [(ngModel)]="SelectedMedcoExpert.IsAvailableForReferrer" #CustNam="ngModel">
+      <label class="c-choice__label" for="checkbox6">Is Available for Referrer?</label>
+  </div>
+  </div>
+  <div class="row" style="margin-left:4%;width: 30%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm">
+    <div class="c-choice c-choice--checkbox" style="width:90%;">
+      <input class="c-choice__input" id="checkbox7" name="checkboxes6" type="checkbox"  [(ngModel)]="SelectedMedcoExpert.IsVATRegistered" #CustNam="ngModel">
+      <label class="c-choice__label" for="checkbox7">Is VAT Registered?</label>
+  </div>
+  </div>
+  <div class="row" style="margin-left:4%;width: 30%;margin-bottom: 3%;"  *ngIf="ShowMedcoExpertForm || ShowCBTExpertForm">
+    <div class="c-choice c-choice--checkbox" style="width:90%;">
+      <input class="c-choice__input" id="checkbox8" name="checkboxes7" type="checkbox" [(ngModel)]="SelectedMedcoExpert.IsLocumAgencyExpert" #CustNam="ngModel">
+      <label class="c-choice__label" for="checkbox8">Is Locum Agency Expert?</label>
+  </div>
+  </div>
+  <div class="row" style="margin-left:4%;width: 30%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+    <div class="c-choice c-choice--checkbox" style="width:90%;">
+      <input class="c-choice__input" id="checkbox9" name="checkboxe8" type="checkbox" [(ngModel)]="SelectedMedcoExpert.IsAvailableForGoPrivate" #CustNam="ngModel">
+      <label class="c-choice__label" for="checkbox9">Is Available for Go Private?</label>
+  </div>
+  </div>  
+  <div class="row" style="margin-left:4%;width: 30%;margin-bottom: 3%;" *ngIf="ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowCBTExpertForm">
+    <div class="c-choice c-choice--checkbox" style="width:90%;">
+      <input class="c-choice__input" id="checkbox10" name="checkboxe8" type="checkbox" [(ngModel)]="SelectedMedcoExpert.IsAvailableForIdox" #CustNam="ngModel">
+      <label class="c-choice__label" for="checkbox10">Is Available for I-dox?</label>
+  </div>
+  </div>
+  <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowPsychologistExpertForm">
+    <div class="c-field row" style="width:45%;">
+      <label class="c-field__label" for="Classifications">Classifications</label>
+      <select class="c-input" id="Classifications" style="width: 50%;"  (change)="EditselectedClassifications($event.target.value)">
+        <option [selected]="SelectedMedcoExpert.ExpertSpecialityID==''" value="">--Please Select--</option>
+        <option [selected]="SelectedMedcoExpert.ExpertSpecialityID=='1'"  value="1">Both</option>
+        <option [selected]="SelectedMedcoExpert.ExpertSpecialityID=='2'"  value="2">Pediatrics</option>
+        <option [selected]="SelectedMedcoExpert.ExpertSpecialityID=='3'"  value="3">Adults</option>
+      </select>
+    </div>
+  </div>
+  <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowCBTExpertForm">
+    <div class="c-field row" style="width:45%;">
+      <label class="c-field__label" for="OnPanel">On Panel</label>
+      <select class="c-input" id="OnPanel" style="width: 50%;"  (change)="EditselectedOnPanel($event.target.value)">
+        <option [selected]="SelectedMedcoExpert.OnPanel==''" value="">--Please Select--</option>
+        <option [selected]="SelectedMedcoExpert.OnPanel=='1'" value="1">I-dox</option>
+        <option [selected]="SelectedMedcoExpert.OnPanel=='2'" value="2">Go Private</option>
+      </select>
+    </div>
+  </div>    
+    <div class="row" style="margin-left: 5%;margin-bottom: 3%;" *ngIf="ShowMedcoExpertForm || ShowPsychologistExpertForm || ShowOrthopaedicExpertForm || ShowRehabExpertForm || ShowENTExpertForm || ShowCBTExpertForm">
+      <div class="c-field row" style="width:45%;">
+        <label class="c-field__label" for="status">Status</label>
+        <select class="c-input" id="status" style="width: 50%;"  (change)="EditselectedStatus($event.target.value)">
+          <option [selected]="SelectedMedcoExpert.Status==''" value="">--Please Select--</option>
+          <option [selected]="SelectedMedcoExpert.Status=='A'" value="A">Active</option>
+          <option [selected]="SelectedMedcoExpert.Status=='I'" value="I">InActive</option>
+        </select>
+      </div>
+    </div><br />
+
+    <div class="u-flex" style="margin-top: 15px;">
+      <button type="button" (click)="showLeadsDetails = !showLeadsDetails" style="margin-left: 5%;" class="c-btn c-btn--danger">Clear</button>
+      <button type="submit" class="c-btn c-btn--success" style="margin-left: 2%;" [disabled]="!createUserForm.valid">Save</button>
+      
+  </div> <br/>
+
+    
+
+</div>
+
+
+
+
+            </form>
+              
+          </div>
+
+      </div><!-- // .c-modal__content -->
+  </div><!-- // .c-modal__dialog -->
+</div>
+
+
+
+
+
+
+
+
+
+
+

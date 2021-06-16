@@ -1,0 +1,109 @@
+<ngx-loading-bar color="#1e90ff" height="5px"></ngx-loading-bar>
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-12 col-xl-12 u-p-zero">
+      <div class="c-toolbar u-mb-xsmall">     
+        <div class="c-field u-mb-small">
+          <div class="row" style="margin-left: 5%;">
+            <div class="c-field row" style="width:60%;">
+              <label class="c-field__label" for="ExpertClinicType">Type:</label>
+              <select class="c-input" id="ExpertClinicType" style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;margin-bottom: 3%;" (change)="SearchSelectedExpertType($event.target.value)">
+                <option value="0">All</option>
+           <option *ngFor="let data of ExpertsTypeList"  [value]="data.ExpertClinicTypeID">{{data.ExpertClinicType}}</option>
+              </select>
+              <label class="c-field__label" for="ExpertType1">Experts Name:</label>
+              <select class="c-input" id="ExpertType1" style="height: 30px;padding: 0.1rem 0.9rem;width: 90%;margin-bottom: 3%;" (change)="SearchSelectedExpert($event.target.value)">
+                <option value="0">All</option>
+           <option *ngFor="let data of ExpertsList"  [value]="data.ID">{{data.FullName}}</option>
+              </select>
+              <div style="width: 50%;">
+                <label class="c-field__label" for="StartDate">From</label> 
+                <input class="c-input" style="width:80%;height: 30px;" type="date" id="StartDate" [(ngModel)]="SearchNewClinicRequired.StartDate" #CustNam="ngModel"
+                [ngModelOptions]="{standalone: true}">
+              </div>
+              <div style="width: 50%;margin-bottom: 3%;">
+                  <label class="c-field__label" for="EndDate">To</label> 
+                  <input class="c-input" style="width:80%;height: 30px;" type="date" id="EndDate" [(ngModel)]="SearchNewClinicRequired.EndDate" #CustNam="ngModel"
+                  [ngModelOptions]="{standalone: true}">
+                </div>
+                <button class="c-btn c-btn--info" style="height:42px;" (click)="GetNewClinicRequiredList()">
+                  <i class="fa fa-search u-mr-xsmall"></i>Search
+              </button>
+              <button class="c-btn c-btn--info" style="height:42px;margin-left: 2%;" (click)="export()">
+                <i class="fa fa-arrow-circle-o-down u-mr-xsmall"></i>Export
+            </button>
+              <button class="c-btn c-btn--info" style="height:42px;margin-left: 2%;" (click)="ngOnInit()">
+                Clear
+            </button>
+            </div>
+          </div>
+        </div>
+        
+    </div>
+
+    <div class="row u-m-small">
+
+      <div class="col-md-12" style="margin-top: 10px;">
+           <span class="c-divider has-text u-mb-medium">New Clinics Data</span>
+      </div>
+    
+      <div class="col-md-12">
+        <div class="c-table-responsive">
+          <label class="c-field__label">Search:</label>
+          <input class="c-input  u-mr-xsmall" style="width: 30%;margin-bottom: 15px;" type="text" name="filter" placeholder="Search" [(ngModel)]="filter">
+          <table class="c-table c-table--zebra u-mb-small" id="datatable3" style="display: inline-table;">
+            <thead class="c-table__head">
+                <tr class="c-table__row">
+                  <th class="c-table__cell c-table__cell--head">Sr.</th>
+                  <th class="c-table__cell c-table__cell--head">Expert Name</th>
+                  <th class="c-table__cell c-table__cell--head">Clinic Name</th>
+                  <th class="c-table__cell c-table__cell--head">Venue Address</th>
+                  <th class="c-table__cell c-table__cell--head">Town</th>
+                  <th class="c-table__cell c-table__cell--head">Clinic Date</th>
+                  <th class="c-table__cell c-table__cell--head">Created Date</th>
+                  <th class="c-table__cell c-table__cell--head">First Client</th>
+                  <th class="c-table__cell c-table__cell--head">Last Client</th>
+                  <th class="c-table__cell c-table__cell--head">Booked Slots</th>
+                  <th class="c-table__cell c-table__cell--head">Available Slots</th>
+                  <th class="c-table__cell c-table__cell--head">Open Slots</th>
+                  <th class="c-table__cell c-table__cell--head">Total Slots</th>                         
+                </tr>
+            </thead>
+
+            <tbody>
+              <tr class="c-table__row" *ngFor="let item of NewClinicRequired |filter:filter| paginate: { itemsPerPage: 10, currentPage: p };  let i = index">
+                 <td class="c-table__cell">{{i+1}}</td>
+                <td class="c-table__cell">{{item.ExpertName}}</td>
+                <td class="c-table__cell" style="white-space: inherit;width: 200px;">{{item.ClinicName}}</td>
+                <td class="c-table__cell" style="white-space: inherit;width: 200px;">{{item.ClinicAddress}} <br/> PH:-{{item.PhoneNo}} <br/> {{item.Summary}}</td>
+                <td class="c-table__cell">{{item.Town}}</td>
+                <td class="c-table__cell">{{item.ClinicDate}}</td>
+                <td class="c-table__cell">{{item.CreatedDate}}</td>
+                <td class="c-table__cell">{{item.FirstClient}}</td>
+                <td class="c-table__cell">{{item.LastClient}}</td>
+                <td class="c-table__cell">{{item.BookedSlots}}</td>
+                <td class="c-table__cell">{{item.AvailableSlots}}</td>
+                <td class="c-table__cell">{{item.OpenSlots}}</td>
+                <td class="c-table__cell">{{item.TotalSlots}}</td>
+                 
+                </tr>
+                                                           
+            </tbody>
+             
+        </table>
+
+          
+        </div><br/>
+        <ul class="pagination">  
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>  
+          </ul>
+
+
+    </div>
+  </div><!-- // .row -->
+
+
+</div>
+ </div><!-- // .row -->
+</div><!-- // Container -->

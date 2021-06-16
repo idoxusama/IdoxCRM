@@ -1,0 +1,78 @@
+<ngx-loading-bar color="#1e90ff" height="5px"></ngx-loading-bar>
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-12 col-xl-12 u-p-zero">
+      <div class="c-toolbar u-mb-xsmall">     
+        <div class="c-field u-mb-small">
+
+          <button class="c-btn c-btn--info" style="height:42px;" (click)="ngOnInit()">
+            <i class="fa fa-user u-mr-xsmall"></i>Refresh
+        </button>
+
+        </div>
+        
+    </div>
+
+    <div class="row u-m-small">
+
+      <div class="col-md-12">
+           <span class="c-divider has-text u-mb-medium">Experts Agreement Data</span>
+      </div>
+    
+      <div class="col-md-12">
+        <div class="c-table-responsive">
+            <table class="c-table c-table--zebra u-mb-small" id="datatable3" style="display: inline-table;">
+                <thead class="c-table__head">
+                    <tr class="c-table__row">
+                      <th class="c-table__cell c-table__cell--head">Sr.</th>
+                      <th class="c-table__cell c-table__cell--head">Name</th>
+                      <th class="c-table__cell c-table__cell--head">Email</th>
+                      <th class="c-table__cell c-table__cell--head">e-Sign</th>
+                      <th class="c-table__cell c-table__cell--head">e-Sign Date</th>
+                      <th class="c-table__cell c-table__cell--head">Action</th>
+ 
+                    </tr>
+                </thead>
+
+                <tbody>
+                  <tr class="c-table__row" *ngFor="let item of ExpertagreementData |filter:filter| paginate: { itemsPerPage: 6, currentPage: p };  let i = index">
+                     <td class="c-table__cell">
+                      {{i+1}}
+                    </td>
+                    <td class="c-table__cell">
+                      {{item.FullName}}
+                    </td>
+                    <td class="c-table__cell">
+                      {{item.Email}}
+                    </td>
+                    <td class="c-table__cell">
+                      {{item.ESign}}
+                    </td>
+                    <td class="c-table__cell">{{item.ESignDate}}</td>
+                      
+                        
+                        <td class="c-table__cell">
+                          <button class="c-btn c-btn--info" style="margin-left: 2%;"  >
+                              Send
+                          </button>
+                        </td>                      
+                    </tr>
+                                                               
+                </tbody>
+                 
+            </table>
+
+        </div><br/>
+        <ul class="pagination">  
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>  
+          </ul> 
+
+
+    </div>
+  </div><!-- // .row -->
+
+
+</div>
+ </div><!-- // .row -->
+</div><!-- // Container -->

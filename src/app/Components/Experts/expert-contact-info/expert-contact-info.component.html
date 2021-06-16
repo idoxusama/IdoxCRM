@@ -1,0 +1,140 @@
+<form [formGroup]="contactInfoForm" *ngIf="contactInfoForm" (ngSubmit)="onNextStep()">
+  <div class="row ">
+    <div class="col-lg-6 col-md-6">
+      <div class="form-group ">
+        <label>Phone No</label>
+        <input type="text" class="form-control" appOnlynumbers="true" formControlName="phoneNo" [ngClass]="{'is-invalid': contactInfoForm.get('phoneNo').errors 
+        && (contactInfoForm.get('phoneNo').touched ||submitted)}" placeholder="Phone Number">
+        <div class="invalid-feedback"
+          *ngIf="(contactInfoForm.get('phoneNo').touched||submitted) && contactInfoForm.get('phoneNo').hasError('required')">
+          This
+          field is required</div>
+        <div class="invalid-feedback"
+          *ngIf="(contactInfoForm.get('phoneNo').touched||submitted) && contactInfoForm.get('phoneNo').hasError('maxlength')">
+          Please, Enter 11 digit Phone Number.</div>
+        <div class="invalid-feedback"
+          *ngIf="(contactInfoForm.get('phoneNo').touched||submitted) && contactInfoForm.get('phoneNo').hasError('minlength')">
+          Please, Enter 11 digit Phone Number.</div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+      <div class="form-group ">
+        <label>Mobile Number</label>
+        <input type="text" class="form-control" appOnlynumbers="true" formControlName="mobileNumber" [ngClass]="{'is-invalid': contactInfoForm.get('mobileNumber').errors 
+        && (contactInfoForm.get('mobileNumber').touched||submitted)}" placeholder="Mobile Number">
+        <div class="invalid-feedback"
+          *ngIf="(contactInfoForm.get('mobileNumber').touched||submitted) && contactInfoForm.get('mobileNumber').hasError('required')">
+          This
+          field is required</div>
+        <div class="invalid-feedback"
+          *ngIf="(contactInfoForm.get('mobileNumber').touched||submitted) && contactInfoForm.get('mobileNumber').hasError('maxlength')">
+          Please, Enter 11 digit Mobile Number.</div>
+        <div class="invalid-feedback"
+          *ngIf="(contactInfoForm.get('mobileNumber').touched||submitted) && contactInfoForm.get('mobileNumber').hasError('minlength')">
+          Please, Enter 11 digit Mobile Number.</div>
+      </div>
+    </div>
+  <div class="col-lg-6 col-md-6">
+    <div class="form-group ">
+      <label>Alternate Phone No</label>
+      <input type="text" class="form-control" appOnlynumbers="true" formControlName="alternatePhoneNo"
+        placeholder="Phone"[ngClass]="{'is-invalid': contactInfoForm.get('alternatePhoneNo').errors 
+        && (contactInfoForm.get('alternatePhoneNo').touched||submitted)}">
+
+        <div class="invalid-feedback"
+          *ngIf="(contactInfoForm.get('alternatePhoneNo').touched||submitted) && contactInfoForm.get('alternatePhoneNo').hasError('maxlength')">
+          Please, Enter 11 digit Phone Number.</div>
+        <div class="invalid-feedback"
+          *ngIf="(contactInfoForm.get('alternatePhoneNo').touched||submitted) && contactInfoForm.get('alternatePhoneNo').hasError('minlength')">
+          Please, Enter 11 digit Phone Number.</div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-md-6">
+    <div class="form-group ">
+      <label>Email</label>
+      <input class="form-control" formControlName="email" email="true" [ngClass]="{'is-invalid': contactInfoForm.get('email').errors 
+        && (contactInfoForm.get('email').touched||submitted)}" placeholder="Email">
+      <div class="invalid-feedback"
+        *ngIf="(contactInfoForm.get('email').touched||submitted) && contactInfoForm.get('email').hasError('required')">
+        This
+        field is required</div>
+      <div class="invalid-feedback"
+        *ngIf="(contactInfoForm.get('email').touched||submitted) && contactInfoForm.get('email').hasError('email')">
+        Email is not valid!</div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-md-6">
+    <div class="form-group ">
+      <label>General Email</label>
+      <input class="form-control" formControlName="generalEmail" email="true" [ngClass]="{'is-invalid': contactInfoForm.get('generalEmail').errors 
+        && (contactInfoForm.get('generalEmail').touched||submitted)}" placeholder="Email">
+      <div class="invalid-feedback"
+        *ngIf="(contactInfoForm.get('generalEmail').touched||submitted) && contactInfoForm.get('generalEmail').hasError('email')">
+        Email is not valid!</div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-md-6">
+    <div class="form-group ">
+      <label>Post Code</label>
+      <input type="text" class="form-control" formControlName="postCode" [ngClass]="{'is-invalid': contactInfoForm.get('postCode').errors 
+        && (contactInfoForm.get('postCode').touched||submitted)}" placeholder="Post Code">
+      <div class="invalid-feedback"
+        *ngIf="(contactInfoForm.get('postCode').touched||submitted) && contactInfoForm.get('postCode').hasError('required')">
+        This
+        field is required</div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-md-6">
+    <div class="form-group ">
+      <label>Fax No</label>
+      <input type="text" class="form-control" appOnlynumbers="true" formControlName="faxNo" [ngClass]="{'is-invalid': contactInfoForm.get('faxNo').errors 
+        && (contactInfoForm.get('faxNo').touched||submitted)}" placeholder="Fax No">
+      <div class="invalid-feedback"
+        *ngIf="(contactInfoForm.get('faxNo').touched||submitted) && contactInfoForm.get('faxNo').hasError('required')">
+        This
+        field is required</div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-md-6">
+    <div class="form-group ">
+      <label>County</label>
+      <input type="text" class="form-control" formControlName="county" [ngClass]="{'is-invalid': contactInfoForm.get('county').errors 
+        && (contactInfoForm.get('county').touched||submitted)}" placeholder="County">
+      <div class="invalid-feedback"
+        *ngIf="(contactInfoForm.get('county').touched||submitted) && contactInfoForm.get('county').hasError('required')">
+        This
+        field is required</div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-md-6">
+    <div class="form-group ">
+      <label>Town</label>
+      <input type="text" class="form-control" formControlName="town" [ngClass]="{'is-invalid': contactInfoForm.get('town').errors 
+        && (contactInfoForm.get('town').touched||submitted)}" placeholder="Town">
+      <div class="invalid-feedback"
+        *ngIf="(contactInfoForm.get('town').touched||submitted) && contactInfoForm.get('town').hasError('required')">
+        This
+        field is required</div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-md-6">
+    <div class="form-group ">
+      <label>Company</label>
+      <select class="form-control" formControlName="companyID" [ngClass]="{'is-invalid': contactInfoForm.get('companyID').errors 
+        && (contactInfoForm.get('companyID').touched||submitted)}">
+        <option *ngFor="let opt of companies" value="{{opt.id}}">{{opt.companyName}}</option>
+      </select>
+      <div class="invalid-feedback"
+        *ngIf="(contactInfoForm.get('companyID').touched||submitted) && contactInfoForm.get('companyID').hasError('required')">
+        This
+        field is required</div>
+    </div>
+  </div>
+  </div>
+  <pre></pre>
+  <div class="text-right">
+    <button type="submit" (click)="onNextStep()" class="form-continue-btn">
+      {{ showButtonLabel() }}
+    </button>
+  </div>
+</form>

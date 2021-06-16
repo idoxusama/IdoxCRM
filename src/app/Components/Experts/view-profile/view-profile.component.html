@@ -1,0 +1,259 @@
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+      <div class="container my-3 main-container">
+          <div class="row align-items-center">
+              <div class="col">
+                  <h2 class="content-color-primary page-title">Profile</h2>
+              </div>
+              <div class="col-auto">
+                  <a class="btn btn-rounded pink-gradient text-uppercase pr-3" [routerLink]="['/Experts/User',{id:8,state:'completedprofile'}]" target="_blank"><i class="material-icons mr-1">edit</i> <span class="text-hide-xs">Edit Profile</span></a>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="container mt-4 main-container">
+  <div class="row">
+      <div class="col-12 col-md-12 col-lg-8">
+          <div class="card mb-4">
+              <div class="card-header">
+                  <div class="media">
+                      <div class="media-body">
+                          <h4 class="content-color-primary mb-0">Personal Information </h4>
+                      </div>
+                  </div>
+              </div>
+              <div class="card-body p-1">
+                  <div class="row no-gutters">
+                      <div class="col-12" *ngIf="expertBasicInfo">
+                        <table class="table">
+                          <tbody>
+                            <tr>
+                              <th>First Name</th>
+                              <th>Last Name</th>
+                              <th>Gender</th>
+                              <th>Expert Code</th>
+                              <th>Address</th>
+                            </tr>
+                          
+                            <tr>
+                              <td>{{expertBasicInfo.firstName}}</td>
+                              <td>{{expertBasicInfo.lastName}}</td>
+                              <td>{{expertBasicInfo.gender}}</td>
+                              <td>{{expertBasicInfo.expertCode}}</td>
+                              <td>{{expertBasicInfo.addressLine1}}</td>
+                            </tr>
+                          </tbody>
+                      </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="card mb-4">
+              <div class="card-header border-bottom">
+                  <div class="media">
+                      <div class="icon-circle icon-40 bg-light-primary mr-3">
+                          <i class="material-icons">business</i>
+                      </div>
+                      <div class="media-body">
+                          <h6 class="my-0 content-color-primary">Bank Detail</h6>
+                      </div>
+                  </div>
+              </div>
+              <div class="card-body">
+                  <ul class="list-group list-group-flush w-100 log-information mt-2" *ngIf="expertBankDetails">
+                      <li class="list-group-item" *ngFor="let bd of expertBankDetails">
+                          <div class="avatar avatar-15 border-success"></div>
+                          <div class="media experience">
+                              <div class="icon-rounded icon-40 bg-light-success mr-3">
+                                  <i class="material-icons">camera</i>
+                              </div>
+                              <div class="media-body">
+                                  <h6 class="my-0 content-color-primary">{{bd.bankName}}</h6>
+                                  <p class="mb-2"><small class="content-color-secondary">{{bd.accountTitle}}</small></p>
+                                  <table class="table">
+                                    <tr>
+                                      <th>Account Title</th>
+                                      <th>Account No</th>
+                                      <th>IBAN</th>
+                                      <th>Sort Code</th>
+                                    </tr>
+                                    <tr>
+                                      <td>{{bd.accountTitle}}</td>
+                                      <td>{{bd.accountNo}}</td>
+                                      <td>{{bd.IBAN}}</td>
+                                      <td>{{bd.sortCode}}</td>
+                                    </tr>
+                                  </table>
+                              </div>
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+          <div class="card mb-4">
+              <div class="card-header border-bottom">
+                  <div class="media">
+                      <div class="icon-circle icon-40 bg-light-primary mr-3">
+                          <i class="material-icons">description</i>
+                      </div>
+                      <div class="media-body">
+                          <h6 class="my-0 content-color-primary">Required Medical Record</h6>
+                      </div>
+                  </div>
+              </div>
+              <div class="card-body">
+                  <ul class="list-group list-group-flush w-100" *ngIf="expertRequireMedicalRecord">
+                      <li class="list-group-item px-0" *ngFor="let rec of expertRequireMedicalRecord">
+                          <div class="media experience">
+                              <div class="icon-circle icon-40 bg-light-secondary mr-3">
+                                  <i class="material-icons">camera</i>
+                              </div>
+                              <div class="media-body">
+                                  <h6 class="my-0 content-color-primary">{{rec.medicalRecordName}}</h6>
+                                  <table class="table">
+                                    <tr>
+                                      <th>Record Name</th>
+                                      <th>Record Type</th>
+                                      <th>Is Required</th>
+                                    </tr>
+                                    <tr>
+                                      <td>{{rec.medicalRecordName}}</td>
+                                      <td>{{rec.medicalRecordType}}</td>
+                                      <td>
+                                        <span class="text-success" *ngIf="rec.isRequired"><i class="material-icons">check</i></span>
+                                        <span class="text-danger" *ngIf="!rec.isRequired"><i class="material-icons">close</i></span>
+                                      </td>
+                                    </tr>
+                                  </table>
+                              </div>
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header border-bottom">
+                <div class="media">
+                    <div class="icon-circle icon-40 bg-light-primary mr-3">
+                        <i class="material-icons">description</i>
+                    </div>
+                    <div class="media-body">
+                        <h6 class="my-0 content-color-primary">Documents</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush w-100" *ngIf="expertDocs">
+                    <li class="list-group-item px-0" *ngFor="let doc of expertDocs">
+                        <div class="media experience">
+                            <div class="icon-circle icon-40 bg-light-secondary mr-3">
+                                <i class="material-icons">camera</i>
+                            </div>
+                            <div class="media-body">
+                                <h6 class="my-0 content-color-primary">{{doc.documentName}}</h6>
+                                <table class="table">
+                                  <tr>
+                                    <th>Document Name</th>
+                                    <th>Document Path</th>
+                                    <th>IsActive</th>
+                                  </tr>
+                                  <tr>
+                                    <td>{{doc.documentName}}</td>
+                                    <td>{{doc.documentPath}}</td>
+                                    <td>
+                                      <span class="text-success" *ngIf="doc.isActive"><i class="material-icons">check</i></span>
+                                      <span class="text-danger" *ngIf="!doc.isActive"><i class="material-icons">close</i></span>
+                                    </td>
+                                  </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-12 col-lg-4">
+          <div class="card mb-4 fullscreen">
+              <div class="card-header">
+                  <div class="media">
+                      <div class="media-body">
+                          <h4 class="content-color-primary mb-0">Contact Information  </h4>
+                      </div>
+                  </div>
+              </div>
+              <div class="card-body">
+                <div *ngIf="expertContactInfo">
+
+                  <table class="table">
+                    <tr>
+                      <th>Phone</th>
+                      <td>{{expertContactInfo.phoneNo}}</td>
+                    </tr>
+                    <tr>
+                      <th>Mobile No.</th>
+                      <td>{{expertContactInfo.mobileNumber}}</td>
+                    </tr>
+                    <tr>
+                      <th>Alternate PhonNo.</th>
+                      <td>{{expertContactInfo.alternatePhoneNo}}</td>
+                    </tr>
+                    <tr>
+                      <th>Email</th>
+                      <td>{{expertContactInfo.email}}</td>
+                    </tr>
+                    <tr>
+                      <th>Genera Email</th>
+                      <td>{{expertContactInfo.generalEmail}}</td>
+                    </tr>
+                    <tr>
+                      <th>Post Code</th>
+                      <td>{{expertContactInfo.postCode}}</td>
+                    </tr>
+                  </table>
+                </div>
+                  <!-- <div class="row bg-light-secondary py-3">
+                      <div class="col text-center">
+                          <div class="media">
+                              <div class="media-body">
+                                  <h4 class="content-color-primary mb-0">208</h4>
+                                  <p class="content-color-secondary mb-0">Followers</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div> -->
+
+              </div>
+          </div>
+          <div class="card mb-4 mt-4">
+            <div class="card-header">
+                <div class="media">
+                    <div class="media-body">
+                        <h4 class="content-color-primary mb-0">Fee / Charges </h4>
+                    </div>    
+                </div>
+            </div>
+            <div class="card-body">
+              <div *ngIf="expertCharges">
+                <table class="table">
+                  <tr>
+                    <th>IA Charges</th>
+                    <td>{{expertCharges.iaCharges}}</td>
+                  </tr>
+                  <tr>
+                    <th>DC Charges</th>
+                    <td>{{expertCharges.dcCharges}}</td>
+                  </tr>
+                  <tr>
+                    <th>Per Session Charges</th>
+                    <td>{{expertCharges.perSessionCharges}}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+        </div>
+      </div>
+  </div>
+  <!-- content page ends -->
+</div>

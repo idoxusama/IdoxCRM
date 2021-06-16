@@ -1,0 +1,19 @@
+export class LocationSiteInfo{
+    id:number;
+    locationAddressID:number;
+    daysOfBooking:string;
+    locationCostBy:string;
+    amount:string;
+    availability:string;
+    isDisabilityAccess:boolean;
+    isLiftAvailable:boolean;
+    onSiteParking:boolean;
+    ofSiteParking:boolean;
+    parkingFeeFullDay:string;
+    parkingFeeHalfDay:string;
+    parkingFeeHourly:string;
+    isReception:boolean;
+    isWatingArea:boolean;
+    isPvtRoom:boolean;
+    userID:number;
+}

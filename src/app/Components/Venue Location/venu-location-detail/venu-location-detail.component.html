@@ -1,0 +1,757 @@
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+    <div class="container my-3 main-container">
+      <div class="row align-items-center">
+        <div class="col">
+          <h2 class="content-color-primary page-title">Venue Location Detail</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4 main-container">
+  <div class="row">
+    <div class="col-12 col-md-12 col-lg-8">
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="media">
+            <div class="media-body">
+              <h4 class="content-color-primary mb-0">Address </h4>
+            </div>
+            <button class="btn btn-sm primary-gradient mr-2"
+              (click)="editLocationAddressForm(editLocationAddress)">Edit</button>
+          </div>
+        </div>
+        <div class="card-body p-1">
+          <div class="row no-gutters">
+            <div class="col-12" *ngIf="locationAddress">
+              <table class="table">
+                <tr>
+                  <th style="width: 20%;">Name</th>
+                  <th>Country</th>
+                  <th>County</th>
+                  <th>Town</th>
+                  <th>Post Code</th>
+                  <th>Complete Address</th>
+                  <th>Phone</th>
+                </tr>
+                <tr>
+                  <td>{{locationAddress.name}}</td>
+                  <td>{{locationAddress.countryName}}</td>
+                  <td>{{locationAddress.county}}</td>
+                  <td>{{locationAddress.town}}</td>
+                  <td>{{locationAddress.postCode}}</td>
+                  <td>{{locationAddress.address}}</td>
+                  <td>{{locationAddress.phone}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="media">
+            <div class="media-body">
+              <h4 class="content-color-primary mb-0">Map Location </h4>
+            </div>
+            <button class="btn btn-sm primary-gradient mr-2"
+              (click)="updateMapLocationForm(locationAddress,true)">Edit</button>
+          </div>
+        </div>
+        <div class="card-body p-1">
+          <div class="row no-gutters">
+            <div class="col-lg-12 col-sm-12">
+              <form [formGroup]="updateLocationForm" (ngSubmit)="saveUpdatedLocation()">
+                <div class="form-group">
+                  <label>Enter address</label>
+                  <input type="text" class="form-control" formControlName="enterAddress" (keydown.enter)="$event.preventDefault()"
+                    placeholder="Search Nearest Location" autocorrect="off" autocapitalize="off" spellcheck="off"
+                    type="text" #search  [ngClass]="{'is-invalid': updateLocationForm.get('enterAddress').errors 
+                    && (updateLocationForm.get('enterAddress').touched)}">
+                    <div class="invalid-feedback"
+                    *ngIf="(updateLocationForm.get('enterAddress').touched) && updateLocationForm.get('enterAddress').hasError('required')">
+                    This field is required
+                  </div>
+                </div>
+
+                <agm-map #agmMap style="height: 300px;" [latitude]="lat" [longitude]="lng" [zoom]="zoom"
+                  (mapClick)="mapClicked($event)">
+                  <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true"
+                    (dragEnd)="markerDragEnd($event)"></agm-marker>
+                </agm-map>
+
+                <div class="text-right" *ngIf="updateMapLocation">
+                  <button type="submit" class="btn btn-sm primary-gradient mr-2 mt-3">Save Location</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-header border-bottom">
+          <div class="media">
+            <div class="icon-circle icon-40 bg-light-primary mr-3">
+              <i class="material-icons">photo</i>
+            </div>
+            <div class="media-body">
+              <h6 class="my-0 content-color-primary">Images</h6>
+            </div>
+            <a style="cursor: pointer;" class="text-primary" (click)="uploadImageModal(uploadLocationImages)">
+              <span class="material-icons">add</span>
+            </a>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row" *ngIf="locationImages">
+            <div class="col-lg-4 col-sm-4" *ngFor="let image of locationImages">
+              <div class="card-image-wrapper">
+                <img [src]="createImgPath(image.areaImagePath)" class="img img-thumbnail"
+                  style="width: 170px; height: 170px;" title="{{image.areaImageName}}">
+                <div class="text-center mt-2">
+                  <button type="button" class="btn btn-sm danger-gradient mr-2" (click)="deleteLocationImage(image.id)">
+                    Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-header border-bottom">
+          <div class="media">
+            <div class="icon-circle icon-40 bg-light-primary mr-3">
+              <i class="material-icons">ac_unit</i>
+            </div>
+            <div class="media-body">
+              <h6 class="my-0 content-color-primary">Rooms</h6>
+            </div>
+            <a style="cursor: pointer;" class="text-primary" (click)="addLocationRoom()">
+              <span class="material-icons">add</span>
+            </a>
+          </div>
+        </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush w-100" *ngIf="locationRooms">
+            <li class="list-group-item px-0" *ngFor="let room of locationRooms">
+              <div class="media experience">
+                <div class="icon-circle icon-40 bg-light-secondary mr-3">
+                  <i class="material-icons">camera</i>
+                </div>
+                <div class="media-body">
+                  <h6 class="my-0 content-color-primary">{{room.venueRoomName}}</h6>
+                  <p class="mb-2"><small class="content-color-secondary">Is Pvt Room: {{room.isPvtRoom}}</small></p>
+                  <p class="mb-2"><small class="content-color-secondary">Amount: {{room.amt}}</small></p>
+
+                </div>
+                <div class="text-right">
+                  <a class="text-warning mr-1" style="cursor: pointer;" (click)="editLocationRoom(room.id)"><span
+                      class="material-icons">edit</span></a>
+                  <a class="text-danger" style="cursor: pointer;" (click)="deleteLocationRoom(room.id)"><span
+                      class="material-icons">delete</span></a>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-12 col-lg-4">
+      <div class="card mb-4 fullscreen">
+        <div class="card-header">
+          <div class="media">
+            <div class="media-body">
+              <h4 class="content-color-primary mb-0">Site Info </h4>
+            </div>
+            <button class="btn btn-sm primary-gradient mr-2"
+              (click)="editLocationSiteInfo(editLocationSiteInfoModal)">Edit</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table" *ngIf="locationSiteInfo">
+            <tr>
+              <th>Days Of Booking</th>
+              <td>{{locationSiteInfo.daysOfBooking}}</td>
+            </tr>
+            <tr>
+              <th>Location Cost By</th>
+              <td>{{locationSiteInfo.locationCostBy}}</td>
+            </tr>
+            <tr>
+              <th>Amount</th>
+              <td>{{locationSiteInfo.amount}}</td>
+            </tr>
+            <tr>
+              <th>Availability Days</th>
+              <td>{{locationSiteInfo.availability}}</td>
+            </tr>
+            <tr>
+              <th>Is Disability Access</th>
+              <td>
+                <span class="text-success" *ngIf="locationSiteInfo.isDisabilityAccess">
+                  <i class="material-icons">check</i>
+                </span>
+
+                <span class="text-danger" *ngIf="!locationSiteInfo.isDisabilityAccess">
+                  <i class="material-icons">close</i>
+                </span>
+              </td>
+            </tr>
+
+            <tr>
+              <th>Is Lift Available</th>
+              <td>
+                <span class="text-success" *ngIf="locationSiteInfo.isLiftAvailable">
+                  <i class="material-icons">check</i>
+                </span>
+
+                <span class="text-danger" *ngIf="!locationSiteInfo.isLiftAvailable">
+                  <i class="material-icons">close</i>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <th>Is Pvt Room</th>
+              <td>
+                <span class="text-success" *ngIf="locationSiteInfo.isPvtRoom">
+                  <i class="material-icons">check</i>
+                </span>
+
+                <span class="text-danger" *ngIf="!locationSiteInfo.isPvtRoom">
+                  <i class="material-icons">close</i>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <th>Is Wating Area</th>
+              <td>
+                <span class="text-success" *ngIf="locationSiteInfo.isWatingArea">
+                  <i class="material-icons">check</i>
+                </span>
+
+                <span class="text-danger" *ngIf="!locationSiteInfo.isWatingArea">
+                  <i class="material-icons">close</i>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <th>Is Reception</th>
+              <td>
+                <span class="text-success" *ngIf="locationSiteInfo.isReception">
+                  <i class="material-icons">check</i>
+                </span>
+
+                <span class="text-danger" *ngIf="!locationSiteInfo.isReception">
+                  <i class="material-icons">close</i>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <th>On Site Parking</th>
+              <td>
+                <span class="text-success" *ngIf="locationSiteInfo.onSiteParking">
+                  <i class="material-icons">check</i>
+                </span>
+
+                <span class="text-danger" *ngIf="!locationSiteInfo.onSiteParking">
+                  <i class="material-icons">close</i>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <th>OfSite Parking</th>
+              <td> <span class="text-success" *ngIf="locationSiteInfo.ofSiteParking">
+                  <i class="material-icons">check</i>
+                </span>
+
+                <span class="text-danger" *ngIf="!locationSiteInfo.ofSiteParking">
+                  <i class="material-icons">close</i>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <th>Parking Fee FullDay</th>
+              <td>{{locationSiteInfo.parkingFeeFullDay}}</td>
+            </tr>
+            <tr>
+              <th>Parking Fee HalfDay</th>
+              <td>{{locationSiteInfo.parkingFeeHalfDay}}</td>
+            </tr>
+            <tr>
+              <th>Parking Fee Hourly</th>
+              <td>{{locationSiteInfo.parkingFeeHourly}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- content page ends -->
+
+</div>
+
+
+
+<ng-template #editLocationAddress>
+  <div class="modal-header bg-light-primary">
+    <h4 class="modal-title pull-left">Location Address</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="locationAddressForm" *ngIf="locationAddressForm" (ngSubmit)="updateLocationAddress()">
+      <div class="row justify-content-center">
+        <div class="col-md-10 mx-auto">
+          <div class="row ">
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <label>Name</label>
+                <input type="text" appAlphabetsOnly class="form-control" formControlName="name" placeholder="Name"
+                  [ngClass]="{'is-invalid': locationAddressForm.get('name').errors 
+                && (locationAddressForm.get('name').touched||locatoinAddressFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(locationAddressForm.get('name').touched||locatoinAddressFormSubmit) && locationAddressForm.get('name').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <label>Country</label>
+                <select class="form-control" formControlName="countryID" [ngClass]="{'is-invalid': locationAddressForm.get('countryID').errors 
+                && (locationAddressForm.get('countryID').touched||locatoinAddressFormSubmit)}">
+                  <option>Select Country</option>
+                  <option value="1">Pakistan</option>
+                </select>
+                <div class="invalid-feedback"
+                  *ngIf="(locationAddressForm.get('countryID').touched||locatoinAddressFormSubmit) && locationAddressForm.get('countryID').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <label>County</label>
+                <input type="text" appAlphabetsOnly class="form-control" placeholder="County" formControlName="county"
+                  [ngClass]="{'is-invalid': locationAddressForm.get('county').errors 
+                && (locationAddressForm.get('county').touched||locatoinAddressFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(locationAddressForm.get('county').touched||locatoinAddressFormSubmit) && locationAddressForm.get('county').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <label>Town</label>
+                <input type="text" appNotAllowSepacialChatactor class="form-control" placeholder="Town"
+                  formControlName="town" [ngClass]="{'is-invalid': locationAddressForm.get('town').errors 
+                && (locationAddressForm.get('town').touched||locatoinAddressFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(locationAddressForm.get('town').touched||locatoinAddressFormSubmit) && locationAddressForm.get('town').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <label>Post Code</label>
+                <input type="text" appNotAllowSepacialChatactor class="form-control" placeholder="Post Code"
+                  formControlName="postCode" [ngClass]="{'is-invalid': locationAddressForm.get('postCode').errors 
+                  && (locationAddressForm.get('postCode').touched||locatoinAddressFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(locationAddressForm.get('postCode').touched||locatoinAddressFormSubmit) && locationAddressForm.get('postCode').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <label>Address</label>
+                <input type="text" class="form-control" placeholder="Address" formControlName="address" [ngClass]="{'is-invalid': locationAddressForm.get('address').errors 
+                && (locationAddressForm.get('address').touched||locatoinAddressFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(locationAddressForm.get('address').touched||locatoinAddressFormSubmit) && locationAddressForm.get('address').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row ">
+
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <label>Phone</label>
+                <input type="tel" appOnlynumbers class="form-control" placeholder="Phone" formControlName="phone"
+                  [ngClass]="{'is-invalid': locationAddressForm.get('phone').errors 
+                  && (locationAddressForm.get('phone').touched||locatoinAddressFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(locationAddressForm.get('phone').touched||locatoinAddressFormSubmit) && locationAddressForm.get('phone').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-right border-top">
+        <button type="submit" class="btn btn-parimary primary-gradient ml-2">Save</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #editLocationSiteInfoModal>
+  <div class="modal-header bg-light-primary">
+    <h4 class="modal-title pull-left">Location Site Info</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="locationSiteInfoForm" (ngSubmit)="updateLocationSiteInfo()">
+      <div class="row justify-content-center">
+        <div class="col-md-10 mx-auto">
+          <div class="row ">
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <label>Days Of Booking</label>
+                <input type="text" appOnlynumbers class="form-control" placeholder="Days Of Booking"
+                  formControlName="daysOfBooking" [ngClass]="{'is-invalid': locationSiteInfoForm.get('daysOfBooking').errors 
+                && (locationSiteInfoForm.get('daysOfBooking').touched||locationSiteInfoFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(locationSiteInfoForm.get('daysOfBooking').touched||locationSiteInfoFormSubmit) && locationSiteInfoForm.get('daysOfBooking').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <label>Location Cost By</label>
+                <input type="text" appAlphabetsOnly class="form-control" placeholder="Location Cost By"
+                  formControlName="locationCostBy" [ngClass]="{'is-invalid': locationSiteInfoForm.get('locationCostBy').errors 
+                && (locationSiteInfoForm.get('locationCostBy').touched||locationSiteInfoFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(locationSiteInfoForm.get('locationCostBy').touched||locationSiteInfoFormSubmit) && locationSiteInfoForm.get('locationCostBy').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <label>Amount</label>
+                <input type="number" class="form-control" placeholder="Amount" formControlName="amount" [ngClass]="{'is-invalid': locationSiteInfoForm.get('amount').errors 
+                && (locationSiteInfoForm.get('amount').touched||locationSiteInfoFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(locationSiteInfoForm.get('amount').touched||locationSiteInfoFormSubmit) && locationSiteInfoForm.get('amount').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <label>Availability Days</label>
+                <input type="text" appNotAllowSepacialChatactor class="form-control" placeholder="Availability"
+                  formControlName="availability" [ngClass]="{'is-invalid': locationSiteInfoForm.get('availability').errors 
+                && (locationSiteInfoForm.get('availability').touched||locationSiteInfoFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(locationSiteInfoForm.get('availability').touched||locationSiteInfoFormSubmit) && locationSiteInfoForm.get('availability').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row ">
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <label>Parking Fee Full Day</label>
+                <input type="text" appOnlynumbers class="form-control" placeholder=""
+                  formControlName="parkingFeeFullDay" [ngClass]="{'is-invalid': locationSiteInfoForm.get('parkingFeeFullDay').errors 
+                && (locationSiteInfoForm.get('parkingFeeFullDay').touched||locationSiteInfoFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(locationSiteInfoForm.get('parkingFeeFullDay').touched||locationSiteInfoFormSubmit) && locationSiteInfoForm.get('parkingFeeFullDay').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <label>Parking Fee Half Day</label>
+                <input type="text" appOnlynumbers class="form-control" placeholder=""
+                  formControlName="parkingFeeHalfDay" [ngClass]="{'is-invalid': locationSiteInfoForm.get('parkingFeeHalfDay').errors 
+                && (locationSiteInfoForm.get('parkingFeeHalfDay').touched||locationSiteInfoFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(locationSiteInfoForm.get('parkingFeeHalfDay').touched||locationSiteInfoFormSubmit) && locationSiteInfoForm.get('parkingFeeHalfDay').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <label>Parking Fee Hourly</label>
+                <input type="text" appOnlynumbers class="form-control" placeholder="" formControlName="parkingFeeHourly"
+                  [ngClass]="{'is-invalid': locationSiteInfoForm.get('parkingFeeHourly').errors 
+                && (locationSiteInfoForm.get('parkingFeeHourly').touched||locationSiteInfoFormSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(locationSiteInfoForm.get('parkingFeeHourly').touched||locationSiteInfoFormSubmit) && locationSiteInfoForm.get('parkingFeeHourly').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+              </div>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <div class="media">
+                  <div class="custom-control custom-checkbox todo-checkbox">
+                    <input type="checkbox" formControlName="isDisabilityAccess" class="custom-control-input"
+                      name="payment_option" id="customCheck1payment">
+                    <label class="custom-control-label" for="customCheck1payment"> <span class=""> </span></label>
+                  </div>
+                  <div class="media-body">
+                    <h6 class="my-0 text-truncated">Is Disability
+                      Access</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <div class="media">
+                  <div class="custom-control custom-checkbox todo-checkbox">
+                    <input type="checkbox" formControlName="isLiftAvailable" class="custom-control-input"
+                      name="payment_option" id="customCheck2payment">
+                    <label class="custom-control-label" for="customCheck2payment"> <span class=""> </span></label>
+                  </div>
+                  <div class="media-body">
+                    <h6 class="my-0 text-truncated"> Is Lift
+                      Available</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <div class="media">
+                  <div class="custom-control custom-checkbox todo-checkbox">
+                    <input type="checkbox" formControlName="onSiteParking" class="custom-control-input"
+                      name="payment_option" id="customCheck3payment">
+                    <label class="custom-control-label" for="customCheck3payment"> <span class=""></span></label>
+                  </div>
+                  <div class="media-body">
+                    <h6 class="my-0 text-truncated"> On Site
+                      Parking</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <div class="media">
+                  <div class="custom-control custom-checkbox todo-checkbox">
+                    <input type="checkbox" formControlName="ofSiteParking" class="custom-control-input"
+                      name="payment_option" id="customCheck4payment">
+                    <label class="custom-control-label" for="customCheck4payment"> <span class=""> </span></label>
+                  </div>
+                  <div class="media-body">
+                    <h6 class="my-0 text-truncated"> Of Site
+                      Parking</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <div class="media">
+                  <div class="custom-control custom-checkbox todo-checkbox">
+                    <input type="checkbox" formControlName="isPvtRoom" class="custom-control-input"
+                      name="payment_option" id="customCheck7payment">
+                    <label class="custom-control-label" for="customCheck7payment"> <span class=""> </span></label>
+                  </div>
+                  <div class="media-body">
+                    <h6 class="my-0 text-truncated"> Is Pvt
+                      Room</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <div class="media">
+                  <div class="custom-control custom-checkbox todo-checkbox">
+                    <input type="checkbox" formControlName="isReception" class="custom-control-input"
+                      name="payment_option" id="customCheck5payment">
+                    <label class="custom-control-label" for="customCheck5payment"> <span class=""></span></label>
+                  </div>
+                  <div class="media-body">
+                    <h6 class="my-0 text-truncated"> Is
+                      Reception</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+                <div class="media">
+                  <div class="custom-control custom-checkbox todo-checkbox">
+                    <input type="checkbox" formControlName="isWatingArea" class="custom-control-input"
+                      name="payment_option" id="customCheck6payment">
+                    <label class="custom-control-label" for="customCheck6payment"> <span class=""> </span></label>
+                  </div>
+                  <div class="media-body">
+                    <h6 class="my-0 text-truncated">Is Wating
+                      Area</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="form-group ">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-top text-right">
+        <button type="submit" class="btn btn-parimary primary-gradient ml-2">Save</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #addOrUpdateLocationRoom>
+  <div class="modal-header bg-light-primary">
+    <h4 class="modal-title pull-left">Location Room</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="locationRoomItemForm" (ngSubmit)="saveLocationRoom()">
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>Venue Room Name</label>
+            <input type="text" appNotAllowSepacialChatactor class="form-control" formControlName="venueRoomName"
+              [ngClass]="{'is-invalid': locationRoomItemForm.get('venueRoomName')?.errors 
+                          && (locationRoomItemForm.get('venueRoomName')?.touched||locationRoomFormSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(locationRoomItemForm.get('venueRoomName')?.touched||locationRoomFormSubmit) && locationRoomItemForm.get('venueRoomName')?.hasError('required')">
+              This
+              field is required</div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>Amount</label>
+            <input type="number" appOnlynumbers class="form-control" formControlName="amt" [ngClass]="{'is-invalid': locationRoomItemForm.get('amt')?.errors 
+                          && (locationRoomItemForm.get('amt')?.touched||locationRoomFormSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(locationRoomItemForm.get('amt')?.touched||locationRoomFormSubmit) && locationRoomItemForm.get('amt')?.hasError('required')">
+              This
+              field is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-sm-6">
+          <div class="form-group">
+            <div class="custom-control custom-checkbox todo-checkbox">
+              <input type="checkbox" class="custom-control-input" formControlName="isPvtRoom" [ngClass]="{'is-invalid': locationRoomItemForm.get('isPvtRoom')?.errors 
+              && (locationRoomItemForm.get('isPvtRoom')?.touched||locationRoomFormSubmit)}" id="isPvtRoom">
+              <label class="custom-control-label mr-2" for="isPvtRoom"> Is Pvt Room</label>
+            </div>
+            <div class="invalid-feedback"
+              *ngIf="(locationRoomItemForm.get('isPvtRoom')?.touched||locationRoomFormSubmit) && locationRoomItemForm.get('isPvtRoom')?.hasError('required')">
+              This
+              field is required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-right border-top">
+        <button type="submit" class="btn btn-sm btn-parimary primary-gradient ml-2">Save</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #uploadLocationImages>
+  <div class="modal-header pink-gradient">
+    <h4 class="modal-title pull-left">Upload Images</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="uploadLocationImageForm" (ngSubmit)="saveLocationImages()">
+      <div class="row">
+        <div class="col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>Upload Images</label>
+            <input type="file" #file class="form-control" formControlName="files" [ngClass]="{'is-invalid': uploadLocationImageForm.get('files')?.errors 
+            && (uploadLocationImageForm.get('files')?.touched||uploadLocationImageFormSubmit)}" multiple
+              (change)="onSelectImages(file.files)">
+            <div class="invalid-feedback"
+              *ngIf="(uploadLocationImageForm.get('files')?.touched||uploadLocationImageFormSubmit) && uploadLocationImageForm.get('files')?.hasError('required')">
+              This
+              field is required</div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>Desciption</label>
+            <input type="text" class="form-control" formControlName="description" placeholder="Description">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-sm-12">
+          <label>Choose Area Image Name</label>
+          <ul class="list-group border-top border-bottom list-group-flush" *ngFor="let imageName of locationImagesName">
+            <li class="list-group-item">
+              <div class="custom-control custom-radio">
+                <input type="radio" formControlName="areaImageID" class="custom-control-input" value="{{imageName.id}}"
+                  id="imageName{{imageName.id}}">
+                <label class="custom-control-label" for="imageName{{imageName.id}}"> <span
+                    class="">{{imageName.stuffValue}} </span></label>
+              </div>
+            </li>
+          </ul>
+          <div class="invalid-feedback"
+            *ngIf="(uploadLocationImageForm.get('areaImageID')?.touched||uploadLocationImageFormSubmit) && uploadLocationImageForm.get('areaImageID')?.hasError('required')">
+            This
+            field is required</div>
+        </div>
+      </div>
+
+      <div class="border-top text-right">
+        <button type="submit" class="btn btn-sm btn-primary pinl-gradient ml-2">Save</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

@@ -1,0 +1,85 @@
+<ngx-loading-bar color="#1e90ff" height="5px"></ngx-loading-bar>
+<!--page header-->
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+    <div class="container my-3 main-container">
+      <div class="row align-items-center">
+        <div class="col">
+          <div class=" form-group row ">
+            <div class="col-lg-6 col-md-6">
+              <h2 class="content-color-primary page-title">Application Configuration Data</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-rounded primary-gradient text-uppercase pr-3 mr-1" (click)="ngOnInit()"><i
+              class="material-icons">refresh</i> Refresh</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--page header end-->
+
+<!--page body-->
+<div class="container mt-2 main-container">
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="card rounded-0 border-0 mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col text-right">
+              <div class="dropdown">
+                <button class="btn btn-link btn-sm text-secondary rounded-0 dropdown-toggle float-right icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" type="button">
+                    <i class="fa fa-ellipsis-v"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" x-placement="top-end" style="position: absolute; transform: translate3d(178px, -147px, 0px); top: 0px; left: 0px !important; will-change: transform;">
+                    <a class="dropdown-item" href="#">
+                        <i class="fa fa-exclamation-circle text-secondary"></i> Report</a>
+                    <a class="dropdown-item" href="#">
+                        <i class="fa fa-cog text-secondary"></i> Settings</a>
+                    <a class="dropdown-item" href="#">
+                        <i class="fa fa-trash text-secondary"></i> Remove</a>
+                </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Sr.</th>
+                <th scope="col">Title</th>
+                <th scope="col">Value</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+              *ngFor="let item of ApplicationConfigurationData |filter:filter| paginate: { itemsPerPage: 6, currentPage: p };  let i = index">
+                <td scope="row"> {{i+1}}</td>
+                <td>{{item.title}}</td>
+                <td>
+                  <input class="form-control" type="text" id="keyValue" [(ngModel)]="item.keyValue" 
+                      name="keyValue" 
+                      #Apname="ngModel" placeholder="" required> 
+                </td>
+                <td>
+                  <button class="btn btn-info" style="margin-left: 2%;" (click)="Update(item)" >
+                    Send
+                </button>
+                </td>
+                
+              </tr>
+            </tbody>
+          </table>
+          <ul class="pagination">  
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>  
+          </ul> 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--page body end-->

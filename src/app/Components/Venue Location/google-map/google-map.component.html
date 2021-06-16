@@ -1,0 +1,132 @@
+<div class="modal-header bg-light-primary">
+  <h4 class="modal-title pull-left">Location Address</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="locationAddressForm" *ngIf="locationAddressForm" (ngSubmit)="updateLocationAddress()">
+    <div class="row justify-content-center">
+      <div class="col-md-10 mx-auto">
+        <div class="row ">
+          <div class="col-lg-6 col-md-6">
+            <div class="form-group ">
+              <label>Name</label>
+              <input type="text" appAlphabetsOnly class="form-control" formControlName="name" placeholder="Name"
+                [ngClass]="{'is-invalid': locationAddressForm.get('name').errors 
+              && (locationAddressForm.get('name').touched||locatoinAddressFormSubmit)}">
+              <div class="invalid-feedback"
+                *ngIf="(locationAddressForm.get('name').touched||locatoinAddressFormSubmit) && locationAddressForm.get('name').hasError('required')">
+                This field is required
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6">
+            <div class="form-group ">
+              <label>Country</label>
+              <select class="form-control" formControlName="countryID" [ngClass]="{'is-invalid': locationAddressForm.get('countryID').errors 
+              && (locationAddressForm.get('countryID').touched||locatoinAddressFormSubmit)}">
+                <option>Select Country</option>
+                <option value="1">Pakistan</option>
+              </select>
+              <div class="invalid-feedback"
+                *ngIf="(locationAddressForm.get('countryID').touched||locatoinAddressFormSubmit) && locationAddressForm.get('countryID').hasError('required')">
+                This field is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="col-lg-6 col-md-6">
+            <div class="form-group ">
+              <label>County</label>
+              <input type="text" appAlphabetsOnly class="form-control" placeholder="County" formControlName="county"
+                [ngClass]="{'is-invalid': locationAddressForm.get('county').errors 
+              && (locationAddressForm.get('county').touched||locatoinAddressFormSubmit)}">
+              <div class="invalid-feedback"
+                *ngIf="(locationAddressForm.get('county').touched||locatoinAddressFormSubmit) && locationAddressForm.get('county').hasError('required')">
+                This field is required
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6">
+            <div class="form-group ">
+              <label>Town</label>
+              <input type="text" appNotAllowSepacialChatactor class="form-control" placeholder="Town"
+                formControlName="town" [ngClass]="{'is-invalid': locationAddressForm.get('town').errors 
+              && (locationAddressForm.get('town').touched||locatoinAddressFormSubmit)}">
+              <div class="invalid-feedback"
+                *ngIf="(locationAddressForm.get('town').touched||locatoinAddressFormSubmit) && locationAddressForm.get('town').hasError('required')">
+                This field is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-md-6">
+            <div class="form-group ">
+              <label>Post Code</label>
+              <input type="text" appNotAllowSepacialChatactor class="form-control" placeholder="Post Code"
+                formControlName="postCode" [ngClass]="{'is-invalid': locationAddressForm.get('postCode').errors 
+                && (locationAddressForm.get('postCode').touched||locatoinAddressFormSubmit)}">
+              <div class="invalid-feedback"
+                *ngIf="(locationAddressForm.get('postCode').touched||locatoinAddressFormSubmit) && locationAddressForm.get('postCode').hasError('required')">
+                This field is required
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6">
+            <div class="form-group ">
+              <label>Address</label>
+              <input type="text" class="form-control" placeholder="Address" formControlName="address" [ngClass]="{'is-invalid': locationAddressForm.get('address').errors 
+              && (locationAddressForm.get('address').touched||locatoinAddressFormSubmit)}">
+              <div class="invalid-feedback"
+                *ngIf="(locationAddressForm.get('address').touched||locatoinAddressFormSubmit) && locationAddressForm.get('address').hasError('required')">
+                This field is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row ">
+
+          <div class="col-lg-6 col-md-6">
+            <div class="form-group ">
+              <label>Phone</label>
+              <input type="tel" appOnlynumbers class="form-control" placeholder="Phone" formControlName="phone"
+                [ngClass]="{'is-invalid': locationAddressForm.get('phone').errors 
+                && (locationAddressForm.get('phone').touched||locatoinAddressFormSubmit)}">
+              <div class="invalid-feedback"
+                *ngIf="(locationAddressForm.get('phone').touched||locatoinAddressFormSubmit) && locationAddressForm.get('phone').hasError('required')">
+                This field is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-sm-12">
+
+            <div class="form-group">
+              <label>Enter address</label>
+              <input type="text" class="form-control" formControlName="enterAddress" (keypress)="bindSearchInput(search)" (keydown.enter)="$event.preventDefault()"
+                placeholder="Search Nearest Location" autocorrect="off" autocapitalize="off" spellcheck="off"
+                type="text" #search  [ngClass]="{'is-invalid': locationAddressForm.get('enterAddress').errors 
+                && (locationAddressForm.get('enterAddress').touched||locatoinAddressFormSubmit)}">
+                <div class="invalid-feedback"
+                *ngIf="(locationAddressForm.get('enterAddress').touched||locatoinAddressFormSubmit) && locationAddressForm.get('enterAddress').hasError('required')">
+                This field is required
+              </div>
+            </div>
+            <agm-map style="height: 300px;" [latitude]="lat" [longitude]="lng" [zoom]="zoom"
+              (mapClick)="mapClicked($event)" >
+              <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)"></agm-marker>
+            </agm-map>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-right border-top">
+      <button type="submit" class="btn btn-parimary primary-gradient ml-2">Save</button>
+    </div>
+  </form>
+</div>

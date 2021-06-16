@@ -1,0 +1,21 @@
+export class NewInstruction{
+    id:number;
+    namePrefix:string;
+    firstName:string;
+    middleName:string;
+    lastName:string;
+    fullName:string;
+    gender:string;
+    dob:Date;
+    addressLine1:string;
+    addressLine2:string;
+    county:string;
+    town:string;
+    postCode:string;
+    co:string;
+    mobileNumber:string;
+    email:string;
+    occupancyTypeID:number;
+    occupationID:number;
+    userID:number;
+}
