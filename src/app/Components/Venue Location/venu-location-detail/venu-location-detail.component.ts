@@ -1,6 +1,7 @@
 import { AgmMap, MapsAPILoader, MouseEvent } from '@agm/core';
 import { AfterViewInit, Component, ContentChild, ElementRef, NgZone, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { debug } from 'console';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
@@ -57,6 +58,8 @@ export class VenuLocationDetailComponent implements OnInit {
   uploadLocationImageFormSubmit: boolean = false;
   filesUploaded = [];
 
+  imageUrl:string|ArrayBuffer;
+
   modalRef: BsModalRef;
   /* #endregion */
 
@@ -68,7 +71,8 @@ export class VenuLocationDetailComponent implements OnInit {
     private fb: FormBuilder,
     private toasterService: ToastrService,
     private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone) { }
+    private ngZone: NgZone,
+    private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -307,6 +311,8 @@ export class VenuLocationDetailComponent implements OnInit {
 
   getLocationImages(id) {
     this.venueLocationService.getLocationImages(0, id).subscribe(response => {
+      debugger
+
       this.locationImages = response.outputObject;
     });
   }
@@ -344,10 +350,15 @@ export class VenuLocationDetailComponent implements OnInit {
     }
   }
 
-  createImgPath = (serverPath: string) => {
-    return environment.apiUrl + `${serverPath}`;
+  createImgPath = (data:any) => {
+    debugger
+    // let objectURL = 'data:image/png;base64,' + data;
+    // let imageUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+    var base64String = data;
+    let objectURL = 'data:image/png;base64,' + base64String;
+    let imageUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL)
+    return imageUrl;
   }
-
   saveLocationImages() {
     this.uploadLocationImageFormSubmit = true;
     if (this.uploadLocationImageForm.valid) {

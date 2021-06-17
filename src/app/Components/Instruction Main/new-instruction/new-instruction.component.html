@@ -12,246 +12,599 @@
 
 <div class="container mt-4 main-container">
   <div class="card mb-4">
-    <div class="card-header border-bottom">
-      <h5 class="content-color-primary mb-0">New Instruction</h5>
-    </div>
-    <div class="card-body">
-      <div class="row justify-content-center">
-        <div class="col-md-10 mx-auto">
-          <div class="row ">
-            <div class="col-lg-12 col-md-12 text-center">
-              <img src="../../../../assets/img/idoxlogo.png" alt="" class="mw-100 mt-4"
-                style="width: 180px; height: 112px;">
-              <br>
-              <p class="text-secondary mt-3">Creative, amazing, awesome and unique</p>
+    <form [formGroup]="instructionForm" *ngIf="instructionForm" (ngSubmit)="saveInstructionForm()">
+      <div class="card-header border-bottom">
+        <h5 class="content-color-primary mb-0">New Instruction</h5>
+      </div>
+      <div class="card-body">
+        <div class="row justify-content-center">
+          <div class="col-md-10 mx-auto">
+            <div class="row ">
+              <div class="col-lg-12 col-md-12 text-center">
+                <img src="../../../../assets/img/idoxlogo.png" alt="" class="mw-100 mt-4"
+                  style="width: 180px; height: 112px;">
+                <br>
+                <p class="text-secondary mt-3">Creative, amazing, awesome and unique</p>
+              </div>
             </div>
-          </div>
-          <br>
-          <h5 class="m-0">Personal Info</h5>
-          <hr>
-          <div class="form-group row">
-            <div class="col-lg-6 col-md-6">
-              <label>First Name</label>
-              <input type="text" class="form-control" placeholder="">
-            </div>
-            <div class="col-lg-6 col-md-6">
-              <label>Last Name</label>
-              <input type="text" class="form-control" placeholder="">
-            </div>
-          </div>
-          <div class="form-group row">
-            <div class="col-lg-6 col-md-6">
-              <label>Middle Name</label>
-              <input type="text" class="form-control" placeholder="">
-            </div>
-            <div class="col-lg-6 col-md-6">
-              <label>Gender</label>
-              <input type="text" class="form-control" placeholder="">
-            </div>
-          </div>
-          <div class="form-group row">
-            <div class="col-lg-6 col-md-6">
-              <label>Email</label>
-              <input type="email" class="form-control" placeholder="">
-            </div>
-            <div class="col-lg-6 col-md-6">
-              <label>Phone Number</label>
-              <input type="text" class="form-control" placeholder="">
-            </div>
-          </div>
-          <div class="form-group row">
-            <div class="col-lg-6 col-md-6">
-              <label>Address Line1</label>
-              <input type="email" class="form-control" placeholder="">
-            </div>
-            <div class="col-lg-6 col-md-6">
-              <label>Address Line2</label>
-              <input type="text" class="form-control" placeholder="">
-            </div>
-          </div>
-          <div class="form-group row">
-            <div class="col-lg-6 col-md-6">
-              <div class="row">
-                <div class="col-lg-6">
-                  <label>Country</label>
-                  <select class="form-control " data-live-search="true" tabindex="-1" aria-hidden="true">
-                    <option value="AF">Afghanistan</option>
-                    <option value="AX">Åland Islands</option>
-                    <option value="AL">Albania</option>
-                    <option value="DZ">Algeria</option>
-                    <option value="AS">American Samoa</option>
-                    <option value="AD">Andorra</option>
-                    <option value="AO">Angola</option>
-                    <option value="AI">Anguilla</option>
-                    <option value="AQ">Antarctica</option>
-                    <option value="AG">Antigua and Barbuda</option>
-                    <option value="AR">Argentina</option>
-                    <option value="AM">Armenia</option>
-                    <option value="AW">Aruba</option>
-                  </select>
+            <br>
+            <h5 class="m-0">Personal Info</h5>
+            <hr>
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <label>First Name</label>
+                <input type="text" class="form-control" placeholder="" formControlName="firstName" [ngClass]="{'is-invalid': instructionForm.get('firstName').errors 
+                && (instructionForm.get('firstName').touched||instructionFromSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(instructionForm.get('firstName').touched||instructionFromSubmit) && instructionForm.get('firstName').hasError('required')">
+                  This field is required
                 </div>
-                <div class="col-lg-6">
-                  <label>Town</label>
-                  <input type="text" class="form-control" placeholder="">
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <label>Last Name</label>
+                <input type="text" class="form-control" placeholder="" formControlName="lastName" [ngClass]="{'is-invalid': instructionForm.get('lastName').errors 
+                && (instructionForm.get('lastName').touched||instructionFromSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(instructionForm.get('lastName').touched||instructionFromSubmit) && instructionForm.get('lastName').hasError('required')">
+                  This field is required
                 </div>
               </div>
             </div>
-            <div class="col-lg-6 col-md-6">
-              <div class="row">
-                <div class="col-lg-6">
-                  <label>Co</label>
-                  <select class="form-control" data-live-search="true" tabindex="-1" aria-hidden="true">
-                    <option value="AL">Alabama</option>
-                    <option value="AK">Alaska</option>
-                    <option value="AZ">Arizona</option>
-                  </select>
-                </div>
-                <div class="col-lg-6">
-                  <label>Post Code</label>
-                  <input type="text" class="form-control" placeholder="">
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <label>Middle Name</label>
+                <input type="text" class="form-control" placeholder="">
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <label>Occupancy Type</label>
+                <input type="text" class="form-control" placeholder="" formControlName="occupancyTypeID" [ngClass]="{'is-invalid': instructionForm.get('occupancyTypeID').errors 
+                && (instructionForm.get('occupancyTypeID').touched||instructionFromSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(instructionForm.get('occupancyTypeID').touched||instructionFromSubmit) && instructionForm.get('occupancyTypeID').hasError('required')">
+                  This field is required
                 </div>
               </div>
             </div>
-          </div>
-          <br>
-          <br>
-          <h5 class="m-0">Case Handler</h5>
-          <hr>
-          <div class="form-group row">
-            <div class="col-lg-6 col-md-6">
-              <div class="row">
-                <div class="col-lg-6">
-                  <label>Case Handler Name</label>
-                  <input type="text" class="form-control" placeholder="">
-                </div>
-                <div class="col-lg-6 col-md-6">
-                  <label>Case Handler Email</label>
-                  <input type="text" class="form-control" placeholder="">
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <label>Occupation</label>
+                <input type="text" class="form-control" placeholder="" formControlName="occupationID" [ngClass]="{'is-invalid': instructionForm.get('occupationID').errors 
+                && (instructionForm.get('occupationID').touched||instructionFromSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(instructionForm.get('occupationID').touched||instructionFromSubmit) && instructionForm.get('occupationID').hasError('required')">
+                  This field is required
                 </div>
               </div>
             </div>
-            <div class="col-lg-6 col-md-6">
-              <div class="row">
-                <div class="col-lg-6">
-                  <label>Case Handler Phone</label>
-                  <input type="email" class="form-control" placeholder="">
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <label>Gender</label>
+                    <select class="form-control" formControlName="gender" [ngClass]="{'is-invalid': instructionForm.get('gender').errors 
+                    && (instructionForm.get('gender').touched||instructionFromSubmit)}">
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                    </select>
+                    <div class="invalid-feedback"
+                      *ngIf="(instructionForm.get('gender').touched||instructionFromSubmit) && instructionForm.get('gender').hasError('required')">
+                      This field is required
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <label>DOB</label>
+                    <input type="date" class="form-control" placeholder="" formControlName="dob" [ngClass]="{'is-invalid': instructionForm.get('dob').errors 
+                    && (instructionForm.get('dob').touched||instructionFromSubmit)}">
+                    <div class="invalid-feedback"
+                      *ngIf="(instructionForm.get('dob').touched||instructionFromSubmit) && instructionForm.get('dob').hasError('required')">
+                      This field is required
+                    </div>
+                  </div>
                 </div>
-                <div class="col-lg-6">
-                  <label>Case Handler Fax</label>
-                  <input type="text" class="form-control" placeholder="">
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <label>Email</label>
+                    <input type="email" class="form-control" placeholder="" formControlName="email" email="true"
+                      [ngClass]="{'is-invalid': instructionForm.get('email').errors 
+                    && (instructionForm.get('email').touched||instructionFromSubmit)}">
+                    <div class="invalid-feedback">   
+                      <div *ngIf="(instructionForm.get('email').touched||instructionFromSubmit) && instructionForm.get('email').hasError('required')">
+                        This field is required
+                      </div>
+                      <div *ngIf="(instructionForm.get('email').touched||instructionFromSubmit) && instructionForm.get('email').hasError('email')">
+                        Email is not valid.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <label>Mobile Number</label>
+                    <input type="text" class="form-control" placeholder="" formControlName="mobileNumber" [ngClass]="{'is-invalid': instructionForm.get('mobileNumber').errors 
+                    && (instructionForm.get('mobileNumber').touched||instructionFromSubmit)}">
+                    <div class="invalid-feedback"
+                      *ngIf="(instructionForm.get('mobileNumber').touched||instructionFromSubmit) && instructionForm.get('mobileNumber').hasError('required')">
+                      This field is required
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <br>
-          <br>
-          <h5 class="m-0">Tranlator</h5>
-          <hr>
-          <div class="form-group row">
-            <div class="col-lg-6 col-md-6">
-              <label>Language</label>
-              <input type="text" class="form-control" placeholder="">
-            </div>
-            <div class="col-lg-6 col-md-6">
-              <label>Name</label>
-              <input type="text" class="form-control" placeholder="">
-            </div>
-          </div>
-          <div class="form-group row">
-            <div class="col-lg-6 col-md-6">
-              <div class="row">
-                <div class="col-lg-6">
-                  <label>Email</label>
-                  <input type="text" class="form-control" placeholder="">
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <label>County</label>
+                    <input type="text" class="form-control" placeholder="" formControlName="county" [ngClass]="{'is-invalid': instructionForm.get('county').errors 
+                    && (instructionForm.get('county').touched||instructionFromSubmit)}">
+                    <div class="invalid-feedback"
+                      *ngIf="(instructionForm.get('county').touched||instructionFromSubmit) && instructionForm.get('county').hasError('required')">
+                      This field is required
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <label>Town</label>
+                    <input type="text" class="form-control" placeholder="" formControlName="town" [ngClass]="{'is-invalid': instructionForm.get('town').errors 
+                    && (instructionForm.get('town').touched||instructionFromSubmit)}">
+                    <div class="invalid-feedback"
+                      *ngIf="(instructionForm.get('town').touched||instructionFromSubmit) && instructionForm.get('town').hasError('required')">
+                      This field is required
+                    </div>
+                  </div>
                 </div>
-                <div class="col-lg-6 col-md-6">
-                  <label>Phone</label>
-                  <input type="text" class="form-control" placeholder="">
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <label>Co</label>
+                    <input type="text" class="form-control" placeholder="">
+                  </div>
+                  <div class="col-lg-6">
+                    <label>Post Code</label>
+                    <input type="text" class="form-control" placeholder="" formControlName="postCode" [ngClass]="{'is-invalid': instructionForm.get('postCode').errors 
+                    && (instructionForm.get('postCode').touched||instructionFromSubmit)}">
+                    <div class="invalid-feedback"
+                      *ngIf="(instructionForm.get('postCode').touched||instructionFromSubmit) && instructionForm.get('postCode').hasError('required')">
+                      This field is required
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="col-lg-6 col-md-6">
-              <div class="row">
-                <div class="col-lg-6">
-                  <label>Co</label>
-                  <input type="text" class="form-control" placeholder="">
+
+            <div class="form-group row">
+              <div class="col-lg-12 col-md-12">
+                <label>Address Line1</label>
+                <input type="text" class="form-control" placeholder="" formControlName="addressLine1" [ngClass]="{'is-invalid': instructionForm.get('addressLine1').errors 
+                && (instructionForm.get('addressLine1').touched||instructionFromSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(instructionForm.get('addressLine1').touched||instructionFromSubmit) && instructionForm.get('addressLine1').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12">
+                <label>Address Line2</label>
+                <input type="text" class="form-control" placeholder="">
+              </div>
+            </div>
+            <br>
+            <br>
+            <h5 class="m-0">References</h5>
+            <hr>
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <label>Client Ref No</label>
+                <input type="text" class="form-control" placeholder="" formControlName="clientRefNo" [ngClass]="{'is-invalid': instructionForm.get('clientRefNo').errors 
+                && (instructionForm.get('clientRefNo').touched||instructionFromSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(instructionForm.get('clientRefNo').touched||instructionFromSubmit) && instructionForm.get('clientRefNo').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <label>Medico Ref No</label>
+                <input type="text" class="form-control" placeholder="" formControlName="medicoRefNo" [ngClass]="{'is-invalid': instructionForm.get('medicoRefNo').errors 
+                && (instructionForm.get('medicoRefNo').touched||instructionFromSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(instructionForm.get('medicoRefNo').touched||instructionFromSubmit) && instructionForm.get('medicoRefNo').hasError('required')">
+                  This field is required
                 </div>
               </div>
             </div>
-          </div>
-          <br>
-          <br>
-          <h5 class="m-0">Medical Record</h5>
-          <hr>
-          <div class="form-group row">
-            <div class="col-lg-6 col-md-6">
-              <label>Record Name</label>
-              <input type="text" class="form-control" placeholder="">
-            </div>
-            <div class="col-lg-6 col-md-6">
-              <label>Record Path</label>
-              <input type="text" class="form-control" placeholder="">
-            </div>
-          </div>
-          <div class="form-group row">
-            <div class="col-lg-6 col-md-6">
-              <div class="row">
-                <div class="col-lg-6">
-                  <label>Is Received</label>
-                  <input type="text" class="form-control" placeholder="">
-                </div>
-                <div class="col-lg-6 col-md-6">
-                  <label>Is Required By Expert</label>
-                  <input type="text" class="form-control" placeholder="">
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <label>Special Restriction Need</label>
+                <input type="text" class="form-control" placeholder="" formControlName="specialRestrictionNeed"
+                  [ngClass]="{'is-invalid': instructionForm.get('specialRestrictionNeed').errors 
+                && (instructionForm.get('specialRestrictionNeed').touched||instructionFromSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(instructionForm.get('specialRestrictionNeed').touched||instructionFromSubmit) && instructionForm.get('specialRestrictionNeed').hasError('required')">
+                  This field is required
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group ">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="agreement">
-                  <label class="custom-control-label" for="agreement">I agree with terms and condition. Lorem ipsum
-                    dolor sit amet, consectetur adipiscing elit. In eget tincidunt nisi, sed porta ligula. Vestibulum
-                    consequat sed lorem sed auctor. In hac habitasse platea dictumst. Fusce vulputate justo in mi
-                    auctor, ac dignissim dolor aliquet. Duis sit amet aliquam quam. Interdum et malesuada fames ac ante
-                    ipsum primis in faucibus. In non dictum turpis. Nam fringilla vulputate augue in mattis. Nullam quis
-                    libero turpis. Cras maximus eu lorem sit amet ornare.</label>
+              <div class="col-lg-6 col-md-6">
+                <div class="media" style="margin-top: 35px;">
+                  <div class="custom-control custom-checkbox todo-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="isSpecialRestrictionNeed">
+                    <label class="custom-control-label " for="isSpecialRestrictionNeed"></label>
+                  </div>
+                  <div class="media-body">
+                    <h6 class="my-0 text-truncated">Is Special Restriction Need</h6>
+                  </div>
                 </div>
 
               </div>
             </div>
-          </div>
-          <div class="form-group row">
-            <div class="col-md-12">
-              <label>Attachments</label>
-              <br>
-              <div class="custom-dropzone text-center align-items-center dz-clickable" id="my-dropzone">
-                <div class="dz-default dz-message" data-dz-message="">
-                  <h3 class="mb-0"><i class="material-icons">cloud_download</i></h3>
-                  <p>Drop here or click here to upload</p>
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <label>Expert</label>
+                    <select class="form-control" (change)="getRequiredMedicalRecord($event.target.value)"
+                      formControlName="expertID"
+                      [ngClass]="{'is-invalid': instructionForm.get('expertID').errors && (instructionForm.get('expertID').touched||instructionFromSubmit)}">
+                      <option>Select Expert</option>
+                      <option *ngFor="let expert of experts" value="{{expert.id}}">{{expert.firstName}}
+                        {{expert.lastName}}</option>
+                    </select>
+                    <div class="invalid-feedback"
+                      *ngIf="(instructionForm.get('expertID').touched||instructionFromSubmit) && instructionForm.get('expertID').hasError('required')">
+                      This field is required
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                    <label>Referrer</label>
+                    <select class="form-control" formControlName="referrerID" [ngClass]="{'is-invalid': instructionForm.get('referrerID').errors 
+                    && (instructionForm.get('referrerID').touched||instructionFromSubmit)}">
+
+                    </select>
+                    <div class="invalid-feedback"
+                      *ngIf="(instructionForm.get('referrerID').touched||instructionFromSubmit) && instructionForm.get('referrerID').hasError('required')">
+                      This field is required
+                    </div>
+                  </div>
                 </div>
               </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <label>Speciality</label>
+                    <select class="form-control " formControlName="specialityID" [ngClass]="{'is-invalid': instructionForm.get('specialityID').errors 
+                    && (instructionForm.get('specialityID').touched||instructionFromSubmit)}">
+                      <option *ngFor="let speciality of specialities" value="{{speciality.id}}">
+                        {{speciality.description}}</option>
+                    </select>
+                    <div class="invalid-feedback"
+                      *ngIf="(instructionForm.get('specialityID').touched||instructionFromSubmit) && instructionForm.get('specialityID').hasError('required')">
+                      This field is required
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <label>IncidentType</label>
+                    <select class="form-control" formControlName="incidentTypeID" [ngClass]="{'is-invalid': instructionForm.get('incidentTypeID').errors 
+                    && (instructionForm.get('incidentTypeID').touched||instructionFromSubmit)}">
+                    </select>
+                    <div class="invalid-feedback"
+                      *ngIf="(instructionForm.get('incidentTypeID').touched||instructionFromSubmit) && instructionForm.get('incidentTypeID').hasError('required')">
+                      This field is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-12 col-md-12">
+                <label>Special Note</label>
+                <textarea type="text" class="form-control" placeholder=""></textarea>
+              </div>
+            </div>
+            <br>
+            <br>
+            <h5 class="m-0">Case Handler</h5>
+            <hr>
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <label>Name</label>
+                    <input type="text" class="form-control" placeholder="" formControlName="caseHandlerName" [ngClass]="{'is-invalid': instructionForm.get('caseHandlerName').errors 
+                    && (instructionForm.get('caseHandlerName').touched||instructionFromSubmit)}">
+                    <div class="invalid-feedback"
+                      *ngIf="(instructionForm.get('caseHandlerName').touched||instructionFromSubmit) && instructionForm.get('caseHandlerName').hasError('required')">
+                      This field is required
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                    <label>Email</label>
+                    <input type="text" class="form-control" placeholder="" email="true" formControlName="caseHandlerEmail" [ngClass]="{'is-invalid': instructionForm.get('caseHandlerEmail').errors 
+                    && (instructionForm.get('caseHandlerEmail').touched||instructionFromSubmit)}">
+                    <div class="invalid-feedback">
+                      <div *ngIf="(instructionForm.get('caseHandlerEmail').touched||instructionFromSubmit) && instructionForm.get('caseHandlerEmail').hasError('required')">
+                        This field is required
+                      </div>
+                      <div *ngIf="(instructionForm.get('caseHandlerEmail').touched||instructionFromSubmit) && instructionForm.get('caseHandlerEmail').hasError('email')">
+                        Email is not valid.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <label>Phone</label>
+                    <input type="email" class="form-control" placeholder="" formControlName="caseHandlerPhone"
+                      [ngClass]="{'is-invalid': instructionForm.get('caseHandlerPhone').errors 
+                    && (instructionForm.get('caseHandlerPhone').touched||instructionFromSubmit)}">
+                    <div class="invalid-feedback"
+                      *ngIf="(instructionForm.get('caseHandlerPhone').touched||instructionFromSubmit) && instructionForm.get('caseHandlerPhone').hasError('required')">
+                      This field is required
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <label>Fax</label>
+                    <input type="text" class="form-control" placeholder="">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <br>
+            <h5 class="m-0">Tranlator</h5>
+            <hr>
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <label>Language</label>
+                <input type="text" class="form-control" placeholder="">
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <label>Name</label>
+                <input type="text" class="form-control" placeholder="">
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <label>Email</label>
+                <input type="text" class="form-control" placeholder="">
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <label>Phone</label>
+                <input type="text" class="form-control" placeholder="">
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <label>Co</label>
+                <input type="text" class="form-control" placeholder="">
+              </div>
+            </div>
+            <br>
+            <br>
+            <h5 class="m-0">Required Medical Record</h5>
+            <hr>
+            <div class="form-group row">
+              <ng-container formArrayName="requiredMedicalRecordFormArray">
+                <div class="col-lg-12 col-md-12">
+                  <div class="row">
+                    <div class="col-lg-4" *ngFor="let group of requiredMedicalRecordFormArray.controls; let i = index;">
+                      <label>{{group.get('medicalRecordName').value}}</label>
+                      <input type="file" class="form-control" placeholder=""
+                        [formControl]="group.get('requiredMedicalRecord')" [ngClass]="{'is-invalid': group.get('requiredMedicalRecord').errors 
+                    && (group.get('requiredMedicalRecord').touched||instructionFromSubmit)}">
+                      <div class="invalid-feedback"
+                        *ngIf="(group.get('requiredMedicalRecord').touched||instructionFromSubmit) && group.get('requiredMedicalRecord').hasError('required')">
+                        This field is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+            <br>
+            <br>
+            <h5 class="m-0">Other Medical Record</h5>
+            <hr>
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <label>Record Name</label>
+                <input type="text" class="form-control" placeholder="">
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <label>Record Path</label>
+                <input type="text" class="form-control" placeholder="">
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <div class="row">
+                  <div class="col-lg-6">
 
+                    <div class="media" style="margin-top: 35px;">
+                      <div class="custom-control custom-checkbox todo-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="isReceived">
+                        <label class="custom-control-label " for="isReceived"></label>
+                      </div>
+                      <div class="media-body">
+                        <h6 class="my-0 text-truncated">Is Received</h6>
+                      </div>
+                      <button class="btn btn-link text-danger todohide"><i class="material-icons">delete</i></button>
+                    </div>
+
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                    <div class="media" style="margin-top: 35px;">
+                      <div class="custom-control custom-checkbox todo-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="isRequiredByExpert">
+                        <label class="custom-control-label " for="isRequiredByExpert"></label>
+                      </div>
+                      <div class="media-body">
+                        <h6 class="my-0 text-truncated">Is Required By Expert</h6>
+                      </div>
+                      <button class="btn btn-link text-danger todohide"><i class="material-icons">delete</i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="form-group row">
-            <div class="col-lg-6 col-md-6">
-              <label>Location</label>
-              <input type="text" class="form-control" placeholder="">
+            <br>
+            <br>
+            <h5 class="m-0">Case Info</h5>
+            <hr>
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <label>Accident Circumstances</label>
+                <input type="text" class="form-control" placeholder="" formControlName="accidentCircumstances"
+                  [ngClass]="{'is-invalid': instructionForm.get('accidentCircumstances').errors 
+                && (instructionForm.get('accidentCircumstances').touched||instructionFromSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(instructionForm.get('accidentCircumstances').touched||instructionFromSubmit) && instructionForm.get('accidentCircumstances').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <label>Assignment Date</label>
+                <input type="date" class="form-control" placeholder="" formControlName="assignmentDate" [ngClass]="{'is-invalid': instructionForm.get('assignmentDate').errors 
+                && (instructionForm.get('assignmentDate').touched||instructionFromSubmit)}">
+                <div class="invalid-feedback"
+                  *ngIf="(instructionForm.get('assignmentDate').touched||instructionFromSubmit) && instructionForm.get('assignmentDate').hasError('required')">
+                  This field is required
+                </div>
+              </div>
             </div>
-            <div class="col-lg-6 col-md-6">
-              <label>Date</label>
-              <input type="text" class="form-control datepicker" placeholder="">
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <label>Priority</label>
+                    <input type="text" class="form-control" placeholder="" formControlName="priority" [ngClass]="{'is-invalid': instructionForm.get('priority').errors 
+                    && (instructionForm.get('priority').touched||instructionFromSubmit)}">
+                    <div class="invalid-feedback"
+                      *ngIf="(instructionForm.get('priority').touched||instructionFromSubmit) && instructionForm.get('priority').hasError('required')">
+                      This field is required
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                    <label>Start Time</label>
+                    <input type="time" class="form-control" placeholder="">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <label>Istruction Type</label>
+                    <input type="text" class="form-control" placeholder="" formControlName="instructionType" [ngClass]="{'is-invalid': instructionForm.get('instructionType').errors 
+                    && (instructionForm.get('instructionType').touched||instructionFromSubmit)}">
+                    <div class="invalid-feedback"
+                      *ngIf="(instructionForm.get('instructionType').touched||instructionFromSubmit) && instructionForm.get('instructionType').hasError('required')">
+                      This field is required
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <label>Appointment Date</label>
+                    <input type="date" class="form-control" placeholder="" formControlName="appointmentDate" [ngClass]="{'is-invalid': instructionForm.get('appointmentDate').errors 
+                    && (instructionForm.get('appointmentDate').touched||instructionFromSubmit)}">
+                    <div class="invalid-feedback"
+                      *ngIf="(instructionForm.get('appointmentDate').touched||instructionFromSubmit) && instructionForm.get('appointmentDate').hasError('required')">
+                      This field is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6">
+                    <label>Clinic Type</label>
+                    <input type="text" class="form-control" placeholder="" formControlName="clinicType" [ngClass]="{'is-invalid': instructionForm.get('clinicType').errors 
+                    && (instructionForm.get('clinicType').touched||instructionFromSubmit)}">
+                    <div class="invalid-feedback"
+                      *ngIf="(instructionForm.get('clinicType').touched||instructionFromSubmit) && instructionForm.get('clinicType').hasError('required')">
+                      This field is required
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <label>No Of Sessions</label>
+                    <input type="text" class="form-control" placeholder="" formControlName="noOfSessions" [ngClass]="{'is-invalid': instructionForm.get('noOfSessions').errors 
+                    && (instructionForm.get('noOfSessions').touched||instructionFromSubmit)}">
+                    <div class="invalid-feedback"
+                      *ngIf="(instructionForm.get('noOfSessions').touched||instructionFromSubmit) && instructionForm.get('noOfSessions').hasError('required')">
+                      This field is required
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="media" style="margin-top: 35px;">
+                      <div class="custom-control custom-checkbox todo-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="isInitialAssessment">
+                        <label class="custom-control-label " for="isInitialAssessment"></label>
+                      </div>
+                      <div class="media-body">
+                        <h6 class="my-0 text-truncated">Is Initial Assessment</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="media" style="margin-top: 35px;">
+                      <div class="custom-control custom-checkbox todo-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="isCourtCase">
+                        <label class="custom-control-label " for="isCourtCase"></label>
+                      </div>
+                      <div class="media-body">
+                        <h6 class="my-0 text-truncated">Is Court Case</h6>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-6 col-md-6">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <label>Court Date</label>
+                    <input type="date" class="form-control" placeholder="" formControlName="courtDate" [ngClass]="{'is-invalid': instructionForm.get('courtDate').errors 
+                    && (instructionForm.get('courtDate').touched||instructionFromSubmit)}">
+                    <div class="invalid-feedback"
+                      *ngIf="(instructionForm.get('courtDate').touched||instructionFromSubmit) && instructionForm.get('courtDate').hasError('required')">
+                      This field is required
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <label>Instruction DeadLine Date</label>
+                    <input type="date" class="form-control" placeholder="">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="media" style="margin-top: 35px;">
+                      <div class="custom-control custom-checkbox todo-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="isTralatorRequired">
+                        <label class="custom-control-label " for="isTralatorRequired"></label>
+                      </div>
+                      <div class="media-body">
+                        <h6 class="my-0 text-truncated">Is Translator Required</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="card-footer">
-      <button class="btn btn-secondary">Cancel</button>
-      <button class="btn btn-success float-right">Submit</button>
-    </div>
+
+      <div class="card-footer text-center border-top">
+        <button type="submit" class="btn btn-success">Submit</button>
+      </div>
+    </form>
   </div>
 </div>
