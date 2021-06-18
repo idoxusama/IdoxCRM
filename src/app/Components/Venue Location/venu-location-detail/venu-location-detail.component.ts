@@ -312,8 +312,9 @@ export class VenuLocationDetailComponent implements OnInit {
   getLocationImages(id) {
     this.venueLocationService.getLocationImages(0, id).subscribe(response => {
       debugger
-
       this.locationImages = response.outputObject;
+    },error=>{
+      console.log(error);
     });
   }
 
@@ -356,8 +357,7 @@ export class VenuLocationDetailComponent implements OnInit {
     // let imageUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
     var base64String = data;
     let objectURL = 'data:image/png;base64,' + base64String;
-    let imageUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL)
-    return imageUrl;
+    return this.sanitizer.bypassSecurityTrustUrl(objectURL);
   }
   saveLocationImages() {
     this.uploadLocationImageFormSubmit = true;

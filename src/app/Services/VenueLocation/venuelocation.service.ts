@@ -106,8 +106,8 @@ export class VenuelocationService {
   //Location Images
 
   getLocationImages(id,locationAddressID):Observable<any>{
-    let requestUrl = this.baseUrl+`/api/VenueLocation/GetLocationImages?ID=${id}&LocationAddressID=${locationAddressID}`;
-    
+    let requrestUrl = this.baseUrl+`/api/VenueLocation/GetLocationImages?ID=${id}&LocationAddressID=${locationAddressID}`;
+    //let requrestUrl = this.baseUrl+`/api/VenueLocation/GetProfilePicture?key=locationimg%2Froom%2Froom3.jpg`;
     const headerDict = {
       'Access-Control-Allow-Origin':'*',
       "Authorization": "Bearer " + localStorage.getItem('access_token'),
@@ -117,7 +117,7 @@ export class VenuelocationService {
       headers: new HttpHeaders(headerDict),
     };
     
-    return this.http.get(requestUrl,requestOptions);
+    return this.http.get(requrestUrl,requestOptions);
   }
 
   createLocationImages(data):Observable<any>{
