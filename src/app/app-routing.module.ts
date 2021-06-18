@@ -235,6 +235,8 @@ import { CreateReferrerComponent } from './Components/Referrer/create-referrer/c
 import { ReferrerListComponent } from './Components/Referrer/referrer-list/referrer-list.component';
 import { ReferrerDetailComponent } from './Components/Referrer/referrer-detail/referrer-detail.component';
 import { NewInstructionComponent } from './Components/Instruction Main/new-instruction/new-instruction.component';
+import { InstructionListComponent } from './Components/Instruction Main/instruction-list/instruction-list.component';
+import { InstructionDetailComponent } from './Components/Instruction Main/instruction-detail/instruction-detail.component';
 
 const routes: Routes = [
   {
@@ -1159,6 +1161,24 @@ const routes: Routes = [
   children: [
     {
       path: '', component: NewInstructionComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'IndoxCMS/Intruction/List',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: InstructionListComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'IndoxCMS/Intruction/Detail',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: InstructionDetailComponent, pathMatch: 'full', canActivate:[AuthGuard]
     }
   ]
 },

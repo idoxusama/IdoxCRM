@@ -15,4 +15,5 @@ export interface LocationImage{
     areaImagePath:string;
     description:string;
     userID:number;
+    fileContent:Blob[];
 }

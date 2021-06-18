@@ -109,7 +109,7 @@
           <div class="row" *ngIf="locationImages">
             <div class="col-lg-4 col-sm-4" *ngFor="let image of locationImages">
               <div class="card-image-wrapper">
-                <img [src]="createImgPath(image.areaImagePath)" class="img img-thumbnail"
+                <img [src]="createImgPath(image.fileContent)" class="img img-thumbnail"
                   style="width: 170px; height: 170px;" title="{{image.areaImageName}}">
                 <div class="text-center mt-2">
                   <button type="button" class="btn btn-sm danger-gradient mr-2" (click)="deleteLocationImage(image.id)">
