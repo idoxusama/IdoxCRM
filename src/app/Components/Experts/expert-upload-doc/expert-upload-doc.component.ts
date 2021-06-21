@@ -103,10 +103,11 @@ export class ExpertUploadDocComponent implements OnInit {
 
       }, error => {
         console.log(error);
-      })
+      },()=>{
+        this.expertPersonalDocuments(this.expertID!=="0" ? this.expertID : localStorage.getItem('expertID'));
+      });
     }
     this.uploadMore = false;
-    this.ngOnInit();
   }
 
   onNextStep() {

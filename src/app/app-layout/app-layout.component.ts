@@ -2,8 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { GenericServiceService } from '../Services/generic-service.service';
 import { CMSSectionMenuService } from '../Services/CMS Services/cmssection-menu.service';
 import { CMSMenuModule, CMSModule } from '../Models/CMS Model/cmsmodule.model';
-import $ from 'jquery';
-import { BsDropdownConfig } from 'ngx-bootstrap';
+import * as $ from "jquery";
 @Component({
   selector: 'app-app-layout',
   templateUrl: './app-layout.component.html',
