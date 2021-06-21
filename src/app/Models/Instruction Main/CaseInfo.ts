@@ -1,0 +1,19 @@
+export class CaseInfo{
+    id:number;
+    instructionID:number;
+    accidentCircumstances:string;
+    assignmentDate:Date;
+    priority:number;
+    startTime:Date;
+    instructionType:number;
+    bookingAppType:number;
+    appointmentDate:Date;
+    clinicType:number;
+    isInitialAssessment:boolean;
+    noOfSessions:number;
+    isCourtCase:boolean;
+    courtDate:Date;
+    isTranslatorRequired:boolean;
+    instructionDeadLineDate:Date;
+    userID:number;
+}

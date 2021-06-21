@@ -273,6 +273,8 @@ import { ReferrerDetailComponent } from './Components/Referrer/referrer-detail/r
 import { ReferrerListComponent } from './Components/Referrer/referrer-list/referrer-list.component';
 import { NewInstructionComponent } from './Components/Instruction Main/new-instruction/new-instruction.component';
 import { RequiredMedicalRecordComponent } from './Components/Experts/required-medical-record/required-medical-record.component';
+import { InstructionListComponent } from './Components/Instruction Main/instruction-list/instruction-list.component';
+import { InstructionDetailComponent } from './Components/Instruction Main/instruction-detail/instruction-detail.component';
 
 @NgModule({
   declarations: [	
@@ -523,6 +525,8 @@ import { RequiredMedicalRecordComponent } from './Components/Experts/required-me
     ReferrerDetailComponent,
     ReferrerListComponent,
     NewInstructionComponent,
+    InstructionListComponent,
+    InstructionDetailComponent,
     OnlynumbersDirective,
     AlphabetsOnlyDirective,
     NotAllowSepacialChatactorDirective,

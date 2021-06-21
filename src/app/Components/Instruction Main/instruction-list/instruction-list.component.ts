@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NewInstruction } from 'src/app/Models/Instruction Main/NewInstruction';
+import { InstructionService } from 'src/app/Services/Instruction Main/instruction.service';
 
 @Component({
   selector: 'app-instruction-list',
@@ -6,10 +8,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./instruction-list.component.scss']
 })
 export class InstructionListComponent implements OnInit {
-
-  constructor() { }
+  instructions:NewInstruction[]=[];
+  constructor(private instructionService:InstructionService) { }
 
   ngOnInit() {
+    this.getInstructions();
   }
 
+  getInstructions(){
+    this.instructionService.getInstructionPersonalInfo(0).subscribe(response=>{
+      this.instructions= response.outputObject;
+    },error=>{
+      console.log(error);
+    });
+  }
 }
