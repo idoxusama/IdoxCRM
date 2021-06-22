@@ -34,10 +34,12 @@ export class AppointmentCancellationComponent implements OnInit {
     private route:ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params=>{
-      this.expertID= params.get('id');
+    this.route.queryParams.subscribe(params=>{
+      this.expertID= params['id'];
     })
-    this.getAppointmentCancellation();
+    if(this.expertID){
+      this.getAppointmentCancellation();
+    }
   }
 
   getAppointmentCancellation(){

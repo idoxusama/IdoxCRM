@@ -9,6 +9,7 @@ import { StepModel } from 'src/app/Models/Experts Model/StepModel';
 import { ExpertBasicInfo } from 'src/app/Models/Experts Model/User';
 import { ExpertuserService } from 'src/app/Services/Experts Services/expertuser.service';
 import { StepsService } from 'src/app/Services/Experts Services/steps.service';
+import { SettingsService } from 'src/app/Services/Settings Services/settings.service';
 
 @Component({
   selector: 'app-epert-basic-info',
@@ -24,6 +25,7 @@ export class EpertBasicInfoComponent implements OnInit {
 
   specialities: any[];
   subSpecailities: any[];
+  expertType:any[];
 
   expertID: string;
   state: string;
@@ -33,15 +35,16 @@ export class EpertBasicInfoComponent implements OnInit {
     private experUserSerice: ExpertuserService,
     private route: ActivatedRoute,
     private router: Router,
-    private toaserService: ToastrService) {
+    private toaserService: ToastrService,
+    private settingService:SettingsService) {
     this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
     };
   }
 
   ngOnInit() {
-    debugger
     this.getSpecialities();
+    this.getExpertTypes();
 
     this.route.paramMap.subscribe(params => {
       this.expertID = params.get('id');
@@ -64,7 +67,6 @@ export class EpertBasicInfoComponent implements OnInit {
 
 
   createBasicInfoForm(data?: any) {
-    debugger
     if (data) {
       this.basicInfoForm = this.fb.group({
         //namePrefix:['',Validators.required],
@@ -75,7 +77,8 @@ export class EpertBasicInfoComponent implements OnInit {
         addressLine1: [data.addressLine1 ? data.addressLine1 : '', Validators.required],
         addressLine2: [data.addressLine2 ? data.addressLine2 : ''],
         specialityID: [data.specialityID ? data.specialityID : '', Validators.required],
-        subSpecialityID: [data.subSpecialityID ? data.subSpecialityID : '', Validators.required]
+        subSpecialityID: [data.subSpecialityID ? data.subSpecialityID : '', Validators.required],
+        expertType:[data.expertType?data.expertType:'',Validators.required]
       });
 
       this.getSubSpecialities(data.specialityID);
@@ -97,13 +100,14 @@ export class EpertBasicInfoComponent implements OnInit {
         addressLine1: ['', Validators.required],
         addressLine2: [''],
         specialityID: ['', Validators.required],
-        subSpecialityID: ['', Validators.required]
+        subSpecialityID: ['', Validators.required],
+        expertType:['',Validators.required]
       });
     }
   }
 
   getBasicInfo(id, profileSate?) {
-    this.experUserSerice.getExpertProfileInfo(id, "", profileSate).subscribe(response => {
+    this.experUserSerice.getExpertProfileInfo("Expert",id, "", profileSate).subscribe(response => {
       if (response.outputObject) {
         this.expertBasicInfo = response.outputObject.pop();
         this.createBasicInfoForm(this.expertBasicInfo);
@@ -123,7 +127,6 @@ export class EpertBasicInfoComponent implements OnInit {
       console.log(error);
     })
   }
-
   getSubSpecialities(id: number) {
     this.experUserSerice.subSpecialities(id).subscribe((response) => {
       this.subSpecailities = response.outputObject;
@@ -131,8 +134,16 @@ export class EpertBasicInfoComponent implements OnInit {
       console.log(error);
     })
   }
+
+  getExpertTypes(){
+    this.settingService.getAllExpertType(0).subscribe(response=>{
+      this.expertType= response.outputObject;
+    },error=>{
+      console.log(error);
+    });
+  }
+
   onNextStep() {
-    debugger
     this.submitted = true;
     if (this.basicInfoForm.valid) {
       if (!this.stepsService.isLastStep()) {

@@ -95,7 +95,6 @@ export class VenuLocationDetailComponent implements OnInit {
   loadPlacesAutoComplete() {
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
-      debugger
       this.geoCoder = new google.maps.Geocoder;
       let autocomplete = new google.maps.places.Autocomplete(this.search.nativeElement);
       autocomplete.addListener("place_changed", () => {
@@ -129,7 +128,6 @@ export class VenuLocationDetailComponent implements OnInit {
     }
   }
   markerDragEnd($event: MouseEvent) {
-    debugger
     this.lat = $event.coords.lat;
     this.lng = $event.coords.lng;
 
@@ -140,10 +138,8 @@ export class VenuLocationDetailComponent implements OnInit {
   }
   getAddress(latitude, longitude) {
     this.mapsAPILoader.load().then(()=>{
-      debugger
       this.geoCoder = new google.maps.Geocoder;
       this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
-        debugger
         if (status === 'OK') {
           if (results[0]) {
             this.zoom = 12;
@@ -164,7 +160,6 @@ export class VenuLocationDetailComponent implements OnInit {
   }
 
   updateMapLocationForm(data?:any,updateMapLocation?:boolean){
-    debugger
     if(data){
       this.lat=+data.mapLat;
       this.lng= +data.mapLong;
@@ -190,7 +185,6 @@ export class VenuLocationDetailComponent implements OnInit {
   }
 
   saveUpdatedLocation(){
-    debugger
     if(this.updateLocationForm.valid){
       this.locationAddress.mapLat= this.updateLocationForm.get('mapLat').value;
       this.locationAddress.mapLong = this.updateLocationForm.get('mapLong').value;
@@ -220,7 +214,6 @@ export class VenuLocationDetailComponent implements OnInit {
   }
 
   editLocationAddressForm(template: TemplateRef<any>) {
-    debugger
     let data = this.locationAddress;
     this.getAddress(+data.mapLat,+data.mapLong);
     this.locationAddressForm = this.fb.group({

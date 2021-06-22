@@ -23,7 +23,7 @@ export class ExpertsListComponent implements OnInit {
   }
 
   getCompletedExpertsProfile() {
-    this.expertUserService.getExpertProfileInfo(0, "", "completedprofile").subscribe((response) => {
+    this.expertUserService.getExpertProfileInfo("Expert",0, "", "completedprofile").subscribe((response) => {
       this.expertsList = response.outputObject;
       this.filterList = this.expertsList;
     }, error => {

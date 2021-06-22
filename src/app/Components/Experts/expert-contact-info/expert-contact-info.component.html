@@ -122,6 +122,7 @@
       <label>Company</label>
       <select class="form-control" formControlName="companyID" [ngClass]="{'is-invalid': contactInfoForm.get('companyID').errors 
         && (contactInfoForm.get('companyID').touched||submitted)}">
+        <option value="">Select Option</option>
         <option *ngFor="let opt of companies" value="{{opt.id}}">{{opt.companyName}}</option>
       </select>
       <div class="invalid-feedback"

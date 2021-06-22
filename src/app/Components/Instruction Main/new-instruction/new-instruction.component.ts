@@ -125,7 +125,7 @@ export class NewInstructionComponent implements OnInit {
   /* #region  Dropdowns */
 
   getExperts() {
-    this.expertUserService.getExpertProfileInfo(0, "", "completedprofile").subscribe(response => {
+    this.expertUserService.getExpertProfileInfo("Expert",0, "", "completedprofile").subscribe(response => {
       this.experts=[];
       let defualtOptiton={
         id:'0',

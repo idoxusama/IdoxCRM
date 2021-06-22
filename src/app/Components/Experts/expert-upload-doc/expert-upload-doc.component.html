@@ -97,7 +97,7 @@
       <tr *ngFor="let doc of expertuploadDocs">
         <td>{{doc.documentName}}</td>
         <td>
-          <button class="btn pink-gradient px-3 btn-sm">Delete</button>
+          <button class="btn danger-gradient px-3 btn-sm" (click)="deleteExpertDocuments(doc.id)">Delete</button>
         </td>
       </tr>
     </table>

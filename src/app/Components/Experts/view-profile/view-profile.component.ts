@@ -40,7 +40,7 @@ export class ViewProfileComponent implements OnInit {
   }
 
   getExpertPersonalInfo(){
-    this.expertUserService.getExpertProfileInfo(this.expertID,"",this.profileState).subscribe(response=>{
+    this.expertUserService.getExpertProfileInfo("Expert",this.expertID,"",this.profileState).subscribe(response=>{
       debugger
       this.expertBasicInfo = response.outputObject?response.outputObject.pop():null;
     },error=>{
@@ -49,7 +49,7 @@ export class ViewProfileComponent implements OnInit {
   }
 
   getExpertContactInfo(){
-    this.expertUserService.getExpertProfileInfo(this.expertID,"",this.profileState).subscribe(response=>{
+    this.expertUserService.getExpertProfileInfo("Expert",this.expertID,"",this.profileState).subscribe(response=>{
       this.expertContactInfo = response.outputObject?response.outputObject.pop():null;
     },error=>{
       console.log(error);
@@ -57,7 +57,7 @@ export class ViewProfileComponent implements OnInit {
   }
 
   getExpertCharges(){
-    this.expertUserService.getExpertProfileInfo(this.expertID,"",this.profileState).subscribe(response=>{
+    this.expertUserService.getExpertProfileInfo("Expert",this.expertID,"",this.profileState).subscribe(response=>{
       this.expertCharges = response.outputObject?response.outputObject.pop():null;
     },error=>{
       console.log(error);

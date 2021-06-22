@@ -62,13 +62,15 @@ export class ServicesComponent implements OnInit {
     private route:ActivatedRoute) { }
 
   ngOnInit() {
-
-    this.route.paramMap.subscribe(params=>{
-      this.expertID=params.get('id');
+    debugger
+    this.route.queryParams.subscribe(params=>{
+      this.expertID=params['id'];
     })
 
-    this.getService();
-    this.getExpertSlaServices(1);
+    if(this.expertID){
+      this.getService();
+      this.getExpertSlaServices(1);
+    }
   }
 
   getService() {
