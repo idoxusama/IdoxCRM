@@ -4,4 +4,6 @@ export class PerformaDraft{
     clientName:string;
     expertName:string;
     expertType:string;
+    expertID:number;
+    expertTypeID:number;
 }

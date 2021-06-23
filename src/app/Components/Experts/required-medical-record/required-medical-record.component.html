@@ -19,7 +19,7 @@
             <td>
               <select class="form-control" [formControl]="group.get('medicalRecordType')"
                [ngClass]="{'is-invalid': group.get('medicalRecordType')?.errors  && (group.get('medicalRecordType')?.touched||medicalRecordRequiredFormSubmit)}">
-                <option>Select Type</option>
+                <option value="">Select Option</option>
                 <option value="Record">Record</option>
                 <option value="Report">Report</option>
               </select>
@@ -43,9 +43,13 @@
           <tr *ngIf="!group.get('isEditable').value">
             <td>{{group.get('medicalRecordType').value}}</td>
             <td>{{group.get('medicalRecordName').value}}</td>
-            <td>{{group.get('isRequired').value}}</td>
+            <td>
+                <span *ngIf="group.get('isRequired').value" class="text-success"><i class="material-icons">check</i></span>
+                <span *ngIf="!group.get('isRequired').value" class="text-danger"><i class="material-icons">close</i></span>
+            </td>
             <td>
               <button type="button" class="btn btn-sm primary-gradient mr-2" (click)="editMedicalRecord(group)">Edit</button>
+              <button type="button" class="btn btn-sm danger-gradient mr-2" (click)="deleteMedicalRequiredRecord(group.get('id').value)">Delete</button>
             </td>
           </tr>
         </ng-container>

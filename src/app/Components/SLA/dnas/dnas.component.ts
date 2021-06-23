@@ -32,10 +32,12 @@ export class DnasComponent implements OnInit {
     private route:ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params=>{
-      this.expertID=params.get('id');
+    this.route.queryParams.subscribe(params=>{
+      this.expertID=params['id'];
     })
-    this.getExpertDNAS();
+    if(this.expertID){
+      this.getExpertDNAS();
+    }
   }
 
   getExpertDNAS() {

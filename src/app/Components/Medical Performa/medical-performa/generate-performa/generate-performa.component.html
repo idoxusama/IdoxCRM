@@ -267,7 +267,7 @@
               <div *ngFor="let radioOption of question.options">
                 <div class="custom-control custom-radio">
                   <input type="{{radioOption.optionType}}" formControlName="{{question.questionName}}"
-                    value="{{radioOption.id}}" name="radiogroup-{{radioOption.id}}" class="custom-control-input" id="{{radioOption.id}}"
+                    value="{{radioOption.id}}" name="radiogroup-{{question.id}}" class="custom-control-input" id="{{radioOption.id}}"
                     [checked]="(+question.selectedOption==radioOption.id)?question.selectedOption:''"
                     (change)="draftFillAnswersForExpert($event.target.value,question.id,question.questionName,question.isOptional)" />
                   <label class="custom-control-label" for="{{radioOption.id}}">{{radioOption.optionName}}</label>

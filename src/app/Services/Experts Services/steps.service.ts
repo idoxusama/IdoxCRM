@@ -6,7 +6,7 @@ import { StepModel } from 'src/app/Models/Experts Model/StepModel';
 const STEPS = [
   { stepIndex: 1,stepName:"Personal Info", isComplete: false },
   { stepIndex: 2,stepName:"Contact Info", isComplete: false },
-  { stepIndex: 3,stepName:"Fee / Charges ", isComplete: false },
+  { stepIndex: 3,stepName:"Fee & Map Address", isComplete: false },
   { stepIndex: 4,stepName:"Bank Detail", isComplete: false },
   { stepIndex: 5,stepName:"Medical Record", isComplete: false },
   { stepIndex: 6,stepName:"Upload Docs", isComplete: false },

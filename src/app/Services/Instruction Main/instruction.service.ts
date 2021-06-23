@@ -10,6 +10,11 @@ export class InstructionService {
   baseUrl: string = environment.apiUrl;
   constructor(private http:HttpClient) { }
 
+  //get Occupancy dropdown
+  getOccupanyTypeList(){
+    
+  }
+
   //Instruction Personal Info
   
   getInstructionPersonalInfo(id):Observable<any>{
@@ -191,7 +196,8 @@ export class InstructionService {
   }
 
   createInstructionMedicalRecord(data):Observable<any>{
-    let requestUrl = this.baseUrl + `/api​/Instruction​/CreateInstructionMedicalRecord`;
+    debugger
+    let requestUrl = this.baseUrl + `/api/Instruction/CreateInstructionMedicalRecord`;
     const headerDict = {
       'Access-Control-Allow-Origin': '*',
       "Authorization": "Bearer " + localStorage.getItem('access_token'),

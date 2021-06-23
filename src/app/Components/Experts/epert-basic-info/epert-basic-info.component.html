@@ -70,6 +70,7 @@
         <label>Speciality</label>
         <select class="form-control" formControlName="specialityID" [ngClass]="{'is-invalid': basicInfoForm.get('specialityID').errors 
         && (basicInfoForm.get('specialityID').touched||submitted)}" (change)="getSubSpecialities($event.target.value)">
+        <option value="">Select Option</option>
           <option *ngFor="let opt of specialities" value="{{opt.id}}">{{opt.description}}</option>
         </select>
         <div class="invalid-feedback"
@@ -83,12 +84,26 @@
         <label>Sub Speciality</label>
         <select class="form-control" formControlName="subSpecialityID" [ngClass]="{'is-invalid': basicInfoForm.get('subSpecialityID').errors 
         && (basicInfoForm.get('subSpecialityID').touched||submitted)}">
+        <option value="">Select Option</option>
           <option *ngFor="let opt of subSpecailities" value="{{opt.id}}">{{opt.decription}}</option>
         </select>
         <div class="invalid-feedback"
           *ngIf="(basicInfoForm.get('subSpecialityID').touched||submitted) && basicInfoForm.get('subSpecialityID').hasError('required')">
           This
           field is required</div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12">
+      <div class="form-group">
+        <label>Expert Type</label>
+        <select class="form-control" formControlName="expertType" [ngClass]="{'is-invalid': basicInfoForm.get('expertType').errors 
+        && (basicInfoForm.get('expertType').touched||submitted)}">
+        <option value="">Select Option</option>
+        <option *ngFor="let type of expertType; let i = index;" value="{{type.expertTypeID}}">{{type.expertCategories}}</option>
+        </select>
+        <div class="invalid-feedback"
+          *ngIf="(basicInfoForm.get('expertType').touched||submitted) && basicInfoForm.get('expertType').hasError('required')">
+          This field is required</div>
       </div>
     </div>
   </div>

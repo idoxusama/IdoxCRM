@@ -19,6 +19,7 @@ export class ExpertBasicInfo{
   createdBy:number;
   modifiedBy:number;
   isActive:number;
+  expertType:number;
 }
 
 export class ExpertContactInfo{

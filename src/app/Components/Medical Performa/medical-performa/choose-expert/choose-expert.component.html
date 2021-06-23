@@ -33,11 +33,12 @@
               <label>Select Expert</label>
               <select class="form-control" (change)="changeExpert($event.target.value)">
                 <option>Select Expert</option>
-                <option *ngFor="let type of Experts" value="{{type.ExpertID}}">
-                  {{type.ExpertID}}-{{type.FirstName}}</option>
+                <option *ngFor="let expert of Experts" value="{{expert.id}}">
+                  {{expert.id}}-{{expert.firstName}}</option>
               </select>
             </div>
           </div>
+
           <div class="col-sm-4 text-right">
             <div class="form-group ">
               <div class="custom-control custom-checkbox" style="margin-top: 30px;">
@@ -50,7 +51,7 @@
           <div class="border-top">
           </div>
         </div>
-        <app-generate-performa [change]="change" [draftCode]="draftCode"></app-generate-performa>
+        <app-generate-performa [experTypeId]="experTypeId" [draftCode]="draftCode"></app-generate-performa>
       </div>
     </div>
   </div>

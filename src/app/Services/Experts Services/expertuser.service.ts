@@ -91,8 +91,8 @@ export class ExpertuserService {
 
 
   // Expert Personal Info
-  getExpertProfileInfo(id:any,expertCode?:string,profileState?:string):Observable<any>{
-    let requestUrl = this.baseUrl+`/api/Expert/GetExpertProfile?expertID=${id}&expertCode=${expertCode}&profileState=${profileState}`;    
+  getExpertProfileInfo(expertFilterName,expertFilterID,expertCode?,profileState?):Observable<any>{
+    let requestUrl = this.baseUrl+`/api/Expert/GetExpertProfile?expertFilterName=${expertFilterName}&expertFilterID=${expertFilterID}&expertCode=${expertCode}&profileState=${profileState}`;    
     const headerDict = {
       'Access-Control-Allow-Origin':'*',
       "Authorization": "Bearer " + localStorage.getItem('access_token'),

@@ -43,7 +43,9 @@
                               <td>{{item.expertName}}</td>
                               <td>{{item.expertType}}</td>
                               <td>
-                                <button class="btn danger-gradient px-3 btn-sm" [routerLink]="['/MedicalPerforma/Performa']" [queryParams]={code:item.performaQuestionnaireCode}>Open Draft</button>
+                                <button class="btn danger-gradient px-3 btn-sm" 
+                                    [routerLink]="['/MedicalPerforma/Performa']"
+                                    [queryParams]={code:item.performaQuestionnaireCode}>Open Draft</button>
                               </td>
                           </tr>
                       </tbody>

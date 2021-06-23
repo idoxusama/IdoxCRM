@@ -85,7 +85,7 @@
                                         [routerLink]="['/Experts/User',{id:item.id,state:'completedprofile'}]"><i
                                             class="material-icons">edit</i></a>
                                     <a title="SLA" class="text-primary mr-1" style="cursor: pointer;"
-                                        [routerLink]="['/Experts/sla',{id:item.id}]"><i
+                                        [routerLink]="['/Experts/sla']" [queryParams]="{id:item.id}"><i
                                             class="material-icons">home</i></a>
                                     <a title="Delete Profile" class="text-danger mr-1" style="cursor: pointer;"
                                         (click)="deleteProfile(item.id,'IsDeleted',1,'ExpertPersonalInfo')"><i

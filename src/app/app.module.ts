@@ -275,6 +275,8 @@ import { NewInstructionComponent } from './Components/Instruction Main/new-instr
 import { RequiredMedicalRecordComponent } from './Components/Experts/required-medical-record/required-medical-record.component';
 import { InstructionListComponent } from './Components/Instruction Main/instruction-list/instruction-list.component';
 import { InstructionDetailComponent } from './Components/Instruction Main/instruction-detail/instruction-detail.component';
+import { Select2Module } from 'ng2-select2';
+import { ClinicsClinicplansComponent } from './Components/Clinics/clinics-clinicplans/clinics-clinicplans.component';
 
 @NgModule({
   declarations: [	
@@ -311,6 +313,7 @@ import { InstructionDetailComponent } from './Components/Instruction Main/instru
     ClinicsNewclinicrequiredComponent,
     ClinicsFutureclinicrequiredComponent,
     ClinicsClinicextensionrequiredComponent,
+    ClinicsClinicplansComponent,
     DiagnosticCMSNewinstructionsComponent,
     DiagnosticCMSOutstandingappointmentsComponent,
     DiagnosticCMSOutstandingexaminationsComponent,
@@ -562,6 +565,7 @@ import { InstructionDetailComponent } from './Components/Instruction Main/instru
       apiKey: 'AIzaSyAFHSyU_GvrwjXI9E9FmAl9PIPIlblwJ9I',
       libraries: ['places'] 
     }),
+    Select2Module
   ],
   providers: [AuthGuard, DatePipe
     //   {

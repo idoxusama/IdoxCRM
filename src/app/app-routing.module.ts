@@ -237,6 +237,7 @@ import { ReferrerDetailComponent } from './Components/Referrer/referrer-detail/r
 import { NewInstructionComponent } from './Components/Instruction Main/new-instruction/new-instruction.component';
 import { InstructionListComponent } from './Components/Instruction Main/instruction-list/instruction-list.component';
 import { InstructionDetailComponent } from './Components/Instruction Main/instruction-detail/instruction-detail.component';
+import { ClinicsClinicplansComponent } from './Components/Clinics/clinics-clinicplans/clinics-clinicplans.component';
 
 const routes: Routes = [
   {
@@ -880,6 +881,15 @@ const routes: Routes = [
   children: [
     {
       path: '', component: ExpertsDraftListComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'Experts/clinicplan',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: ClinicsClinicplansComponent, pathMatch: 'full', canActivate:[AuthGuard]
     }
   ]
 },

@@ -35,7 +35,6 @@ export class ExpertContactInfoComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger
     this.route.paramMap.subscribe(params => {
       this.expertID = params.get('id');
       this.state = params.get('state');
@@ -65,15 +64,18 @@ export class ExpertContactInfoComponent implements OnInit {
   }
 
   getContactInfo(id, state) {
-    this.experUserService.getExpertProfileInfo(id, "", state).subscribe(response => {
-      debugger
-      this.expertContactInfo = response.outputObject.pop();
-      this.createContactInfoForm(this.expertContactInfo);
+    this.experUserService.getExpertProfileInfo("Expert",id, "", state).subscribe(response => {
+      this.expertContactInfo = response.outputObject?response.outputObject.pop():null;
+      if(this.expertContactInfo){
+        this.createContactInfoForm(this.expertContactInfo);
+      }
+      else{
+        this.createContactInfoForm();
+      }
     })
   }
   createContactInfoForm(data?: any) {
     if (data) {
-      debugger
       this.contactInfoForm = this.fb.group({
         phoneNo: [data.phoneNo ? data.phoneNo : '', [Validators.required,Validators.maxLength(11),Validators.minLength(11)]],
         mobileNumber: [data.mobileNumber ? data.mobileNumber : '', [Validators.required,Validators.maxLength(11),Validators.minLength(11)]],
@@ -86,14 +88,12 @@ export class ExpertContactInfoComponent implements OnInit {
         town: [data.town ? data.town : '', Validators.required],
         companyID: [data.companyID ? data.companyID : '', Validators.required]
       });
-
-      this.getCompanies();
     } else {
       this.contactInfoForm = this.fb.group({
         phoneNo: ['', [Validators.required,Validators.maxLength(11),Validators.minLength(11)]],
         mobileNumber: ['', [Validators.required,Validators.maxLength(11),Validators.minLength(11)]],
         alternatePhoneNo: ['',[Validators.maxLength(11),Validators.minLength(11)]],
-        email: ['', Validators.email,Validators.required],
+        email: ['', [Validators.email,Validators.required]],
         generalEmail: ['',Validators.email],
         postCode: ['', Validators.required],
         faxNo: ['', Validators.required],
@@ -106,7 +106,6 @@ export class ExpertContactInfoComponent implements OnInit {
   }
   
   onNextStep() {
-    debugger
     this.submitted = true;
     if (this.contactInfoForm.valid) {
       if (!this.stepsService.isLastStep()) {

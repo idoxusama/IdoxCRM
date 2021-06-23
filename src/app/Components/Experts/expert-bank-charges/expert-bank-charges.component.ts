@@ -51,7 +51,6 @@ export class ExpertBankChargesComponent implements OnInit {
 
   getBankAccountsDetail(id) {
     this.expertUserService.getExpertBankDetailInfo(id).subscribe(response => {
-      debugger
       this.expertBanksDetail = response.outputObject;
       this.expertBanksDetail.forEach(x => {
         this.addBankDetail(x);
@@ -108,7 +107,6 @@ export class ExpertBankChargesComponent implements OnInit {
     group.get('isEditable').setValue(true);
   }
   saveBankDetail(group: FormGroup) {
-    debugger
     this.submitted = true;
     if (group.valid) {
       if (group.get('id')) {
@@ -133,7 +131,7 @@ export class ExpertBankChargesComponent implements OnInit {
     }, error => {
       console.log(error);
     },()=>{
-      this.getBankAccountsDetail(this.expertBankDetail.expertID);
+      //this.getBankAccountsDetail(this.expertBankDetail.expertID);
     });
   }
   update(group: FormGroup) {
@@ -146,7 +144,24 @@ export class ExpertBankChargesComponent implements OnInit {
     }, error => {
       console.log(error);
     },()=>{
-      this.getBankAccountsDetail(this.expertBankDetail.expertID);
+      //this.getBankAccountsDetail(this.expertBankDetail.expertID);
+    });
+  }
+
+  deleteBankDetail(id){
+    debugger
+    let model:any={};
+    model.id=id;
+    model.event="IsDeleted";
+    model.value=1;
+    model.userID=+localStorage.getItem('userID');
+    model.functionName="ExpertBankDetail";
+    this.expertUserService.updateProfileStatus(model).subscribe(response=>{
+      this.toaserService.success("Bank detail has been deleted.");
+    },error=>{
+      console.log(error);
+    },()=>{
+      this.ngOnInit();
     });
   }
 

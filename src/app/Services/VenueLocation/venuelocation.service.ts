@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'jquery';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -210,5 +211,20 @@ export class VenuelocationService {
     };
     
     return this.http.post(requestUrl,data,requestOptions);
+  }
+
+  //get nearest location
+  getNearestLocations(mapLatitude,mapLongitude):Observable<any>{
+    let requestUrl= this.baseUrl+`/api/GoogleLocation/GetNearestLocation??locationLatitude=${mapLatitude}&locationLongitude=${mapLongitude}`;
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict),
+    };
+    
+    return this.http.get(requestUrl,requestOptions);
   }
 }
