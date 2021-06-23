@@ -144,7 +144,7 @@ export class VenuLocationDetailComponent implements OnInit {
           if (results[0]) {
             this.zoom = 12;
             this.address = results[0].formatted_address;
-            this.updateLocationForm.get('enterAddress').setValue(this.address);
+            this.updateLocationForm.get('mapAddress').setValue(this.address);
           } else {
             window.alert('No results found');
           }
@@ -167,7 +167,7 @@ export class VenuLocationDetailComponent implements OnInit {
       this.updateLocationForm= this.fb.group({
         mapLat:[data.mapLat?data.mapLat:'',Validators.required],
         mapLong:[data.mapLong?data.mapLong:'',Validators.required],
-        enterAddress:[this.address?this.address:'',Validators.required],
+        mapAddress:[this.address?this.address:'',Validators.required],
       });
       this.updateMapLocation=updateMapLocation;
       if(updateMapLocation){
@@ -178,7 +178,7 @@ export class VenuLocationDetailComponent implements OnInit {
       this.updateLocationForm= this.fb.group({
         mapLat:['',Validators.required],
         mapLong:['',Validators.required],
-        enterAddress:['',Validators.required],
+        mapAddress:['',Validators.required],
       });
       this.setCurrentLocation();
     }
@@ -188,6 +188,7 @@ export class VenuLocationDetailComponent implements OnInit {
     if(this.updateLocationForm.valid){
       this.locationAddress.mapLat= this.updateLocationForm.get('mapLat').value;
       this.locationAddress.mapLong = this.updateLocationForm.get('mapLong').value;
+      this.locationAddress.mapAddress = this.updateLocationForm.get('mapAddress').value;
 
       this.venueLocationService.updateLocationAddress(this.locationAddress).subscribe(response=>{
         this.toasterService.success('Map Locaiton updated successfully');

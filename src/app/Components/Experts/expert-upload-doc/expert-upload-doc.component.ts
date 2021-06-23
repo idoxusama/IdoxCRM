@@ -17,7 +17,7 @@ import { StepsService } from 'src/app/Services/Experts Services/steps.service';
 export class ExpertUploadDocComponent implements OnInit {
   @Input() step: StepModel;
   uploadDocsForm: FormGroup;
-  expertuploadDocs = [];
+  expertuploadDocs:ExpertUploadedDocs[] = [];
 
   filesToUpload = [];
   uploader: FileUploader;

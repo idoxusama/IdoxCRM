@@ -1,7 +1,6 @@
 <div class="row">
   <div class="col-lg-12 col-sm-12 text-right">
-    <button class="btn btn-sm primary-gradient mr-2" (click)="addUpload()"><i
-        class="material-icons">add</i></button>
+    <button class="btn btn-sm primary-gradient mr-2" (click)="addUpload()"><i class="material-icons">add</i></button>
   </div>
 </div>
 <form [formGroup]="uploadDocsForm" *ngIf="uploadDocsForm" (ngSubmit)="upload()">
@@ -20,7 +19,8 @@
     <div class="col-sm-4">
       <div class="form-group">
         <label>Upload Documents</label>
-        <input type="file" #file placeholder="Choose file" (change)="onSelectFiles(file.files)" formControlName="document" class="form-control" [ngClass]="{'is-invalid': uploadDocsForm.get('document').errors 
+        <input type="file" #file placeholder="Choose file" (change)="onSelectFiles(file.files)"
+          formControlName="document" class="form-control" [ngClass]="{'is-invalid': uploadDocsForm.get('document').errors 
       && (uploadDocsForm.get('document').touched||submitted)}" multiple>
         <div class="invalid-feedback"
           *ngIf="(uploadDocsForm.get('document').touched||submitted) && uploadDocsForm.get('document').hasError('required')">
@@ -91,11 +91,35 @@
   <div class="col-lg-12 col-sm-12">
     <table class="table">
       <thead>
+        <th>File / Image</th>
         <th>Document</th>
         <th>Action</th>
       </thead>
       <tr *ngFor="let doc of expertuploadDocs">
-        <td>{{doc.documentName}}</td>
+        <td>
+          <div>
+            <img src="" width="100px" height="100px">
+          </div>
+        </td>
+        <td>
+          
+          <div class="card mb-4 bg-light-primary border border-primary no-shadow" style="width: 200px;">
+            <div class="card-body p-2">
+                <div class="media">
+                    <div class="media-body">
+                        <p class="mb-0">Document.pdf</p>
+                        <h5 class="mb-0">21.0 mb</h5>
+                    </div>
+                    <a href="javascript:void(0)" class="icon-rounded icon-40 bg-primary ml-2">
+                        <i class="material-icons text-white">cloud_download</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        </td>
+        <td>
+          {{doc.documentName}}
+        </td>
         <td>
           <button class="btn danger-gradient px-3 btn-sm" (click)="deleteExpertDocuments(doc.id)">Delete</button>
         </td>

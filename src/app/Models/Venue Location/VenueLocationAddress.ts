@@ -11,5 +11,8 @@ export class LocationAddress{
     mapLat:string;
     mapLong:string;
     userID:number;
-    countryName:string;    
+    countryName:string;
+    mapAddress:string;
+    travelDistance:string;
+    traveltime:string;
 }

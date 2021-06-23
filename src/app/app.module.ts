@@ -276,6 +276,7 @@ import { RequiredMedicalRecordComponent } from './Components/Experts/required-me
 import { InstructionListComponent } from './Components/Instruction Main/instruction-list/instruction-list.component';
 import { InstructionDetailComponent } from './Components/Instruction Main/instruction-detail/instruction-detail.component';
 import { Select2Module } from 'ng2-select2';
+import { ClinicsClinicplansComponent } from './Components/Clinics/clinics-clinicplans/clinics-clinicplans.component';
 
 @NgModule({
   declarations: [	
@@ -312,6 +313,7 @@ import { Select2Module } from 'ng2-select2';
     ClinicsNewclinicrequiredComponent,
     ClinicsFutureclinicrequiredComponent,
     ClinicsClinicextensionrequiredComponent,
+    ClinicsClinicplansComponent,
     DiagnosticCMSNewinstructionsComponent,
     DiagnosticCMSOutstandingappointmentsComponent,
     DiagnosticCMSOutstandingexaminationsComponent,

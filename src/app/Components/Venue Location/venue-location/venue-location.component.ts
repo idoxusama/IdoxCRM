@@ -89,13 +89,10 @@ export class VenueLocationComponent implements OnInit, AfterViewInit {
   }
 
   loadPlacesAutoComplete() {
-    debugger
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder;
-
-      debugger
       let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
       autocomplete.addListener("place_changed", () => {
         this.ngZone.run(() => {
@@ -119,7 +116,6 @@ export class VenueLocationComponent implements OnInit, AfterViewInit {
     });
   }
   markerDragEnd($event: MouseEvent) {
-    debugger
     this.lat = $event.coords.lat;
     this.lng = $event.coords.lng;
 
@@ -136,7 +132,7 @@ export class VenueLocationComponent implements OnInit, AfterViewInit {
         if (results[0]) {
           this.zoom = 12;
           this.address = results[0].formatted_address;
-          this.venueLocationForm.get('enterAddress').setValue(this.address);
+          this.venueLocationForm.get('mapAddress').setValue(this.address);
         } else {
           window.alert('No results found');
         }
@@ -174,7 +170,7 @@ export class VenueLocationComponent implements OnInit, AfterViewInit {
       mapLink: [''],
       mapLat: ['', Validators.required],
       mapLong: ['', Validators.required],
-      enterAddress: ['', Validators.required],
+      mapAddress: ['', Validators.required],
       daysOfBooking: ['', Validators.required],
       locationCostBy: ['', Validators.required],
       amount: ['', Validators.required],
