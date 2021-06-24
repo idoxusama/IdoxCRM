@@ -89,6 +89,8 @@ export class NewInstructionComponent implements OnInit {
       specialNote: [''],
       isSpecialRestrictionNeed: [false],
       specialRestrictionNeed: ['', Validators.required],
+      isApproved:[true],
+      state:['Instruction'],
       caseHandlerName: ['', Validators.required],
       caseHandlerEmail: ['', [Validators.required, Validators.email]],
       caseHandlerPhone: ['', Validators.required],
@@ -128,7 +130,7 @@ export class NewInstructionComponent implements OnInit {
     this.expertUserService.getExpertProfileInfo("Expert",0, "", "completedprofile").subscribe(response => {
       this.experts=[];
       let defualtOptiton={
-        id:'0',
+        id:'',
         text:'Select Option'
       };
       this.experts.push(defualtOptiton);
@@ -147,7 +149,7 @@ export class NewInstructionComponent implements OnInit {
     this.expertUserService.specialities().subscribe((response) => {
       this.specialities = [];
       let defualtOptiton = {
-        id: '0',
+        id: '',
         text: 'Select Option'
       };
       this.specialities.push(defualtOptiton);
@@ -166,7 +168,7 @@ export class NewInstructionComponent implements OnInit {
     this.referrerService.getReferrerPersonalInfo(0).subscribe(response => {
       this.referrers = [];
       let defualtOptiton = {
-        id: '0',
+        id: '',
         text: 'Select Option'
       };
       this.referrers.push(defualtOptiton);
@@ -185,7 +187,7 @@ export class NewInstructionComponent implements OnInit {
     this.settingService.getMultiDiamensionalStuffValues("Occupancy", "OccupancyType").subscribe(response => {
       this.occupancyTypes = [];
       let defualtOptiton = {
-        id: '0',
+        id: '',
         text: 'Select Option'
       };
       this.occupancyTypes.push(defualtOptiton);
@@ -205,7 +207,7 @@ export class NewInstructionComponent implements OnInit {
     this.settingService.getMultiDiamensionalStuffValues("Occupation", "OccupationType").subscribe(response => {
       this.occupations = [];
       let defualtOptiton = {
-        id: '0',
+        id: '',
         text: 'Select Option'
       };
       this.occupations.push(defualtOptiton);
@@ -225,7 +227,7 @@ export class NewInstructionComponent implements OnInit {
     this.settingService.getMultiDiamensionalStuffValues("Incident", "IncidentType").subscribe(response => {
       this.incidentTypes = [];
       let defualtOptiton = {
-        id: '0',
+        id: '',
         text: 'Select Option'
       };
       this.incidentTypes.push(defualtOptiton);
@@ -244,7 +246,7 @@ export class NewInstructionComponent implements OnInit {
     this.settingService.getAllExpertType(0).subscribe(response => {
       this.expertTypes = [];
       let defualtOptiton = {
-        id: '0',
+        id: '',
         text: 'Select Option'
       };
       this.expertTypes.push(defualtOptiton);
@@ -270,17 +272,15 @@ export class NewInstructionComponent implements OnInit {
 
   /* #region  Medical Required Record */
   getRequiredMedicalRecord(e: any) {
-    debugger
+    this.instructionForm.get('expertID').setValue(e.value)
+    this.requiredMedicalRecordFormArray.controls.length = 0;
     if(e.value!=0){
       this.expertUserService.getExpertMedicalRequiredRecord(0, e.value).subscribe(response => {
         this.medicalRequiredRecordList = response.outputObject ? response.outputObject : null;
         if (this.medicalRequiredRecordList) {
-          this.medicalRequiredRecordList.forEach(e => {
-            this.addRequiredMedicalReqcord(e);
+          this.medicalRequiredRecordList.forEach(a => {
+            this.addRequiredMedicalReqcord(a);
           });
-        }
-        else {
-          this.requiredMedicalRecordFormArray.controls.length = 0;
         }
       }, error => {
         console.log(error);
@@ -297,6 +297,7 @@ export class NewInstructionComponent implements OnInit {
   }
 
   addRequiredMedicalFormGroup(data?: any) {
+    debugger
     if (data) {
       return this.fb.group({
         recordName: [data.medicalRecordName ? data.medicalRecordName : ''],
@@ -361,6 +362,7 @@ export class NewInstructionComponent implements OnInit {
   /* #region  Form Submission */
 
   async saveInstructionForm() {
+    debugger
     this.instructionFromSubmit = true;
     if (this.instructionForm.valid) {
 

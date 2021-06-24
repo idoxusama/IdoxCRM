@@ -58,8 +58,6 @@ export class VenuLocationDetailComponent implements OnInit {
   uploadLocationImageFormSubmit: boolean = false;
   filesUploaded = [];
 
-  imageUrl:string|ArrayBuffer;
-
   modalRef: BsModalRef;
   /* #endregion */
 

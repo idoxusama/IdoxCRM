@@ -13,6 +13,6 @@ export class LocationAddress{
     userID:number;
     countryName:string;
     mapAddress:string;
-    travelDistance:string;
-    traveltime:string;
+    distance:string;
+    duration:string;
 }

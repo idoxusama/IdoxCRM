@@ -215,7 +215,7 @@ export class VenuelocationService {
 
   //get nearest location
   getNearestLocations(mapLatitude,mapLongitude):Observable<any>{
-    let requestUrl= this.baseUrl+`/api/GoogleLocation/GetNearestLocation??locationLatitude=${mapLatitude}&locationLongitude=${mapLongitude}`;
+    let requestUrl= this.baseUrl+`/api/GoogleLocation/GetNearestLocation?locationLatitude=${mapLatitude}&locationLongitude=${mapLongitude}`;
     const headerDict = {
       'Access-Control-Allow-Origin':'*',
       "Authorization": "Bearer " + localStorage.getItem('access_token'),

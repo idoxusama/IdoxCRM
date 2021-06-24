@@ -72,7 +72,7 @@
               <div class="col-lg-6 col-md-6">
                 <label>Occupation</label>
                 <select2 [data]="occupations" [cssImport]="true" [ngClass]="{'is-invalid': instructionForm.get('occupationID').errors 
-                && (instructionForm.get('occupationID').touched||instructionFromSubmit)}" width="100%">
+                && (instructionForm.get('occupationID').touched||instructionFromSubmit)}" width="100%" (valueChanged)="onSelectOption($event,'occupationID')">
                 </select2>
                 <div class="invalid-feedback"
                   *ngIf="(instructionForm.get('occupationID').touched||instructionFromSubmit) && instructionForm.get('occupationID').hasError('required')">
@@ -260,7 +260,7 @@
                   <div class="col-lg-6 col-md-6">
                     <label>Referrer</label>
                     <select2 [data]="referrers" [cssImport]="true" [ngClass]="{'is-invalid': instructionForm.get('referrerID').errors 
-                    && (instructionForm.get('referrerID').touched||instructionFromSubmit)}" width="100%">
+                    && (instructionForm.get('referrerID').touched||instructionFromSubmit)}" width="100%" (valueChanged)="onSelectOption($event,'referrerID')">
                     </select2>
                     <div class="invalid-feedback"
                       *ngIf="(instructionForm.get('referrerID').touched||instructionFromSubmit) && instructionForm.get('referrerID').hasError('required')">
@@ -274,7 +274,7 @@
                   <div class="col-lg-6">
                     <label>Speciality</label>
                     <select2 [data]="specialities" [cssImport]="true" [ngClass]="{'is-invalid': instructionForm.get('specialityID').errors 
-                    && (instructionForm.get('specialityID').touched||instructionFromSubmit)}" width="100%">
+                    && (instructionForm.get('specialityID').touched||instructionFromSubmit)}" width="100%" (valueChanged)="onSelectOption($event,'specialityID')">
                     </select2>
                     <div class="invalid-feedback"
                       *ngIf="(instructionForm.get('specialityID').touched||instructionFromSubmit) && instructionForm.get('specialityID').hasError('required')">
@@ -284,7 +284,7 @@
                   <div class="col-lg-6">
                     <label>IncidentType</label>
                     <select2 [data]="incidentTypes" [cssImport]="true" [ngClass]="{'is-invalid': instructionForm.get('incidentTypeID').errors 
-                    && (instructionForm.get('incidentTypeID').touched||instructionFromSubmit)}" width="100%">
+                    && (instructionForm.get('incidentTypeID').touched||instructionFromSubmit)}" width="100%" (valueChanged)="onSelectOption($event,'incidentTypeID')">
                     </select2>
                     <div class="invalid-feedback"
                       *ngIf="(instructionForm.get('incidentTypeID').touched||instructionFromSubmit) && instructionForm.get('incidentTypeID').hasError('required')">
@@ -503,7 +503,7 @@
                   <div class="col-lg-6">
                     <label>Istruction Type</label>
                     <select2 [data]="expertTypes" [cssImport]="true" [ngClass]="{'is-invalid': instructionForm.get('instructionType').errors 
-                    && (instructionForm.get('instructionType').touched||instructionFromSubmit)}" width="100%">
+                    && (instructionForm.get('instructionType').touched||instructionFromSubmit)}" width="100%" (valueChanged)="onSelectOption($event,'instructionType')">
                     </select2>
                     <div class="invalid-feedback"
                       *ngIf="(instructionForm.get('instructionType').touched||instructionFromSubmit) && instructionForm.get('instructionType').hasError('required')">
@@ -528,7 +528,7 @@
                   <div class="col-lg-6 col-md-6">
                     <label>Clinic Type</label>
                     <select2 [data]="expertTypes" [cssImport]="true" [ngClass]="{'is-invalid': instructionForm.get('clinicType').errors 
-                    && (instructionForm.get('clinicType').touched||instructionFromSubmit)}"  width="100%">
+                    && (instructionForm.get('clinicType').touched||instructionFromSubmit)}"  width="100%" (valueChanged)="onSelectOption($event,'clinicType')">
                     </select2>
                     <div class="invalid-feedback"
                       *ngIf="(instructionForm.get('clinicType').touched||instructionFromSubmit) && instructionForm.get('clinicType').hasError('required')">
