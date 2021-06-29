@@ -20,6 +20,7 @@ export class ExpertBasicInfo{
   modifiedBy:number;
   isActive:number;
   expertType:number;
+  assessmentTime:string;
 }
 
 export class ExpertContactInfo{

@@ -34,8 +34,7 @@
                 *ngIf="(group.get('medicalRecordName')?.touched||medicalRecordRequiredFormSubmit) && group.get('medicalRecordName')?.hasError('required')">
                 This field is required</div>
             </td>
-            <td>
-            </td>
+            <td></td>
             <td>
               <button type="submit" class="btn btn-sm primary-gradient mr-2" (click)="saveRequiredMedicalRecord(group)">Save</button>
             </td>

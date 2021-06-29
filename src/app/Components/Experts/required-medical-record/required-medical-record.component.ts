@@ -71,14 +71,14 @@ export class RequiredMedicalRecordComponent implements OnInit {
         medicalRecordType:[data.medicalRecordType?data.medicalRecordType:'',Validators.required],
         medicalRecordName:[data.medicalRecordName?data.medicalRecordName:'',Validators.required],
         isRequired:[true],
-        isEditable:[false],
+        isEditable:[false]
       });
     }else{
       return this.fb.group({
         medicalRecordType:['',Validators.required],
         medicalRecordName:['',Validators.required],
         isRequired:[true],
-        isEditable:[true],
+        isEditable:[true]
       });
     }
     

@@ -8,6 +8,7 @@ import { InstructionService } from 'src/app/Services/Instruction Main/instructio
   styleUrls: ['./instruction-list.component.scss']
 })
 export class InstructionListComponent implements OnInit {
+  currentPage: number = 1;
   instructions:NewInstruction[]=[];
   constructor(private instructionService:InstructionService) { }
 

@@ -78,7 +78,8 @@ export class EpertBasicInfoComponent implements OnInit {
         addressLine2: [data.addressLine2 ? data.addressLine2 : ''],
         specialityID: [data.specialityID ? data.specialityID : '', Validators.required],
         subSpecialityID: [data.subSpecialityID ? data.subSpecialityID : '', Validators.required],
-        expertType:[data.expertType?data.expertType:'',Validators.required]
+        expertType:[data.expertType?data.expertType:'',Validators.required],
+        assessmentTime:[data.assessmentTime?data.assessmentTime:'',Validators.required]
       });
 
       this.getSubSpecialities(data.specialityID);
@@ -101,7 +102,8 @@ export class EpertBasicInfoComponent implements OnInit {
         addressLine2: [''],
         specialityID: ['', Validators.required],
         subSpecialityID: ['', Validators.required],
-        expertType:['',Validators.required]
+        expertType:['',Validators.required],
+        assessmentTime:['',Validators.required]
       });
     }
   }

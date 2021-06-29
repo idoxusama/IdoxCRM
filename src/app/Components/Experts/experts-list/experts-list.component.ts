@@ -11,6 +11,7 @@ import { ExpertuserService } from 'src/app/Services/Experts Services/expertuser.
   styleUrls: ['./experts-list.component.scss']
 })
 export class ExpertsListComponent implements OnInit {
+  currentPage:number=1;
   expertsList: ExpertBasicInfo[] = [];
   filterList: ExpertBasicInfo[] = [];
 

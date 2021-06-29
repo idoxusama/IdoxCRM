@@ -77,7 +77,7 @@
             </thead>
             <tbody>
               <tr
-                *ngFor="let item of UserData |filter:filter| paginate: { itemsPerPage: 6, currentPage: p };  let i = index">
+                *ngFor="let item of UserData | paginate: { itemsPerPage: 6, currentPage: currentPage };  let i = index">
                 <td scope="row"> {{i+1}}</td>
                 <td>{{item.UserName}}</td>
                 <td>{{item.CellNo}}</td>
@@ -100,7 +100,7 @@
             </tbody>
           </table>
           <ul class="pagination">
-            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
           </ul>
         </div>
       </div>
@@ -158,7 +158,7 @@
                   <select class="form-control" (change)="selectedGroupNameData($event.target.value)"
                     data-live-search="true" tabindex="-1" aria-hidden="true">
                     <option>--Please Select--</option>
-                    <option *ngFor="let SGD of SelectedGroupData" [value]="SGD.id">{{SGD.fullname}}</option>
+                    <option *ngFor="let SGD of SelectedGroupData" [value]="SGD.id">{{SGD.fullName}}</option>
                   </select>
                 </div>
               </div>
@@ -315,7 +315,7 @@
                 <label for="Group">Group</label>
                 <select class="form-control" id="Group" (change)="selectedUpdateGroupData($event.target.value)">
                   <option>--Please Select--</option>
-                  <option *ngFor="let GD of GroupData" [selected]="selectedUser.GroupID == GD.id" [value]="GD.id">
+                  <option *ngFor="let GD of GroupData" value="{{GD.id}}">
                     {{GD.description}}</option>
                 </select>
               </div>
@@ -325,7 +325,7 @@
                   (change)="selectedUpdateGroupNameData($event.target.value)">
                   <option>--Please Select--</option>
                   <option *ngFor="let SGD of SelectedGroupData" [selected]="EditPreSelectedGroupNameID == SGD.id"
-                    [value]="SGD.id">{{SGD.fullname}}</option>
+                    [value]="SGD.id">{{SGD.fullName}}</option>
                 </select>
               </div>
             </div><br />

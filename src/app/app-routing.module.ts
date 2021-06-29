@@ -238,6 +238,8 @@ import { NewInstructionComponent } from './Components/Instruction Main/new-instr
 import { InstructionListComponent } from './Components/Instruction Main/instruction-list/instruction-list.component';
 import { InstructionDetailComponent } from './Components/Instruction Main/instruction-detail/instruction-detail.component';
 import { ClinicsClinicplansComponent } from './Components/Clinics/clinics-clinicplans/clinics-clinicplans.component';
+import { OutstandingAppointmentSchedualComponent } from './Components/Medco CMS/outstanding-appointment-schedual/outstanding-appointment-schedual.component';
+import { InstructionStateComponent } from './Components/Instruction Main/instruction-state/instruction-state.component';
 
 const routes: Routes = [
   {
@@ -1193,11 +1195,29 @@ const routes: Routes = [
   ]
 },
 {
+  path: 'IndoxCMS/Intruction/InstructionsState',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: InstructionStateComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
   path: 'MedcoCMS/Outstanding_Appointments',
   component: AppLayoutComponent,
   children: [
     {
       path: '', component: MedcocmsOutstandingappointmentsComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'MedcoCMS/Outstanding_Appointments/Schedual',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: OutstandingAppointmentSchedualComponent, pathMatch: 'full', canActivate:[AuthGuard]
     }
   ]
 },

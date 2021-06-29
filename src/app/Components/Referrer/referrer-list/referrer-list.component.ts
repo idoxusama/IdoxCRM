@@ -10,7 +10,7 @@ import { SettingsService } from 'src/app/Services/Settings Services/settings.ser
   styleUrls: ['./referrer-list.component.scss']
 })
 export class ReferrerListComponent implements OnInit {
-
+  currentPage:number=1;
   referrerPersonalInfo:Referrer[]=[];
   constructor(
     private referrerService:ReferrerService,

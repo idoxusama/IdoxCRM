@@ -35,7 +35,7 @@
                           </tr>
                       </thead>
                       <tbody>
-                          <tr *ngFor="let item of performaDraftsList; let i = index">
+                          <tr *ngFor="let item of performaDraftsList | paginate: { itemsPerPage: 10, currentPage: currentPage }; let i = index">
                               <th scope="row"><span class="icon-30 icon-circle align-self-start pink-gradient text-white">{{i+1}}</span></th>
                               <td>{{item.performaQuestionnaireCode}}</td>
                               <td>{{item.caseRefNO}}</td>
@@ -50,6 +50,9 @@
                           </tr>
                       </tbody>
                   </table>
+                  <ul class="pagination">
+                    <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                  </ul>
               </div>
           </div>
       </div>

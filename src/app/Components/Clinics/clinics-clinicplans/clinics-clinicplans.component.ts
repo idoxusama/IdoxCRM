@@ -144,7 +144,7 @@ export class ClinicsClinicplansComponent implements OnInit {
       let res= response.outputObject?response.outputObject:null;
       this.expertTypes=[];
       let defualtOptiton={
-        id:'0',
+        id:'',
         text:'Select Option'
       };
       this.expertTypes.push(defualtOptiton);
@@ -163,55 +163,61 @@ export class ClinicsClinicplansComponent implements OnInit {
   }
 
   getExperts(event:any) {
-    this.expertUserService.getExpertProfileInfo("ExpertType", event.value).subscribe(response => {
-      this.experts=[];
-      let defualtOptiton={
-        id:'0',
-        text:'Select Option'
-      };
-      this.experts.push(defualtOptiton);
-      response.outputObject.forEach(element => {
-        let object =  {
-          id: element.id,
-          text: element.firstName
+    debugger
+    if(event.value){
+      this.expertUserService.getExpertProfileInfo("ExpertType", event.value).subscribe(response => {
+        this.experts=[];
+        let defualtOptiton={
+          id:'',
+          text:'Select Option'
         };
-        this.experts.push(object);
-      });
-
-    }, error => {
-      console.log(error);
-    });
-  }
-
-  getAvailabilityDays(event:any) {
-    this.clinicPlansForm.get('expertID').setValue(event.value);
-    this.expertUserService.getExpertProfileInfo("Expert",event.value,"","completedprofile").subscribe(response=>{
-      let expertPersonalInfo= response.outputObject?response.outputObject.pop():null;
-      if(expertPersonalInfo){
-        this.getAddress(+expertPersonalInfo.mapLat,+expertPersonalInfo.mapLong);
-      }
-    },error=>{
-      console.log(error);
-    },()=>{
-      this.slaService.getExpertAvailability(0, event.value).subscribe(response => {
-        this.expertAvalabilites = response.outputObject;
-        this.avalabilites = [];
-        let defualtOptiton = {
-          id: '0',
-          text: 'Select Option'
-        };
-        this.avalabilites.push(defualtOptiton);
+        this.experts.push(defualtOptiton);
         response.outputObject.forEach(element => {
-          let object = {
+          let object =  {
             id: element.id,
-            text: element.days
+            text: element.firstName
           };
-          this.avalabilites.push(object);
+          this.experts.push(object);
         });
+  
       }, error => {
         console.log(error);
       });
-    });
+    }
+  }
+
+  getAvailabilityDays(event:any) {
+    if(event.value){
+
+      this.clinicPlansForm.get('expertID').setValue(event.value);
+      this.expertUserService.getExpertProfileInfo("Expert",event.value,"","completedprofile").subscribe(response=>{
+        let expertPersonalInfo= response.outputObject?response.outputObject.pop():null;
+        if(expertPersonalInfo){
+          this.getAddress(+expertPersonalInfo.mapLat,+expertPersonalInfo.mapLong);
+        }
+      },error=>{
+        console.log(error);
+      },()=>{
+        this.slaService.getExpertAvailability(0, event.value).subscribe(response => {
+          this.expertAvalabilites = response.outputObject;
+          this.avalabilites = [];
+          let defualtOptiton = {
+            id: '',
+            text: 'Select Option'
+          };
+          this.avalabilites.push(defualtOptiton);
+          response.outputObject.forEach(element => {
+            let object = {
+              id: element.id,
+              text: element.days
+            };
+            this.avalabilites.push(object);
+          });
+        }, error => {
+          console.log(error);
+        });
+      });
+    }
   }
 
   createClinicPlanForm() {

@@ -93,7 +93,7 @@
           field is required</div>
       </div>
     </div>
-    <div class="col-lg-12 col-md-12">
+    <div class="col-lg-6 col-md-6">
       <div class="form-group">
         <label>Expert Type</label>
         <select class="form-control" formControlName="expertType" [ngClass]="{'is-invalid': basicInfoForm.get('expertType').errors 
@@ -103,6 +103,16 @@
         </select>
         <div class="invalid-feedback"
           *ngIf="(basicInfoForm.get('expertType').touched||submitted) && basicInfoForm.get('expertType').hasError('required')">
+          This field is required</div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+      <div class="form-group">
+        <label>Assessment Time</label>
+        <input type="text" class="form-control" formControlName="assessmentTime" [ngClass]="{'is-invalid': basicInfoForm.get('assessmentTime').errors 
+        && (basicInfoForm.get('assessmentTime').touched||submitted)}" placeholder="Assessment Time">
+        <div class="invalid-feedback"
+          *ngIf="(basicInfoForm.get('assessmentTime').touched||submitted) && basicInfoForm.get('assessmentTime').hasError('required')">
           This field is required</div>
       </div>
     </div>
