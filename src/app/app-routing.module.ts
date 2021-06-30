@@ -240,6 +240,7 @@ import { InstructionDetailComponent } from './Components/Instruction Main/instru
 import { ClinicsClinicplansComponent } from './Components/Clinics/clinics-clinicplans/clinics-clinicplans.component';
 import { OutstandingAppointmentSchedualComponent } from './Components/Medco CMS/outstanding-appointment-schedual/outstanding-appointment-schedual.component';
 import { InstructionStateComponent } from './Components/Instruction Main/instruction-state/instruction-state.component';
+import { ClinicsTodayclinicsComponent } from './Components/Clinics/clinics-todayclinics/clinics-todayclinics.component';
 
 const routes: Routes = [
   {
@@ -478,6 +479,15 @@ const routes: Routes = [
   children: [
     {
       path: '', component: ClinicsOutstandingcliniclistComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'Clinics/TodayClinics',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: ClinicsTodayclinicsComponent, pathMatch: 'full', canActivate:[AuthGuard]
     }
   ]
 },

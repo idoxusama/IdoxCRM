@@ -279,6 +279,7 @@ import { Select2Module } from 'ng2-select2';
 import { ClinicsClinicplansComponent } from './Components/Clinics/clinics-clinicplans/clinics-clinicplans.component';
 import { OutstandingAppointmentSchedualComponent } from './Components/Medco CMS/outstanding-appointment-schedual/outstanding-appointment-schedual.component';
 import { InstructionStateComponent } from './Components/Instruction Main/instruction-state/instruction-state.component';
+import { ClinicsTodayclinicsComponent } from './Components/Clinics/clinics-todayclinics/clinics-todayclinics.component';
 
 @NgModule({
   declarations: [	
@@ -316,6 +317,7 @@ import { InstructionStateComponent } from './Components/Instruction Main/instruc
     ClinicsFutureclinicrequiredComponent,
     ClinicsClinicextensionrequiredComponent,
     ClinicsClinicplansComponent,
+    ClinicsTodayclinicsComponent,
     DiagnosticCMSNewinstructionsComponent,
     DiagnosticCMSOutstandingappointmentsComponent,
     DiagnosticCMSOutstandingexaminationsComponent,
