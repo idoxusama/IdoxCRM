@@ -20,7 +20,7 @@ import { OutstandingAppointmentsService } from 'src/app/Services/Medco CMS Servi
   styleUrls: ['./outstanding-appointment-schedual.component.css']
 })
 export class OutstandingAppointmentSchedualComponent implements OnInit {
-  
+
   /* #region  Fields */
   @ViewChild('templateNearestLocation') templateNearestLocation: ElementRef;
   latitude: number;
@@ -44,19 +44,18 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
   bookAppointmentSubmit: boolean = false;
   expertClinicSlotPlan: ExpertClinicSlotPlan = new ExpertClinicSlotPlan();
 
-  minuteStep:number= 1;
+  minuteStep: number = 1;
   isMeridian = false;
   showSpinners = true;
 
   showMapForNearestLocation: boolean = false;
-  appointmentTiming:boolean=false;
+  appointmentTiming: boolean = false;
 
-  appointmentCheckOutTime:Date;
-  totalAssessmentTime:Date;
+  appointmentCheckOutTime: Date;
+  totalAssessmentTime: Date;
   /* #endregion */
 
   constructor(private outstandingAppoinmentService: OutstandingAppointmentsService,
-    private instructionService: InstructionService,
     private expertUserService: ExpertuserService,
     private toasterService: ToastrService,
     private route: ActivatedRoute,
@@ -155,44 +154,27 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
       slotGroupID: [0],
       slotDate: ['', Validators.required],
       isBooked: [true, Validators.required],
+      state: ['appointmentscheduled'],
       mapAddress: ['']
     });
   }
 
   getOutstandingAppointments(id) {
-    this.instructionService.getInstructionPersonalInfo(id).subscribe(response => {
+    this.outstandingAppoinmentService.getOutstandingAppointments(id).subscribe(response => {
+      debugger
       this.outstandingAppointments = response.outputObject ? response.outputObject.pop() : null;
-      this.getSpecialInfo();
-    }, error => {
-      console.log(error);
-    });
-  }
+      if (this.outstandingAppointments) {
 
-  getSpecialInfo() {
-    this.instructionService.getInstructionSpecial(0, this.appointmentID).subscribe(response => {
-      let instructionSpecial = response.outputObject ? response.outputObject : null;
-      if (instructionSpecial) {
-        let insSpecial = instructionSpecial.find(e => e.instructionID == this.appointmentID);
-        this.outstandingAppointments.medicoRefNo = insSpecial.medicoRefNo;
-        this.outstandingAppointments.clientRefNo = insSpecial.clientRefNo;
-        this.outstandingAppointments.expertID = insSpecial.expertID;
-        this.outstandingAppointments.referrerID = insSpecial.referrerID;
-        this.outstandingAppointments.incidentTypeID = insSpecial.incidentTypeID;
-        this.outstandingAppointments.specialNote = insSpecial.specialNote;
-        this.outstandingAppointments.isSpecialRestrictionNeed = insSpecial.isSpecialRestrictionNeed;
-        
+        this.getExpert(this.outstandingAppointments.expertID);
+        this.getExpertClinicPlan(this.outstandingAppointments.expertID);
+
+        this.bookAppointmentForm.get('expertID').setValue(this.outstandingAppointments.expertID);
+        this.bookAppointmentForm.get('instructionID').setValue(this.appointmentID);
       }
-
-      this.getExpert(this.outstandingAppointments.expertID);
-      this.getExpertClinicPlan(this.outstandingAppointments.expertID);
-      
-      this.bookAppointmentForm.get('expertID').setValue(this.outstandingAppointments.expertID);
-      this.bookAppointmentForm.get('instructionID').setValue(this.appointmentID);
     }, error => {
       console.log(error);
     });
   }
-
   getExpert(id) {
     this.expertUserService.getExpertProfileInfo("Expert", id, "", "completedprofile").subscribe(response => {
       this.expertPersonalInfo = response.outputObject ? response.outputObject.pop() : null;
@@ -223,7 +205,7 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
     this.expertClinicPlan.length = 0;
     this.expertClinicPlan.push(location);
     this.bookAppointmentForm.get('expertClinicPlanID').setValue(location.id);
-    this.appointmentTiming=true;
+    this.appointmentTiming = true;
     this.modalRef.hide();
   }
 
@@ -232,18 +214,18 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
     this.loadPlaceAutoComplete();
   }
 
-  changeStartTime(startTime){
+  changeStartTime(startTime) {
     debugger
     var date = this.convertTimeStringToDate(startTime);
     let assessmentTime = +this.expertPersonalInfo.assessmentTime.match(/\d+/)[0];
-    let date1  = date.getTime()+ assessmentTime*60000;
+    let date1 = date.getTime() + assessmentTime * 60000;
     this.appointmentCheckOutTime = new Date(date1);
 
     this.bookAppointmentForm.get('slotEndTime').setValue(this.appointmentCheckOutTime);
   }
-  convertTimeStringToDate(date:string):Date{
+  convertTimeStringToDate(date: string): Date {
     let splitTime = date.split(':');
-    let dateObject = new Date(null,null,null,+splitTime[0],+splitTime[1]);
+    let dateObject = new Date(null, null, null, +splitTime[0], +splitTime[1]);
 
     return dateObject;
   }
@@ -252,21 +234,20 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
 
   /* #region  Book Appointment */
 
-  async checkAppointmentReservation(clinicPlanId,slotDate,slotSTime,slotETime){
+  async checkAppointmentReservation(clinicPlanId, slotDate, slotSTime, slotETime) {
     let result;
-    let model:any={
-      expertClinicPlanID:clinicPlanId,
-      slotDate:slotDate,
-      slotStartTime:slotSTime,
-      slotEndTime:slotETime
+    let model: any = {
+      expertClinicPlanID: clinicPlanId,
+      slotDate: slotDate,
+      slotStartTime: slotSTime,
+      slotEndTime: slotETime
     };
     let response = await this.outstandingAppoinmentService.isAppointmentReserve(model).toPromise();
-    debugger
-    if(response){
-      result=false;
+    if (response) {
+      result = false;
     }
-    else{
-      result=true;
+    else {
+      result = true;
     }
     return result;
   }
@@ -275,22 +256,22 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
     this.bookAppointmentSubmit = true;
     if (this.bookAppointmentForm.valid) {
       this.expertClinicSlotPlan = Object.assign({}, this.bookAppointmentForm.value);
-      this.expertClinicSlotPlan.slotStartTime= this.convertTimeStringToDate(this.bookAppointmentForm.get('slotStartTime').value)
+      this.expertClinicSlotPlan.slotStartTime = this.convertTimeStringToDate(this.bookAppointmentForm.get('slotStartTime').value)
 
       //check if reservation already booked.
       let result = await this.checkAppointmentReservation(this.expertClinicSlotPlan.expertClinicPlanID,
-        this.expertClinicSlotPlan.slotDate,this.expertClinicSlotPlan.slotStartTime,this.expertClinicSlotPlan.slotEndTime);
+        this.expertClinicSlotPlan.slotDate, this.expertClinicSlotPlan.slotStartTime, this.expertClinicSlotPlan.slotEndTime);
 
-      if(result){
+      if (result) {
         this.outstandingAppoinmentService.createExpertClinicSlotPlan(this.expertClinicSlotPlan).subscribe(response => {
           this.toasterService.success('Appointment booked successfully.')
         }, error => {
           console.log(error);
-        },()=>{
+        }, () => {
           this.ngOnInit();
         });
       }
-      else{
+      else {
         this.toasterService.warning('This slot already booked.');
       }
     }

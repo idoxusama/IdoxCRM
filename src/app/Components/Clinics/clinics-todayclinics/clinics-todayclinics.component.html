@@ -39,24 +39,21 @@
       <div class="card rounded-0 border-0 mb-3">
         <div class="card-header">
           <div class="row">
-            <div class="col-8">
-              <h5 class="card-title mb-0">Live</h5>
+            <div class="col-12 text-center text-success">
+              <h4 class="mb-0"><i class="material-icons mr-1">radio_button_checked</i>Live Clinics</h4>
             </div>
-            <div class="col text-right">
-              <div class="dropdown">
-                <button class="btn btn-link btn-sm text-secondary rounded-0 dropdown-toggle float-right icon"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" type="button">
-                  <i class="fa fa-ellipsis-v"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right">
-                  <a class="dropdown-item" href="#">
-                    <i class="fa fa-exclamation-circle text-secondary"></i> Report</a>
-                  <a class="dropdown-item" href="#">
-                    <i class="fa fa-cog text-secondary"></i> Settings</a>
-                  <a class="dropdown-item" href="#">
-                    <i class="fa fa-trash text-secondary"></i> Remove</a>
+          </div>
+          <div class="row">
+            <div class="col-lg-10 col-md-10">
+              <div class="search-header" style="margin-left: 15px;">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search..."
+                    (keyup)="filterLiveClinics($event.target.value)">
                 </div>
               </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+              <h5>Total Count: <span>{{filterLClinics.length}}</span></h5>
             </div>
           </div>
         </div>
@@ -69,26 +66,34 @@
                 <th scope="col">Client</th>
                 <th scope="col">Location</th>
                 <th scope="col">Time Slot</th>
+                <th scope="col" title="Instruction Code">I.C</th>
+                <th scope="col" title="Referrer Code">R.C</th>
+                <th scope="col">Client Ref</th>
+                <th scope="col">Medico Ref</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr
-                *ngFor="let liveClinic of liveClinics | paginate:{itemsPerPage:5,currentPage:liveCurrentPage}; let i = index;">
+                *ngFor="let liveClinic of filterLClinics | paginate:{itemsPerPage:5,currentPage:liveCurrentPage,id:'first'}; let i = index;">
                 <td scope="row">{{i+1}}</td>
                 <td>{{liveClinic.expert}}</td>
                 <td>{{liveClinic.client}}</td>
                 <td>{{liveClinic.location}}</td>
                 <td>{{liveClinic.timeSlot}}</td>
+                <td>{{liveClinic.instructionCode}}</td>
+                <td>{{liveClinic.referrerCode}}</td>
+                <td>{{liveClinic.clientRefNo}}</td>
+                <td>{{liveClinic.medicoRefNo}}</td>
                 <td>
                   <a class="btn btn-primary primary-gradient ml-2"
-                    (click)="showUpdateStatusModel(templateUpdateStatus)">Update Status</a>
+                    (click)="showUpdateStatusModel(templateUpdateStatus,liveClinic.scheduleID)">Update Status</a>
                 </td>
               </tr>
             </tbody>
           </table>
           <ul class="pagination">
-            <pagination-controls (pageChange)="liveCurrentPage = $event"></pagination-controls>
+            <pagination-controls (pageChange)="liveCurrentPage = $event" id="first"></pagination-controls>
           </ul>
         </div>
       </div>
@@ -99,25 +104,21 @@
       <div class="card rounded-0 border-0 mb-3">
         <div class="card-header">
           <div class="row">
-            <div class="col-8">
-              <h5 class="card-title mb-0">UpComing</h5>
+            <div class="col-12 text-center text-primary">
+              <h4 class="mb-0"><i class="material-icons mr-1">check_circle</i>UpComing Clinics</h4>
             </div>
-            <div class="col text-right">
-              <div class="dropdown">
-                <button class="btn btn-link btn-sm text-secondary rounded-0 dropdown-toggle float-right icon"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" type="button">
-                  <i class="fa fa-ellipsis-v"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right">
-
-                  <a class="dropdown-item" href="#">
-                    <i class="fa fa-exclamation-circle text-secondary"></i> Report</a>
-                  <a class="dropdown-item" href="#">
-                    <i class="fa fa-cog text-secondary"></i> Settings</a>
-                  <a class="dropdown-item" href="#">
-                    <i class="fa fa-trash text-secondary"></i> Remove</a>
+          </div>
+          <div class="row">
+            <div class="col-lg-10 col-md-10">
+              <div class="search-header" style="margin-left: 15px;">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search..."
+                    (keyup)="filterUpComingClinics($event.target.value)">
                 </div>
               </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+              <h5>Total Count: <span>{{filterUCClinics.length}}</span></h5>
             </div>
           </div>
         </div>
@@ -130,26 +131,34 @@
                 <th scope="col">Client</th>
                 <th scope="col">Location</th>
                 <th scope="col">Time Slot</th>
+                <th scope="col" title="Instruction Code">I.C</th>
+                <th scope="col" title="Referrer Code">R.C</th>
+                <th scope="col">Client Ref</th>
+                <th scope="col">Medico Ref</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr
-                *ngFor="let upComing of upComingClinics |paginate:{itemsPerPage:5,currentPage:upComingCurrentPage}; let i=index;">
+                *ngFor="let upComing of filterUCClinics | paginate:{itemsPerPage:5,currentPage:upComingCurrentPage,id:'second'}; let i=index;">
                 <td scope="row">{{i+1}}</td>
                 <td>{{upComing.expert}}</td>
                 <td>{{upComing.client}}</td>
                 <td>{{upComing.location}}</td>
                 <td>{{upComing.timeSlot}}</td>
+                <td>{{upComing.instructionCode}}</td>
+                <td>{{upComing.referrerCode}}</td>
+                <td>{{upComing.clientRefNo}}</td>
+                <td>{{upComing.medicoRefNo}}</td>
                 <td>
                   <a class="btn btn-primary primary-gradient ml-2"
-                    (click)="showUpdateStatusModel(templateUpdateStatus)">Update Status</a>
+                    (click)="showUpdateStatusModel(templateUpdateStatus,upComing.scheduleID)">Update Status</a>
                 </td>
               </tr>
             </tbody>
           </table>
           <ul class="pagination">
-            <pagination-controls (pageChange)="upCommingCurrentPage = $event"></pagination-controls>
+            <pagination-controls (pageChange)="upComingCurrentPage = $event" id="second"></pagination-controls>
           </ul>
         </div>
       </div>
@@ -160,25 +169,21 @@
       <div class="card rounded-0 border-0 mb-3">
         <div class="card-header">
           <div class="row">
-            <div class="col-8">
-              <h5 class="card-title mb-0">Previous</h5>
+            <div class="col-12 text-center text-primary">
+              <h4 class=" mb-0"><i class="material-icons mr-1">undo</i>Previous Clinics</h4>
             </div>
-            <div class="col text-right">
-              <div class="dropdown">
-                <button class="btn btn-link btn-sm text-secondary rounded-0 dropdown-toggle float-right icon"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" type="button">
-                  <i class="fa fa-ellipsis-v"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right">
-
-                  <a class="dropdown-item" href="#">
-                    <i class="fa fa-exclamation-circle text-secondary"></i> Report</a>
-                  <a class="dropdown-item" href="#">
-                    <i class="fa fa-cog text-secondary"></i> Settings</a>
-                  <a class="dropdown-item" href="#">
-                    <i class="fa fa-trash text-secondary"></i> Remove</a>
+          </div>
+          <div class="row">
+            <div class="col-lg-10 col-md-10">
+              <div class="search-header" style="margin-left: 15px;">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search..."
+                    (keyup)="filterPreviousClinics($event.target.value)">
                 </div>
               </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+              <h5>Total Count: <span>{{filterPClinics.length}}</span></h5>
             </div>
           </div>
         </div>
@@ -191,26 +196,34 @@
                 <th scope="col">Client</th>
                 <th scope="col">Location</th>
                 <th scope="col">Time Slot</th>
+                <th scope="col" title="Instruction Code">I.C</th>
+                <th scope="col" title="Referrer Code">R.C</th>
+                <th scope="col">Client Ref</th>
+                <th scope="col">Medico Ref</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr
-                *ngFor="let previous of previousClinics | paginate:{itemsPerPage:5,currentPage:previousCurrentPage}; let i = index;">
+                *ngFor="let previous of filterPClinics| paginate:{itemsPerPage:5,currentPage:previousCurrentPage,id:'third'}  let i = index;">
                 <td scope="row">{{i+1}}</td>
                 <td>{{previous.expert}}</td>
                 <td>{{previous.client}}</td>
                 <td>{{previous.location}}</td>
                 <td>{{previous.timeSlot}}</td>
+                <td>{{previous.instructionCode}}</td>
+                <td>{{previous.referrerCode}}</td>
+                <td>{{previous.clientRefNo}}</td>
+                <td>{{previous.medicoRefNo}}</td>
                 <td>
                   <a class="btn btn-primary primary-gradient ml-2"
-                    (click)="showUpdateStatusModel(templateUpdateStatus)">Update Status</a>
+                    (click)="showUpdateStatusModel(templateUpdateStatus,previous.scheduleID)">Update Status</a>
                 </td>
               </tr>
             </tbody>
           </table>
           <ul class="pagination">
-            <pagination-controls (pageChange)="previousCurrentPage = $event"></pagination-controls>
+            <pagination-controls (pageChange)="previousCurrentPage = $event" id="third"></pagination-controls>
           </ul>
         </div>
       </div>
@@ -219,38 +232,87 @@
 </div>
 
 <ng-template #templateUpdateStatus>
-  <div class="modal-header">
+  <div class="modal-header bg-primary text-white">
     <h4 class="modal-title pull-left">Update Clinic Status</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <form>
-
+  <form [formGroup]="appointmentUpdateStatusFrom" *ngIf="appointmentUpdateStatusFrom"
+    (ngSubmit)="updateAppointmentStatus()">
     <div class="modal-body">
       <ul class="list-group border-top border-bottom list-group-flush">
         <li class="list-group-item">
           <div class="custom-control custom-radio">
-            <input type="radio" class="custom-control-input" name="payment_option" id="customCheck1payment">
-            <label class="custom-control-label" for="customCheck1payment"> <span class="">DNA </span></label>
+            <input type="radio" class="custom-control-input" formControlName="state" id="customCheck1payment"
+              value="DNAS">
+            <label class="custom-control-label" for="customCheck1payment"> <span class="">DNAS </span></label>
           </div>
         </li>
         <li class="list-group-item">
           <div class="custom-control custom-radio">
-            <input type="radio" class="custom-control-input" name="payment_option" id="customCheck2payment">
+            <input type="radio" class="custom-control-input" formControlName="state" id="customCheck2payment"
+              value="Attended">
             <label class="custom-control-label" for="customCheck2payment"> <span class="">Attended </span></label>
           </div>
         </li>
         <li class="list-group-item">
           <div class="custom-control custom-radio">
-            <input type="radio" class="custom-control-input" name="payment_option" id="customCheck3payment">
+            <input type="radio" class="custom-control-input" formControlName="state" id="customCheck3payment"
+              value="Cancel">
             <label class="custom-control-label" for="customCheck3payment"> <span class="">Cancel</span></label>
           </div>
         </li>
       </ul>
+      <div class="text-danger"
+        *ngIf="(appointmentUpdateStatusFrom.touched|| updateStatusSubmitted) && appointmentUpdateStatusFrom.get('state').hasError('required')">
+        Please select one.
+      </div>
+
+
+      <div *ngIf="appointmentUpdateStatusFrom.get('state').value==='Attended'">
+        <h4 class="mb-0">Would you like to rate this expert?</h4>
+        <fieldset class="rating">
+          <input type="radio" id="star5" name="rating" value="5" (click)="countStar($event.target.value)" />
+          <label class="full" for="star5" title="Awesome - 5 stars"></label>
+          <input type="radio" id="star4" name="rating" value="4" (click)="countStar($event.target.value)" />
+          <label class="full" for="star4" title="Pretty good - 4 stars"></label>
+          <input type="radio" id="star3" name="rating" value="3" (click)="countStar($event.target.value)" />
+          <label class="full" for="star3" title="Meh - 3 stars"></label>
+          <input type="radio" id="star2" name="rating" value="2" (click)="countStar($event.target.value)" />
+          <label class="full" for="star2" title="Kinda bad - 2 stars"></label>
+          <input type="radio" id="star1" name="rating" value="1"(click)="countStar($event.target.value)" />
+          <label class="full" for="star1" title="Sucks big time - 1 star"></label>
+         <!-- 
+          <input type="radio" id="star4half" name="rating" value="4 and a half" />
+          <label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+           
+          <input type="radio" id="star3half" name="rating" value="3 and a half" />
+          <label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+  
+          <input type="radio" id="star2half" name="rating" value="2 and a half" />
+          <label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+  
+          <input type="radio" id="star1half" name="rating" value="1 and a half" />
+          <label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+          <input type="radio" id="starhalf" name="rating" value="half" />
+          <label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label> -->
+        </fieldset>
+      </div>
+     
+      <!-- <div class="row" *ngIf="appointmentUpdateStatusFrom.get('state').value==='Attended'">
+        <div class="col-sm-12">
+          <ul class="list-inline rating-list" *ngFor="let star of stars" style="display: inline-block">
+            <li (click)="countStar(star)" [ngClass]="{'selected': (star <= selectedValue)}">
+              <i class="fa fa-star"></i>
+            </li>
+          </ul>
+        </div>
+      </div> -->
+
     </div>
     <div class="text-right mt-2 mb-2 mr-2">
-      <button type="button" class="btn btn-primary primary-gradient">Update</button>
+      <button type="submit" class="btn btn-primary primary-gradient">Update</button>
     </div>
   </form>
 </ng-template>

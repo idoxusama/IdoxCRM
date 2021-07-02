@@ -280,6 +280,7 @@ import { ClinicsClinicplansComponent } from './Components/Clinics/clinics-clinic
 import { OutstandingAppointmentSchedualComponent } from './Components/Medco CMS/outstanding-appointment-schedual/outstanding-appointment-schedual.component';
 import { InstructionStateComponent } from './Components/Instruction Main/instruction-state/instruction-state.component';
 import { ClinicsTodayclinicsComponent } from './Components/Clinics/clinics-todayclinics/clinics-todayclinics.component';
+import { ClinicsAttendedclinicsComponent } from './Components/Clinics/clinics-attendedclinics/clinics-attendedclinics.component';
 
 @NgModule({
   declarations: [	
@@ -318,6 +319,7 @@ import { ClinicsTodayclinicsComponent } from './Components/Clinics/clinics-today
     ClinicsClinicextensionrequiredComponent,
     ClinicsClinicplansComponent,
     ClinicsTodayclinicsComponent,
+    ClinicsAttendedclinicsComponent,
     DiagnosticCMSNewinstructionsComponent,
     DiagnosticCMSOutstandingappointmentsComponent,
     DiagnosticCMSOutstandingexaminationsComponent,

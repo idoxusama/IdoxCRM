@@ -89,6 +89,7 @@ export class NewInstructionComponent implements OnInit {
       specialNote: [''],
       isSpecialRestrictionNeed: [false],
       specialRestrictionNeed: ['', Validators.required],
+      instructionState:['1'],
       isApproved:[true],
       state:['Instruction'],
       caseHandlerName: ['', Validators.required],
@@ -264,7 +265,6 @@ export class NewInstructionComponent implements OnInit {
 
 
   onSelectOption(e:any, control){
-    debugger
     this.instructionForm.controls[control].setValue(e.value);
   }
 
@@ -378,7 +378,7 @@ export class NewInstructionComponent implements OnInit {
           this.createInstructionSpecial();
 
           //create case hanlder
-          await this.createTranslator();
+          await this.createCaseHandler();
 
           //create translator if have
           await this.createTranslator();
@@ -451,6 +451,7 @@ export class NewInstructionComponent implements OnInit {
   }
 
   async createCaseInfo() {
+    debugger
     this.caseInfo = Object.assign({}, this.instructionForm.value);
     this.caseInfo.userID = +localStorage.getItem('userID');
     this.caseInfo.instructionID = this.instructionID;

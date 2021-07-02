@@ -14,46 +14,16 @@ export class MedcocmsOutstandingappointmentsComponent implements OnInit {
   appointmentID:string;
   outstandingAppointments:OutstandingAppointments[]=[];
   constructor(private outstandingAppoinmentService:OutstandingAppointmentsService,
-    private instructionService:InstructionService,private toasterService:ToastrService) { }
+    private toasterService:ToastrService) { }
 
   ngOnInit() {
     this.getOutstandingAppointments();
   }
 
   getOutstandingAppointments(){
-    this.instructionService.getInstructionPersonalInfo(0).subscribe(response=>{
-      debugger
+    this.outstandingAppoinmentService.getOutstandingAppointments(0).subscribe(response=>{
       this.outstandingAppointments= response.outputObject?response.outputObject:null;
-      if(this.outstandingAppointments){
-        this.outstandingAppointments.forEach(e=>{
-          this.getSpecialInfo(e);
-        });
-
-        this.toasterService.success('Record loaded successfully.');
-      }
-    },error=>{
-      console.log(error);
-    });
-  }
-
-  getSpecialInfo(data){
-    this.instructionService.getInstructionSpecial(0,data.id).subscribe(response=>{
-      let instructionSpecial = response.outputObject?response.outputObject:null;
-      if(instructionSpecial){
-        this.outstandingAppointments.map(e=>{
-          instructionSpecial.forEach(m => {
-            if(e.id==m.instructionID){
-              e.medicoRefNo= m.medicoRefNo;
-              e.clientRefNo= m.clientRefNo;
-              e.expertID= m.expertID;
-              e.referrerID=m.referrerID;
-              e.incidentTypeID=m.incidentTypeID;
-              e.specialNote=m.specialNote;
-              e.isSpecialRestrictionNeed = m.isSpecialRestrictionNeed;
-            }
-          });
-        });
-      }
+      this.toasterService.success('Record loaded successfully.');
     },error=>{
       console.log(error);
     });

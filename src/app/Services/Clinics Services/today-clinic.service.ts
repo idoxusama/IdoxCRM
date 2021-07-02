@@ -24,4 +24,19 @@ export class TodayClinicService {
     
     return this.http.get(requestUrl,requestOptions);
   }
+
+  updateClinicState(appSchedualID, state):Observable<any>{
+    let requestUrl=this.baseUrl+`/api/Instruction/UpdateClinicState?appScheduleID=${appSchedualID}&stateName=${state}`;
+    
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict), 
+    };
+    
+    return this.http.get(requestUrl,requestOptions);
+  }
 }

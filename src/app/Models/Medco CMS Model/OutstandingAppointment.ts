@@ -1,19 +1,10 @@
 export class OutstandingAppointments{
-    id:string;
-    firstName:string;
-    lastName:string;
-    gender:string;
+    instructionID:string;
+    expertID:string;
+    instructionName:string;
     instructionCode:string;
-    dob:string;
-    mobileNumber:string;
-    email:string;
+    expert:string;
     clientRefNo:string;
     medicoRefNo:string;
-    expertID:number;
-    referrerID:number;
-    incidentTypeID:number;
-    specialNote:string;
-    isSpecialRestrictionNeed:boolean;
-    userID:number;
-    specialRestrictionNeed:string;
+    mobileNumber:string;
 }

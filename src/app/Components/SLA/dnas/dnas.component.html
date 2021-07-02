@@ -66,8 +66,13 @@
         <div class="col-lg-12 col-md-12">
           <div class="form-group ">
             <label>Range By</label>
-            <input type="text" appAlphabetsOnly class="form-control" placeholder="Range By" formControlName="rangeBy" [ngClass]="{'is-invalid': dnasForm.get('rangeBy').errors 
+            <select class="form-control" formControlName="rangeBy" [ngClass]="{'is-invalid': dnasForm.get('rangeBy').errors 
             && (dnasForm.get('rangeBy').touched||dnasFormSubmitted)}">
+              <option value="">Select Option</option>
+              <option value="Hourly">Hourly</option>
+              <option value="Weekly">Weekly</option>
+              <option value="Monthly">Monthly</option>
+            </select>
             <div class="invalid-feedback"
               *ngIf="(dnasForm.get('rangeBy').touched||dnasFormSubmitted) && dnasForm.get('rangeBy').hasError('required')">
               This field is required
@@ -78,8 +83,8 @@
       <div class="row ">
         <div class="col-lg-12 col-md-12">
           <div class="form-group ">
-            <label>Start Time (minute)</label>
-            <input type="time" class="form-control" placeholder="Start Range" formControlName="startRange" [ngClass]="{'is-invalid': dnasForm.get('startRange').errors 
+            <label>Start Range (minute)</label>
+            <input type="text" appOnlynumbers  class="form-control" placeholder="Start Range" formControlName="startRange" [ngClass]="{'is-invalid': dnasForm.get('startRange').errors 
             && (dnasForm.get('startRange').touched||dnasFormSubmitted)}">
             <div class="invalid-feedback"
               *ngIf="(dnasForm.get('startRange').touched||dnasFormSubmitted) && dnasForm.get('startRange').hasError('required')">
@@ -91,8 +96,8 @@
       <div class="row ">
         <div class="col-lg-12 col-md-12">
           <div class="form-group ">
-            <label>End Time (minute)</label>
-            <input type="time" class="form-control" formControlName="endRange" placeholder="End Range" [ngClass]="{'is-invalid': dnasForm.get('endRange').errors 
+            <label>End Range (minute)</label>
+            <input type="text" appOnlynumbers class="form-control" formControlName="endRange" placeholder="End Range" [ngClass]="{'is-invalid': dnasForm.get('endRange').errors 
             && (dnasForm.get('endRange').touched||dnasFormSubmitted) || (dnasForm.get('endRange').touched&& dnasForm.hasError('endRangeGreater'))}">
             <div class="invalid-feedback"
               *ngIf="(dnasForm.get('endRange').touched||dnasFormSubmitted) && dnasForm.get('endRange').hasError('required')">

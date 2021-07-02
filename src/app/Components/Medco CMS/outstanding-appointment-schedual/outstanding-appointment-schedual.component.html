@@ -45,12 +45,12 @@
                 <table class="table">
                   <tr>
                     <th>Instruction</th>
-                    <td>{{outstandingAppointments.firstName}} {{outstandingAppointments.lastName}}</td>
+                    <td>{{outstandingAppointments.instructionName}}</td>
                   </tr>
                   <tr>
                     <th>Expert Name</th>
                     <td>
-                      <span *ngIf="expertPersonalInfo">{{expertPersonalInfo.firstName}}</span>
+                      <span>{{outstandingAppointments.expert}}</span>
                     </td>
                   </tr>
                 </table>

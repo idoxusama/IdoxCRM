@@ -112,7 +112,6 @@ export class AvailabilityComponent implements OnInit {
 
   editExpertAvailability(id) {
     this.slaService.getExpertAvailability(id,this.expertID).subscribe(response=>{
-      debugger
       let data= response.outputObject?response.outputObject.pop():null;
       this.createExpertAvailabilityForm(data);
       this.modalRef = this.modalService.show(this.addExpertAvailybility);

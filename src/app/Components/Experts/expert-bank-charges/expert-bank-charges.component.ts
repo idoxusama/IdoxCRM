@@ -72,7 +72,6 @@ export class ExpertBankChargesComponent implements OnInit {
   }
 
   addFormGroup(data?: any) {
-    debugger
     if (data) {
       return this.fb.group({
         id: [data.id ? data.id : ''],
@@ -135,7 +134,6 @@ export class ExpertBankChargesComponent implements OnInit {
     });
   }
   update(group: FormGroup) {
-    debugger
     this.expertBankDetail = Object.assign({}, group.value);
     this.expertBankDetail.expertID = this.expertID !== "0" ? +this.expertID : +localStorage.getItem('expertID');
     this.expertBankDetail.userID = +localStorage.getItem('userID');
@@ -149,7 +147,6 @@ export class ExpertBankChargesComponent implements OnInit {
   }
 
   deleteBankDetail(id){
-    debugger
     let model:any={};
     model.id=id;
     model.event="IsDeleted";

@@ -281,4 +281,29 @@ export class InstructionService {
     return this.http.get(requestUrl,requestOptions);
   }
 
+  createAppointmentCancellation(appScheduleID):Observable<any>{
+    let requestUrl = this.baseUrl+`/api/Instruction/CreateAppointmentCancellation?appScheduleID=${appScheduleID}`;
+    const headerDict = {
+      'Access-Control-Allow-Origin': '*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+    return this.http.get(requestUrl,requestOptions);
+  }
+
+  createDNAS(appScheduleID):Observable<any>{
+    let requestUrl = this.baseUrl+`/api/Instruction/CreateDNAS?appScheduleID=${appScheduleID}`;
+    const headerDict = {
+      'Access-Control-Allow-Origin': '*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+    return this.http.get(requestUrl,requestOptions);
+  }
 }

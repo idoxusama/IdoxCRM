@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { shiftInitState } from '@angular/core/src/view';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { Select2OptionData } from 'ng2-select2';
 import { BsModalRef, BsModalService, TypeaheadOptions } from 'ngx-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { TodayClinics } from 'src/app/Models/Clinics Model/TodayClinics';
 import { TodayClinicService } from 'src/app/Services/Clinics Services/today-clinic.service';
 import { ExpertuserService } from 'src/app/Services/Experts Services/expertuser.service';
@@ -16,19 +19,33 @@ export class ClinicsTodayclinicsComponent implements OnInit {
   upComingCurrentPage: number = 1;
   previousCurrentPage: number = 1;
 
+  appSchedualID: number;
+
   todayClinics: TodayClinics[] = [];
+
   liveClinics: TodayClinics[] = [];
+  filterLClinics: TodayClinics[] = [];
+
   previousClinics: TodayClinics[] = [];
+  filterPClinics: TodayClinics[] = [];
+
   upComingClinics: TodayClinics[] = [];
+  filterUCClinics: TodayClinics[] = [];
+
   experts: Array<Select2OptionData>;
 
-  expertID: string;
+  expertID: number;
 
-  modalRef:BsModalRef;
+  modalRef: BsModalRef;
+
+  appointmentUpdateStatusFrom: FormGroup
+  updateStatusSubmitted: boolean = false;
 
   constructor(private todayClinicService: TodayClinicService,
     private expertUserService: ExpertuserService,
-    private modalService:BsModalService) { }
+    private modalService: BsModalService,
+    private fb: FormBuilder,
+    private toasterSerivce: ToastrService) { }
 
 
   ngOnInit() {
@@ -58,15 +75,14 @@ export class ClinicsTodayclinicsComponent implements OnInit {
   getAllTodayAppoinments(event: any) {
     this.expertID = event.value == "" ? 0 : event.value;
     this.todayClinicService.getAllTodayAppointments(this.expertID).subscribe(response => {
-      debugger
       if (response.outputObject) {
         this.todayClinics = response.outputObject;
         this.mapTimeSlot();
       }
-      else{
-        this.liveClinics.length=0;
-        this.upComingClinics.length=0;
-        this.previousClinics.length=0;
+      else {
+        this.liveClinics.length = 0;
+        this.upComingClinics.length = 0;
+        this.previousClinics.length = 0;
       }
     }, error => {
       console.log(error);
@@ -75,25 +91,87 @@ export class ClinicsTodayclinicsComponent implements OnInit {
 
   mapTimeSlot() {
     this.todayClinics.map(x => {
+      let splitSlotDate = x.slotDate.split('-'); // split slot date by - to get year, month , date number
 
-      let splitTimeSlot = x.timeSlot.split('-');
+      let splitTimeSlot = x.timeSlot.split('-'); // split time slot by - to get two times
 
-      let splitFirst = splitTimeSlot[0].split(':');
-      x.startTime = new Date(null, null, null, +splitFirst[0], +splitFirst[1]);
+      let splitFirst = splitTimeSlot[0].split(':'); // split time by : to get hour and minute
+      x.startTime = new Date(+splitSlotDate[0], +splitSlotDate[1] - 1, +splitSlotDate[2], +splitFirst[0], +splitFirst[1]);
 
-      let splitSecond = splitTimeSlot[1].split(':');
-      x.endTime = new Date(null, null, null, +splitSecond[0], +splitSecond[1]);
-
+      let splitSecond = splitTimeSlot[1].split(':'); // split time by : to get hour and minute
+      x.endTime = new Date(+splitSlotDate[0], +splitSlotDate[1] - 1, +splitSlotDate[2], +splitSecond[0], +splitSecond[1]);
     });
-
     let currentTime = new Date().getTime();
 
-    this.liveClinics = this.todayClinics.filter(e=>currentTime>=e.startTime.getTime() && currentTime<=e.endTime.getTime());
-    this.upComingClinics = this.todayClinics.filter(e=>currentTime>e.endTime.getTime());
-    this.previousClinics = this.todayClinics.filter(e=>currentTime<e.startTime.getTime());
+    //get live clinics
+    this.liveClinics = this.todayClinics.filter(e => currentTime >= e.startTime.getTime() && currentTime <= e.endTime.getTime());
+    this.filterLClinics = this.liveClinics;
+
+    //get up coming clinics
+    this.upComingClinics = this.todayClinics.filter(e => e.startTime.getTime() > currentTime && e.endTime.getTime() > currentTime);
+    this.filterUCClinics = this.upComingClinics;
+
+    //get previous clinics
+    this.previousClinics = this.todayClinics.filter(e => e.startTime.getTime() < currentTime && e.endTime.getTime() < currentTime);
+    this.filterPClinics = this.previousClinics;
   }
 
-  showUpdateStatusModel(template){
+  filterLiveClinics(value: string) {
+    this.filterLClinics = value != "" ? this.liveClinics.filter(e => e.expert.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+      e.clientRefNo.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+      e.instructionCode.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+      e.referrerCode.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+      e.client.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+      e.location.toLocaleLowerCase().includes(value.toLocaleLowerCase())) : this.liveClinics;
+  }
+  filterUpComingClinics(value: string) {
+    this.filterUCClinics = value != "" ? this.upComingClinics.filter(e => e.expert.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+      e.clientRefNo.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+      e.instructionCode.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+      e.referrerCode.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+      e.client.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+      e.location.toLocaleLowerCase().includes(value.toLocaleLowerCase())) : this.upComingClinics;
+  }
+  filterPreviousClinics(value: string) {
+    this.filterPClinics = value != "" ? this.previousClinics.filter(e => e.expert.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+      e.clientRefNo.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+      e.instructionCode.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+      e.referrerCode.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+      e.client.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+      e.location.toLocaleLowerCase().includes(value.toLocaleLowerCase())
+    ) : this.previousClinics;
+  }
+
+
+  createAppointmentStatusForm() {
+    this.appointmentUpdateStatusFrom = this.fb.group({
+      state: ['', Validators.required],
+      rating:['']
+    });
+  }
+
+  showUpdateStatusModel(template, appointmentId) {
+    this.createAppointmentStatusForm();
+    this.appSchedualID = appointmentId;
     this.modalRef = this.modalService.show(template);
+  }
+
+  countStar(star) {
+    debugger
+    this.appointmentUpdateStatusFrom.get('rating').setValue(star);
+  }
+
+  updateAppointmentStatus() {
+    this.updateStatusSubmitted = true;
+    if (this.appointmentUpdateStatusFrom.valid) {
+      this.todayClinicService.updateClinicState(this.appSchedualID, this.appointmentUpdateStatusFrom.get('state').value).subscribe(response => {
+        this.toasterSerivce.success('Status has been updated.');
+        this.modalRef.hide();
+      }, error => {
+        console.log(error);
+      },()=>{
+        this.ngOnInit();
+      });
+    }
   }
 }

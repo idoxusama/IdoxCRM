@@ -10,5 +10,6 @@ export class ExpertClinicSlotPlan{
     slotGroupID:number;
     slotDate:string;
     isBooked:boolean;
+    state:string;
     userID:number;
 }

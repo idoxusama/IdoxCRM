@@ -41,10 +41,9 @@
                       <thead>
                           <tr>
                               <th scope="col">Sr.#</th>
-                              <th scope="col">Name</th>
-                              <th scope="col">Gender</th>
+                              <th scope="col">Instruction Name</th>
                               <th scope="col">Instruction Code</th>
-                              <th scope="col">Mobile Number</th>
+                              <th scope="col">Expert</th>
                               <th scope="col">Client Ref No</th>
                               <th scope="col">Medico Ref No</th>
                               <th scope="col">Action</th>
@@ -53,14 +52,13 @@
                       <tbody>
                           <tr *ngFor="let app of outstandingAppointments | paginate: { itemsPerPage: 10, currentPage: currentPage }; let i = index;">
                               <th scope="row">{{i+1}}</th>
-                              <td>{{app.firstName}} {{app.lastName}}</td>
-                              <td>{{app.gender}}</td>
+                              <td>{{app.instructionName}}</td>
                               <td>{{app.instructionCode}}</td>
-                              <td>{{app.mobileNumber}}</td>
+                              <td>{{app.expert}}</td>
                               <td>{{app.clientRefNo}}</td>
                               <td>{{app.medicoRefNo}}</td>
                               <td>
-                                <a class="btn btn-primary primary-gradient ml-2" [routerLink]="['/MedcoCMS/Outstanding_Appointments/Schedual']" [queryParams]="{id:app.id}">Schedual</a>
+                                <a class="btn btn-primary primary-gradient ml-2" [routerLink]="['/MedcoCMS/Outstanding_Appointments/Schedual']" [queryParams]="{id:app.instructionID}">Schedual</a>
                               </td>
                           </tr>
                       </tbody>

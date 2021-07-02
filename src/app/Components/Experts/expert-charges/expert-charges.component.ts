@@ -95,7 +95,6 @@ export class ExpertChargesComponent implements OnInit {
     this.expertUserService.getExpertProfileInfo("Expert", id, "", state).subscribe(response => {
       this.expertCharges = response.outputObject ? response.outputObject.pop() : null;
       if (this.expertCharges) {
-        debugger
         this.createChargesForm(this.expertCharges);
         this.getAddress(+this.expertCharges.mapLat,+this.expertCharges.mapLong)
       }

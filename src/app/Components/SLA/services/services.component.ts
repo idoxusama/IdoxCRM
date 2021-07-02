@@ -383,6 +383,7 @@ export class ServicesComponent implements OnInit {
 
     this.slaService.createExpertSLATimeManagement(this.expertSLATimeManagement).subscribe(response => {
       this.toasterService.success('Time has been added!.');
+      this.modalRef.hide();
     }, error => {
       console.log(error);
     }, () => { this.getExpertSlaServices(this.expertSLATimeManagement.serviceSLAID) })

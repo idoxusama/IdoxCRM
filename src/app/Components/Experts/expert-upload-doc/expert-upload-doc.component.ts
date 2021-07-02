@@ -69,11 +69,12 @@ export class ExpertUploadDocComponent implements OnInit {
 
   expertPersonalDocuments(id) {
     this.expertUserService.getExpertPersonalDocuments(id).subscribe(response => {
-      debugger
       this.expertuploadDocs = response.outputObject;
-      this.expertuploadDocs.map(e=>{
-        e.type= e.documentPath.split('.')[1];
-      });
+      if(this.expertuploadDocs){
+        this.expertuploadDocs.map(e=>{
+          e.type= e.documentPath.split('.')[1];
+        });
+      }
       this.createUploadDocsForm();
     }, error => {
       console.log(error);
@@ -87,7 +88,6 @@ export class ExpertUploadDocComponent implements OnInit {
   }
 
   downloadFile(data,name){
-    debugger
     FileSaver.saveAs(data,name);
   }
 
@@ -129,7 +129,6 @@ export class ExpertUploadDocComponent implements OnInit {
   }
 
   deleteExpertDocuments(id){
-    debugger
     let model:any={};
     model.id=id;
     model.event="IsDeleted";
