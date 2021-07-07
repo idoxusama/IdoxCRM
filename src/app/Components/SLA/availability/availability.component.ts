@@ -198,7 +198,6 @@ export class AvailabilityComponent implements OnInit {
   }
 
   checkStartEndTime(day): boolean {
-    debugger
     let ifNotExist = false;
 
     let startTime = this.availabilityForm.get('startTime').value;
@@ -230,7 +229,6 @@ export class AvailabilityComponent implements OnInit {
   }
 
   checkLunchTime(): boolean {
-    debugger
     let ifNotExist = false;
 
     let startTime = this.availabilityForm.get('startTime').value;

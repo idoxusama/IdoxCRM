@@ -22,6 +22,7 @@ export class MedcocmsOutstandingappointmentsComponent implements OnInit {
 
   getOutstandingAppointments(){
     this.outstandingAppoinmentService.getOutstandingAppointments(0).subscribe(response=>{
+      debugger
       this.outstandingAppointments= response.outputObject?response.outputObject:null;
       this.toasterService.success('Record loaded successfully.');
     },error=>{

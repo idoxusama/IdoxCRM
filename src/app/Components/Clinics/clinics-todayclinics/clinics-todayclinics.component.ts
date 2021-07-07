@@ -170,7 +170,9 @@ export class ClinicsTodayclinicsComponent implements OnInit {
       }, error => {
         console.log(error);
       },()=>{
-        this.ngOnInit();
+        let event:any={};
+        event.value=0;
+        this.getAllTodayAppoinments(event);
       });
     }
   }

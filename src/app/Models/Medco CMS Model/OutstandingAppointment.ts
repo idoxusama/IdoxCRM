@@ -6,5 +6,5 @@ export class OutstandingAppointments{
     expert:string;
     clientRefNo:string;
     medicoRefNo:string;
-    mobileNumber:string;
+    statusName:string;
 }

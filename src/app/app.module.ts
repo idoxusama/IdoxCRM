@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { BsDropdownModule, CarouselModule, ModalModule, TabsModule, TimepickerModule } from 'ngx-bootstrap';
+import { BsDatepickerModule, BsDropdownModule, CarouselModule, ModalModule, TabsModule, TimepickerModule } from 'ngx-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -281,6 +281,7 @@ import { OutstandingAppointmentSchedualComponent } from './Components/Medco CMS/
 import { InstructionStateComponent } from './Components/Instruction Main/instruction-state/instruction-state.component';
 import { ClinicsTodayclinicsComponent } from './Components/Clinics/clinics-todayclinics/clinics-todayclinics.component';
 import { ClinicsAttendedclinicsComponent } from './Components/Clinics/clinics-attendedclinics/clinics-attendedclinics.component';
+import { InvalidControlScrollDirective } from './custom-validations/invalidControlScroll.directive';
 
 @NgModule({
   declarations: [	
@@ -541,7 +542,8 @@ import { ClinicsAttendedclinicsComponent } from './Components/Clinics/clinics-at
     OnlynumbersDirective,
     AlphabetsOnlyDirective,
     NotAllowSepacialChatactorDirective,
-    DisableControlDirective
+    DisableControlDirective,
+    InvalidControlScrollDirective
    ],
   entryComponents: [
     ConfirmModalDialogComponent
@@ -566,6 +568,7 @@ import { ClinicsAttendedclinicsComponent } from './Components/Clinics/clinics-at
     OrderModule,
     ModalModule.forRoot(), 
     BsDropdownModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     TabsModule.forRoot(),
     TimepickerModule.forRoot(),
     FileUploadModule,

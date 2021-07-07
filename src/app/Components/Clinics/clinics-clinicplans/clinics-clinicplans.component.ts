@@ -165,21 +165,24 @@ export class ClinicsClinicplansComponent implements OnInit {
   getExperts(event:any) {
     debugger
     if(event.value){
-      this.expertUserService.getExpertProfileInfo("ExpertType", event.value).subscribe(response => {
+      this.expertUserService.getExpertProfileInfo("Expert", event.value,"","completedprofile").subscribe(response => {
         this.experts=[];
         let defualtOptiton={
           id:'',
           text:'Select Option'
         };
         this.experts.push(defualtOptiton);
-        response.outputObject.forEach(element => {
-          let object =  {
-            id: element.id,
-            text: element.firstName
-          };
-          this.experts.push(object);
-        });
-  
+
+        if(response.outputObject){
+          response.outputObject.forEach(element => {
+            let object =  {
+              id: element.id,
+              text: element.firstName
+            };
+            this.experts.push(object);
+          });  
+        }
+        
       }, error => {
         console.log(error);
       });
@@ -291,7 +294,6 @@ export class ClinicsClinicplansComponent implements OnInit {
   }
 
   saveClinicPlan() {
-    debugger
     this.clinicFormSubmit = true;
     if (this.clinicPlansForm.valid) {
       this.clinicPlan = Object.assign({}, this.clinicPlansForm.value);

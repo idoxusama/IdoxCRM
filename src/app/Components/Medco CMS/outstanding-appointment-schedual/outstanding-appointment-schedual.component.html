@@ -38,7 +38,7 @@
             </div>
           </div>
         </div>
-        <form [formGroup]="bookAppointmentForm" (ngSubmit)="saveBookedAppointment()">
+        <form [formGroup]="bookAppointmentForm" (ngSubmit)="onSubmit()">
           <div class="card-body">
             <div class="row" *ngIf="outstandingAppointments">
               <div class="col-lg-6 col-md-6">
@@ -74,8 +74,7 @@
                 <h5> Expert Clinic Plans</h5>
               </div>
               <div class="col-lg-2 col-md-2">
-                <a class="btn btn-primary primary-gradient ml-2 mb-2"
-                  (click)="showMap()">Nearest Location</a>
+                <a class="btn btn-primary primary-gradient ml-2 mb-2" (click)="showMap()">Nearest Location</a>
               </div>
             </div>
             <div class="row border-top">
@@ -83,8 +82,10 @@
                 <ul class="list-group border-top border-bottom list-group-flush" *ngIf="expertClinicPlan">
                   <li class="list-group-item" *ngFor="let clinic of expertClinicPlan">
                     <div class="custom-control custom-radio">
-                      <input type="radio" class="custom-control-input" formControlName="expertClinicPlanID" name="expertClinicPlanID"
-                      id="custom_{{clinic.id}}" value="{{clinic.id}}" [checked]="bookAppointmentForm.get('expertClinicPlanID').value" (change)="appointmentTiming=true">
+                      <input type="radio" class="custom-control-input" formControlName="expertClinicPlanID"
+                        name="expertClinicPlanID" id="custom_{{clinic.id}}" value="{{clinic.id}}"
+                        [checked]="bookAppointmentForm.get('expertClinicPlanID').value"
+                        (change)="appointmentTiming=true">
                       <label class="custom-control-label" for="custom_{{clinic.id}}">
                         <h6 class="my-0 text-truncated">{{clinic.mapAddress}}</h6> <br>
                         <span class="small mr-2">{{clinic.travelDistance}}</span>,
@@ -102,9 +103,10 @@
               <div class="col-lg-6 col-md-6" *ngIf="showMapForNearestLocation">
                 <div class="form-group">
                   <label>Enter address</label>
-                  <input type="text" class="form-control" formControlName="mapAddress" (keydown.enter)="$event.preventDefault()"
-                  placeholder="Search Nearest Location" autocorrect="off" autocapitalize="off"
-                    spellcheck="off" type="text" #search (change)="getNearestLocation(templateNearestLocation)">
+                  <input type="text" class="form-control" formControlName="mapAddress"
+                    (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off"
+                    autocapitalize="off" spellcheck="off" type="text" #search
+                    (change)="getNearestLocation(templateNearestLocation)">
                 </div>
                 <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
                   <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
@@ -112,50 +114,56 @@
                 </agm-map>
               </div>
             </div>
-            <div class="form-group row mt-3">
-              <div class="col-lg-12 col-md-12" *ngIf="appointmentTiming">
-                <div class="row">
-                  <div class="col-lg-12 mb-2">
-                    <label>Date</label>
-                    <input type="date" class="form-control" placeholder="" formControlName="slotDate" [ngClass]="{'is-invalid': bookAppointmentForm.get('slotDate').errors 
-                    && (bookAppointmentForm.get('slotDate').touched||bookAppointmentSubmit)}" />
-                    <div class="text-danger"
-                      *ngIf="(bookAppointmentForm.get('slotDate').touched||bookAppointmentSubmit) && bookAppointmentForm.get('slotDate').hasError('required')">
-                      This field is required
+            <div class="row mt-3 border-top" *ngIf="appointmentTiming">
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group">
+                  <h5 class="content-color-primary mb-0">Date</h5>
+                  <input type="date" class="form-control" placeholder="" formControlName="slotDate" [ngClass]="{'is-invalid': bookAppointmentForm.get('slotDate').errors 
+                  && (bookAppointmentForm.get('slotDate').touched||bookAppointmentSubmit)}" />
+                  <div class="text-danger"
+                    *ngIf="(bookAppointmentForm.get('slotDate').touched||bookAppointmentSubmit) && bookAppointmentForm.get('slotDate').hasError('required')">
+                    This field is required
+                  </div>
+                </div>
+                <div class="form-group">
+                  <h5 class="content-color-primary mb-0">Appointment Start Time</h5>
+                  <input type="time" class="form-control" formControlName="slotStartTime" [ngClass]="{'is-invalid': bookAppointmentForm.get('slotStartTime').errors 
+                  && (bookAppointmentForm.get('slotStartTime').touched||bookAppointmentSubmit)}"
+                    (change)="changeStartTime($event.target.value)">
+                  <div class="text-danger"
+                    *ngIf="(bookAppointmentForm.get('slotStartTime').touched||bookAppointmentSubmit) && bookAppointmentForm.get('slotStartTime').hasError('required')">
+                    This field is required
+                  </div>
+                </div>
+                <table class="table">
+                  <tr>
+                    <th>Appointment End Time:</th>
+                    <td>{{this.appointmentCheckOutTime | date:'HH:mm'}}</td>
+                  </tr>
+                  <tr>
+                    <th>Assessment Time:</th>
+                    <td>{{this.expertPersonalInfo.assessmentTime}} Minutes</td>
+                  </tr>
+                </table>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="card mb-4 fullscreen">
+                  <div class="card-header">
+                    <div class="media">
+                      <div class="media-body">
+                        <h4 class="content-color-primary mb-0">{{outstandingAppointments.expert}} Days Availability</h4>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-lg-4">
-                    <label>Appointment Start Time</label>
-                    <input type="time" class="form-control" formControlName="slotStartTime" [ngClass]="{'is-invalid': bookAppointmentForm.get('slotStartTime').errors 
-                    && (bookAppointmentForm.get('slotStartTime').touched||bookAppointmentSubmit)}" (change)="changeStartTime($event.target.value)">
-                    <!-- <timepicker formControlName="slotStartTime" [minuteStep]="minuteStep" [showMeridian]="isMeridian" [showSpinners]="showSpinners"
-                    [ngClass]="{'is-invalid': bookAppointmentForm.get('slotStartTime').errors 
-                  && (bookAppointmentForm.get('slotStartTime').touched||bookAppointmentSubmit)}" (change)="changeStartTime($event.target.value)"></timepicker> -->
-                    <div class="text-danger"
-                      *ngIf="(bookAppointmentForm.get('slotStartTime').touched||bookAppointmentSubmit) && bookAppointmentForm.get('slotStartTime').hasError('required')">
-                      This field is required
-                    </div>
-                  </div>
-                  <div class="col-lg-4">
-                    <b>Appointment End Time:</b>
-                    <br>
-                    <div class="mt-3">
-                      <span>{{this.appointmentCheckOutTime | date:'HH:mm'}}</span>
-                    </div>
-                    <!-- <timepicker formControlName="slotEndTime" [minuteStep]="minuteStep"
-                    [ngClass]="{'is-invalid': bookAppointmentForm.get('slotEndTime').errors 
-                  && (bookAppointmentForm.get('slotEndTime').touched||bookAppointmentSubmit)}"></timepicker>
-                    <div class="text-danger"
-                      *ngIf="(bookAppointmentForm.get('slotEndTime').touched||bookAppointmentSubmit) && bookAppointmentForm.get('slotEndTime').hasError('required')">
-                      This field is required
-                    </div> -->
-                  </div>
-                  <div class="col-lg-4">
-                    <b>Assessment Time: </b>
-                    <br>
-                    <div class="mt-3">
-                      <span>{{this.expertPersonalInfo.assessmentTime}}</span>
-                    </div>
+                  <div class="card-body pt-0">
+                    <table class="table">
+                      <tbody>
+                        <tr *ngFor="let item of expertAvailabilities">
+                          <th>{{item.days}}</th>
+                          <td>{{item.startTime}} - {{item.endTime}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -195,5 +203,34 @@
         </div>
       </li>
     </ul>
+  </div>
+</ng-template>
+
+<ng-template #templateConfirmBox>
+  <div class="modal-header">
+    <h5 class="text-warning">{{outstandingAppointments.expert}} is not available in this day or slot.</h5>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul class="list-group border-top border-bottom list-group-flush">
+      <li class="list-group-item">
+        <div class="media">
+          <div class="custom-control custom-checkbox todo-checkbox">
+            <input type="checkbox" class="custom-control-input" id="customCheck1" (click)="enableDisableConfrim()">
+            <label class="custom-control-label " for="customCheck1"></label>
+          </div>
+          <div class="media-body">
+            <h6 class="my-0 text-truncated">I communicate with expert, and he agree for this timing.</h6>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="text-center mt-3">
+      <button type="button" class="mb-2 btn btn-outline-secondary btn-rounded mr-2"
+        (click)="modalRef.hide()">Close</button>
+      <button type="submit" class="mb-2 btn btn-primary btn-rounded" [disabled]="!disabledConfirm" (click)="bookSlot()">Confirm</button>
+    </div>
   </div>
 </ng-template>

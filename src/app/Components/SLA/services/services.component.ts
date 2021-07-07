@@ -62,7 +62,6 @@ export class ServicesComponent implements OnInit {
     private route:ActivatedRoute) { }
 
   ngOnInit() {
-    debugger
     this.route.queryParams.subscribe(params=>{
       this.expertID=params['id'];
     })

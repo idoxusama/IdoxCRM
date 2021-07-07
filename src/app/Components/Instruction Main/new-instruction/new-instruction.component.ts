@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Select2OptionData } from 'ng2-select2';
 import { ToastrService } from 'ngx-toastr';
+import { fromEvent } from 'rxjs';
+import { debounceTime, take } from 'rxjs/operators';
 import { CaseHandler } from 'src/app/Models/Instruction Main/CaseHandler';
 import { CaseInfo } from 'src/app/Models/Instruction Main/CaseInfo';
 import { MedcoRecord } from 'src/app/Models/Instruction Main/MedcoRecord';
@@ -19,6 +21,8 @@ import { SettingsService } from 'src/app/Services/Settings Services/settings.ser
 })
 export class NewInstructionComponent implements OnInit {
   /* #region  Fields */
+  maxDate: Date;
+
   instructionID: number;
   instructionForm: FormGroup;
   instructionFromSubmit: boolean = false;
@@ -48,9 +52,11 @@ export class NewInstructionComponent implements OnInit {
     private instructionService: InstructionService,
     private referrerService: ReferrerService,
     private settingService: SettingsService,
-    private toasterService: ToastrService) { }
+    private toasterService: ToastrService,
+    private el:ElementRef) { }
 
   ngOnInit() {
+    this.maxDate = new Date();
     this.createInstructionForm();
     this.getExperts();
     this.getSpecialities();
@@ -88,7 +94,7 @@ export class NewInstructionComponent implements OnInit {
       incidentTypeID: ['', Validators.required],
       specialNote: [''],
       isSpecialRestrictionNeed: [false],
-      specialRestrictionNeed: ['', Validators.required],
+      specialRestrictionNeed: [''],
       instructionState:['1'],
       isApproved:[true],
       state:['Instruction'],
@@ -107,15 +113,15 @@ export class NewInstructionComponent implements OnInit {
       isRequiredByExpert: [false],
       accidentCircumstances: ['', Validators.required],
       assignmentDate: ['', Validators.required],
-      priority: ['', Validators.required],
+      priority: [''],
       startTime: [''],
       instructionType: ['', Validators.required],
-      appointmentDate: ['', Validators.required],
+      appointmentDate: [''],
       clinicType: ['', Validators.required],
       isInitialAssessment: [false],
       noOfSessions: ['', Validators.required],
       isCourtCase: [false],
-      courtDate: ['', Validators.required],
+      courtDate: [''],
       isTranslatorRequired: [false],
       instructionDeadLineDate: [''],
       requiredMedicalRecordFormArray: this.fb.array([]),
@@ -364,7 +370,7 @@ export class NewInstructionComponent implements OnInit {
   async saveInstructionForm() {
     debugger
     this.instructionFromSubmit = true;
-    if (this.instructionForm.valid) {
+    if (this.instructionForm.valid){
 
       this.newInstruction = Object.assign({}, this.instructionForm.value);
       this.newInstruction.userID = +localStorage.getItem('userID');
@@ -397,8 +403,10 @@ export class NewInstructionComponent implements OnInit {
         console.log(error);
       }
     }
+    else{
+      this.instructionForm.markAsTouched();
+    }
   }
-
   async createInstructionSpecial() {
     this.instructionSpecial = Object.assign({}, this.instructionForm.value);
     this.instructionSpecial.userID = +localStorage.getItem('userID');
