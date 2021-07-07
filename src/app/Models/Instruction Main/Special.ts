@@ -10,5 +10,8 @@ export class IntructionSpecial{
     specialNote:string;
     isSpecialRestrictionNeed:boolean;
     specialRestrictionNeed:string;
+    instructionState:string;
+    isApproved:boolean;
+    state:string;
     userID:number;
 }

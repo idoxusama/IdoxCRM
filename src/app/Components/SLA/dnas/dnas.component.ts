@@ -73,7 +73,6 @@ export class DnasComponent implements OnInit {
   }
 
   endRangeValidation(group: FormGroup) {
-    debugger
     let startRange = +group.get('startRange').value;
     let endRange = +group.get('endRange').value;
     return endRange < startRange ? { endRangeGreater: true } : null;

@@ -71,14 +71,14 @@ export class RequiredMedicalRecordComponent implements OnInit {
         medicalRecordType:[data.medicalRecordType?data.medicalRecordType:'',Validators.required],
         medicalRecordName:[data.medicalRecordName?data.medicalRecordName:'',Validators.required],
         isRequired:[true],
-        isEditable:[false],
+        isEditable:[false]
       });
     }else{
       return this.fb.group({
         medicalRecordType:['',Validators.required],
         medicalRecordName:['',Validators.required],
         isRequired:[true],
-        isEditable:[true],
+        isEditable:[true]
       });
     }
     
@@ -124,7 +124,7 @@ export class RequiredMedicalRecordComponent implements OnInit {
     this.expertMedicalRequiredRecord.medicalRequiredRecordList.push(group.value);
     this.expertMedicalRequiredRecord.medicalRequiredRecordList.forEach(x=>{
       x.userID= +localStorage.getItem('userID');
-      x.expertID=this.expertID?+this.expertID:+localStorage.getItem('expertID');
+      x.expertID=this.expertID!="0"?+this.expertID:+localStorage.getItem('expertID');
       x.isRequired=true;
       x.expertTypeID=0;
     });
@@ -133,6 +133,8 @@ export class RequiredMedicalRecordComponent implements OnInit {
       this.toasterService.success('Record successfully added.');
     },error=>{
       console.log(error);
+    },()=>{
+      this.ngOnInit();
     });
   }
 

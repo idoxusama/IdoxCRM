@@ -21,7 +21,6 @@ export class StepsComponent implements OnInit {
   }
 
   onStepClick(step: StepModel) {
-    debugger
     this.stepsService.setCurrentStep(step);
   }
 }

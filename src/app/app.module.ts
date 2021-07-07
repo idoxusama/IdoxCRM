@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { BsDropdownModule, CarouselModule, ModalModule, TabsModule, TimepickerModule } from 'ngx-bootstrap';
+import { BsDatepickerModule, BsDropdownModule, CarouselModule, ModalModule, TabsModule, TimepickerModule } from 'ngx-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -277,6 +277,11 @@ import { InstructionListComponent } from './Components/Instruction Main/instruct
 import { InstructionDetailComponent } from './Components/Instruction Main/instruction-detail/instruction-detail.component';
 import { Select2Module } from 'ng2-select2';
 import { ClinicsClinicplansComponent } from './Components/Clinics/clinics-clinicplans/clinics-clinicplans.component';
+import { OutstandingAppointmentSchedualComponent } from './Components/Medco CMS/outstanding-appointment-schedual/outstanding-appointment-schedual.component';
+import { InstructionStateComponent } from './Components/Instruction Main/instruction-state/instruction-state.component';
+import { ClinicsTodayclinicsComponent } from './Components/Clinics/clinics-todayclinics/clinics-todayclinics.component';
+import { ClinicsAttendedclinicsComponent } from './Components/Clinics/clinics-attendedclinics/clinics-attendedclinics.component';
+import { InvalidControlScrollDirective } from './custom-validations/invalidControlScroll.directive';
 
 @NgModule({
   declarations: [	
@@ -314,6 +319,8 @@ import { ClinicsClinicplansComponent } from './Components/Clinics/clinics-clinic
     ClinicsFutureclinicrequiredComponent,
     ClinicsClinicextensionrequiredComponent,
     ClinicsClinicplansComponent,
+    ClinicsTodayclinicsComponent,
+    ClinicsAttendedclinicsComponent,
     DiagnosticCMSNewinstructionsComponent,
     DiagnosticCMSOutstandingappointmentsComponent,
     DiagnosticCMSOutstandingexaminationsComponent,
@@ -374,6 +381,7 @@ import { ClinicsClinicplansComponent } from './Components/Clinics/clinics-clinic
     InvoicesExpertclinicexpenseComponent,
     MedcocmsNewinstructionsComponent,
     MedcocmsOutstandingappointmentsComponent,
+    OutstandingAppointmentSchedualComponent,
     MedcocmsOutstandingamendmentsComponent,
     MedcocmsOutstandinggprecordreviewComponent,
     MedcocmsOutstandingpart35Component,
@@ -529,11 +537,13 @@ import { ClinicsClinicplansComponent } from './Components/Clinics/clinics-clinic
     ReferrerListComponent,
     NewInstructionComponent,
     InstructionListComponent,
+    InstructionStateComponent,
     InstructionDetailComponent,
     OnlynumbersDirective,
     AlphabetsOnlyDirective,
     NotAllowSepacialChatactorDirective,
-    DisableControlDirective
+    DisableControlDirective,
+    InvalidControlScrollDirective
    ],
   entryComponents: [
     ConfirmModalDialogComponent
@@ -558,6 +568,7 @@ import { ClinicsClinicplansComponent } from './Components/Clinics/clinics-clinic
     OrderModule,
     ModalModule.forRoot(), 
     BsDropdownModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     TabsModule.forRoot(),
     TimepickerModule.forRoot(),
     FileUploadModule,

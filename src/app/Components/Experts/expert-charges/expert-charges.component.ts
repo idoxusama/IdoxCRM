@@ -75,7 +75,9 @@ export class ExpertChargesComponent implements OnInit {
         iaCharges: [data.iaCharges ? data.iaCharges : '', Validators.required],
         dcCharges: [data.dcCharges ? data.dcCharges : '', Validators.required],
         perSessionCharges: [data.perSessionCharges ? data.perSessionCharges : '', Validators.required],
-        mapAddress:[data.mapAddress?data.mapAddress:'',Validators.required]
+        mapAddress:[data.mapAddress?data.mapAddress:'',Validators.required],
+        mapLat:[data.mapLat?data.mapLat:'',Validators.required],
+        mapLong:[data.mapLong?data.mapLong:'',Validators.required],
       });
     }
     else {
@@ -83,7 +85,9 @@ export class ExpertChargesComponent implements OnInit {
         iaCharges: ['', Validators.required],
         dcCharges: ['', Validators.required],
         perSessionCharges: ['', Validators.required],
-        mapAddress:['',Validators.required]
+        mapAddress:['',Validators.required],    
+        mapLat:['',Validators.required],
+        mapLong:['',Validators.required],
       });
     }
   }
@@ -92,6 +96,7 @@ export class ExpertChargesComponent implements OnInit {
       this.expertCharges = response.outputObject ? response.outputObject.pop() : null;
       if (this.expertCharges) {
         this.createChargesForm(this.expertCharges);
+        this.getAddress(+this.expertCharges.mapLat,+this.expertCharges.mapLong)
       }
       else {
         this.createChargesForm();
@@ -122,6 +127,9 @@ export class ExpertChargesComponent implements OnInit {
             //set latitude, longitude and zoom
             this.latitude = place.geometry.location.lat();
             this.longitude = place.geometry.location.lng();
+            
+            this.chargesForm.get('mapLat').setValue(this.latitude);
+            this.chargesForm.get('mapLong').setValue(this.longitude);
   
             this.zoom = 12;
           });
@@ -143,6 +151,10 @@ export class ExpertChargesComponent implements OnInit {
       console.log($event);
       this.latitude = $event.coords.lat;
       this.longitude = $event.coords.lng;
+
+      this.chargesForm.get('mapLat').setValue(this.latitude);
+      this.chargesForm.get('mapLong').setValue(this.longitude);
+
       this.getAddress(this.latitude, this.longitude);
     }
   

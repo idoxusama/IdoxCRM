@@ -62,7 +62,6 @@ export class ServicesComponent implements OnInit {
     private route:ActivatedRoute) { }
 
   ngOnInit() {
-    debugger
     this.route.queryParams.subscribe(params=>{
       this.expertID=params['id'];
     })
@@ -383,6 +382,7 @@ export class ServicesComponent implements OnInit {
 
     this.slaService.createExpertSLATimeManagement(this.expertSLATimeManagement).subscribe(response => {
       this.toasterService.success('Time has been added!.');
+      this.modalRef.hide();
     }, error => {
       console.log(error);
     }, () => { this.getExpertSlaServices(this.expertSLATimeManagement.serviceSLAID) })

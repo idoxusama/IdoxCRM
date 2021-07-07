@@ -9,6 +9,7 @@ import { MedicalPerformaService } from 'src/app/Services/Medical Performa Servic
   styleUrls: ['./draft-list.component.css']
 })
 export class DraftListComponent implements OnInit {
+  currentPage:number=1;
   @Output() headerTitle = new EventEmitter<string>();
   performaDraftsList :Array<PerformaDraft>=new Array();
   constructor(private medicalPerformaService: MedicalPerformaService,

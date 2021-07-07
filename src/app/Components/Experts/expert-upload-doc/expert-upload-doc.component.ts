@@ -1,7 +1,9 @@
 import { Component, Input, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as FileSaver from 'file-saver';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { StepModel } from 'src/app/Models/Experts Model/StepModel';
@@ -34,7 +36,8 @@ export class ExpertUploadDocComponent implements OnInit {
     private toasterService: ToastrService,
     private route: ActivatedRoute,
     private router: Router,
-    private ngZone:NgZone) {
+    private ngZone:NgZone,
+    private sanitizer: DomSanitizer) {
     this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
     }
@@ -67,10 +70,25 @@ export class ExpertUploadDocComponent implements OnInit {
   expertPersonalDocuments(id) {
     this.expertUserService.getExpertPersonalDocuments(id).subscribe(response => {
       this.expertuploadDocs = response.outputObject;
+      if(this.expertuploadDocs){
+        this.expertuploadDocs.map(e=>{
+          e.type= e.documentPath.split('.')[1];
+        });
+      }
       this.createUploadDocsForm();
     }, error => {
       console.log(error);
     })
+  }
+
+  createFilePath(streamData){
+    var base64String = streamData;
+    let objectURL = 'data:image/png;base64,' + base64String;
+    return this.sanitizer.bypassSecurityTrustUrl(objectURL);
+  }
+
+  downloadFile(data,name){
+    FileSaver.saveAs(data,name);
   }
 
 
@@ -111,7 +129,6 @@ export class ExpertUploadDocComponent implements OnInit {
   }
 
   deleteExpertDocuments(id){
-    debugger
     let model:any={};
     model.id=id;
     model.event="IsDeleted";

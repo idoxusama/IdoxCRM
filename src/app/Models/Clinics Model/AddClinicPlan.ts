@@ -1,5 +1,5 @@
 export class ClinicPlan{
-    iD:number;
+    id:number;
     expertID:number;
     locationAddressID:number;
     expertClinicAvailablityDaysID:number;

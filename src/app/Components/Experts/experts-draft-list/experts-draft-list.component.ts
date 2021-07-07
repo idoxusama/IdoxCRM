@@ -8,6 +8,7 @@ import { ExpertuserService } from 'src/app/Services/Experts Services/expertuser.
   styleUrls: ['./experts-draft-list.component.scss']
 })
 export class ExpertsDraftListComponent implements OnInit {
+  currentPage:number=1;
   expertDraftProfiles:ExpertBasicInfo[]=[];
   constructor(private expertUserService: ExpertuserService) { }
 

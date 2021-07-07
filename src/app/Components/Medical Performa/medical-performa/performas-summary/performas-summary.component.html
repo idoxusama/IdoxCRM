@@ -35,7 +35,7 @@
                           </tr>
                       </thead>
                       <tbody>
-                          <tr *ngFor="let item of summary; let i = index">
+                          <tr *ngFor="let item of summary | paginate: { itemsPerPage: 10, currentPage: currentPage }; let i = index">
                               <th scope="row"><span class="icon-30 icon-circle align-self-start pink-gradient text-white">{{i+1}}</span></th>
                               <td>{{item.performaQuestionnaireCode}}</td>
                               <td><span class="badge badge-primary">{{item.startDate | date}}</span></td>
@@ -53,6 +53,9 @@
                           </tr>
                       </tbody>
                   </table>
+                  <ul class="pagination">
+                    <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                  </ul>
               </div>
           </div>
       </div>

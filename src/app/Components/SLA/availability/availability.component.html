@@ -20,10 +20,10 @@
     <tr *ngFor="let item of expertAvailabilityList; let i=index;">
       <td>{{i+1}}</td>
       <td>{{item.days}}</td>
-      <td>{{item.startTime | date:'shortTime'}}</td>
-      <td>{{item.endTime | date:'shortTime'}}</td>
-      <td>{{item.startLunchTime | date:'shortTime'}}</td>
-      <td>{{item.endLunchTime | date:'shortTime'}}</td>
+      <td>{{item.startTime}}</td>
+      <td>{{item.endTime}}</td>
+      <td>{{item.startLunchTime}}</td>
+      <td>{{item.endLunchTime}}</td>
       <td>
         <button title="Update status" type="button" *ngIf="item.isActive" class="btn btn-success btn-sm" (click)="updateServiceStatus(item.id,'IsActive',0,'ExpertAvailibility')">{{item.isActive}}</button>
         <button title="Update status" type="button" *ngIf="!item.isActive" class="btn btn-secondary btn-sm" (click)="updateServiceStatus(item.id,'IsActive',1,'ExpertAvailibility')">{{item.isActive}}</button>

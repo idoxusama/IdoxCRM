@@ -112,7 +112,6 @@ export class AvailabilityComponent implements OnInit {
 
   editExpertAvailability(id) {
     this.slaService.getExpertAvailability(id,this.expertID).subscribe(response=>{
-      debugger
       let data= response.outputObject?response.outputObject.pop():null;
       this.createExpertAvailabilityForm(data);
       this.modalRef = this.modalService.show(this.addExpertAvailybility);
@@ -199,7 +198,6 @@ export class AvailabilityComponent implements OnInit {
   }
 
   checkStartEndTime(day): boolean {
-    debugger
     let ifNotExist = false;
 
     let startTime = this.availabilityForm.get('startTime').value;
@@ -231,7 +229,6 @@ export class AvailabilityComponent implements OnInit {
   }
 
   checkLunchTime(): boolean {
-    debugger
     let ifNotExist = false;
 
     let startTime = this.availabilityForm.get('startTime').value;

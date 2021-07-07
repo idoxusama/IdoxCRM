@@ -10,12 +10,12 @@
   <table class="table">
     <tr>
       <th>Sr.</th>
-      <th>NoOfCancel Appointment</th>
+      <th title="No Of Cancel Appointments">No Of Cancel</th>
       <th>Range By</th>
-      <th>Start Time (minute)</th>
-      <th>End Time (minute)</th>
-      <th>Charge Amount</th>
-      <th>Charge Percentage</th>
+      <th title="Start Range">S.R (minute)</th>
+      <th title="End Range">E.R (minute)</th>
+      <th title="Charge Amount">C.A</th>
+      <th title="Charge Percentage">C.P</th>
       <th>IsActive</th>
       <th width="12%">Action</th>
     </tr>
@@ -66,8 +66,13 @@
         <div class="col-lg-12 col-md-12">
           <div class="form-group ">
             <label>Range By</label>
-            <input type="text" class="form-control" placeholder="Range By" formControlName="rangeBy" [ngClass]="{'is-invalid': appointmentCancellationForm.get('rangeBy').errors 
+            <select class="form-control" formControlName="rangeBy" [ngClass]="{'is-invalid': appointmentCancellationForm.get('rangeBy').errors 
             && (appointmentCancellationForm.get('rangeBy').touched||appointmentSubmitted)}">
+              <option value="">Select Option</option>
+              <option value="Hourly">Hourly</option>
+              <option value="Weekly">Weekly</option>
+              <option value="Monthly">Monthly</option>
+            </select>
             <div class="invalid-feedback"
               *ngIf="(appointmentCancellationForm.get('rangeBy').touched||appointmentSubmitted) && appointmentCancellationForm.get('rangeBy').hasError('required')">
               This field is required
@@ -78,8 +83,8 @@
       <div class="row ">
         <div class="col-lg-12 col-md-12">
           <div class="form-group ">
-            <label>Start Time (minute)</label>
-            <input type="time" class="form-control" placeholder="Start Range" formControlName="startRange" [ngClass]="{'is-invalid': appointmentCancellationForm.get('startRange').errors 
+            <label>Start Range (minute)</label>
+            <input type="text" appOnlynumbers class="form-control" placeholder="Start Range" formControlName="startRange" [ngClass]="{'is-invalid': appointmentCancellationForm.get('startRange').errors 
             && (appointmentCancellationForm.get('startRange').touched||appointmentSubmitted)}">
             <div class="invalid-feedback"
               *ngIf="(appointmentCancellationForm.get('startRange').touched||appointmentSubmitted) && appointmentCancellationForm.get('startRange').hasError('required')">
@@ -91,8 +96,8 @@
       <div class="row ">
         <div class="col-lg-12 col-md-12">
           <div class="form-group ">
-            <label>End Time (minute)</label>
-            <input type="time" class="form-control" formControlName="endRange" placeholder="End Range" [ngClass]="{'is-invalid': appointmentCancellationForm.get('endRange').errors 
+            <label>End Range (minute)</label>
+            <input type="text" appOnlynumbers class="form-control" formControlName="endRange" placeholder="End Range" [ngClass]="{'is-invalid': appointmentCancellationForm.get('endRange').errors 
             && (appointmentCancellationForm.get('endRange').touched||appointmentSubmitted) || (appointmentCancellationForm.get('endRange').touched && appointmentCancellationForm.hasError('endRangeGreater'))}">
             <div class="invalid-feedback"
               *ngIf="(appointmentCancellationForm.get('endRange').touched||appointmentSubmitted) && appointmentCancellationForm.get('endRange').hasError('required')">

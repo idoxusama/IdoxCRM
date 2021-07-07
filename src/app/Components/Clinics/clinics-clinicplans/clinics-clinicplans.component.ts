@@ -1,6 +1,7 @@
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { Component, ElementRef, NgZone, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Select2OptionData } from 'ng2-select2';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { ClinicPlan } from 'src/app/Models/Clinics Model/AddClinicPlan';
@@ -33,9 +34,11 @@ export class ClinicsClinicplansComponent implements OnInit {
   clinicFormSubmit: boolean = false;
   clinicPlan: ClinicPlan;
 
-  expertTypes: ExpertType[] = [];
-  experts: ExpertBasicInfo[] = [];
+  public expertTypes: Array<Select2OptionData>;
+  public experts: Array<Select2OptionData>;
+
   expertAvalabilites: Availability[] = [];
+  avalabilites:Array<Select2OptionData>;
   startEndTimeDisabled: boolean = true;
 
   minuteStep = 1;
@@ -63,6 +66,7 @@ export class ClinicsClinicplansComponent implements OnInit {
     this.loadPlaceAutoComplete();
     this.createClinicPlanForm();
   }
+
   /* #region  Google Map */
 
   private loadPlaceAutoComplete() {
@@ -135,29 +139,88 @@ export class ClinicsClinicplansComponent implements OnInit {
 
   /* #endregion */
 
-
   getExpertTypes() {
     this.settingService.getAllExpertType(0).subscribe(response => {
-      this.expertTypes = response.outputObject;
+      let res= response.outputObject?response.outputObject:null;
+      this.expertTypes=[];
+      let defualtOptiton={
+        id:'',
+        text:'Select Option'
+      };
+      this.expertTypes.push(defualtOptiton);
+      if(res){
+        res.forEach(element => {
+          let object =  {
+            id: element.expertTypeID,
+            text: element.expertCategories
+          };
+          this.expertTypes.push(object);
+        });
+      }
     }, error => {
       console.log(error);
     });
   }
 
-  getExperts(id) {
-    this.expertUserService.getExpertProfileInfo("ExpertType", id).subscribe(response => {
-      this.experts = response.outputObject;
-    }, error => {
-      console.log(error);
-    });
+  getExperts(event:any) {
+    debugger
+    if(event.value){
+      this.expertUserService.getExpertProfileInfo("Expert", event.value,"","completedprofile").subscribe(response => {
+        this.experts=[];
+        let defualtOptiton={
+          id:'',
+          text:'Select Option'
+        };
+        this.experts.push(defualtOptiton);
+
+        if(response.outputObject){
+          response.outputObject.forEach(element => {
+            let object =  {
+              id: element.id,
+              text: element.firstName
+            };
+            this.experts.push(object);
+          });  
+        }
+        
+      }, error => {
+        console.log(error);
+      });
+    }
   }
 
-  getAvailabilityDays(id) {
-    this.slaService.getExpertAvailability(0, id).subscribe(response => {
-      this.expertAvalabilites = response.outputObject;
-    }, error => {
-      console.log(error);
-    });
+  getAvailabilityDays(event:any) {
+    if(event.value){
+
+      this.clinicPlansForm.get('expertID').setValue(event.value);
+      this.expertUserService.getExpertProfileInfo("Expert",event.value,"","completedprofile").subscribe(response=>{
+        let expertPersonalInfo= response.outputObject?response.outputObject.pop():null;
+        if(expertPersonalInfo){
+          this.getAddress(+expertPersonalInfo.mapLat,+expertPersonalInfo.mapLong);
+        }
+      },error=>{
+        console.log(error);
+      },()=>{
+        this.slaService.getExpertAvailability(0, event.value).subscribe(response => {
+          this.expertAvalabilites = response.outputObject;
+          this.avalabilites = [];
+          let defualtOptiton = {
+            id: '',
+            text: 'Select Option'
+          };
+          this.avalabilites.push(defualtOptiton);
+          response.outputObject.forEach(element => {
+            let object = {
+              id: element.id,
+              text: element.days
+            };
+            this.avalabilites.push(object);
+          });
+        }, error => {
+          console.log(error);
+        });
+      });
+    }
   }
 
   createClinicPlanForm() {
@@ -177,6 +240,7 @@ export class ClinicsClinicplansComponent implements OnInit {
       mapLongitude: ['', Validators.required],
     }, { validators: this.checkTimeRangeInCaseNo.bind(this) });
   }
+
   checkTimeRangeInCaseNo(group: FormGroup) {
     //first check is Availability timming same or not
     var checkActualAvailabilityTiming = group.get('isAvailabilityTimings').value == 'true' ? true : false;
@@ -192,25 +256,27 @@ export class ClinicsClinicplansComponent implements OnInit {
         var startTimeInCaseNo = new Date(group.get('startTime').value);
         var endTimeInCaseNo = new Date(group.get('endTime').value);
 
-        return (startTimeInCaseNo > startTimeInCaseYes && endTimeInCaseNo < endTimeInCaseYes) ? null : { timeRangeError: true };
+        return (startTimeInCaseNo >= startTimeInCaseYes && endTimeInCaseNo <= endTimeInCaseYes) ? null : { timeRangeError: true };
       }
     }
   }
 
-  changeAvailability(value) {
-    var data = this.expertAvalabilites.find(e => e.id == value);
+  changeAvailability(event:any) {
+    this.clinicPlansForm.get('expertClinicAvailablityDaysID').setValue(event.value)
+    var data = this.expertAvalabilites.find(e => e.id == event.value);
     if (data) {
       this.clinicPlansForm.get('startTime').setValue(data.startTime);
       this.clinicPlansForm.get('endTime').setValue(data.endTime);
       this.clinicPlansForm.get('isAvailabilityTimings').setValue('true');
     }
-
     this.startEndTimeDisabled = true;
   }
 
   getNearestLocation(template) {
+    this.clinicPlansForm.get('mapLatitude').setValue(this.latitude);
+    this.clinicPlansForm.get('mapLongitude').setValue(this.latitude);
+
     this.venueLocationService.getNearestLocations(this.latitude, this.longitude).subscribe(response => {
-      debugger
       this.nearestLocations = response.outputObject;
       this.modalRef = this.modalService.show(template,{class:'modal-lg'});
     }, error => {
@@ -221,14 +287,13 @@ export class ClinicsClinicplansComponent implements OnInit {
   bindLocationWithClinicPlan(value){
     this.selectedVenueLocation= this.nearestLocations.find(e=>e.id==value);
     this.clinicPlansForm.get('locationAddressID').setValue(this.selectedVenueLocation.id);
-    this.clinicPlansForm.get('travelDistance').setValue(this.selectedVenueLocation.travelDistance);
-    this.clinicPlansForm.get('traveltime').setValue(this.selectedVenueLocation.traveltime);
+    this.clinicPlansForm.get('travelDistance').setValue(this.selectedVenueLocation.distance);
+    this.clinicPlansForm.get('traveltime').setValue(this.selectedVenueLocation.duration);
     
     this.modalRef.hide();
   }
 
   saveClinicPlan() {
-    debugger
     this.clinicFormSubmit = true;
     if (this.clinicPlansForm.valid) {
       this.clinicPlan = Object.assign({}, this.clinicPlansForm.value);

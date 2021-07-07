@@ -27,7 +27,7 @@
                 (click)="editServiceEstTime(getExpertSLATime.serviceSLAID,getExpertSLATime.slaServices)"
                 class="btn btn-success btn-sm">
                 {{getExpertSLATime?.estTime}} <span *ngIf="getExpertSLATime?.estReturnTime">To</span>
-                {{getExpertSLATime?.estReturnTime}}
+                {{getExpertSLATime?.estReturnTime}} <span>Minutes</span>
               </button>
             </div>
             <ng-template #addTimeManagement>
@@ -42,8 +42,8 @@
             <table class="table mt-4">
               <tr>
                 <th>Service</th>
-                <th>Start Range Time (minute)</th>
-                <th>End Range Time (minute)</th>
+                <th>Start Range (minute)</th>
+                <th>End Range (minute)</th>
                 <th>Payment</th>
                 <th>PaymentType</th>
                 <th>IsActive</th>
@@ -124,7 +124,7 @@
       <div class="row ">
         <div class="col-lg-6 col-md-6">
           <div class="form-group ">
-            <label>Start Range Time (minute)</label>
+            <label>Start Range (minute)</label>
             <!-- <timepicker formControlName="startRangeTime" [showMinutes]="showMin" [showMeridian]="isMeridian" [disabled]="!isDisabled" placeholder="" [ngClass]="{'is-invalid': hourlyForm.get('startRangeTime').errors 
             && (hourlyForm.get('startRangeTime').touched||hourlyFormSubmitted)}"></timepicker> -->
             <input type="text" appOnlynumbers class="form-control" formControlName="startRangeTime" placeholder="" [ngClass]="{'is-invalid': hourlyForm.get('startRangeTime').errors 
@@ -137,7 +137,7 @@
         </div>
         <div class="col-lg-6 col-md-6">
           <div class="form-group ">
-            <label>End Range Time (minute)</label>
+            <label>End Range (minute)</label>
             <!-- <timepicker formControlName="endRangeTime" [showMinutes]="showMin" [showMeridian]="isMeridian" [disabled]="!isDisabled" placeholder="" [ngClass]="{'is-invalid': hourlyForm.get('endRangeTime').errors 
             && (hourlyForm.get('endRangeTime').touched||hourlyFormSubmitted) || (hourlyForm.get('endRangeTime').touched && hourlyForm.hasError('endRangeGreater'))}"></timepicker> -->
             <input type="text" appOnlynumbers class="form-control" formControlName="endRangeTime" placeholder=""
@@ -188,7 +188,7 @@
       <div class="row ">
         <div class="col-lg-6 col-md-6">
           <div class="form-group ">
-            <label>Start Range Time (minute)</label>
+            <label>Start Range (minute)</label>
             <!-- <timepicker formControlName="startRangeTime" [showMinutes]="showMin" [showMeridian]="isMeridian" [disabled]="!isDisabled" [ngClass]="{'is-invalid': perPagesForm.get('startRangeTime').errors 
             && (perPagesForm.get('startRangeTime').touched||perPagesFormSubmitted)}"></timepicker> -->
             <input type="text" appOnlynumbers class="form-control" formControlName="startRangeTime" placeholder="" [ngClass]="{'is-invalid': perPagesForm.get('startRangeTime').errors 
@@ -201,7 +201,7 @@
         </div>
         <div class="col-lg-6 col-md-6">
           <div class="form-group ">
-            <label>End Range Time (minute)</label>
+            <label>End Range (minute)</label>
             <!-- <timepicker formControlName="endRangeTime" [showMinutes]="showMin" [ngClass]="{'is-invalid': perPagesForm.get('endRangeTime').errors 
             && (perPagesForm.get('endRangeTime').touched||perPagesFormSubmitted) || (hourlyForm.get('endRangeTime').touched&& perPagesForm.hasError('endRangeGreater'))}"></timepicker> -->
             <input type="text" appOnlynumbers class="form-control" formControlName="endRangeTime" placeholder="" [ngClass]="{'is-invalid': perPagesForm.get('endRangeTime').errors 
@@ -253,7 +253,7 @@
         <div class="col-lg-12 col-md-12">
           <div class="form-group ">
             <label>{{est.slaTimeManagementInput}} (minute)</label>
-            <input type="time" appOnlynumbers class="form-control" formControlName="{{est.slaTimeManagementInput}}"
+            <input type="text" appOnlynumbers class="form-control" formControlName="{{est.slaTimeManagementInput}}"
               placeholder="" [ngClass]="{'is-invalid': timeManagementForm.get(est.slaTimeManagementInput).errors 
             && (timeManagementForm.get(est.slaTimeManagementInput).touched||timeManagementFormSubmitted)}">
             <div class="invalid-feedback"
