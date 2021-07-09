@@ -368,7 +368,6 @@ export class NewInstructionComponent implements OnInit {
   /* #region  Form Submission */
 
   async saveInstructionForm() {
-    debugger
     this.instructionFromSubmit = true;
     if (this.instructionForm.valid){
 
@@ -463,6 +462,11 @@ export class NewInstructionComponent implements OnInit {
     this.caseInfo = Object.assign({}, this.instructionForm.value);
     this.caseInfo.userID = +localStorage.getItem('userID');
     this.caseInfo.instructionID = this.instructionID;
+    this.caseInfo.priority = this.instructionForm.get('priority').value==''?0:this.caseInfo.priority;
+    this.caseInfo.appointmentDate = this.instructionForm.get('appointmentDate').value==''?new Date('01/01/0001'):this.caseInfo.appointmentDate;
+    this.caseInfo.assignmentDate = this.instructionForm.get('assignmentDate').value==''?new Date('01/01/0001'):this.caseInfo.assignmentDate;
+    this.caseInfo.courtDate=this.instructionForm.get('courtDate').value==''?new Date('01/01/0001'):this.caseInfo.courtDate;
+    this.caseInfo.instructionDeadLineDate= this.instructionForm.get('instructionDeadLineDate').value==''?new Date('01/01/0001'):this.caseInfo.instructionDeadLineDate;
     await this.instructionService.createInstructionCaseInfo(this.caseInfo).toPromise();
   }
   /* #endregion */

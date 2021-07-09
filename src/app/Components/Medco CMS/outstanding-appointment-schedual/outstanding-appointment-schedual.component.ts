@@ -49,6 +49,7 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
   expertClinicSlotPlan: ExpertClinicSlotPlan = new ExpertClinicSlotPlan();
 
   minuteStep: number = 1;
+  minDate:Date;
   isMeridian = false;
   showSpinners = true;
 
@@ -59,6 +60,8 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
   totalAssessmentTime: Date;
 
   disabledConfirm: boolean;
+
+  timepickerCurrentTime:Date;
   /* #endregion */
 
   constructor(private outstandingAppoinmentService: OutstandingAppointmentsService,
@@ -72,6 +75,7 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone) { }
   ngOnInit() {
+    this.minDate= new Date();
     this.createBookAppointmentForm();
     this.route.queryParams.subscribe(param => {
       this.appointmentID = param['id'];
@@ -227,12 +231,28 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
     this.showMapForNearestLocation = true;
     this.loadPlaceAutoComplete();
   }
+  enableDisableConfrim() {
+    if (this.disabledConfirm) {
+      this.disabledConfirm = false;
+    }
+    else {
+      this.disabledConfirm = true;
+    }
+  }
+  changeDate(date){
+    debugger
+    var currentDate= new Date();
+    if(date.getDate()===currentDate.getDate()){
+      this.timepickerCurrentTime= currentDate;
+    }
+    else{
+      this.timepickerCurrentTime = null;
+    }
+  }
 
   changeStartTime(startTime) {
-    var slotDate = this.bookAppointmentForm.get('slotDate').value;
-    var dateObject1 = this.convertTimeStringToDate(slotDate, startTime);
     let assessmentTime = +this.expertPersonalInfo.assessmentTime.match(/\d+/)[0];
-    let dateObject2 = dateObject1.getTime() + assessmentTime * 60000;
+    let dateObject2 = startTime.getTime() + assessmentTime * 60000;
     this.appointmentCheckOutTime = new Date(dateObject2);
 
     this.bookAppointmentForm.get('slotEndTime').setValue(this.appointmentCheckOutTime);
@@ -246,7 +266,6 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
 
   /* #region  Book Appointment */
   checkExpertAvailability(): boolean {
-    debugger
     let result = false;
 
     let slotDate = this.expertClinicSlotPlan.slotDate;
@@ -291,9 +310,7 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
   async onSubmit() {
     this.bookAppointmentSubmit = true;
     if (this.bookAppointmentForm.valid) {
-      this.expertClinicSlotPlan = Object.assign({}, this.bookAppointmentForm.value);
-      this.expertClinicSlotPlan.slotStartTime =
-        this.convertTimeStringToDate(this.expertClinicSlotPlan.slotDate, this.bookAppointmentForm.get('slotStartTime').value)
+    this.expertClinicSlotPlan = Object.assign({}, this.bookAppointmentForm.value);
       if (this.checkExpertAvailability()) {
         await this.bookSlot();
       }
@@ -303,14 +320,7 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
       }
     }
   }
-  enableDisableConfrim() {
-    if (this.disabledConfirm) {
-      this.disabledConfirm = false;
-    }
-    else {
-      this.disabledConfirm = true;
-    }
-  }
+ 
 
   async bookSlot() {
     //check if slot already booked.
@@ -318,15 +328,13 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
       this.expertClinicSlotPlan.slotDate, this.expertClinicSlotPlan.slotStartTime, this.expertClinicSlotPlan.slotEndTime);
       debugger
 
-    if (!result.isExist) {
+    if (result.isExist==false) {
       this.outstandingAppoinmentService.createExpertClinicSlotPlan(this.expertClinicSlotPlan).subscribe(response => {
-        let msg = `Appointment booked successfully.`;
-        this.toasterService.success(msg);
+        this.toasterService.success('Appointment booked successfully.');
       }, error => {
         console.log(error);
       }, () => {
         this.modalRef.hide();
-        this.ngOnInit();
       });
     }
     else {

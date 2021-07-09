@@ -1,5 +1,6 @@
 export interface TodayClinics{
     scheduleID:number;
+    expertClinicSlotPlanID:number;
     expert:string;
     client:string;
     location:string;
@@ -8,6 +9,7 @@ export interface TodayClinics{
     startTime:Date;
     endTime:Date;
     instructionCode:string;
+    instructionID:number;
     referrerCode:string;
     clientRefNo:string;
     medicoRefNo:string;
