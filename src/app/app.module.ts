@@ -282,6 +282,8 @@ import { InstructionStateComponent } from './Components/Instruction Main/instruc
 import { ClinicsTodayclinicsComponent } from './Components/Clinics/clinics-todayclinics/clinics-todayclinics.component';
 import { ClinicsAttendedclinicsComponent } from './Components/Clinics/clinics-attendedclinics/clinics-attendedclinics.component';
 import { InvalidControlScrollDirective } from './custom-validations/invalidControlScroll.directive';
+import { AssignedMedicalSectretaryListComponent } from './Components/Medco CMS/assigned-medical-sectretary-list/assigned-medical-sectretary-list.component';
+import { UnassignedMedicalSecretaryListComponent } from './Components/Medco CMS/unassigned-medical-secretary-list/unassigned-medical-secretary-list.component';
 
 @NgModule({
   declarations: [	
@@ -539,6 +541,8 @@ import { InvalidControlScrollDirective } from './custom-validations/invalidContr
     InstructionListComponent,
     InstructionStateComponent,
     InstructionDetailComponent,
+    AssignedMedicalSectretaryListComponent,
+    UnassignedMedicalSecretaryListComponent,
     OnlynumbersDirective,
     AlphabetsOnlyDirective,
     NotAllowSepacialChatactorDirective,

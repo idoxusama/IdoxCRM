@@ -242,6 +242,8 @@ import { OutstandingAppointmentSchedualComponent } from './Components/Medco CMS/
 import { InstructionStateComponent } from './Components/Instruction Main/instruction-state/instruction-state.component';
 import { ClinicsTodayclinicsComponent } from './Components/Clinics/clinics-todayclinics/clinics-todayclinics.component';
 import { ClinicsAttendedclinicsComponent } from './Components/Clinics/clinics-attendedclinics/clinics-attendedclinics.component';
+import { AssignedMedicalSectretaryListComponent } from './Components/Medco CMS/assigned-medical-sectretary-list/assigned-medical-sectretary-list.component';
+import { UnassignedMedicalSecretaryListComponent } from './Components/Medco CMS/unassigned-medical-secretary-list/unassigned-medical-secretary-list.component';
 
 const routes: Routes = [
   {
@@ -1238,6 +1240,24 @@ const routes: Routes = [
   children: [
     {
       path: '', component: OutstandingAppointmentSchedualComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'MedcoCMS/AssignedMedicalSecretaries',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: AssignedMedicalSectretaryListComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'MedcoCMS/UnAssignedMedicalSecretaries',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: UnassignedMedicalSecretaryListComponent, pathMatch: 'full', canActivate:[AuthGuard]
     }
   ]
 },
