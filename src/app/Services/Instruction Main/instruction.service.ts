@@ -246,9 +246,20 @@ export class InstructionService {
     return this.http.post(requestUrl, data, requestOptions);
   }
 
-
-
   // Update Instruction Status
+  deleteOrInactiveInstruction(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/Instruction/DeleteOrInactiveInstruction';
+    const headerDict = {
+      'Access-Control-Allow-Origin': '*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+    return this.http.post(requestUrl, data, requestOptions);
+  }
+  
   updateInstructionStatus(data): Observable<any> {
     let requestUrl = this.baseUrl + `​/api/Instruction/UpdateInstructionStatus`;
     const headerDict = {
@@ -266,8 +277,8 @@ export class InstructionService {
   
   /* #region  Instruction State */
 
-  getCurrentInstructionState(instructionCode, medicoRefNo, expertID): Observable<any> {
-    let requestUrl = this.baseUrl + `/api/Instruction/GetCurrentInstructionState?instructionCode=${instructionCode}&medicoRefNo=${medicoRefNo}&expertID=${expertID}`;
+  getCurrentInstructionState(instructionId?,instructionCode?, medicoRefNo?, expertID?): Observable<any> {
+    let requestUrl = this.baseUrl + `/api/Instruction/GetCurrentInstructionState?instructionID=${instructionId}&instructionCode=${instructionCode}&medicoRefNo=${medicoRefNo}&expertID=${expertID}`;
     const headerDict = {
       'Access-Control-Allow-Origin': '*',
       "Authorization": "Bearer " + localStorage.getItem('access_token'),

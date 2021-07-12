@@ -15,31 +15,18 @@
             <div class="card rounded-0 border-0 mb-3">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-8">
-                            <h5 class="card-title mb-0">Experts</h5>
+                        <div class="col-12">
+                            <h5 class="card-title mb-0 text-center">Experts</h5>                           
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12">
                             <div class="search-header">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search..." (keyup)="filterExperts($event.target.value)">
                                     <div class="input-group-append">
                                         <button class="btn " type="button"><i class="material-icons">search</i></button>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col text-right">
-                            <div class="dropdown">
-                                <button
-                                    class="btn btn-link btn-sm text-secondary rounded-0 dropdown-toggle float-right icon"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" type="button">
-                                    <i class="fa fa-ellipsis-v"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-exclamation-circle text-secondary"></i> Report</a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-cog text-secondary"></i> Settings</a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-trash text-secondary"></i> Remove</a>
+                                    <input type="text" class="form-control" placeholder="Search..." (keyup)="filterExperts($event.target.value)" autofocus="true">        
                                 </div>
                             </div>
                         </div>

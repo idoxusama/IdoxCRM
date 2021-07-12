@@ -296,9 +296,9 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
     return result;
   }
 
-  async checkAppointmentReservation(clinicPlanId, slotDate, slotSTime, slotETime) {
+  async checkAppointmentReservation(expertID, slotDate, slotSTime, slotETime) {
     let model: any = {
-      expertClinicPlanID: clinicPlanId,
+      ExpertID: expertID,
       slotDate: slotDate,
       slotStartTime: slotSTime,
       slotEndTime: slotETime
@@ -316,7 +316,7 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
       }
       else {
         this.disabledConfirm = false;
-        this.modalRef = this.modalService.show(this.templateConfirmBox);
+        this.modalRef = this.modalService.show(this.templateConfirmBox,{backdrop:'static'});
       }
     }
   }
@@ -324,9 +324,8 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
 
   async bookSlot() {
     //check if slot already booked.
-    let result = await this.checkAppointmentReservation(this.expertClinicSlotPlan.expertClinicPlanID,
+    let result = await this.checkAppointmentReservation(this.expertClinicSlotPlan.expertID,
       this.expertClinicSlotPlan.slotDate, this.expertClinicSlotPlan.slotStartTime, this.expertClinicSlotPlan.slotEndTime);
-      debugger
 
     if (result.isExist==false) {
       this.outstandingAppoinmentService.createExpertClinicSlotPlan(this.expertClinicSlotPlan).subscribe(response => {
@@ -334,7 +333,9 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
       }, error => {
         console.log(error);
       }, () => {
+        debugger
         this.modalRef.hide();
+        this.ngZone.run(() => this.router.navigate(['/MedcoCMS/Outstanding_Appointments']));
       });
     }
     else {

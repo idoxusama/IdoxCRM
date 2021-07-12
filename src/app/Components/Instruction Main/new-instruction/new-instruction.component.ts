@@ -1,5 +1,6 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Select2OptionData } from 'ng2-select2';
 import { ToastrService } from 'ngx-toastr';
 import { fromEvent } from 'rxjs';
@@ -53,7 +54,9 @@ export class NewInstructionComponent implements OnInit {
     private referrerService: ReferrerService,
     private settingService: SettingsService,
     private toasterService: ToastrService,
-    private el:ElementRef) { }
+    private el:ElementRef,
+    private ngZone:NgZone,
+    private router:Router) { }
 
   ngOnInit() {
     this.maxDate = new Date();
@@ -395,7 +398,8 @@ export class NewInstructionComponent implements OnInit {
           await this.createCaseInfo();
 
           this.toasterService.success('Instruction created successfully.');
-          this.ngOnInit();
+          debugger
+          this.ngZone.run(() => this.router.navigate(['/IndoxCMS/Intruction/List']));
         }
       }
       catch (error) {
@@ -458,7 +462,6 @@ export class NewInstructionComponent implements OnInit {
   }
 
   async createCaseInfo() {
-    debugger
     this.caseInfo = Object.assign({}, this.instructionForm.value);
     this.caseInfo.userID = +localStorage.getItem('userID');
     this.caseInfo.instructionID = this.instructionID;
