@@ -17,7 +17,7 @@ export class AssignedMedicalSectretaryListComponent implements OnInit {
   }
 
   getAllAssignedMedSec(){
-    this.instructoinService.getAllInstAssignMedSec().subscribe(response=>{
+    this.instructoinService.getAllInstAssignMedSec(0,0).subscribe(response=>{
       this.assignedMedSecList = response.outputObject;
     },error=>{
       console.log(error);

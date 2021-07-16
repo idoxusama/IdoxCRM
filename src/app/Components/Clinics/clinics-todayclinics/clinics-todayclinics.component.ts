@@ -34,12 +34,13 @@ export class ClinicsTodayclinicsComponent implements OnInit {
   liveClinics: TodayClinics[] = [];
   filterLClinics: TodayClinics[] = [];
 
-  previousClinics: TodayClinics[] = [];
-  filterPClinics: TodayClinics[] = [];
-
   upComingClinics: TodayClinics[] = [];
   filterUCClinics: TodayClinics[] = [];
 
+  previousClinics: TodayClinics[] = [];
+  filterPClinics: TodayClinics[] = [];
+  showAttended=false;
+  
   experts: Array<Select2OptionData>;
 
   expertID: number;
@@ -192,11 +193,16 @@ export class ClinicsTodayclinicsComponent implements OnInit {
     });
   }
 
-  showUpdateStatusModel(template, schedualID,instructionId,cinicSlotPlanId) {
+  showUpdateStatusModel(template, schedualID,instructionId,cinicSlotPlanId,clinicType) {
     this.createAppointmentStatusForm();
     this.schedualID = schedualID;
     this.instructionId= instructionId;
     this.cinicSlotPlanId = cinicSlotPlanId;
+
+    if(clinicType==='Previous'){
+      this.showAttended = true;
+    }
+
     this.modalRef = this.modalService.show(template);
   }
 
@@ -216,9 +222,7 @@ export class ClinicsTodayclinicsComponent implements OnInit {
   }
 
   assignMedicalSecretary(){
-    debugger
     this.assignMedSecFormSubmit=true;
-    
     if(this.assignMedSecForm.valid){
       this.assignMedSec = Object.assign({},this.assignMedSecForm.value);
       this.assignMedSec.medSecID = this.assignMedSec.medSecID?+this.assignMedSec.medSecID:0;

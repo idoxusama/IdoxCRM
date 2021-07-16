@@ -75,7 +75,7 @@
             </thead>
             <tbody>
               <tr
-                *ngFor="let liveClinic of filterLClinics | paginate:{itemsPerPage:5,currentPage:liveCurrentPage,id:'first'}; let i = index;">
+                *ngFor="let liveClinic of filterLClinics | paginate:{itemsPerPage:10,currentPage:liveCurrentPage,id:'first'}; let i = index;">
                 <td scope="row">{{i+1}}</td>
                 <td>{{liveClinic.expert}}</td>
                 <td>{{liveClinic.client}}</td>
@@ -87,7 +87,7 @@
                 <td>{{liveClinic.medicoRefNo}}</td>
                 <td>
                   <a class="btn btn-primary primary-gradient ml-2"
-                    (click)="showUpdateStatusModel(templateUpdateStatus,liveClinic.scheduleID,liveClinic.instructionID,liveClinic.expertClinicSlotPlanID)">Update
+                    (click)="showUpdateStatusModel(templateUpdateStatus,liveClinic.scheduleID,liveClinic.instructionID,liveClinic.expertClinicSlotPlanID,'Live')">Update
                     Status</a>
                 </td>
               </tr>
@@ -153,7 +153,7 @@
                 <td>{{upComing.medicoRefNo}}</td>
                 <td>
                   <a class="btn btn-primary primary-gradient ml-2"
-                    (click)="showUpdateStatusModel(templateUpdateStatus,upComing.scheduleID,upComing.instructionID,upComing.expertClinicSlotPlanID)">Update
+                    (click)="showUpdateStatusModel(templateUpdateStatus,upComing.scheduleID,upComing.instructionID,upComing.expertClinicSlotPlanID,'UpComing')">Update
                     Status</a>
                 </td>
               </tr>
@@ -219,7 +219,7 @@
                 <td>{{previous.medicoRefNo}}</td>
                 <td>
                   <a class="btn btn-primary primary-gradient ml-2"
-                    (click)="showUpdateStatusModel(templateUpdateStatus,previous.scheduleID,previous.instructionID,previous.expertClinicSlotPlanID)">Update
+                    (click)="showUpdateStatusModel(templateUpdateStatus,previous.scheduleID,previous.instructionID,previous.expertClinicSlotPlanID,'Previous')">Update
                     Status</a>
                 </td>
               </tr>
@@ -252,7 +252,7 @@
             <label class="custom-control-label" for="customCheck1payment"> <span class="">DNA </span></label>
           </div>
         </li>
-        <li class="list-group-item">
+        <li class="list-group-item" *ngIf="showAttended">
           <div class="custom-control custom-radio">
             <input type="radio" class="custom-control-input" formControlName="state" id="customCheck2payment"
               value="Attended">

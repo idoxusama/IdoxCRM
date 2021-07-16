@@ -62,11 +62,11 @@ export class InstructionStateComponent implements OnInit {
   }
   getInstructionState(){
     debugger
-    this.instructionService.getCurrentInstructionState(this.instructionCode,this.medicoRefNo,this.expertID,).subscribe(response=>{
-      this.currentInstructionState = response.outputObject?response.outputObject.pop().instructionState:"";
-    },error=>{
-      console.log(error);
-    });
+    // this.instructionService.getCurrentInstructionState(this.instructionCode,this.medicoRefNo,this.expertID,).subscribe(response=>{
+    //   this.currentInstructionState = response.outputObject?response.outputObject.pop().instructionState:"";
+    // },error=>{
+    //   console.log(error);
+    // });
   }
 
 }

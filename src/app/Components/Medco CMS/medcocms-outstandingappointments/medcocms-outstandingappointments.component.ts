@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { OutstandingAppointments } from 'src/app/Models/Medco CMS Model/OutstandingAppointment';
 import { InstructionService } from 'src/app/Services/Instruction Main/instruction.service';
-import { OutstandingAppointmentsService } from 'src/app/Services/Medco CMS Services/outstanding-appointments.service';
 
 @Component({
   selector: 'app-medcocms-outstandingappointments',
@@ -13,7 +12,7 @@ export class MedcocmsOutstandingappointmentsComponent implements OnInit {
   currentPage:number=1;
   appointmentID:string;
   outstandingAppointments:OutstandingAppointments[]=[];
-  constructor(private outstandingAppoinmentService:OutstandingAppointmentsService,
+  constructor(private instructionService:InstructionService,
     private toasterService:ToastrService) { }
 
   ngOnInit() {
@@ -21,7 +20,7 @@ export class MedcocmsOutstandingappointmentsComponent implements OnInit {
   }
 
   getOutstandingAppointments(){
-    this.outstandingAppoinmentService.getOutstandingAppointments(0).subscribe(response=>{
+    this.instructionService.getOutstandingAppointments(0).subscribe(response=>{
       this.outstandingAppointments= response.outputObject?response.outputObject:null;
     },error=>{
       console.log(error);

@@ -1,0 +1,285 @@
+<ngx-loading-bar color="#1e90ff" height="5px"></ngx-loading-bar>
+
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+    <div class="container my-3 main-container">
+      <div class="row align-items-center">
+        <div class="col">
+          <h2 class="content-color-primary page-title">Scheduled Appointments</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4 main-container">
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="card rounded-0 border-0 mb-3">
+        <div class="card-header">
+          <form #filterForm="ngForm">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Start Date</label>
+                  <input type="text" placeholder="Start Date" name="DateRange" [(ngModel)]="modelFilter.startDate"
+                    class="form-control" bsDatepicker [bsConfig]="{ isAnimated: true }">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>End Date</label>
+                  <input type="text" placeholder="End Date" name="DateRange" [(ngModel)]="modelFilter.endDate"
+                    class="form-control" bsDatepicker [bsConfig]="{ isAnimated: true }">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Expert</label>
+                  <select2 [data]="experts" [cssImport]="true" width="100%" (valueChanged)="changeExpert($event)">
+                  </select2>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Instruction</label>
+                  <select2 [data]="instructions" [cssImport]="true" width="100%" (valueChanged)="changeInstruction($event)">
+                  </select2>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Location</label>
+                  <select2 [data]="expertLocations" [cssImport]="true" width="100%" (valueChanged)="changeLocation($event)">
+                  </select2>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 col-md-12 text-right">
+                <button type="submit" class="btn btn-primary primary-gradient ml-2" (click)="getAppointments()">Apply Filter</button>
+              </div>
+            </div>
+          </form>
+          <!-- <div class="row">
+            <div class="col-lg-10 col-md-10">
+              <div class="search-header" style="margin-left: 15px;">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search..."
+                    >
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2">
+              <h5>Total Count: <span>{{filterApptScheduled.length}}</span></h5>
+            </div>
+          </div> -->
+        </div>
+        <div class="card-body border-top">
+          <div class="card-title">
+            <h2 class="content-color-primary page-title">Appointments</h2>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Sr.#</th>
+                <th scope="col">Expert</th>
+                <th scope="col">Instruction Code</th>
+                <th scope="col">Location Name</th>
+                <th scope="col">Slot Date</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">End Time</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let item of filterApptScheduled | paginate:{itemsPerPage:10,currentPage:scheduledCurrentPage,id:'first'}; let i = index;">
+                <td scope="row">{{i+1}}</td>
+                <td>{{item.expert}}</td>
+                <td>{{item.instructionCode}}</td>
+                <td>{{item.locationName}}</td>
+                <td>{{item.slotDate | date:'yyyy-MM-dd'}}</td>
+                <td>{{item.slotStartTime}}</td>
+                <td>{{item.slotEndTime}}</td>
+                <td>
+                  <a class="btn btn-primary primary-gradient ml-2"
+                    (click)="showUpdateStatusModel(templateUpdateStatus,item.id,item.instructionID,item.expertClinicSlotPlanID,item.slotDate)">Update
+                    Status</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <ul class="pagination">
+            <pagination-controls (pageChange)="scheduledCurrentPage = $event" id="first"></pagination-controls>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #templateUpdateStatus>
+  <div class="modal-header bg-primary text-white">
+    <h4 class="modal-title pull-left">Update Clinic Status</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="appointmentUpdateStatusFrom" *ngIf="appointmentUpdateStatusFrom"
+    (ngSubmit)="updateAppointmentStatus()">
+    <div class="modal-body">
+      <ul class="list-group border-top border-bottom list-group-flush">
+        <li class="list-group-item">
+          <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" formControlName="state" id="customCheck1payment"
+              value="DNA">
+            <label class="custom-control-label" for="customCheck1payment"> <span class="">DNA </span></label>
+          </div>
+        </li>
+        <li class="list-group-item" *ngIf="showAttended">
+          <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" formControlName="state" id="customCheck2payment"
+              value="Attended">
+            <label class="custom-control-label" for="customCheck2payment"> <span class="">Attended </span></label>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" formControlName="state" id="customCheck3payment"
+              value="Cancel">
+            <label class="custom-control-label" for="customCheck3payment"> <span class="">Cancel</span></label>
+          </div>
+        </li>
+      </ul>
+      <div class="text-danger"
+        *ngIf="(appointmentUpdateStatusFrom.touched|| updateStatusSubmitted) && appointmentUpdateStatusFrom.get('state').hasError('required')">
+        Please select one.
+      </div>
+
+
+      <div *ngIf="appointmentUpdateStatusFrom.get('state').value==='Attended'">
+        <h4 class="mb-0">Would you like to rate this expert?</h4>
+
+        <div class="row ">
+          <div class="col-lg-12 col-md-12">
+            <fieldset class="rating">
+              <input type="radio" id="star5" name="rating" value="5" (click)="countStar($event.target.value)" />
+              <label class="full" for="star5" title="Awesome - 5 stars"></label>
+              <input type="radio" id="star4" name="rating" value="4" (click)="countStar($event.target.value)" />
+              <label class="full" for="star4" title="Pretty good - 4 stars"></label>
+              <input type="radio" id="star3" name="rating" value="3" (click)="countStar($event.target.value)" />
+              <label class="full" for="star3" title="Meh - 3 stars"></label>
+              <input type="radio" id="star2" name="rating" value="2" (click)="countStar($event.target.value)" />
+              <label class="full" for="star2" title="Kinda bad - 2 stars"></label>
+              <input type="radio" id="star1" name="rating" value="1" (click)="countStar($event.target.value)" />
+              <label class="full" for="star1" title="Sucks big time - 1 star"></label>
+              <!-- 
+              <input type="radio" id="star4half" name="rating" value="4 and a half" />
+              <label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+               
+              <input type="radio" id="star3half" name="rating" value="3 and a half" />
+              <label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+      
+              <input type="radio" id="star2half" name="rating" value="2 and a half" />
+              <label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+      
+              <input type="radio" id="star1half" name="rating" value="1 and a half" />
+              <label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+              <input type="radio" id="starhalf" name="rating" value="half" />
+              <label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label> -->
+            </fieldset>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="col-lg-12 col-md-12">
+            <div class="form-group ">
+              <label>Feedback</label>
+              <textarea type="text" formControlName="feedBack" class="form-control"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-right mt-2 mb-2 mr-2">
+      <button type="submit" class="btn btn-primary primary-gradient">Update</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #templateAssignMedSec>
+  <div class="modal-header bg-primary text-white">
+    <h4 class="modal-title pull-left">Assign Medical Secretary</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="assignMedSecForm" *ngIf="assignMedSecForm" (ngSubmit)="assignMedicalSecretary()">
+      <div class="row">
+        <div class="col-md-6 col-sm-6">
+          <div class="form-group">
+            <div class="custom-control custom-radio">
+              <input type="radio" class="custom-control-input" formControlName="isExpertMedSec" id="customCheck1"
+                value="false" (change)="this.assignMedSecForm.get('medSecID').setValue('')">
+              <label class="custom-control-label" for="customCheck1"> <span class="">Idox Medical Secretary
+                </span></label>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+          <div class="form-group">
+            <div class="custom-control custom-radio">
+              <input type="radio" class="custom-control-input" formControlName="isExpertMedSec" id="customCheck2"
+                value="true" (change)="this.assignMedSecForm.get('medSecID').setValue(0)">
+              <label class="custom-control-label" for="customCheck2"> <span class="">Own Medical Secretary
+                </span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <div class="text-danger"
+            *ngIf="(assignMedSecForm.touched || assignMedSecFormSubmit) && assignMedSecForm.get('isExpertMedSec').hasError('required')">
+            Please select one.
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="assignMedSecForm.get('isExpertMedSec').value=='false'">
+        <div class="col-lg-12 col-md-12">
+          <div class="form-group ">
+            <label>Idox M.S</label>
+            <select2 [data]="medicalSectreies" [cssImport]="true" width="100%"
+              (valueChanged)="changeMedicalSecretary($event)"
+              [ngClass]="{'is-invalid': assignMedSecForm.get('medSecID').errors && (assignMedSecForm.get('medSecID').touched||assignMedSecFormSubmit)}">
+            </select2>
+            <div class="invalid-feedback"
+              *ngIf="(assignMedSecForm.get('medSecID').touched||assignMedSecFormSubmit) && assignMedSecForm.get('medSecID').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row ">
+        <div class="col-lg-12 col-md-12">
+          <div class="form-group ">
+            <label>Assign Date</label>
+            <input type="text" class="form-control" formControlName="assignDate" placeholder="Date" bsDatepicker
+              [ngClass]="{'is-invalid': assignMedSecForm.get('assignDate').errors && (assignMedSecForm.get('assignDate').touched||assignMedSecFormSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(assignMedSecForm.get('assignDate').touched||assignMedSecFormSubmit) && assignMedSecForm.get('assignDate').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-right mt-2 mb-2 mr-2">
+        <button type="type" class="btn btn-outline-secondary mr-2" (click)="this.modalRef.hide()">Close</button>
+        <button type="submit" class="btn btn-primary primary-gradient">Assign</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

@@ -1,6 +1,11 @@
 export class IntructionSpecial{
     id:number;
     instructionID:number;
+    instructionName:string;
+    expertName:string;
+    referrerDescription:string;
+    specialityName:string;
+    incidentType:string;
     clientRefNo:string;
     medicoRefNo:string;
     expertID:number;
@@ -13,5 +18,6 @@ export class IntructionSpecial{
     instructionState:string;
     isApproved:boolean;
     state:string;
+    stateID:number;
     userID:number;
 }

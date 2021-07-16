@@ -234,9 +234,8 @@ import { FinancialBreakdownOrthoComponent } from './Components/Accounts/financia
 import { NewexpertComponent } from './Components/Settings/settings-newexpert/newexpert.component';
 import { NewInstructionSettingComponent } from './Components/Instruction/new-instruction-setting.component';
 import { ExpertPerformaComponent } from './Components/Experts/expert-performa/expert-performa.component';
-import { MedicalSecretaryListComponent } from './Components/MedicalSecretary/AddNewSecretary/MedicalSecretaryList/MedicalSecretaryList.component';
-import { AddNewSecretaryComponent } from './Components/MedicalSecretary/AddNewSecretary/AddNewSecretary.component';
-import { EditMedicalSecretaryComponent } from './Components/MedicalSecretary/AddNewSecretary/EditMedicalSecretary/EditMedicalSecretary.component';
+import { MedicalSecretaryListComponent } from './Components/MedicalSecretary/medical-secretary-list/MedicalSecretaryList.component';
+import { EditMedicalSecretaryComponent } from './Components/MedicalSecretary/edit-medical-secretary/EditMedicalSecretary.component';
 import { ChooseExpertComponent } from './Components/Medical Performa/medical-performa/choose-expert/choose-expert.component';
 import { ConfirmModalDialogComponent } from './Components/Medical Performa/confirmModalDialog/confirmModalDialog.component';
 import { GeneratePerformaComponent } from './Components/Medical Performa/medical-performa/generate-performa/generate-performa.component';
@@ -254,19 +253,18 @@ import { ExpertsListComponent } from './Components/Experts/experts-list/experts-
 import { ExpertsDraftListComponent } from './Components/Experts/experts-draft-list/experts-draft-list.component';
 import { OnlynumbersDirective } from './custom-validations/onlynumbers.directive';
 import { AlphabetsOnlyDirective } from './custom-validations/AlphabetsOnly.directive';
-import { ServiceLegalAgrementComponent } from './Components/SLA/service-legal-agrement/service-legal-agrement.component';
-import { ServicesComponent } from './Components/SLA/services/services.component';
-import { AvailabilityComponent } from './Components/SLA/availability/availability.component';
-import { DnasComponent } from './Components/SLA/dnas/dnas.component';
-import { AppointmentCancellationComponent } from './Components/SLA/appointment-cancellation/appointment-cancellation.component';
-import { PaidAllowancesComponent } from './Components/SLA/paid-allowances/paid-allowances.component';
+import { ServiceLegalAgrementComponent } from './Components/Experts/expert-sla/service-legal-agrement/service-legal-agrement.component';
+import { ServicesComponent } from './Components/Experts/expert-sla/services/services.component';
+import { AvailabilityComponent } from './Components/Experts/expert-sla/availability/availability.component';
+import { DnasComponent } from './Components/Experts/expert-sla/dnas/dnas.component';
+import { AppointmentCancellationComponent } from './Components/Experts/expert-sla/appointment-cancellation/appointment-cancellation.component';
+import { PaidAllowancesComponent } from './Components/Experts/expert-sla/paid-allowances/paid-allowances.component';
 import { ViewProfileComponent } from './Components/Experts/view-profile/view-profile.component';
 import { VenueLocationComponent } from './Components/Venue Location/venue-location/venue-location.component';
 import { VenueLocationListComponent } from './Components/Venue Location/venue-location-list/venue-location-list.component';
 import { NotAllowSepacialChatactorDirective } from './custom-validations/NotAllowSepacialChatactor.directive';
 import { VenuLocationDetailComponent } from './Components/Venue Location/venu-location-detail/venu-location-detail.component';
 import { AgmCoreModule } from '@agm/core';
-import { GoogleMapComponent } from './Components/Venue Location/google-map/google-map.component';
 import { DisableControlDirective } from './custom-validations/DisableControl.directive';
 import { CreateReferrerComponent } from './Components/Referrer/create-referrer/create-referrer.component';
 import { ReferrerDetailComponent } from './Components/Referrer/referrer-detail/referrer-detail.component';
@@ -284,6 +282,9 @@ import { ClinicsAttendedclinicsComponent } from './Components/Clinics/clinics-at
 import { InvalidControlScrollDirective } from './custom-validations/invalidControlScroll.directive';
 import { AssignedMedicalSectretaryListComponent } from './Components/Medco CMS/assigned-medical-sectretary-list/assigned-medical-sectretary-list.component';
 import { UnassignedMedicalSecretaryListComponent } from './Components/Medco CMS/unassigned-medical-secretary-list/unassigned-medical-secretary-list.component';
+import { SchedualAppointmentsComponent } from './Components/Medco CMS/schedual-appointments/schedual-appointments.component';
+import { NewMedicalSecretaryComponent } from './Components/MedicalSecretary/new-medical-secretary/new-medical-secretary.component';
+import { NewlyAssignedComponent } from './Components/MedicalSecretary/newly-assigned/newly-assigned.component';
 
 @NgModule({
   declarations: [	
@@ -508,8 +509,9 @@ import { UnassignedMedicalSecretaryListComponent } from './Components/Medco CMS/
     NewInstructionSettingComponent,
     ExpertPerformaComponent,
     MedicalSecretaryListComponent,
-    AddNewSecretaryComponent,
+    NewMedicalSecretaryComponent,
     EditMedicalSecretaryComponent,
+    NewlyAssignedComponent,
     ChooseExpertComponent,
     GeneratePerformaComponent,
     ConfirmModalDialogComponent,
@@ -543,11 +545,12 @@ import { UnassignedMedicalSecretaryListComponent } from './Components/Medco CMS/
     InstructionDetailComponent,
     AssignedMedicalSectretaryListComponent,
     UnassignedMedicalSecretaryListComponent,
+    SchedualAppointmentsComponent,
     OnlynumbersDirective,
     AlphabetsOnlyDirective,
     NotAllowSepacialChatactorDirective,
     DisableControlDirective,
-    InvalidControlScrollDirective
+    InvalidControlScrollDirective,
    ],
   entryComponents: [
     ConfirmModalDialogComponent

@@ -13,7 +13,6 @@ import { OutstandingAppointments } from 'src/app/Models/Medco CMS Model/Outstand
 import { Availability } from 'src/app/Models/SLA Models/availability';
 import { ExpertuserService } from 'src/app/Services/Experts Services/expertuser.service';
 import { InstructionService } from 'src/app/Services/Instruction Main/instruction.service';
-import { OutstandingAppointmentsService } from 'src/app/Services/Medco CMS Services/outstanding-appointments.service';
 import { SlaService } from 'src/app/Services/SLA Service/sla.service';
 
 @Component({
@@ -64,9 +63,9 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
   timepickerCurrentTime:Date;
   /* #endregion */
 
-  constructor(private outstandingAppoinmentService: OutstandingAppointmentsService,
-    private expertUserService: ExpertuserService,
+  constructor(private expertUserService: ExpertuserService,
     private expertSlaService: SlaService,
+    private instructionService:InstructionService,
     private toasterService: ToastrService,
     private route: ActivatedRoute,
     private router: Router,
@@ -171,7 +170,7 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
   }
 
   getOutstandingAppointments(id) {
-    this.outstandingAppoinmentService.getOutstandingAppointments(id).subscribe(response => {
+    this.instructionService.getOutstandingAppointments(id).subscribe(response => {
       this.outstandingAppointments = response.outputObject ? response.outputObject.pop() : null;
       if (this.outstandingAppointments) {
 
@@ -195,7 +194,7 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
   }
 
   getNearestLocation(template) {
-    this.outstandingAppoinmentService.getExpertNearestClinicPlan(+this.latitude, +this.longitude).subscribe(response => {
+    this.expertUserService.getExpertNearestClinicPlan(+this.latitude, +this.longitude).subscribe(response => {
       this.expertNearestClininPlans = response.outputObject;
       this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
     }, error => {
@@ -204,7 +203,7 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
   }
 
   getExpertClinicPlan(expertID) {
-    this.outstandingAppoinmentService.getExpertClinicPlan(0, expertID, 0).subscribe(response => {
+    this.expertUserService.getExpertClinicPlan(0, expertID, 0).subscribe(response => {
       this.expertClinicPlan = response.outputObject;
     }, error => {
       console.log(error);
@@ -303,7 +302,7 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
       slotStartTime: slotSTime,
       slotEndTime: slotETime
     };
-    let response = await this.outstandingAppoinmentService.isAppointmentReserve(model).toPromise();
+    let response = await this.expertUserService.isAppointmentReserve(model).toPromise();
     return response.outputObject ? response.outputObject.pop() : null;
   }
 
@@ -328,7 +327,7 @@ export class OutstandingAppointmentSchedualComponent implements OnInit {
       this.expertClinicSlotPlan.slotDate, this.expertClinicSlotPlan.slotStartTime, this.expertClinicSlotPlan.slotEndTime);
 
     if (result.isExist==false) {
-      this.outstandingAppoinmentService.createExpertClinicSlotPlan(this.expertClinicSlotPlan).subscribe(response => {
+      this.expertUserService.createExpertClinicSlotPlan(this.expertClinicSlotPlan).subscribe(response => {
         this.toasterService.success('Appointment booked successfully.');
       }, error => {
         console.log(error);

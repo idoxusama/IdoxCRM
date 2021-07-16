@@ -1,4 +1,5 @@
 export class MedcoRecord{
+    id:number;
     instructionID:number;
     recordName:string;
     recordPath:string;
@@ -6,4 +7,6 @@ export class MedcoRecord{
     isRequiredByExpert:boolean;
     files:File[];
     userID:number;
+    fileContent:string;
+    fileExtension:string;
 }

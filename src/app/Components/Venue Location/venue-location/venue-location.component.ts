@@ -2,7 +2,6 @@ import { AfterViewInit, Component, ElementRef, NgZone, OnInit, ViewChild } from 
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { LocationImageName } from 'src/app/Models/Venue Location/LocationImageName';
 import { LocationImages } from 'src/app/Models/Venue Location/LocationImages';
 import { LocationRooms, LocationRoomsList } from 'src/app/Models/Venue Location/LocationRooms';
 import { LocationSiteInfo } from 'src/app/Models/Venue Location/LocationSiteInfo';

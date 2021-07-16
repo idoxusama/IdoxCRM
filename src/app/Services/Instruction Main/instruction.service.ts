@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -8,10 +9,10 @@ import { environment } from 'src/environments/environment';
 })
 export class InstructionService {
   baseUrl: string = environment.apiUrl;
-  constructor(private http: HttpClient) { }
-  
+  constructor(private http: HttpClient,
+    private route:ActivatedRoute) { }
+
   /* #region  Instruction Services */
-  //Instruction Personal Info
 
   getInstructionPersonalInfo(id): Observable<any> {
     let requestUrl = this.baseUrl + `/api/Instruction/GetInstructionPersonalInfo?ID=${id}`;
@@ -52,8 +53,6 @@ export class InstructionService {
     return this.http.post(requestUrl, data, requestOptions);
   }
 
-  // Instruction Special Info
-
   getInstructionSpecial(id, instructionId): Observable<any> {
     let requestUrl = this.baseUrl + `/api/Instruction/GetInstructionSpecial?ID=${id}&InstructionID=${instructionId}`;
     const headerDict = {
@@ -92,8 +91,6 @@ export class InstructionService {
     };
     return this.http.post(requestUrl, data, requestOptions);
   }
-
-  //Instruction Case Hanlder
 
   getInstructionCaseHandler(id, instructionId): Observable<any> {
     let requestUrl = this.baseUrl + `/api/Instruction/GetInstructionCaseHandler?ID=${id}&InstructionID=${instructionId}`;
@@ -134,8 +131,6 @@ export class InstructionService {
     return this.http.post(requestUrl, data, requestOptions);
   }
 
-  //Instruction Translator
-
   getInstructionTranslator(id, instructionId): Observable<any> {
     let requestUrl = this.baseUrl + `/api/Instruction/GetInstructionTranslator?ID=${id}&InstructionID=${instructionId}`;
     const headerDict = {
@@ -175,9 +170,6 @@ export class InstructionService {
     return this.http.post(requestUrl, data, requestOptions);
   }
 
-
-  // Instruction Medical Record
-
   getInstructionMedicalRecord(id, instructionId): Observable<any> {
     let requestUrl = this.baseUrl + `/api/Instruction/GetInstructionMedicalRecord?ID=${id}&InstructionID=${instructionId}`;
     const headerDict = {
@@ -192,7 +184,6 @@ export class InstructionService {
   }
 
   createInstructionMedicalRecord(data): Observable<any> {
-    debugger
     let requestUrl = this.baseUrl + `/api/Instruction/CreateInstructionMedicalRecord`;
     const headerDict = {
       'Access-Control-Allow-Origin': '*',
@@ -205,8 +196,6 @@ export class InstructionService {
     return this.http.post(requestUrl, data, requestOptions);
   }
 
-
-  // Instruction Case Info
   getInstructionCaseInfo(id, instructionId): Observable<any> {
     let requestUrl = this.baseUrl + `/api/Instruction/GetInstructionCaseInfo?ID=${id}&InstructionID=${instructionId}`;
     const headerDict = {
@@ -217,7 +206,7 @@ export class InstructionService {
     const requestOptions = {
       headers: new HttpHeaders(headerDict),
     };
-    return this.http.post(requestUrl, requestOptions);
+    return this.http.get(requestUrl, requestOptions);
   }
 
   createInstructionCaseInfo(data): Observable<any> {
@@ -234,7 +223,7 @@ export class InstructionService {
   }
 
   updateInstructionCaseInfo(data): Observable<any> {
-    let requestUrl = this.baseUrl + `​/api​/Instruction​/UpdateInstructionCaseInfo`;
+    let requestUrl = this.baseUrl + '/api/Instruction/UpdateInstructionCaseInfo';
     const headerDict = {
       'Access-Control-Allow-Origin': '*',
       "Authorization": "Bearer " + localStorage.getItem('access_token'),
@@ -246,9 +235,8 @@ export class InstructionService {
     return this.http.post(requestUrl, data, requestOptions);
   }
 
-  // Update Instruction Status
-  deleteOrInactiveInstruction(data):Observable<any>{
-    let requestUrl = this.baseUrl+'/api/Instruction/DeleteOrInactiveInstruction';
+  deleteOrInactiveInstruction(data): Observable<any> {
+    let requestUrl = this.baseUrl + '/api/Instruction/DeleteOrInactiveInstruction';
     const headerDict = {
       'Access-Control-Allow-Origin': '*',
       "Authorization": "Bearer " + localStorage.getItem('access_token'),
@@ -259,9 +247,9 @@ export class InstructionService {
     };
     return this.http.post(requestUrl, data, requestOptions);
   }
-  
+
   updateInstructionStatus(data): Observable<any> {
-    let requestUrl = this.baseUrl + `​/api/Instruction/UpdateInstructionStatus`;
+    let requestUrl = this.baseUrl+'api/Instruction/UpdateInstructionStatus';
     const headerDict = {
       'Access-Control-Allow-Origin': '*',
       "Authorization": "Bearer " + localStorage.getItem('access_token'),
@@ -273,12 +261,24 @@ export class InstructionService {
     return this.http.post(requestUrl, data, requestOptions);
   }
 
+  getInstructionsSummary(data):Observable<any>{
+    let requestUrl=this.baseUrl+`/api/Instruction/GetInstructionSummary`;
+    const headerDict = {
+      'Access-Control-Allow-Origin': '*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+    return this.http.post(requestUrl,data, requestOptions);
+  }
   /* #endregion */
-  
+
   /* #region  Instruction State */
 
-  getCurrentInstructionState(instructionId?,instructionCode?, medicoRefNo?, expertID?): Observable<any> {
-    let requestUrl = this.baseUrl + `/api/Instruction/GetCurrentInstructionState?instructionID=${instructionId}&instructionCode=${instructionCode}&medicoRefNo=${medicoRefNo}&expertID=${expertID}`;
+  getCurrentInstructionState(data): Observable<any> {
+    let requestUrl = this.baseUrl + `/api/Instruction/GetCurrentInstructionState`;
     const headerDict = {
       'Access-Control-Allow-Origin': '*',
       "Authorization": "Bearer " + localStorage.getItem('access_token'),
@@ -287,10 +287,10 @@ export class InstructionService {
     const requestOptions = {
       headers: new HttpHeaders(headerDict),
     };
-    return this.http.get(requestUrl, requestOptions);
+    return this.http.post(requestUrl,data,requestOptions);
   }
   /* #endregion */
-  
+
   /* #region Update clinic state  */
 
   updateClinicState(appSchedualID, state): Observable<any> {
@@ -310,7 +310,19 @@ export class InstructionService {
   /* #endregion */
 
   /* #region Instruction Services that are use in today clinics*/
-
+  getOutstandingAppointments(id):Observable<any>{
+    let requestUrl=this.baseUrl+`/api/Instruction/GetOutStandingAppointment?instructionID=${id}`;
+    const headerDict = {
+      'Access-Control-Allow-Origin': '*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+    return this.http.get(requestUrl, requestOptions);
+  }
+  
   getAllTodayAppointments(expertID): Observable<any> {
     let requestUrl = this.baseUrl + `/api/Instruction/GetAllTodayAppointment?expertID=${expertID}`;
 
@@ -369,8 +381,8 @@ export class InstructionService {
 
     return this.http.post(requestUrl, data, requestOptions);
   }
-  getAllInstAssignMedSec(): Observable<any> {
-    let requestUrl = this.baseUrl + `/api/Instruction/GetAllInstAssignMedSec`;
+  getAllInstAssignMedSec(userTypeID,userID): Observable<any> {
+    let requestUrl = this.baseUrl + `/api/Instruction/GetAllInstAssignMedSec?userTypeID=${userTypeID}&userID=${userID}`;
 
     const headerDict = {
       'Access-Control-Allow-Origin': '*',
@@ -445,5 +457,24 @@ export class InstructionService {
 
     return this.http.post(requestUrl, data, requestOptions);
   }
+  /* #endregion */
+  
+  /* #region  Get Appointments Scheduled */
+
+  getAppointmentsScheduled(data): Observable<any> {
+    let requestUrl = this.baseUrl + `/api/Instruction/GetAppointmentSchedule`;
+
+    const headerDict = {
+      'Access-Control-Allow-Origin': '*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+
+    return this.http.post(requestUrl,data,requestOptions);
+  }
+
   /* #endregion */
 }

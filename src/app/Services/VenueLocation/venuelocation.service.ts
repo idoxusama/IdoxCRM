@@ -227,4 +227,18 @@ export class VenuelocationService {
     
     return this.http.get(requestUrl,requestOptions);
   }
+
+  getLocationByExpert(expertID):Observable<any>{
+    let requestUrl= this.baseUrl+`/api/VenueLocation/GetLocationByExpert?expertID=${expertID}`;
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict),
+    };
+    
+    return this.http.get(requestUrl,requestOptions);
+  } 
 }

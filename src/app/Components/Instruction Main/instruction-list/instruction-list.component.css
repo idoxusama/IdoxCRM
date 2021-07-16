@@ -1,0 +1,4 @@
+.show{
+    max-height: 1000px;
+    transition: max-height 1s ease-in-out;
+}

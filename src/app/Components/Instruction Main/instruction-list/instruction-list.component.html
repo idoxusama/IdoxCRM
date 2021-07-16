@@ -1,77 +1,154 @@
+<ngx-loading-bar color="#1e90ff" height="5px"></ngx-loading-bar>
+
 <div class="container-fluid bg-light-opac">
     <div class="row">
         <div class="container my-3 main-container">
             <div class="row align-items-center">
                 <div class="col">
-                    <h2 class="content-color-primary page-title">Instructions</h2>
+                    <h2 class="content-color-primary page-title">Instructions Summary List</h2>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <div class="container mt-4 main-container">
     <div class="row">
         <div class="col-sm-12 col-md-12">
             <div class="card rounded-0 border-0 mb-3">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-8">
-                            <h5 class="card-title mb-0">List</h5>
-                        </div>
-                        <div class="col text-right">
-                            <div class="dropdown">
-                                <button
-                                    class="btn btn-link btn-sm text-secondary rounded-0 dropdown-toggle float-right icon"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" type="button">
-                                    <i class="fa fa-ellipsis-v"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-exclamation-circle text-secondary"></i> Report</a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-cog text-secondary"></i> Settings</a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa fa-trash text-secondary"></i> Remove</a>
+                        <div class="col-lg-12 col-md-12">
+                            <form #filterForm="ngForm">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Start Date</label>
+                                            <input type="text" placeholder="Start Date" name="startDate"
+                                                [(ngModel)]="summaryModel.startDate" class="form-control" bsDatepicker
+                                                [bsConfig]="{ isAnimated: true }" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>End Date</label>
+                                            <input type="text" placeholder="End Date" name="endDate"
+                                                [(ngModel)]="summaryModel.endDate" class="form-control" bsDatepicker
+                                                [bsConfig]="{ isAnimated: true }" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Instruction Code</label>
+                                            <input type="text" placeholder="Instruction Code" name="instructionCode"
+                                                [(ngModel)]="summaryModel.instructionCode" class="form-control"
+                                                autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Medico Ref No</label>
+                                            <input type="text" placeholder="Medico Ref No" name="medicoRefNo"
+                                                [(ngModel)]="summaryModel.medicoRefNo" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Expert</label>
+                                            <select2 [data]="experts" [cssImport]="true" width="100%"
+                                                (valueChanged)="changeExpert($event)">
+                                            </select2>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>State</label>
+                                            <select2 [data]="experts" [cssImport]="true" width="100%"
+                                                (valueChanged)="changeExpert($event)">
+                                            </select2>
+                                        </div>
+                                    </div>
+
                                 </div>
-                            </div>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 text-right">
+                                        <button type="submit" class="btn btn-primary primary-gradient ml-2"
+                                            (click)="getInstructionsSummary()">Apply Filter</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="table">
+                    <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">Sr.#</th>
-                                <th scope="col" width="10%">First Name</th>
-                                <th scope="col" width="10%">Last Name</th>
-                                <th scope="col" width="10%">InstructionCode</th>
-                                <th scope="col" width="10%">MedicoRef</th>
-                                <th scope="col" width="10%">Gender</th>
-                                <th scope="col" width="10%">DOB</th>
-                                <th scope="col" width="10%">Mobile Number</th>
-                                <th scope="col" width="10%">Post Code</th>
-                                <th scope="col" width="20%">Actions</th>
+                                <th scope="col" width="10%">Name</th>
+                                <th scope="col" width="10%">Expert</th>
+                                <th scope="col" width="10%">Date</th>
+                                <th scope="col" width="10%">Code</th>
+                                <th scope="col" width="10%">M.R No</th>
+                                <th scope="col" width="10%">R.Code</th>
+                                <th scope="col" width="10%">State</th>
+                                <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr
-                                *ngFor="let item of instructions | paginate: { itemsPerPage: 10, currentPage: currentPage }; let i=index;">
-                                <th scope="row">{{i+1}}</th>
-                                <td>{{item.firstName}}</td>
-                                <td>{{item.lastName}}</td>
-                                <td>{{item.instructionCode}}</td>
-                                <td>{{item.medicoRefNo}}</td>
-                                <td>{{item.gender}}</td>
-                                <td>{{item.dob | date:'mediumDate'}}</td>
-                                <td>{{item.mobileNumber}}</td>
-                                <td>{{item.postCode}}</td>
-                                <td>
-                                    <button class="btn btn-sm primary-gradient mr-2">Details</button>
-                                    <button class="btn btn-sm danger-gradient mr-2"
-                                        (click)="openConfirmBox(item.id,templateConfirmBox)">Delete</button>
-                                </td>
-                            </tr>
+                            <ng-container
+                                *ngFor="let item of instructionsList | paginate: { itemsPerPage: 10, currentPage: currentPage }; let i=index;">
+                                <tr (click)="item.isExpand = !item.isExpand" style="cursor:pointer;">
+                                    <th scope="row">{{i+1}}</th>
+                                    <td>{{item.instructionName}}</td>
+                                    <td>{{item.expert}}</td>
+                                    <td>{{item.instructionDate | date:'yyyy-MM-dd'}}</td>
+                                    <td>{{item.instructionCode}}</td>
+                                    <td>{{item.medicoRefNo}}</td>
+                                    <td>{{item.referrerCode}}</td>
+                                    <td>
+                                        <span *ngIf="item.state=='Rescheduled'"
+                                            class="badge badge-success">{{item.state}}</span>
+                                        <span *ngIf="item.state=='AppointmentScheduled'"
+                                            class="badge badge-primary">{{item.state}}</span>
+                                        <span *ngIf="item.state=='OutstandingAppointment'"
+                                            class="badge badge-warning text-white">{{item.state}}</span>
+                                        <span *ngIf="item.state=='Attended'"
+                                            class="badge badge-info">{{item.state}}</span>
+                                        <span *ngIf="item.state=='InstructionOnReschedule'"
+                                            class="badge badge-danger">{{item.state}}</span>
+                                        <span *ngIf="item.state=='Deleted'"
+                                            class="badge badge-danger">{{item.state}}</span>
+
+                                    </td>
+                                    <td>
+                                        <a title="View Or Edit" class="text-success mr-2"
+                                            routerLink="/IndoxCMS/Intruction/Detail"
+                                            [queryParams]="{id:item.instructionID}" style="cursor: pointer;">
+                                            <i class="material-icons">visibility</i>
+                                        </a>
+                                        <a title="Detail" class="text-primary mr-2" style="cursor: pointer;">
+                                            <i class="material-icons">info</i>
+                                        </a>
+                                        <a title="Delete" class="text-danger mr-2" style="cursor: pointer;"
+                                            (click)="openConfirmBox(item.instructionID,templateConfirmBox)">
+                                            <i class="material-icons">delete</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="item.isExpand" [ngClass]="{'show': item.isExpand}">
+                                    <td></td>
+                                    <td colspan="9">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <h5>Current State: {{item.currentState}}</h5>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h5>Update State Date: {{item.updatedState | date:'yyyy-MM-dd'}}</h5>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-container>
                         </tbody>
                     </table>
                     <ul class="pagination">
@@ -93,13 +170,15 @@
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group ">
                         <label>Reason</label>
-                        <textarea type="text" class="form-control" placeholder="" autofocus="true" name="Reason" [(ngModel)]="model.Reason"></textarea>
+                        <textarea type="text" class="form-control" placeholder="" autofocus="true" name="Reason"
+                            [(ngModel)]="model.Reason"></textarea>
                     </div>
                 </div>
             </div>
             <div class="text-center mt-3">
-                <button type="button" class="mb-2 btn btn-outline-secondary btn-rounded mr-2" (click)="modalRef.hide()">Close</button>
-                <button type="submit" class="mb-2 btn btn-primary btn-rounded" >Confirm</button>
+                <button type="button" class="mb-2 btn btn-outline-secondary btn-rounded mr-2"
+                    (click)="modalRef.hide()">Close</button>
+                <button type="submit" class="mb-2 btn btn-primary btn-rounded">Confirm</button>
             </div>
         </form>
     </div>

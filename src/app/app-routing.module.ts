@@ -217,16 +217,15 @@ import { NewexpertComponent } from './Components/Settings/settings-newexpert/new
 import { NewInstructionSettingComponent } from './Components/Instruction/new-instruction-setting.component';
 import { ExpertPerformaComponent } from './Components/Experts/expert-performa/expert-performa.component';
 import { MedicalSecretary } from './Models/Experts Model/MedicalSecretary';
-import { AddNewSecretaryComponent } from './Components/MedicalSecretary/AddNewSecretary/AddNewSecretary.component';
-import { MedicalSecretaryListComponent } from './Components/MedicalSecretary/AddNewSecretary/MedicalSecretaryList/MedicalSecretaryList.component';
-import { EditMedicalSecretaryComponent } from './Components/MedicalSecretary/AddNewSecretary/EditMedicalSecretary/EditMedicalSecretary.component';
+import { MedicalSecretaryListComponent } from './Components/MedicalSecretary/medical-secretary-list/MedicalSecretaryList.component';
+import { EditMedicalSecretaryComponent } from './Components/MedicalSecretary/edit-medical-secretary/EditMedicalSecretary.component';
 import { ChooseExpertComponent } from './Components/Medical Performa/medical-performa/choose-expert/choose-expert.component';
 import { DraftListComponent } from './Components/Medical Performa/medical-performa/draft-list/draft-list.component';
 import { GeneratePerformaComponent } from './Components/Medical Performa/medical-performa/generate-performa/generate-performa.component';
 import { PerformasSummaryComponent } from './Components/Medical Performa/medical-performa/performas-summary/performas-summary.component';
 import { ExpertsListComponent } from './Components/Experts/experts-list/experts-list.component';
 import { ExpertsDraftListComponent } from './Components/Experts/experts-draft-list/experts-draft-list.component';
-import { ServiceLegalAgrementComponent } from './Components/SLA/service-legal-agrement/service-legal-agrement.component';
+import { ServiceLegalAgrementComponent } from './Components/Experts/expert-sla/service-legal-agrement/service-legal-agrement.component';
 import { ViewProfileComponent } from './Components/Experts/view-profile/view-profile.component';
 import { VenueLocationComponent } from './Components/Venue Location/venue-location/venue-location.component';
 import { VenueLocationListComponent } from './Components/Venue Location/venue-location-list/venue-location-list.component';
@@ -244,6 +243,9 @@ import { ClinicsTodayclinicsComponent } from './Components/Clinics/clinics-today
 import { ClinicsAttendedclinicsComponent } from './Components/Clinics/clinics-attendedclinics/clinics-attendedclinics.component';
 import { AssignedMedicalSectretaryListComponent } from './Components/Medco CMS/assigned-medical-sectretary-list/assigned-medical-sectretary-list.component';
 import { UnassignedMedicalSecretaryListComponent } from './Components/Medco CMS/unassigned-medical-secretary-list/unassigned-medical-secretary-list.component';
+import { SchedualAppointmentsComponent } from './Components/Medco CMS/schedual-appointments/schedual-appointments.component';
+import { NewMedicalSecretaryComponent } from './Components/MedicalSecretary/new-medical-secretary/new-medical-secretary.component';
+import { NewlyAssignedComponent } from './Components/MedicalSecretary/newly-assigned/newly-assigned.component';
 
 const routes: Routes = [
   {
@@ -1104,7 +1106,7 @@ const routes: Routes = [
   component: AppLayoutComponent,
   children: [
     {
-      path: '', component: AddNewSecretaryComponent, pathMatch: 'full', canActivate:[AuthGuard]
+      path: '', component: NewMedicalSecretaryComponent, pathMatch: 'full', canActivate:[AuthGuard]
     }
   ]
 },
@@ -1123,6 +1125,15 @@ const routes: Routes = [
   children: [
     {
       path: '', component: EditMedicalSecretaryComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'MedicalSecretary/NewlyAssigned',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: NewlyAssignedComponent, pathMatch: 'full', canActivate:[AuthGuard]
     }
   ]
 },
@@ -1240,6 +1251,15 @@ const routes: Routes = [
   children: [
     {
       path: '', component: OutstandingAppointmentSchedualComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'MedcoCMS/Outstanding_Appointments/Scheduled',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: SchedualAppointmentsComponent, pathMatch: 'full', canActivate:[AuthGuard]
     }
   ]
 },
