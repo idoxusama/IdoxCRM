@@ -8,5 +8,5 @@ export class MedcoRecord{
     files:File[];
     userID:number;
     fileContent:string;
-    fileExtension:string;
+    fileExtention:string;
 }

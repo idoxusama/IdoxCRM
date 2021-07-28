@@ -1,0 +1,168 @@
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+    <div class="container my-3 main-container">
+      <div class="row align-items-center">
+        <div class="col">
+          <h2 class="content-color-primary page-title">Record Review</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4 main-container">
+  <div class="row">
+    <div class="col-12 col-md-12 order-2 order-md-1">
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="media">
+            <div class="media-body">
+              <h4 class="content-color-primary mb-0">Documents</h4>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-md-6 col-lg-4" *ngFor="let item of medcoRecord">
+              <div class="card mb-4 bg-light-primary border border-primary no-shadow">
+                <div class="card-body p-2">
+                  <div class="media">
+                    <div class="media-body">
+                      <p class="mb-0">{{item.recordName}}{{item.fileExtention}}</p>
+                      <h5 class="mb-0">21.0 mb</h5>
+                    </div>
+                    <a title="Download" href="javascript:void(0)" class="icon-rounded icon-40 bg-primary ml-2"
+                      (click)="download(item.recordPath,item.recordName,item.fileExtention)">
+                      <i class="material-icons text-white">cloud_download</i>
+                    </a>
+                    <a title="Preview" href="javascript:void(0)" class="icon-rounded icon-40 bg-success ml-2"
+                      (click)="preview(item.fileContent)">
+                      <i class="material-icons text-white">visibility</i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-8 order-1 order-md-2" *ngIf="showPreview">
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-lg-4">
+              <h4 class="content-color-primary mb-0">Preview</h4>
+            </div>
+            <div class="col-lg-8 text-right">
+
+              <div class="btn-group mr-2" role="group" aria-label="Second group">
+                <button (click)="previous()" class="btn btn-success"><i class="fa fa-angle-left font-weight-bold"
+                    aria-hidden="true"></i>
+                </button>
+                <p class="pagescount">Pages - {{currentpage}} of {{totalPages}}</p>
+                <button (click)="next()" class="btn btn-success"><i class="fa fa-angle-right font-weight-bold"
+                    aria-hidden="true"></i>
+                </button>
+              </div>
+
+              <button title="Crop " class="btn btn-warning text-white mr-2" (click)="initCrop()"><i
+                  class="material-icons">crop</i></button>
+              <button *ngIf="isCropImage" class="btn btn-danger text-right mr-2" (click)="destroyCropper(pdfSrc)"><i
+                  class="material-icons">refresh</i></button>
+              <button *ngIf="isCropImage" class="btn btn-primary mr-2" (click)="openNoteModal(modalForNote)"><i
+                  class="material-icons">cloud_download</i> Save</button>
+
+            </div>
+          </div>
+        </div>
+        <div class="card-body p-0 border-top">
+
+          <div class="pdf-container top-margin" [hidden]="isCropImage">
+            <pdf-viewer [src]="pdfSrc" [render-text]="true" [page]="currentpage" [show-all]="false"
+              [original-size]="true" [fit-to-page]="false" style="display: block;"
+              (after-load-complete)="afterLoadComplete($event)">
+            </pdf-viewer>
+          </div>
+
+          <div class="img-container" [hidden]="!isCropImage">
+            <img #image src="" id="cropper-img" crossorigin>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-4 order-1 order-md-2" *ngIf="showPreview">
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="media">
+            <div class="media-body">
+              <h4 class="content-color-primary mb-0">Cropped Important Part </h4>
+            </div>
+            <button class="btn btn-sm primary-gradient mr-2" (click)="saveCroppedImages()">Save</button>
+          </div>
+        </div>
+        <div class="card-body p-0 border-top">
+          <table class="table">
+            <tr *ngFor="let item of croppedImages">
+              <td>
+                <a style="cursor:pointer;" (click)="getCroppedReferences(item.id,templateGallary)">
+                  <div [style.backgroundImage]="'url('+item.image+')'" class="thumbnail"></div>
+                </a>
+              </td>
+              <td>
+                {{item.note}}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalForNote>
+  <div class="modal-header bg-primary">
+    <h4 class="modal-title pull-left text-white">Note</h4>
+    <button type="button" class="close pull-right text-white" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #f="ngForm"(ngSubmit)="saveNote()">
+      <div class="row ">
+        <div class="col-lg-12 col-md-12">
+          <div class="form-group ">
+            <label>Note</label>
+            <textarea type="text" class="form-control" placeholder="Note" name="note" #note="ngModel" [(ngModel)]="reviewNote.note"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-lg-12 col-md-12">
+          <div class="form-group ">
+            <label>Upload Files</label>
+            <input type="file" #file class="form-control" multiple (change)="onSelectFile(file.files)">
+          </div>
+        </div>
+      </div>
+      <div class="text-right">
+        <button type="button" class="btn btn-sm secondary-gradient mr-2">Cancel</button>
+        <button type="submit" class="btn btn-sm primary-gradient mr-2">Save</button>
+      </div>
+    </form>
+    
+  </div>
+</ng-template>
+
+
+<ng-template #templateGallary>
+  <div class="modal-header bg-primary">
+    <h4 class="modal-title pull-left text-white">Cropped Image References</h4>
+    <button type="button" class="close pull-right text-white" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+  </div>
+</ng-template>

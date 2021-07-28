@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient,HttpParams } from '@angular/common/http'
+import { HttpHeaders, HttpClient,HttpParams, HttpEvent, HttpRequest } from '@angular/common/http'
 import { BehaviorSubject, Observable,throwError as observableThrowError } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -299,6 +299,10 @@ export class ExpertuserService {
       headers: new HttpHeaders(headerDict),
     };
     return this.http.post(requestUrl,data,requestOptions);
+  }
+
+  downloadMedicalRecord(fileUrl):any{
+    return this.http.get(`${this.baseUrl}/api/Expert/Download/download?fileUrl=${fileUrl}`, {responseType: 'blob'});
   }
   
   getExpertClinicPlan(id?,expertID?,LocationAddressID?):Observable<any>{

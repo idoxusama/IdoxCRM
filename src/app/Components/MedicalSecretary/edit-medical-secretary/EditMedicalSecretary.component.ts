@@ -1,11 +1,11 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { ModelSecretary } from 'src/app/Models/Experts Model/MedicalSecretary';
 import { MedcoexpertService } from 'src/app/Services/Experts Services/medcoexpert.service';
 import { ActivatedRoute, Router} from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ThemeService } from 'ng2-charts';
 import { MedicalsecretaryService } from 'src/app/Services/Medical Secretary Services/medicalsecretary.service';
+import { MedicalSecretary } from 'src/app/Models/Medical Secretary Model/Secretary';
 declare var $: any;
 
 @Component({
@@ -15,7 +15,7 @@ declare var $: any;
 })
 export class EditMedicalSecretaryComponent implements OnInit {
   @Output() headerTitle = new EventEmitter<string>();
-  SelectedMedicalSecretary: ModelSecretary = new ModelSecretary();
+  SelectedMedicalSecretary: MedicalSecretary = new MedicalSecretary();
   IsInhouse:boolean=false;
 
   constructor(private medicalsecretaryService: MedicalsecretaryService,
@@ -23,10 +23,7 @@ export class EditMedicalSecretaryComponent implements OnInit {
               private router: Router,
               public datepipe: DatePipe,
               private Toastr: ToastrService,
-              private route: ActivatedRoute)
-               {
-                
-               }
+              private route: ActivatedRoute){}
  
   ngOnInit() {
     this.headerTitle.emit("Medical Secretary");

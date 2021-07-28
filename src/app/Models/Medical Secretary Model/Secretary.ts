@@ -1,31 +1,4 @@
 export class MedicalSecretary{
-
-  id: string;
-  namePrefix: string;
-  lastName: string;
-  firstName: string;
-  middleName: string;
-  nameSuffix: string;
-  fullName: string;
-  gender: string;
-  addressLine1: string;
-  addressLine2: string;
-  county: string;
-  town: string;
-  postCode: string;
-  phoneNo: string;
-  email: string;
-  mobileNumber: string;
-  medicalSecretaryContractType: string;
-  amountRate: string;
-  medicalSecretaryTypeID: 0;
-  status: string;
-  createdBy: string;
-  lastModifiedBy: string;
- 
-}
-
-export class ModelSecretary{
   id:number;
   namePrefix: string;
   lastName: string;
@@ -54,17 +27,15 @@ export class ModelSecretary{
   companyPhoneNumber: string;
   reportWritingCount: 0;
   additionalEmailJson: string;
-  isDirectMedSecretary: true;
-  isLinkMedSec: true;
-  isHourlyFee: true;
-  isPerRptFee: true;
+  isDirectMedSecretary: boolean;
+  isLinkMedSec: boolean;
+  isHourlyFee: boolean;
+  isPerRptFee: boolean;
   fees: string;
   isHourlyOrPerReportFee:string;
-}
-
-export class UpdateMedicalSecretaryStatus{
-  id:number;
-  modifiedBy:number;
-  Event:string;
-  value:number;
+  isUser:boolean;
+  username:string;
+  password:string;
+  confrimPassword:string;
+  userID:number;
 }

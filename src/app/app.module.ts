@@ -285,6 +285,9 @@ import { UnassignedMedicalSecretaryListComponent } from './Components/Medco CMS/
 import { SchedualAppointmentsComponent } from './Components/Medco CMS/schedual-appointments/schedual-appointments.component';
 import { NewMedicalSecretaryComponent } from './Components/MedicalSecretary/new-medical-secretary/new-medical-secretary.component';
 import { NewlyAssignedComponent } from './Components/MedicalSecretary/newly-assigned/newly-assigned.component';
+import { RecordReviewComponent } from './Components/MedicalSecretary/record-review/record-review.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NgxGalleryModule } from 'ngx-gallery';
 
 @NgModule({
   declarations: [	
@@ -512,6 +515,7 @@ import { NewlyAssignedComponent } from './Components/MedicalSecretary/newly-assi
     NewMedicalSecretaryComponent,
     EditMedicalSecretaryComponent,
     NewlyAssignedComponent,
+    RecordReviewComponent,
     ChooseExpertComponent,
     GeneratePerformaComponent,
     ConfirmModalDialogComponent,
@@ -583,7 +587,9 @@ import { NewlyAssignedComponent } from './Components/MedicalSecretary/newly-assi
       apiKey: 'AIzaSyAFHSyU_GvrwjXI9E9FmAl9PIPIlblwJ9I',
       libraries: ['places'] 
     }),
-    Select2Module
+    Select2Module,
+    PdfViewerModule,
+    NgxGalleryModule
   ],
   providers: [AuthGuard, DatePipe
     //   {
