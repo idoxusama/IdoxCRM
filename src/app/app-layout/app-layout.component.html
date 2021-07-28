@@ -54,10 +54,12 @@
 
                     <a routerLink="/Experts/drafts" class="nav-link pink-gradient-active"><i
                             class="material-icons icon"></i><span>Draft Profile's</span></a>
-                    <!-- <a routerLink="/Experts/sla" class="nav-link pink-gradient-active"><i
-                            class="material-icons icon"></i><span>
-                                SLA
-                            </span></a> -->
+                    <a routerLink="/Experts/clinicplan" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span>
+                            Add Clinic Plan
+                        </span>
+                    </a>
                     <a routerLink="/Experts/Medco_Expert_Clinics" class="nav-link pink-gradient-active"><i
                             class="material-icons icon"></i><span>
                             Clinics</span></a>
@@ -83,10 +85,11 @@
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <a routerLink="/MedicalSecretary/AddNew" class="nav-link pink-gradient-active"><i
-                            class="material-icons icon"></i><span>Add
-                            New</span></a>
+                            class="material-icons icon"></i><span>Add New</span></a>
                     <a routerLink="/MedicalSecretary/List" class="nav-link pink-gradient-active"><i
-                            class="material-icons icon"></i><span>List</span></a>
+                            class="material-icons icon"></i><span>M.S List</span></a>
+                    <a routerLink="/MedicalSecretary/NewlyAssigned" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Newly Assigned</span></a>
                 </li>
             </ul>
         </li>
@@ -121,6 +124,10 @@
                 <li class="nav-item">
                     <a routerLink="/Clinics/Outstanding_Clinic_List" class="nav-link pink-gradient-active"><i
                             class="material-icons icon"></i><span> List</span></a>
+                    <a routerLink="/Clinics/TodayClinics" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span> Today Clinics</span></a>
+                    <a routerLink="/Clinics/AtendedClinics" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>Attended Clinics</span></a>
                     <a routerLink="/Clinics/Clinic_Availability_Status" class="nav-link pink-gradient-active"><i
                             class="material-icons icon"></i><span>Availability Status</span></a>
                     <a routerLink="/Clinics/Clinic_Fill_Analysis" class="nav-link pink-gradient-active"><i
@@ -147,9 +154,12 @@
                     <a routerLink="/IndoxCMS/Intruction/NewInstruction" class="nav-link pink-gradient-active"><i
                             class="material-icons icon"></i><span>New
                             Instruction</span></a>
-                            <a routerLink="/IndoxCMS/Intruction/List" class="nav-link pink-gradient-active"><i
-                                class="material-icons icon"></i><span>
-                                Instructions</span></a>
+                    <a routerLink="/IndoxCMS/Intruction/List" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>
+                            Instructions</span></a>
+                    <a routerLink="/IndoxCMS/Intruction/InstructionsState" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i><span>
+                            Instructions State</span></a>
                     <a routerLink="/MedcoCMS/DNA_List" class="nav-link pink-gradient-active"><i
                             class="material-icons icon"></i><span>DNA List</span></a>
                     <a routerLink="/MedcoCMS/DNA_History" class="nav-link pink-gradient-active"><i
@@ -187,6 +197,15 @@
                     <a routerLink="/MedcoCMS/Outstanding_Appointments" class="nav-link pink-gradient-active"><i
                             class="material-icons icon"></i>
                         <span>Appointments</span></a>
+                        <a routerLink="/MedcoCMS/Outstanding_Appointments/Scheduled" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span>Appointments Scheduled</span></a>
+                        <a routerLink="/MedcoCMS/AssignedMedicalSecretaries" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span>Assigned M.S</span></a>
+                        <a routerLink="/MedcoCMS/UnAssignedMedicalSecretaries" class="nav-link pink-gradient-active"><i
+                            class="material-icons icon"></i>
+                        <span>Un Assigned M.S</span></a>
                     <a routerLink="/MedcoCMS/Outstanding_Amendments" class="nav-link pink-gradient-active"><i
                             class="material-icons icon"></i>
                         <span> Amendments</span></a>

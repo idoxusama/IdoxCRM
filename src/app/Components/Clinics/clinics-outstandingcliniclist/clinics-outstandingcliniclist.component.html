@@ -76,7 +76,7 @@
                   </thead>
   
                   <tbody>
-                    <tr class="c-table__row" *ngFor="let item of UnsentOutstandingClinicData |filter:filter| paginate: { itemsPerPage: 10, currentPage: u };  let i = index">
+                    <!-- <tr class="c-table__row" *ngFor="let item of UnsentOutstandingClinicData |filter:filter| paginate: { itemsPerPage: 10, currentPage: u };  let i = index">
                        <td class="c-table__cell">{{i+1}}</td>
                       <td class="c-table__cell">{{item.Description}}</td>
                       <td class="c-table__cell">{{item.FullName}}</td>
@@ -89,7 +89,7 @@
                       <td class="c-table__cell">{{item.AvailableSlots}}</td>
                       <td class="c-table__cell"><button class="c-btn c-btn--info c-btn--small" (click)="Send(item.ExpertClinicID)">Send</button></td>
                        
-                      </tr>
+                      </tr> -->
                                                                  
                   </tbody>
                    
@@ -122,7 +122,7 @@
                   </thead>
   
                   <tbody>
-                    <tr class="c-table__row" *ngFor="let item of SentOutstandingClinicData |filter:filter| paginate: { itemsPerPage: 2, currentPage: p };  let i = index">
+                    <!-- <tr class="c-table__row" *ngFor="let item of SentOutstandingClinicData |filter:filter| paginate: { itemsPerPage: 2, currentPage: p };  let i = index">
                       <td class="c-table__cell">{{i+1}}</td>
                       <td class="c-table__cell">{{item.Description}}</td>
                       <td class="c-table__cell">{{item.FullName}}</td>
@@ -135,7 +135,7 @@
                       <td class="c-table__cell">{{item.AvailableSlots}}</td>
                       <td class="c-table__cell"><button class="c-btn c-btn--info c-btn--small" (click)="Unsend(item.ExpertClinicID)">Unsend</button></td>
                       </tr>
-                                                                 
+                                                                  -->
                   </tbody>
                    
               </table>

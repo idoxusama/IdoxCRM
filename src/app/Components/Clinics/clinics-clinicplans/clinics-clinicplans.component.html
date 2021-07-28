@@ -1,0 +1,195 @@
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+    <div class="container my-3 main-container">
+      <div class="row align-items-center">
+        <div class="col">
+          <h2 class="content-color-primary page-title">Add Clinic Plans</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4 main-container">
+  <form [formGroup]="clinicPlansForm" *ngIf="clinicPlansForm" (ngSubmit)="saveClinicPlan()">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row justify-content-center">
+          <div class="col-md-10 mx-auto">
+            <div class="row mt-3">
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group ">
+                  <label>Expert Type</label>
+                  <select2 [data]="expertTypes" [cssImport]="true" (valueChanged)="getExperts($event)" width="100%">
+                  </select2>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group ">
+                  <label>Expert</label>
+                  <select2 [data]="experts" [cssImport]="true" (valueChanged)="getAvailabilityDays($event)"
+                   [ngClass]="{'is-invalid': clinicPlansForm.get('expertID').errors && (clinicPlansForm.get('expertID').touched
+                   ||clinicFormSubmit)}" width="100%">
+                    <option value="">Select Option</option>
+                  </select2>
+                  <div class="invalid-feedback"
+                    *ngIf="(clinicPlansForm.get('expertID').touched||clinicFormSubmit) && clinicPlansForm.get('expertID').hasError('required')">
+                    This field is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                  <label>Enter address</label>
+                  <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()"
+                    formControlName="mapAddress" [ngClass]="{'is-invalid': clinicPlansForm.get('mapAddress').errors && (clinicPlansForm.get('mapAddress').touched
+                   ||clinicFormSubmit)}" placeholder="Search Nearest Location" autocorrect="off" autocapitalize="off"
+                    spellcheck="off" type="text" #search (change)="getNearestLocation(templateShowLocationList)">
+                  <div class="invalid-feedback"
+                    *ngIf="(clinicPlansForm.get('mapAddress').touched||clinicFormSubmit) && clinicPlansForm.get('mapAddress').hasError('required')">
+                    This field is required
+                  </div>
+                </div>
+                <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+                  <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+                    (dragEnd)="markerDragEnd($event)"></agm-marker>
+                </agm-map>
+              </div>
+            </div>
+            <div class="row mt-3 mb-3 border-bottom border-top">
+              <div class="col-lg-12 col-md-12">
+                <div class="form-group ">
+                  
+                  <label>
+                    Venue Location 
+                    <button type="button" class="btn btn-link" (click)="getNearestLocation(templateShowLocationList)">Select Venue</button>
+                  </label>
+
+                  <div class="media" *ngIf="selectedVenueLocation">
+                    <div class="text-success mr-3">
+                      <i class="material-icons">check</i>
+                    </div>
+                    <div class="media-body">
+                      <h6 class="my-0 text-truncated">{{selectedVenueLocation.mapAddress}}</h6>
+                      <span class="small mr-2">Name: {{selectedVenueLocation.name}}</span>
+                      <span class="small mr-2">Distance: {{selectedVenueLocation.distance}}</span>
+                      <span class="small mr-2">Duration: {{selectedVenueLocation.duration}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row ">
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group ">
+                  <label>Availability Days</label>
+                  <select2 [data]="avalabilites" [cssImport]="true" width="100%"
+                    (valueChanged)="changeAvailability($event)" [ngClass]="{'is-invalid': clinicPlansForm.get('expertClinicAvailablityDaysID').errors && (clinicPlansForm.get('expertClinicAvailablityDaysID').touched
+                     ||clinicFormSubmit)}">
+                  </select2>
+
+                  <div class="invalid-feedback"
+                    *ngIf="(clinicPlansForm.get('expertClinicAvailablityDaysID').touched||clinicFormSubmit) && clinicPlansForm.get('expertClinicAvailablityDaysID').hasError('required')">
+                    This field is required
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group ">
+                  <label>Is Availability Time Same</label>
+                  <div class="row">
+                    <div class="col-lg-3 col-md-3">
+                      <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" value="true" name="isAvailabilityTimings"
+                          checked="true" id="yes" formControlName="isAvailabilityTimings"
+                          (change)="startEndTimeDisabled=true">
+                        <label class="custom-control-label" for="yes"> <span class=""> Yes
+                          </span></label>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                      <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" value="false" name="isAvailabilityTimings"
+                          id="no" formControlName="isAvailabilityTimings" (change)="startEndTimeDisabled=false">
+                        <label class="custom-control-label" for="no"> <span class=""> No
+                          </span></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row ">
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group ">
+                  <label>Start Time</label>
+                  <timepicker formControlName="startTime" [disabled]="startEndTimeDisabled" [minuteStep]="minuteStep">
+
+                  </timepicker>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group ">
+                  <label>End Time</label>
+                  <timepicker formControlName="endTime" [disabled]="startEndTimeDisabled" [minuteStep]="minuteStep">
+
+                  </timepicker>
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12">
+                <div class="text-danger" *ngIf="((clinicPlansForm.get('startTime').touched || clinicPlansForm.get('endTime').touched) || clinicFormSubmit) 
+                && clinicPlansForm.hasError('timeRangeError')">
+                  In Case No Start and End Time must be in between Availability Start, End Time.
+                </div>
+              </div>
+            </div>
+            <br>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer align-content-center text-center">
+        <button type="submit" class="btn btn-success px-4">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+<ng-template #templateShowLocationList>
+  <div class="modal-header bg-primary">
+    <h4 class="modal-title pull-left text-white">Nearest Locations</h4>
+    <button type="button" class="close pull-right text-white" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul class="list-group border-top border-bottom list-group-flush">
+      <li class="list-group-item" *ngFor="let location of nearestLocations">
+        <div class="media">
+          <div class="text-success mr-3">
+            <i class="material-icons">check</i>
+          </div>
+          <div class="media-body">
+            <h6 class="my-0 text-truncated">{{location.mapAddress}}</h6>
+            <span class="small mr-2">Name: {{location.name}}</span>
+            <span class="small mr-2">Distance: {{location.distance}}</span>
+            <span class="small mr-2">Duration: {{location.duration}}</span>
+          </div>
+
+          <div class="text-right footable-last-visible mr-2" style="display: table-cell;">
+            <a [routerLink]="['/Settings/VenueLocationDetail',{id:location.id}]" target="_blank"
+              class="btn btn-rounded btn-outline-success px-3 btn-sm">View</a>
+          </div>
+
+          <div class="text-right footable-last-visible mr-2" style="display: table-cell;">
+            <a class="btn btn-rounded btn-outline-primary px-3 btn-sm"
+              (click)="bindLocationWithClinicPlan(location.id)">Select</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</ng-template>

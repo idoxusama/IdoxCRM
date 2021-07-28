@@ -2,7 +2,6 @@ import { AfterViewInit, Component, ElementRef, NgZone, OnInit, ViewChild } from 
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { LocationImageName } from 'src/app/Models/Venue Location/LocationImageName';
 import { LocationImages } from 'src/app/Models/Venue Location/LocationImages';
 import { LocationRooms, LocationRoomsList } from 'src/app/Models/Venue Location/LocationRooms';
 import { LocationSiteInfo } from 'src/app/Models/Venue Location/LocationSiteInfo';
@@ -89,13 +88,10 @@ export class VenueLocationComponent implements OnInit, AfterViewInit {
   }
 
   loadPlacesAutoComplete() {
-    debugger
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder;
-
-      debugger
       let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
       autocomplete.addListener("place_changed", () => {
         this.ngZone.run(() => {
@@ -119,7 +115,6 @@ export class VenueLocationComponent implements OnInit, AfterViewInit {
     });
   }
   markerDragEnd($event: MouseEvent) {
-    debugger
     this.lat = $event.coords.lat;
     this.lng = $event.coords.lng;
 
@@ -136,7 +131,7 @@ export class VenueLocationComponent implements OnInit, AfterViewInit {
         if (results[0]) {
           this.zoom = 12;
           this.address = results[0].formatted_address;
-          this.venueLocationForm.get('enterAddress').setValue(this.address);
+          this.venueLocationForm.get('mapAddress').setValue(this.address);
         } else {
           window.alert('No results found');
         }
@@ -174,7 +169,7 @@ export class VenueLocationComponent implements OnInit, AfterViewInit {
       mapLink: [''],
       mapLat: ['', Validators.required],
       mapLong: ['', Validators.required],
-      enterAddress: ['', Validators.required],
+      mapAddress: ['', Validators.required],
       daysOfBooking: ['', Validators.required],
       locationCostBy: ['', Validators.required],
       amount: ['', Validators.required],

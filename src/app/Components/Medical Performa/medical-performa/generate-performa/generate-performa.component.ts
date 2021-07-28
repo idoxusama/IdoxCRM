@@ -19,7 +19,7 @@ export class GeneratePerformaComponent implements OnInit,OnChanges {
   /* #region  Fields */
 
   @Output() headerTitle = new EventEmitter<string>();
-  @Input() change: string;
+  @Input() experTypeId: string;
   @Input() draftCode: string;
   timeSpent:Date;
   performaForm: FormGroup;
@@ -57,13 +57,13 @@ export class GeneratePerformaComponent implements OnInit,OnChanges {
     this.expertTypeId = this.medicalPerformaSerivce.expertType.value;
     this.expertId = this.medicalPerformaSerivce.expert.value;
 
-    let change: SimpleChange = changes['change'];
+    let experTypeId: SimpleChange = changes['experTypeId'];
     let draftCode: SimpleChange = changes['draftCode'];
 
-    if (change) {
-      if (change.currentValue) {
-        this.getClientQuestions(change.currentValue);
-        this.getExpertQuestions(change.currentValue);
+    if (experTypeId) {
+      if (experTypeId.currentValue) {
+        this.getClientQuestions(experTypeId.currentValue);
+        this.getExpertQuestions(experTypeId.currentValue);
       }
     }
 
@@ -90,6 +90,7 @@ export class GeneratePerformaComponent implements OnInit,OnChanges {
   }
   getExpertQuestions(id) {
     this.medicalPerformaSerivce.getQuestionariesForExpert(id).subscribe((response) => {
+      debugger
       this.expertQuestions = response.outputObject;
       this.formGroup.push(response.outputObject);
     }, error => {

@@ -1,0 +1,236 @@
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+    <div class="container my-3 main-container">
+      <div class="row align-items-center">
+        <div class="col">
+          <h2 class="content-color-primary page-title">Appointment Schedual</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container mt-4 main-container">
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="card rounded-0 border-0 mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-8">
+              <h5 class="card-title mb-0">Schedual</h5>
+            </div>
+            <div class="col text-right">
+              <div class="dropdown">
+                <button class="btn btn-link btn-sm text-secondary rounded-0 dropdown-toggle float-right icon"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" type="button">
+                  <i class="fa fa-ellipsis-v"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="#">
+                    <i class="fa fa-exclamation-circle text-secondary"></i> Report</a>
+                  <a class="dropdown-item" href="#">
+                    <i class="fa fa-cog text-secondary"></i> Settings</a>
+                  <a class="dropdown-item" href="#">
+                    <i class="fa fa-trash text-secondary"></i> Remove</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form [formGroup]="bookAppointmentForm" (ngSubmit)="onSubmit()">
+          <div class="card-body">
+            <div class="row" *ngIf="outstandingAppointments">
+              <div class="col-lg-6 col-md-6">
+                <table class="table">
+                  <tr>
+                    <th>Instruction</th>
+                    <td>{{outstandingAppointments.instructionName}}</td>
+                  </tr>
+                  <tr>
+                    <th>Expert Name</th>
+                    <td>
+                      <span>{{outstandingAppointments.expert}}</span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <table class="table">
+                  <tr>
+                    <th>Medico Ref</th>
+                    <td>{{outstandingAppointments.medicoRefNo}}</td>
+                  </tr>
+                  <tr>
+                    <th>Client Ref</th>
+                    <td>{{outstandingAppointments.clientRefNo}}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-10 col-md-10">
+                <h5> Expert Clinic Plans</h5>
+              </div>
+              <div class="col-lg-2 col-md-2">
+                <a class="btn btn-primary primary-gradient ml-2 mb-2" (click)="showMap()">Nearest Location</a>
+              </div>
+            </div>
+            <div class="row border-top">
+              <div class="col-lg-6 col-md-6">
+                <ul class="list-group border-top border-bottom list-group-flush" *ngIf="expertClinicPlan">
+                  <li class="list-group-item" *ngFor="let clinic of expertClinicPlan">
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input" formControlName="expertClinicPlanID"
+                        name="expertClinicPlanID" id="custom_{{clinic.id}}" value="{{clinic.id}}"
+                        [checked]="bookAppointmentForm.get('expertClinicPlanID').value"
+                        (change)="appointmentTiming=true">
+                      <label class="custom-control-label" for="custom_{{clinic.id}}">
+                        <h6 class="my-0 text-truncated">{{clinic.mapAddress}}</h6> <br>
+                        <span class="small mr-2">{{clinic.travelDistance}}</span>,
+                        <span class="small mr-2">{{clinic.traveltime}}</span>
+                      </label>
+                    </div>
+                  </li>
+                  <div class="text-danger"
+                    *ngIf="(bookAppointmentForm.get('expertClinicPlanID').touched||bookAppointmentSubmit) && bookAppointmentForm.get('expertClinicPlanID').hasError('required')">
+                    This field is required
+                  </div>
+                </ul>
+              </div>
+
+              <div class="col-lg-6 col-md-6" *ngIf="showMapForNearestLocation">
+                <div class="form-group">
+                  <label>Enter address</label>
+                  <input type="text" class="form-control" formControlName="mapAddress"
+                    (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off"
+                    autocapitalize="off" spellcheck="off" type="text" #search
+                    (change)="getNearestLocation(templateNearestLocation)">
+                </div>
+                <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+                  <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+                    (dragEnd)="markerDragEnd($event)"></agm-marker>
+                </agm-map>
+              </div>
+            </div>
+            <div class="row mt-3 border-top" *ngIf="appointmentTiming">
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group">
+                  <h5 class="content-color-primary mb-0">Booking Date</h5>
+                  <input type="text" class="form-control" placeholder="Date" formControlName="slotDate" [ngClass]="{'is-invalid': bookAppointmentForm.get('slotDate').errors 
+                  && (bookAppointmentForm.get('slotDate').touched||bookAppointmentSubmit)}" bsDatepicker [minDate]="minDate" (ngModelChange)="changeDate($event)" />
+                  <div class="text-danger"
+                    *ngIf="(bookAppointmentForm.get('slotDate').touched||bookAppointmentSubmit) && bookAppointmentForm.get('slotDate').hasError('required')">
+                    This field is required
+                  </div>
+                </div>
+                <div class="form-group">
+                  <h5 class="content-color-primary mb-0">Appointment Start Time</h5>
+                  <timepicker [minuteStep]="minuteStep" [min]="timepickerCurrentTime" [showMeridian]="isMeridian" formControlName="slotStartTime" [ngClass]="{'is-invalid': bookAppointmentForm.get('slotStartTime').errors 
+                  && (bookAppointmentForm.get('slotStartTime').touched||bookAppointmentSubmit)}"
+                    (ngModelChange)="changeStartTime($event)"></timepicker>
+                  <!-- <input type="time" class="form-control" formControlName="slotStartTime" [ngClass]="{'is-invalid': bookAppointmentForm.get('slotStartTime').errors 
+                  && (bookAppointmentForm.get('slotStartTime').touched||bookAppointmentSubmit)}"
+                    (change)="changeStartTime($event.target.value)"> -->
+                  <div class="text-danger"
+                    *ngIf="(bookAppointmentForm.get('slotStartTime').touched||bookAppointmentSubmit) && bookAppointmentForm.get('slotStartTime').hasError('required')">
+                    This field is required
+                  </div>
+                </div>
+                <table class="table">
+                  <tr>
+                    <th>Appointment End Time:</th>
+                    <td>{{this.appointmentCheckOutTime | date:'HH:mm'}}</td>
+                  </tr>
+                  <tr>
+                    <th>Assessment Time:</th>
+                    <td>{{this.expertPersonalInfo.assessmentTime}} Minutes</td>
+                  </tr>
+                </table>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="card mb-4 fullscreen">
+                  <div class="card-header">
+                    <div class="media">
+                      <div class="media-body">
+                        <h4 class="content-color-primary mb-0">{{outstandingAppointments.expert}} Days Availability</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body pt-0">
+                    <table class="table">
+                      <tbody>
+                        <tr *ngFor="let item of expertAvailabilities">
+                          <th>{{item.days}}</th>
+                          <td>{{item.startTime}} - {{item.endTime}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer align-content-center text-center">
+            <button type="submit" class="btn btn-success px-4">Book</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #templateNearestLocation>
+  <div class="modal-header primary-gradient">
+    <h4 class="modal-title pull-left">Nearest Locations</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul class="list-group border-top border-bottom list-group-flush" *ngIf="expertNearestClininPlans">
+      <li class="list-group-item" *ngFor="let item of expertNearestClininPlans; let i=index;">
+        <div class="media">
+          <div class="text-primary mr-2">
+            <i class="material-icons">check</i>
+          </div>
+          <div class="media-body">
+            <h6 class="my-0 text-truncated">{{item.mapAddress}}</h6>
+            <span class="small mr-2">{{item.travelDistance}}</span>
+            <span class="small mr-2">{{item.traveltime}}</span>
+          </div>
+          <button class="btn btn-link text-success"
+            (click)="bindNearestLocation(item.locationAddressID)">Select</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</ng-template>
+
+<ng-template #templateConfirmBox>
+  <div class="modal-header">
+    <h5 class="text-warning">{{outstandingAppointments.expert}} is not available in this day or slot.</h5>
+  </div>
+  <div class="modal-body">
+    <ul class="list-group border-bottom list-group-flush">
+      <li class="list-group-item">
+        <div class="media">
+          <div class="custom-control custom-checkbox todo-checkbox">
+            <input type="checkbox" class="custom-control-input" id="customCheck1" (click)="enableDisableConfrim()">
+            <label class="custom-control-label " for="customCheck1"></label>
+          </div>
+          <div class="media-body">
+            <h6 class="my-0 text-truncated">I communicate with expert, and he agree for this timing.</h6>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="text-center mt-3">
+      <button type="button" class="mb-2 btn btn-outline-secondary btn-rounded mr-2"
+        (click)="modalRef.hide()">Close</button>
+      <button type="submit" class="mb-2 btn btn-primary btn-rounded" [disabled]="!disabledConfirm" (click)="bookSlot()">Confirm</button>
+    </div>
+  </div>
+</ng-template>

@@ -12,7 +12,7 @@
 
 <div class="container mt-4 main-container">
   <div class="card mb-4">
-    <form [formGroup]="instructionForm" *ngIf="instructionForm" (ngSubmit)="saveInstructionForm()">
+    <form [formGroup]="instructionForm" *ngIf="instructionForm" (ngSubmit)="saveInstructionForm()" appInvalidControlScroll>
       <div class="card-header border-bottom">
         <h5 class="content-color-primary mb-0">New Instruction</h5>
       </div>
@@ -59,11 +59,10 @@
               </div>
               <div class="col-lg-6 col-md-6">
                 <label>Occupancy Type</label>
-                <select class="form-control" formControlName="occupancyTypeID" [ngClass]="{'is-invalid': instructionForm.get('occupancyTypeID').errors 
-                && (instructionForm.get('occupancyTypeID').touched||instructionFromSubmit)}">
-                  <option *ngFor="let occuType of occupancyTypes" value="{{occuType.id}}">{{occuType.stuffValue}}
-                  </option>
-                </select>
+                <select2 [data]="occupancyTypes" [cssImport]="true" [ngClass]="{'is-invalid': instructionForm.get('occupancyTypeID').errors 
+                && (instructionForm.get('occupancyTypeID').touched||instructionFromSubmit)}" width="100%"
+                  (valueChanged)="onSelectOption($event,'occupancyTypeID')">
+                </select2>
                 <div class="invalid-feedback"
                   *ngIf="(instructionForm.get('occupancyTypeID').touched||instructionFromSubmit) && instructionForm.get('occupancyTypeID').hasError('required')">
                   This field is required
@@ -73,10 +72,10 @@
             <div class="form-group row">
               <div class="col-lg-6 col-md-6">
                 <label>Occupation</label>
-                <select class="form-control" formControlName="occupationID" [ngClass]="{'is-invalid': instructionForm.get('occupationID').errors 
-                && (instructionForm.get('occupationID').touched||instructionFromSubmit)}">
-                  <option *ngFor="let occu of occupations" value="{{occu.id}}">{{occu.stuffValue}}</option>
-                </select>
+                <select2 [data]="occupations" [cssImport]="true" [ngClass]="{'is-invalid': instructionForm.get('occupationID').errors 
+                && (instructionForm.get('occupationID').touched||instructionFromSubmit)}" width="100%"
+                  (valueChanged)="onSelectOption($event,'occupationID')">
+                </select2>
                 <div class="invalid-feedback"
                   *ngIf="(instructionForm.get('occupationID').touched||instructionFromSubmit) && instructionForm.get('occupationID').hasError('required')">
                   This field is required
@@ -88,11 +87,24 @@
                 <div class="row">
                   <div class="col-lg-6">
                     <label>Gender</label>
-                    <select class="form-control" formControlName="gender" [ngClass]="{'is-invalid': instructionForm.get('gender').errors 
-                    && (instructionForm.get('gender').touched||instructionFromSubmit)}">
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                    </select>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="custom-control custom-radio">
+                          <input type="radio" class="custom-control-input" formControlName="gender" id="customCheck1payment"
+                          value="male">
+                          <label class="custom-control-label" for="customCheck1payment"> <span class="">Male 
+                            </span></label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="custom-control custom-radio">
+                          <input type="radio" class="custom-control-input" formControlName="gender" id="customCheck2payment"
+                          value="female">
+                          <label class="custom-control-label" for="customCheck2payment"> <span class="">Female
+                            </span></label>
+                        </div>
+                      </div>
+                    </div>
                     <div class="invalid-feedback"
                       *ngIf="(instructionForm.get('gender').touched||instructionFromSubmit) && instructionForm.get('gender').hasError('required')">
                       This field is required
@@ -100,8 +112,8 @@
                   </div>
                   <div class="col-lg-6">
                     <label>DOB</label>
-                    <input type="date" class="form-control" placeholder="" formControlName="dob" [ngClass]="{'is-invalid': instructionForm.get('dob').errors 
-                    && (instructionForm.get('dob').touched||instructionFromSubmit)}">
+                    <input type="text" class="form-control" placeholder="Date Of Birth" formControlName="dob" [ngClass]="{'is-invalid': instructionForm.get('dob').errors 
+                    && (instructionForm.get('dob').touched||instructionFromSubmit)}" bsDatepicker [maxDate]="maxDate">
                     <div class="invalid-feedback"
                       *ngIf="(instructionForm.get('dob').touched||instructionFromSubmit) && instructionForm.get('dob').hasError('required')">
                       This field is required
@@ -251,13 +263,10 @@
                 <div class="row">
                   <div class="col-lg-6">
                     <label>Expert</label>
-                    <select class="form-control" (change)="getRequiredMedicalRecord($event.target.value)"
-                      formControlName="expertID"
-                      [ngClass]="{'is-invalid': instructionForm.get('expertID').errors && (instructionForm.get('expertID').touched||instructionFromSubmit)}">
-                      <option>Select Expert</option>
-                      <option *ngFor="let expert of experts" value="{{expert.id}}">{{expert.firstName}}
-                        {{expert.lastName}}</option>
-                    </select>
+                    <select2 [data]="experts" [cssImport]="true" (valueChanged)="getRequiredMedicalRecord($event)"
+                      [ngClass]="{'is-invalid': instructionForm.get('expertID').errors && (instructionForm.get('expertID').touched||instructionFromSubmit)}"
+                      width="100%">
+                    </select2>
                     <div class="invalid-feedback"
                       *ngIf="(instructionForm.get('expertID').touched||instructionFromSubmit) && instructionForm.get('expertID').hasError('required')">
                       This field is required
@@ -265,12 +274,10 @@
                   </div>
                   <div class="col-lg-6 col-md-6">
                     <label>Referrer</label>
-                    <select class="form-control" formControlName="referrerID" [ngClass]="{'is-invalid': instructionForm.get('referrerID').errors 
-                    && (instructionForm.get('referrerID').touched||instructionFromSubmit)}">
-                      <option>Select Referrer</option>
-                      <option *ngFor="let referrer of referrers" value="{{referrer.id}}">{{referrer.description}}
-                      </option>
-                    </select>
+                    <select2 [data]="referrers" [cssImport]="true" [ngClass]="{'is-invalid': instructionForm.get('referrerID').errors 
+                    && (instructionForm.get('referrerID').touched||instructionFromSubmit)}" width="100%"
+                      (valueChanged)="onSelectOption($event,'referrerID')">
+                    </select2>
                     <div class="invalid-feedback"
                       *ngIf="(instructionForm.get('referrerID').touched||instructionFromSubmit) && instructionForm.get('referrerID').hasError('required')">
                       This field is required
@@ -282,11 +289,10 @@
                 <div class="row">
                   <div class="col-lg-6">
                     <label>Speciality</label>
-                    <select class="form-control " formControlName="specialityID" [ngClass]="{'is-invalid': instructionForm.get('specialityID').errors 
-                    && (instructionForm.get('specialityID').touched||instructionFromSubmit)}">
-                      <option *ngFor="let speciality of specialities" value="{{speciality.id}}">
-                        {{speciality.description}}</option>
-                    </select>
+                    <select2 [data]="specialities" [cssImport]="true" [ngClass]="{'is-invalid': instructionForm.get('specialityID').errors 
+                    && (instructionForm.get('specialityID').touched||instructionFromSubmit)}" width="100%"
+                      (valueChanged)="onSelectOption($event,'specialityID')">
+                    </select2>
                     <div class="invalid-feedback"
                       *ngIf="(instructionForm.get('specialityID').touched||instructionFromSubmit) && instructionForm.get('specialityID').hasError('required')">
                       This field is required
@@ -294,11 +300,10 @@
                   </div>
                   <div class="col-lg-6">
                     <label>IncidentType</label>
-                    <select class="form-control" formControlName="incidentTypeID" [ngClass]="{'is-invalid': instructionForm.get('incidentTypeID').errors 
-                    && (instructionForm.get('incidentTypeID').touched||instructionFromSubmit)}">
-                      <option *ngFor="let incident of incidentTypes" value="{{incident.id}}">{{incident.stuffValue}}
-                      </option>
-                    </select>
+                    <select2 [data]="incidentTypes" [cssImport]="true" [ngClass]="{'is-invalid': instructionForm.get('incidentTypeID').errors 
+                    && (instructionForm.get('incidentTypeID').touched||instructionFromSubmit)}" width="100%"
+                      (valueChanged)="onSelectOption($event,'incidentTypeID')">
+                    </select2>
                     <div class="invalid-feedback"
                       *ngIf="(instructionForm.get('incidentTypeID').touched||instructionFromSubmit) && instructionForm.get('incidentTypeID').hasError('required')">
                       This field is required
@@ -415,13 +420,13 @@
                 <div class="col-lg-12 col-md-12">
                   <div class="row">
                     <div class="col-lg-4" *ngFor="let group of requiredMedicalRecordFormArray.controls; let i = index;">
-                      <label>{{group.get('medicalRecordName').value}}</label>
-                      <input type="file" #file class="form-control" placeholder=""
-                        [formControl]="group.get('requiredMedicalRecord')" [ngClass]="{'is-invalid': group.get('requiredMedicalRecord').errors 
-                    && (group.get('requiredMedicalRecord').touched||instructionFromSubmit)}"
-                        (change)="onSelectFile(file.files,group.get('medicalRecordName').value)">
+                      <label>{{group.get('recordName').value}}</label>
+                      <input type="file" #file class="form-control" placeholder="" [formControl]="group.get('files')"
+                        [ngClass]="{'is-invalid': group.get('files').errors 
+                    && (group.get('files').touched||instructionFromSubmit)}"
+                        (change)="onSelectFile(file.files,group.get('recordName').value)">
                       <div class="invalid-feedback"
-                        *ngIf="(group.get('requiredMedicalRecord').touched||instructionFromSubmit) && group.get('requiredMedicalRecord').hasError('required')">
+                        *ngIf="(group.get('files').touched||instructionFromSubmit) && group.get('files').hasError('required')">
                         This field is required
                       </div>
                     </div>
@@ -433,16 +438,43 @@
             <br>
             <h5 class="m-0">Other Medical Record</h5>
             <hr>
-            <div class="form-group row">
-              <div class="col-lg-6 col-md-6">
-                <label>Record Name</label>
-                <input type="text" appAlphabetsOnly class="form-control" placeholder="" formControlName="recordName">
-              </div>
-              <div class="col-lg-6 col-md-6">
-                <label>Upload Files</label>
-                <input type="file" #fiel class="form-control" placeholder="" formControlName="files" (change)="onSelectOtherMedicalRecord(file.files)">
+            <div class="row">
+              <div class="col-lg-12 col-sm-12 text-right">
+                <a class="text-primary" (click)="addOtherMedicalRecord()" style="cursor: pointer;"><i
+                    class="material-icons">add</i></a>
               </div>
             </div>
+            <ng-container formArrayName="otherMedicalRecordFormArray">
+              <div class="form-group row" *ngFor="let group of otherMedicalRecordFormArray.controls; let i = index;">
+                <div class="col-lg-4 col-md-4">
+                  <label>Record Name</label>
+                  <input type="text" appAlphabetsOnly class="form-control" placeholder=""
+                    [formControl]="group.get('recordName')" [ngClass]="{'is-invalid': group.get('recordName').errors 
+                  && (group.get('recordName').touched||instructionFromSubmit)}">
+                  <div class="invalid-feedback"
+                    *ngIf="(group.get('recordName').touched||instructionFromSubmit) && group.get('recordName').hasError('required')">
+                    This field is required
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                  <label>Upload Files</label>
+                  <input type="file" #otherMedicalFiles class="form-control" placeholder=""
+                    [formControl]="group.get('files')" [ngClass]="{'is-invalid': group.get('files').errors 
+                  && (group.get('files').touched||instructionFromSubmit)}"
+                    (change)="onSelectOtherMedicalRecord(otherMedicalFiles.files,group.get('recordName').value)"
+                    multiple>
+                  <div class="invalid-feedback"
+                    *ngIf="(group.get('files').touched||instructionFromSubmit) && group.get('files').hasError('required')">
+                    This field is required
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-4 text-right">
+                  <button class="btn btn-sm danger-gradient mr-2" style="margin-top: 32px;"
+                    (click)="removeOtherMedicalRecordRow(i)">Remove</button>
+                </div>
+              </div>
+            </ng-container>
+
             <br>
             <br>
             <h5 class="m-0">Case Info</h5>
@@ -460,8 +492,8 @@
               </div>
               <div class="col-lg-6 col-md-6">
                 <label>Assignment Date</label>
-                <input type="date" class="form-control" placeholder="" formControlName="assignmentDate" [ngClass]="{'is-invalid': instructionForm.get('assignmentDate').errors 
-                && (instructionForm.get('assignmentDate').touched||instructionFromSubmit)}">
+                <input type="text" class="form-control" placeholder="Assignment Date" formControlName="assignmentDate" [ngClass]="{'is-invalid': instructionForm.get('assignmentDate').errors 
+                && (instructionForm.get('assignmentDate').touched||instructionFromSubmit)}" bsDatepicker>
                 <div class="invalid-feedback"
                   *ngIf="(instructionForm.get('assignmentDate').touched||instructionFromSubmit) && instructionForm.get('assignmentDate').hasError('required')">
                   This field is required
@@ -490,11 +522,10 @@
                 <div class="row">
                   <div class="col-lg-6">
                     <label>Istruction Type</label>
-                    <select class="form-control" formControlName="instructionType" [ngClass]="{'is-invalid': instructionForm.get('instructionType').errors 
-                    && (instructionForm.get('instructionType').touched||instructionFromSubmit)}">
-                      <option *ngFor="let instructionType of expertTypes" value="{{instructionType.expertTypeID}}">
-                        {{instructionType.expertCategories}}</option>
-                    </select>
+                    <select2 [data]="expertTypes" [cssImport]="true" [ngClass]="{'is-invalid': instructionForm.get('instructionType').errors 
+                    && (instructionForm.get('instructionType').touched||instructionFromSubmit)}" width="100%"
+                      (valueChanged)="onSelectOption($event,'instructionType')">
+                    </select2>
                     <div class="invalid-feedback"
                       *ngIf="(instructionForm.get('instructionType').touched||instructionFromSubmit) && instructionForm.get('instructionType').hasError('required')">
                       This field is required
@@ -502,8 +533,8 @@
                   </div>
                   <div class="col-lg-6">
                     <label>Appointment Date</label>
-                    <input type="date" class="form-control" placeholder="" formControlName="appointmentDate" [ngClass]="{'is-invalid': instructionForm.get('appointmentDate').errors 
-                    && (instructionForm.get('appointmentDate').touched||instructionFromSubmit)}">
+                    <input type="text" class="form-control" placeholder="Appointment Date" formControlName="appointmentDate" [ngClass]="{'is-invalid': instructionForm.get('appointmentDate').errors 
+                    && (instructionForm.get('appointmentDate').touched||instructionFromSubmit)}" bsDatepicker>
                     <div class="invalid-feedback"
                       *ngIf="(instructionForm.get('appointmentDate').touched||instructionFromSubmit) && instructionForm.get('appointmentDate').hasError('required')">
                       This field is required
@@ -517,11 +548,10 @@
                 <div class="row">
                   <div class="col-lg-6 col-md-6">
                     <label>Clinic Type</label>
-                    <select class="form-control" formControlName="clinicType" [ngClass]="{'is-invalid': instructionForm.get('clinicType').errors 
-                    && (instructionForm.get('clinicType').touched||instructionFromSubmit)}">
-                      <option *ngFor="let clinicType of expertTypes" value="{{clinicType.expertTypeID}}">
-                        {{clinicType.expertCategories}}</option>
-                    </select>
+                    <select2 [data]="expertTypes" [cssImport]="true" [ngClass]="{'is-invalid': instructionForm.get('clinicType').errors 
+                    && (instructionForm.get('clinicType').touched||instructionFromSubmit)}" width="100%"
+                      (valueChanged)="onSelectOption($event,'clinicType')">
+                    </select2>
                     <div class="invalid-feedback"
                       *ngIf="(instructionForm.get('clinicType').touched||instructionFromSubmit) && instructionForm.get('clinicType').hasError('required')">
                       This field is required
@@ -572,8 +602,8 @@
                 <div class="row">
                   <div class="col-lg-6">
                     <label>Court Date</label>
-                    <input type="date" class="form-control" placeholder="" formControlName="courtDate" [ngClass]="{'is-invalid': instructionForm.get('courtDate').errors 
-                    && (instructionForm.get('courtDate').touched||instructionFromSubmit)}">
+                    <input type="text" class="form-control" placeholder="Court Date" formControlName="courtDate" [ngClass]="{'is-invalid': instructionForm.get('courtDate').errors 
+                    && (instructionForm.get('courtDate').touched||instructionFromSubmit)}" bsDatepicker>
                     <div class="invalid-feedback"
                       *ngIf="(instructionForm.get('courtDate').touched||instructionFromSubmit) && instructionForm.get('courtDate').hasError('required')">
                       This field is required
@@ -581,7 +611,7 @@
                   </div>
                   <div class="col-lg-6">
                     <label>Instruction DeadLine Date</label>
-                    <input type="date" class="form-control" placeholder="" formControlName="instructionDeadLineDate">
+                    <input type="text" class="form-control" placeholder="DeadLine Date" formControlName="instructionDeadLineDate" bsDatepicker>
                   </div>
                 </div>
               </div>

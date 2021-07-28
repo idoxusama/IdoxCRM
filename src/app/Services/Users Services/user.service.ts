@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient,HttpParams } from '@angular/common/http'
 import { Observable,throwError as observableThrowError } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  baseUrl:string="http://localhost:5002";
+  baseUrl:string=environment.apiUrl;
   constructor(private _http:HttpClient,private router:Router) { }
 
   getUserData ():Observable<any>{
@@ -176,6 +177,23 @@ export class UserService {
     };
 
     return this._http.get(FullUrl,requestOptions );
+  }
+
+  checkUserExist(userName):Observable<any>{
+    let modal={
+      userName:userName
+    };
+    let FullUrl = this.baseUrl+"/api/User/CheckUserName";
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict), 
+    };
+
+    return this._http.post(FullUrl,modal,requestOptions );
   }
 
 

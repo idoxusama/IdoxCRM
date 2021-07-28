@@ -9,9 +9,11 @@ import { MedicalPerformaService } from 'src/app/Services/Medical Performa Servic
   styleUrls: ['./draft-list.component.css']
 })
 export class DraftListComponent implements OnInit {
+  currentPage:number=1;
   @Output() headerTitle = new EventEmitter<string>();
   performaDraftsList :Array<PerformaDraft>=new Array();
-  constructor(private medicalPerformaService: MedicalPerformaService,private toaster:ToastrService) { }
+  constructor(private medicalPerformaService: MedicalPerformaService,
+    private toaster:ToastrService) { }
 
   ngOnInit() {
     this.headerTitle.emit("Draft List");
@@ -22,7 +24,12 @@ export class DraftListComponent implements OnInit {
     let userId = localStorage.getItem("userID");
     let userName= "MedicalSecretary";
     this.medicalPerformaService.getPerformasByFilter(userName,userId,'Draft').subscribe((response)=>{
+      debugger
       this.performaDraftsList=response.outputObject;
+      if(this.performaDraftsList){
+        this.medicalPerformaService.expert.next(this.performaDraftsList.map((e)=>{return e.expertID}).pop().toString());
+        this.medicalPerformaService.expertType.next(this.performaDraftsList.map((e)=>{return e.expertTypeID}).pop().toString());
+      }
       this.toaster.success("Record loaded successfully.");
     },error =>{
       console.log(error);

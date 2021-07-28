@@ -1,3 +1,85 @@
-<p>
-  medcocms-outstandingappointments works!
-</p>
+<div class="container-fluid bg-light-opac">
+    <div class="row">
+        <div class="container my-3 main-container">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h2 class="content-color-primary page-title">Outstanding Appointments</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4 main-container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="card rounded-0 border-0 mb-3">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-8">
+                            <h5 class="card-title mb-0">Appointments</h5>
+                        </div>
+                        <div class="col text-right">
+                            <div class="dropdown">
+                                <button
+                                    class="btn btn-link btn-sm text-secondary rounded-0 dropdown-toggle float-right icon"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" type="button">
+                                    <i class="fa fa-ellipsis-v"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fa fa-exclamation-circle text-secondary"></i> Report</a>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fa fa-cog text-secondary"></i> Settings</a>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fa fa-trash text-secondary"></i> Remove</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Sr.#</th>
+                                <th scope="col">Instruction Name</th>
+                                <th scope="col">Instruction Code</th>
+                                <th scope="col">Expert</th>
+                                <th scope="col">Client Ref No</th>
+                                <th scope="col">Medico Ref No</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let app of outstandingAppointments | paginate: { itemsPerPage: 10, currentPage: currentPage }; let i = index;">
+                                <th scope="row">{{i+1}}</th>
+                                <td>{{app.instructionName}}</td>
+                                <td>{{app.instructionCode}}</td>
+                                <td>{{app.expert}}</td>
+                                <td>{{app.clientRefNo}}</td>
+                                <td>{{app.medicoRefNo}}</td>
+                                <td>
+                                    <span *ngIf="app.statusName=='OutstandingAppointment'"
+                                        class="badge badge-primary">{{app.statusName}}</span>
+                                    <span *ngIf="app.statusName=='InstructionOnReschedule'"
+                                        class="badge badge-success">{{app.statusName}}</span>
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary primary-gradient ml-2"
+                                        [routerLink]="['/MedcoCMS/Outstanding_Appointments/Schedual']"
+                                        [queryParams]="{id:app.instructionID}">Schedual</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ul class="pagination">
+                        <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

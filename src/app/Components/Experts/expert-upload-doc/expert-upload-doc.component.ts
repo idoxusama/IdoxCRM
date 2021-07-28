@@ -1,6 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as FileSaver from 'file-saver';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { StepModel } from 'src/app/Models/Experts Model/StepModel';
@@ -16,7 +19,7 @@ import { StepsService } from 'src/app/Services/Experts Services/steps.service';
 export class ExpertUploadDocComponent implements OnInit {
   @Input() step: StepModel;
   uploadDocsForm: FormGroup;
-  expertuploadDocs = [];
+  expertuploadDocs:ExpertUploadedDocs[] = [];
 
   filesToUpload = [];
   uploader: FileUploader;
@@ -32,14 +35,15 @@ export class ExpertUploadDocComponent implements OnInit {
     private expertUserService: ExpertuserService,
     private toasterService: ToastrService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private ngZone:NgZone,
+    private sanitizer: DomSanitizer) {
     this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
     }
   }
 
   ngOnInit() {
-    debugger
     this.route.paramMap.subscribe(params => {
       this.expertID = params.get('id');
     });
@@ -66,10 +70,25 @@ export class ExpertUploadDocComponent implements OnInit {
   expertPersonalDocuments(id) {
     this.expertUserService.getExpertPersonalDocuments(id).subscribe(response => {
       this.expertuploadDocs = response.outputObject;
+      if(this.expertuploadDocs){
+        this.expertuploadDocs.map(e=>{
+          e.type= e.documentPath.split('.')[1];
+        });
+      }
       this.createUploadDocsForm();
     }, error => {
       console.log(error);
     })
+  }
+
+  createFilePath(streamData){
+    var base64String = streamData;
+    let objectURL = 'data:image/png;base64,' + base64String;
+    return this.sanitizer.bypassSecurityTrustUrl(objectURL);
+  }
+
+  downloadFile(data,name){
+    FileSaver.saveAs(data,name);
   }
 
 
@@ -86,7 +105,6 @@ export class ExpertUploadDocComponent implements OnInit {
     }
   }
   upload() {
-    debugger
     this.submitted = true;
     if (this.uploadDocsForm.valid) {
 
@@ -103,18 +121,38 @@ export class ExpertUploadDocComponent implements OnInit {
 
       }, error => {
         console.log(error);
-      })
-    }
+      },()=>{
+        this.expertPersonalDocuments(this.expertID!=="0" ? this.expertID : localStorage.getItem('expertID'));
+      });
     this.uploadMore = false;
-    this.ngOnInit();
+    }
+  }
+
+  deleteExpertDocuments(id){
+    let model:any={};
+    model.id=id;
+    model.event="IsDeleted";
+    model.value=1;
+    model.userID=+localStorage.getItem('userID');
+    model.functionName="ExpertPersonalDocument";
+    this.expertUserService.updateProfileStatus(model).subscribe(response=>{
+      this.toasterService.success("Document has been deleted.");
+    },error=>{
+      console.log(error);
+    },()=>{
+      this.ngOnInit();
+    });
   }
 
   onNextStep() {
+    var expertID= this.expertID?this.expertID:localStorage.getItem('expertID');
     localStorage.removeItem('expertID');
-
     this.step.isComplete = true;
     if (!this.stepsService.isLastStep()) {
       this.stepsService.moveToNextStep();
+    }
+    else{
+      this.ngZone.run(() => this.router.navigate(['/Experts/sla'],{ queryParams: { id:expertID}}));
     }
   }
 

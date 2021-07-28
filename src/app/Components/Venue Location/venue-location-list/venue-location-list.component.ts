@@ -9,6 +9,7 @@ import { VenuelocationService } from 'src/app/Services/VenueLocation/venuelocati
   styleUrls: ['./venue-location-list.component.scss']
 })
 export class VenueLocationListComponent implements OnInit {
+  currentPage:number=1;
   locationAddress:LocationAddress;
 
   constructor(private venueLocationServce: VenuelocationService,

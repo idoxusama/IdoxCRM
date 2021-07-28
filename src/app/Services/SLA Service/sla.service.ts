@@ -71,8 +71,8 @@ export class SlaService {
     return this.http.post(requestUrl,data,requestOptions);
   }
 
-  getExpertSLATimeManagement(id,expertServiceSLAId):Observable<any>{
-    let requestUrl = this.baseUrl+`/api/ExpertServices/GetExpertSLATimeManagement?ID=${id}&expertServiceSLAID=${expertServiceSLAId}`;
+  getExpertSLATimeManagement(id,expertServiceID):Observable<any>{
+    let requestUrl = this.baseUrl+`/api/ExpertServices/GetExpertSLATimeManagement?ID=${id}&ExpertServiceID=${expertServiceID}`;
     
     const headerDict = {
       'Access-Control-Allow-Origin':'*',

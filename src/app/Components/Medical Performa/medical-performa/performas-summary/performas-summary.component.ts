@@ -10,6 +10,7 @@ import { MedicalPerformaService } from 'src/app/Services/Medical Performa Servic
 export class PerformasSummaryComponent implements OnInit {
   @Output() headerTitle = new EventEmitter<string>();
   summary:PerformaSummary[]=[];
+  currentPage:number=1;
   constructor(private medicalPerformaService:MedicalPerformaService) { }
 
   ngOnInit() {

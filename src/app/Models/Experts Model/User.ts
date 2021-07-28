@@ -19,6 +19,8 @@ export class ExpertBasicInfo{
   createdBy:number;
   modifiedBy:number;
   isActive:number;
+  expertType:number;
+  assessmentTime:string;
 }
 
 export class ExpertContactInfo{
@@ -41,6 +43,9 @@ export class ExpertCharges{
   iaCharges:string;
   dcCharges:string;
   perSessionCharges:string;
+  mapAddress:string;
+  mapLat:string;
+  mapLong:string;
   userID:number;
 }
 
@@ -61,6 +66,8 @@ export class ExpertUploadedDocs{
   documentName:string;
   documentPath:string;
   isActive:boolean;
+  fileContent:string;
+  type:string;
 }
 
 export class ExpertMedicalRequiredRecord{

@@ -4,11 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { ExpertUser } from 'src/app/Models/Experts Model/User';
+import { ExpertBasicInfo, ExpertUser } from 'src/app/Models/Experts Model/User';
 import { ExpertType, MedicalPerformaQuestionsForClient } from 'src/app/Models/Medical Performa/MedicalPerformaQuestionsForClient';
 import { MedicalPerformaQuestionsForExpert } from 'src/app/Models/Medical Performa/MedicalPerformaQuestionsForExpert';
 import { ExpertuserService } from 'src/app/Services/Experts Services/expertuser.service';
 import { MedicalPerformaService } from 'src/app/Services/Medical Performa Service/medical-performa.service';
+import { SettingsService } from 'src/app/Services/Settings Services/settings.service';
 import { UserActivityService } from 'src/app/Services/Users Services/user-activity.service';
 
 @Component({
@@ -19,8 +20,9 @@ import { UserActivityService } from 'src/app/Services/Users Services/user-activi
 export class ChooseExpertComponent implements OnInit,OnDestroy {
   @Output() headerTitle = new EventEmitter<string>();
   ExpertTypes: Array<ExpertType> = new Array();
-  Experts: Array<ExpertUser> = new Array();
-  change: string;
+  Experts: Array<ExpertBasicInfo> = new Array();
+  expertId:string;
+  experTypeId: string;
   draftCode:string;
   modalRef: BsModalRef;
   config = {
@@ -35,6 +37,7 @@ export class ChooseExpertComponent implements OnInit,OnDestroy {
   MedicalPerformaQuestionsForExpert: Array<MedicalPerformaQuestionsForExpert> = new Array();
 
   constructor(private medicalPerformaSerivce: MedicalPerformaService,
+    private settingService:SettingsService,
     private expertService: ExpertuserService,
     private toaster: ToastrService,
     private modalService: BsModalService,
@@ -44,12 +47,15 @@ export class ChooseExpertComponent implements OnInit,OnDestroy {
 
   ngOnInit() {
     this.headerTitle.emit("Medical Secretary Performa");
-    this.medicalPerformaSerivce.getExpertTypes(0).subscribe((response) => {
+    this.settingService.getAllExpertType(0).subscribe((response) => {
       this.ExpertTypes = response.outputObject;
     })
     this.route.queryParams.subscribe(params => {
+      debugger
       if(params.code){
         this.draftCode = params.code;
+        this.experTypeId= this.medicalPerformaSerivce.expertType.value;
+        this.expertId = this.medicalPerformaSerivce.expert.value;
       }
     });
 
@@ -59,7 +65,6 @@ export class ChooseExpertComponent implements OnInit,OnDestroy {
 
   
   ngOnDestroy(){
-    debugger
     this.endTime= new Date();
     let url=this.router.url;
     this.userActivity.trackUserSpentTimeOnComponent(this.startTime,this.endTime,url).subscribe((response)=>{
@@ -68,17 +73,19 @@ export class ChooseExpertComponent implements OnInit,OnDestroy {
       console.log(error);
     });
   }
+
   getExperts(value) {
     this.medicalPerformaSerivce.expertType.next(value);
-    this.expertService.getExperts(value).subscribe((response) => {
+    this.expertService.getExpertProfileInfo("ExpertType",value).subscribe((response) => {
       this.Experts = response.outputObject;
     }, error => {
       this.toaster.error(error);
     })
   }
+
   changeExpert(value) {
-    this.change = value;
-    this.medicalPerformaSerivce.expert.next(this.change);
+    this.experTypeId=this.medicalPerformaSerivce.expertType.value;
+    this.medicalPerformaSerivce.expert.next(value);
   }
 
   openModal(template: TemplateRef<any>) {

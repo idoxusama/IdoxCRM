@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { BsDropdownModule, CarouselModule, ModalModule, TabsModule, TimepickerModule } from 'ngx-bootstrap';
+import { BsDatepickerModule, BsDropdownModule, CarouselModule, ModalModule, TabsModule, TimepickerModule } from 'ngx-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -234,9 +234,8 @@ import { FinancialBreakdownOrthoComponent } from './Components/Accounts/financia
 import { NewexpertComponent } from './Components/Settings/settings-newexpert/newexpert.component';
 import { NewInstructionSettingComponent } from './Components/Instruction/new-instruction-setting.component';
 import { ExpertPerformaComponent } from './Components/Experts/expert-performa/expert-performa.component';
-import { MedicalSecretaryListComponent } from './Components/MedicalSecretary/AddNewSecretary/MedicalSecretaryList/MedicalSecretaryList.component';
-import { AddNewSecretaryComponent } from './Components/MedicalSecretary/AddNewSecretary/AddNewSecretary.component';
-import { EditMedicalSecretaryComponent } from './Components/MedicalSecretary/AddNewSecretary/EditMedicalSecretary/EditMedicalSecretary.component';
+import { MedicalSecretaryListComponent } from './Components/MedicalSecretary/medical-secretary-list/MedicalSecretaryList.component';
+import { EditMedicalSecretaryComponent } from './Components/MedicalSecretary/edit-medical-secretary/EditMedicalSecretary.component';
 import { ChooseExpertComponent } from './Components/Medical Performa/medical-performa/choose-expert/choose-expert.component';
 import { ConfirmModalDialogComponent } from './Components/Medical Performa/confirmModalDialog/confirmModalDialog.component';
 import { GeneratePerformaComponent } from './Components/Medical Performa/medical-performa/generate-performa/generate-performa.component';
@@ -254,19 +253,18 @@ import { ExpertsListComponent } from './Components/Experts/experts-list/experts-
 import { ExpertsDraftListComponent } from './Components/Experts/experts-draft-list/experts-draft-list.component';
 import { OnlynumbersDirective } from './custom-validations/onlynumbers.directive';
 import { AlphabetsOnlyDirective } from './custom-validations/AlphabetsOnly.directive';
-import { ServiceLegalAgrementComponent } from './Components/SLA/service-legal-agrement/service-legal-agrement.component';
-import { ServicesComponent } from './Components/SLA/services/services.component';
-import { AvailabilityComponent } from './Components/SLA/availability/availability.component';
-import { DnasComponent } from './Components/SLA/dnas/dnas.component';
-import { AppointmentCancellationComponent } from './Components/SLA/appointment-cancellation/appointment-cancellation.component';
-import { PaidAllowancesComponent } from './Components/SLA/paid-allowances/paid-allowances.component';
+import { ServiceLegalAgrementComponent } from './Components/Experts/expert-sla/service-legal-agrement/service-legal-agrement.component';
+import { ServicesComponent } from './Components/Experts/expert-sla/services/services.component';
+import { AvailabilityComponent } from './Components/Experts/expert-sla/availability/availability.component';
+import { DnasComponent } from './Components/Experts/expert-sla/dnas/dnas.component';
+import { AppointmentCancellationComponent } from './Components/Experts/expert-sla/appointment-cancellation/appointment-cancellation.component';
+import { PaidAllowancesComponent } from './Components/Experts/expert-sla/paid-allowances/paid-allowances.component';
 import { ViewProfileComponent } from './Components/Experts/view-profile/view-profile.component';
 import { VenueLocationComponent } from './Components/Venue Location/venue-location/venue-location.component';
 import { VenueLocationListComponent } from './Components/Venue Location/venue-location-list/venue-location-list.component';
 import { NotAllowSepacialChatactorDirective } from './custom-validations/NotAllowSepacialChatactor.directive';
 import { VenuLocationDetailComponent } from './Components/Venue Location/venu-location-detail/venu-location-detail.component';
 import { AgmCoreModule } from '@agm/core';
-import { GoogleMapComponent } from './Components/Venue Location/google-map/google-map.component';
 import { DisableControlDirective } from './custom-validations/DisableControl.directive';
 import { CreateReferrerComponent } from './Components/Referrer/create-referrer/create-referrer.component';
 import { ReferrerDetailComponent } from './Components/Referrer/referrer-detail/referrer-detail.component';
@@ -275,6 +273,21 @@ import { NewInstructionComponent } from './Components/Instruction Main/new-instr
 import { RequiredMedicalRecordComponent } from './Components/Experts/required-medical-record/required-medical-record.component';
 import { InstructionListComponent } from './Components/Instruction Main/instruction-list/instruction-list.component';
 import { InstructionDetailComponent } from './Components/Instruction Main/instruction-detail/instruction-detail.component';
+import { Select2Module } from 'ng2-select2';
+import { ClinicsClinicplansComponent } from './Components/Clinics/clinics-clinicplans/clinics-clinicplans.component';
+import { OutstandingAppointmentSchedualComponent } from './Components/Medco CMS/outstanding-appointment-schedual/outstanding-appointment-schedual.component';
+import { InstructionStateComponent } from './Components/Instruction Main/instruction-state/instruction-state.component';
+import { ClinicsTodayclinicsComponent } from './Components/Clinics/clinics-todayclinics/clinics-todayclinics.component';
+import { ClinicsAttendedclinicsComponent } from './Components/Clinics/clinics-attendedclinics/clinics-attendedclinics.component';
+import { InvalidControlScrollDirective } from './custom-validations/invalidControlScroll.directive';
+import { AssignedMedicalSectretaryListComponent } from './Components/Medco CMS/assigned-medical-sectretary-list/assigned-medical-sectretary-list.component';
+import { UnassignedMedicalSecretaryListComponent } from './Components/Medco CMS/unassigned-medical-secretary-list/unassigned-medical-secretary-list.component';
+import { SchedualAppointmentsComponent } from './Components/Medco CMS/schedual-appointments/schedual-appointments.component';
+import { NewMedicalSecretaryComponent } from './Components/MedicalSecretary/new-medical-secretary/new-medical-secretary.component';
+import { NewlyAssignedComponent } from './Components/MedicalSecretary/newly-assigned/newly-assigned.component';
+import { RecordReviewComponent } from './Components/MedicalSecretary/record-review/record-review.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NgxGalleryModule } from 'ngx-gallery';
 
 @NgModule({
   declarations: [	
@@ -311,6 +324,9 @@ import { InstructionDetailComponent } from './Components/Instruction Main/instru
     ClinicsNewclinicrequiredComponent,
     ClinicsFutureclinicrequiredComponent,
     ClinicsClinicextensionrequiredComponent,
+    ClinicsClinicplansComponent,
+    ClinicsTodayclinicsComponent,
+    ClinicsAttendedclinicsComponent,
     DiagnosticCMSNewinstructionsComponent,
     DiagnosticCMSOutstandingappointmentsComponent,
     DiagnosticCMSOutstandingexaminationsComponent,
@@ -371,6 +387,7 @@ import { InstructionDetailComponent } from './Components/Instruction Main/instru
     InvoicesExpertclinicexpenseComponent,
     MedcocmsNewinstructionsComponent,
     MedcocmsOutstandingappointmentsComponent,
+    OutstandingAppointmentSchedualComponent,
     MedcocmsOutstandingamendmentsComponent,
     MedcocmsOutstandinggprecordreviewComponent,
     MedcocmsOutstandingpart35Component,
@@ -495,8 +512,10 @@ import { InstructionDetailComponent } from './Components/Instruction Main/instru
     NewInstructionSettingComponent,
     ExpertPerformaComponent,
     MedicalSecretaryListComponent,
-    AddNewSecretaryComponent,
+    NewMedicalSecretaryComponent,
     EditMedicalSecretaryComponent,
+    NewlyAssignedComponent,
+    RecordReviewComponent,
     ChooseExpertComponent,
     GeneratePerformaComponent,
     ConfirmModalDialogComponent,
@@ -526,11 +545,16 @@ import { InstructionDetailComponent } from './Components/Instruction Main/instru
     ReferrerListComponent,
     NewInstructionComponent,
     InstructionListComponent,
+    InstructionStateComponent,
     InstructionDetailComponent,
+    AssignedMedicalSectretaryListComponent,
+    UnassignedMedicalSecretaryListComponent,
+    SchedualAppointmentsComponent,
     OnlynumbersDirective,
     AlphabetsOnlyDirective,
     NotAllowSepacialChatactorDirective,
-    DisableControlDirective
+    DisableControlDirective,
+    InvalidControlScrollDirective,
    ],
   entryComponents: [
     ConfirmModalDialogComponent
@@ -555,6 +579,7 @@ import { InstructionDetailComponent } from './Components/Instruction Main/instru
     OrderModule,
     ModalModule.forRoot(), 
     BsDropdownModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     TabsModule.forRoot(),
     TimepickerModule.forRoot(),
     FileUploadModule,
@@ -562,6 +587,9 @@ import { InstructionDetailComponent } from './Components/Instruction Main/instru
       apiKey: 'AIzaSyAFHSyU_GvrwjXI9E9FmAl9PIPIlblwJ9I',
       libraries: ['places'] 
     }),
+    Select2Module,
+    PdfViewerModule,
+    NgxGalleryModule
   ],
   providers: [AuthGuard, DatePipe
     //   {

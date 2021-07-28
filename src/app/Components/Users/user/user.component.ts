@@ -29,6 +29,7 @@ export class UserComponent implements OnInit {
   SecurityQuestionData: any;
   ConfirmPassword:string;
   EditPreSelectedGroupNameID:number;
+  currentPage:number=1;
 
   constructor(private UserService: UserService, private router: Router,public datepipe: DatePipe,private Toastr: ToastrService) { }
 

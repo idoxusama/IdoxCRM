@@ -1,0 +1,166 @@
+<div class="container-fluid bg-light-opac">
+    <div class="row">
+        <div class="container-fluid my-3 main-container">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h2 class="content-color-primary page-title">Attended Clinics</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-4 main-container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="card rounded-0 border-0 mb-3">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <h5 class="card-title mb-0">Attended Appointments</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-10 col-md-10">
+                            <div class="search-header" style="margin-left: 15px;">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search..." (keyup)="getAttendedClinics($event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2">
+                            <h5>Total Count: {{attendedClinics.length}}<span></span></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Sr.#</th>
+                                <th scope="col">Instruction Code</th>
+                                <th scope="col">Expert</th>
+                                <th scope="col">Attend Date</th>
+                                <th scope="col">Start Time</th>
+                                <th scope="col">End Time</th>
+                                <th scope="col">Rating</th>
+                                <th scope="col">FeedBack</th>
+                                <th scope="col">Medical Secretary</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let item of filterAttendedClinics | paginate:{itemsPerPage:10,currentPage:currentPage}; let i = index;">
+                                <th scope="row">{{i+1}}</th>
+                                <td>{{item.instructionCode}}</td>
+                                <td>{{item.expert}}</td>
+                                <td>{{item.attendedDate}}</td>
+                                <td>{{item.slotStartTime}}</td>
+                                <td>{{item.slotEndTime}}</td>
+                                <td>
+                                    <span class="text-warning"
+                                        *ngFor="let in of counter(item.clientGivenRating); let ii=index;">
+                                        <i class="fa fa-star"></i>
+                                    </span>
+                                </td>
+                                <td>{{item.clientGivenFeedBack}}</td>
+                                <td>
+                                    <div *ngIf="item.medicalSecretary==null">
+                                        <button class="btn btn-sm primary-gradient mr-2"
+                                            (click)="openAssignMedSecModal(templateAssignMedSec,item.expertClinicSlotPlanID,item.instructionID)">Assign</button>
+                                    </div>
+                                    <span *ngIf="item.medicalSecretary!=null">{{item.medicalSecretary}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ul class="pagination">
+                        <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #templateAssignMedSec>
+    <div class="modal-header bg-primary text-white">
+        <h4 class="modal-title pull-left">Modal</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="assignMedSecForm" *ngIf="assignMedSecForm" (ngSubmit)="submitAssignMedSec()">
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    <div class="form-group">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" formControlName="isExpertMedSec"
+                                id="customCheck1" value="false"
+                                (change)="this.assignMedSecForm.get('medSecID').setValue('')">
+                            <label class="custom-control-label" for="customCheck1"> <span class="">Idox Medical
+                                    Secretary
+                                </span></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div class="form-group">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" formControlName="isExpertMedSec"
+                                id="customCheck2" value="true"
+                                (change)="this.assignMedSecForm.get('medSecID').setValue(0)">
+                            <label class="custom-control-label" for="customCheck2"> <span class="">Own Medical Secretary
+                                </span></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="text-danger"
+                        *ngIf="(assignMedSecForm.touched || assignMedSecFormSubmit) && assignMedSecForm.get('isExpertMedSec').hasError('required')">
+                        Please select one.
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="assignMedSecForm.get('isExpertMedSec').value=='false'">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group ">
+                        <label>Idox M.S</label>
+                        <select2 [data]="medicalSectreies" [cssImport]="true" width="100%"
+                            (valueChanged)="changeMedicalSecretary($event)"
+                            [ngClass]="{'is-invalid': assignMedSecForm.get('medSecID').errors && (assignMedSecForm.get('medSecID').touched||assignMedSecFormSubmit)}">
+                        </select2>
+                        <div class="invalid-feedback"
+                            *ngIf="(assignMedSecForm.get('medSecID').touched||assignMedSecFormSubmit) && assignMedSecForm.get('medSecID').hasError('required')">
+                            This field is required
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row ">
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group ">
+                        <label>Assign Date</label>
+                        <input type="text" class="form-control" formControlName="assignDate" placeholder="Date"
+                            bsDatepicker
+                            [ngClass]="{'is-invalid': assignMedSecForm.get('assignDate').errors && (assignMedSecForm.get('assignDate').touched||assignMedSecFormSubmit)}">
+                        <div class="invalid-feedback"
+                            *ngIf="(assignMedSecForm.get('assignDate').touched||assignMedSecFormSubmit) && assignMedSecForm.get('assignDate').hasError('required')">
+                            This field is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-right mt-2 mb-2 mr-2">
+                <button type="type" class="btn btn-outline-secondary mr-2" (click)="this.modalRef.hide()">Close</button>
+                <button type="submit" class="btn btn-primary primary-gradient">Assign</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

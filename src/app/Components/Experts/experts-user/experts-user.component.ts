@@ -42,7 +42,6 @@ export class ExpertsUserComponent implements OnInit,OnDestroy {
   }
   
   ngOnDestroy():void{
-    debugger
     this.stepsService.steps$.subscribe(x=>{
       x.map(e=>{
         e.isComplete=false;

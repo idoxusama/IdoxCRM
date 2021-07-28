@@ -1,7 +1,6 @@
 <div class="row">
   <div class="col-lg-12 col-sm-12 text-right">
-    <button class="btn btn-sm primary-gradient mr-2" (click)="addUpload()"><i
-        class="material-icons">add</i></button>
+    <button class="btn btn-sm primary-gradient mr-2" (click)="addUpload()"><i class="material-icons">add</i></button>
   </div>
 </div>
 <form [formGroup]="uploadDocsForm" *ngIf="uploadDocsForm" (ngSubmit)="upload()">
@@ -20,7 +19,8 @@
     <div class="col-sm-4">
       <div class="form-group">
         <label>Upload Documents</label>
-        <input type="file" #file placeholder="Choose file" (change)="onSelectFiles(file.files)" formControlName="document" class="form-control" [ngClass]="{'is-invalid': uploadDocsForm.get('document').errors 
+        <input type="file" #file placeholder="Choose file" (change)="onSelectFiles(file.files)"
+          formControlName="document" class="form-control" [ngClass]="{'is-invalid': uploadDocsForm.get('document').errors 
       && (uploadDocsForm.get('document').touched||submitted)}" multiple>
         <div class="invalid-feedback"
           *ngIf="(uploadDocsForm.get('document').touched||submitted) && uploadDocsForm.get('document').hasError('required')">
@@ -92,12 +92,40 @@
     <table class="table">
       <thead>
         <th>Document</th>
+        <th>Document Name</th>
+        <th>Type</th>
         <th>Action</th>
       </thead>
       <tr *ngFor="let doc of expertuploadDocs">
-        <td>{{doc.documentName}}</td>
         <td>
-          <button class="btn pink-gradient px-3 btn-sm">Delete</button>
+          <div *ngIf="doc.type=='png'">
+            <img [src]="createFilePath(doc.fileContent)" width="100px" height="100px">
+          </div>
+          <div *ngIf="doc.type=='docx'|| doc.type=='txt'">
+
+            <div class="card mb-4 bg-light-primary border border-primary no-shadow" style="width: 200px;">
+              <div class="card-body p-2">
+                <div class="media">
+                  <div class="media-body">
+                    <p class="mb-0">{{doc.documentName}}.{{doc.type}}</p>
+                  </div>
+                  <a class="icon-rounded icon-40 bg-primary ml-2" (click)="downloadFile(doc.fileContent,doc.documentName)" style="cursor: pointer;">
+                    <i class="material-icons text-white">cloud_download</i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </td>
+        <td>
+          {{doc.documentName}}
+        </td>
+        <td>
+          {{doc.type}}
+        </td>
+        <td>
+          <button class="btn danger-gradient px-3 btn-sm" (click)="deleteExpertDocuments(doc.id)">Delete</button>
         </td>
       </tr>
     </table>

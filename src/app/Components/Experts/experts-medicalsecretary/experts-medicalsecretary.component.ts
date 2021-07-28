@@ -1,11 +1,11 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { ModelSecretary } from 'src/app/Models/Experts Model/MedicalSecretary';
 import { MedicalsecretaryService } from 'src/app/Services/Experts Services/medicalsecretary.service';
 import { MedcoexpertService } from 'src/app/Services/Experts Services/medcoexpert.service';
 import { Router} from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ThemeService } from 'ng2-charts';
+import { MedicalSecretary } from 'src/app/Models/Medical Secretary Model/Secretary';
 declare var $: any;
 
 @Component({
@@ -15,9 +15,9 @@ declare var $: any;
 })
 export class ExpertsMedicalsecretaryComponent implements OnInit {
   @Output() headerTitle = new EventEmitter<string>();
-  MedicalSecretaryData: Array<ModelSecretary>= new Array();
-  CreateMedicalSecretary: ModelSecretary = new ModelSecretary();
-  SelectedMedicalSecretary: ModelSecretary = new ModelSecretary();
+  MedicalSecretaryData: Array<MedicalSecretary>= new Array();
+  CreateMedicalSecretary: MedicalSecretary = new MedicalSecretary();
+  SelectedMedicalSecretary: MedicalSecretary = new MedicalSecretary();
   IsInhouse:boolean=false;
    constructor(private medicalsecretaryService: MedicalsecretaryService,private MedcoexpertService: MedcoexpertService, private router: Router,public datepipe: DatePipe,private Toastr: ToastrService) { }
  

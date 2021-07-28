@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient,HttpParams } from '@angular/common/http'
+import { HttpHeaders, HttpClient,HttpParams, HttpEvent, HttpRequest } from '@angular/common/http'
 import { BehaviorSubject, Observable,throwError as observableThrowError } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -13,7 +13,7 @@ export class ExpertuserService {
   baseUrl:string=environment.apiUrl;
   expertProfileId:BehaviorSubject<string>= new BehaviorSubject<string>(null);
   
-  constructor(private _http:HttpClient,private router:Router) { }
+  constructor(private http:HttpClient,private router:Router) { }
 
   getExpertUsersData ():Observable<any>{
 
@@ -27,7 +27,7 @@ export class ExpertuserService {
       headers: new HttpHeaders(headerDict), 
     };
 
-    return this._http.get(FullUrl,requestOptions );
+    return this.http.get(FullUrl,requestOptions );
   }
 
   getExperts(id):Observable<any>{
@@ -42,7 +42,7 @@ export class ExpertuserService {
       headers: new HttpHeaders(headerDict), 
     };
 
-    return this._http.get(requestUrl,requestOptions);
+    return this.http.get(requestUrl,requestOptions);
   }
 
   specialities():Observable<any>{
@@ -57,7 +57,7 @@ export class ExpertuserService {
       headers: new HttpHeaders(headerDict), 
     };
 
-    return this._http.get(requestUrl,requestOptions);
+    return this.http.get(requestUrl,requestOptions);
   }
   subSpecialities(id:number):Observable<any>{
     let requestUrl = this.baseUrl+`/api/Expert/GetExpertSubSpeciality?expertSubSpecialityID=${id}`;
@@ -71,7 +71,7 @@ export class ExpertuserService {
       headers: new HttpHeaders(headerDict),
     };
 
-    return this._http.get(requestUrl,requestOptions);
+    return this.http.get(requestUrl,requestOptions);
   }
 
   companies():Observable<any>{
@@ -86,13 +86,13 @@ export class ExpertuserService {
       headers: new HttpHeaders(headerDict),
     };
 
-    return this._http.get(requestUrl,requestOptions);
+    return this.http.get(requestUrl,requestOptions);
   }
 
 
   // Expert Personal Info
-  getExpertProfileInfo(id:any,expertCode?:string,profileState?:string):Observable<any>{
-    let requestUrl = this.baseUrl+`/api/Expert/GetExpertProfile?expertID=${id}&expertCode=${expertCode}&profileState=${profileState}`;    
+  getExpertProfileInfo(expertFilterName,expertFilterID,expertCode?,profileState?):Observable<any>{
+    let requestUrl = this.baseUrl+`/api/Expert/GetExpertProfile?expertFilterName=${expertFilterName}&expertFilterID=${expertFilterID}&expertCode=${expertCode}&profileState=${profileState}`;    
     const headerDict = {
       'Access-Control-Allow-Origin':'*',
       "Authorization": "Bearer " + localStorage.getItem('access_token'),
@@ -102,7 +102,7 @@ export class ExpertuserService {
       headers: new HttpHeaders(headerDict),
     };
     
-    return this._http.get(requestUrl,requestOptions);
+    return this.http.get(requestUrl,requestOptions);
   }
 
   createPersonalInfo(data:any):Observable<any>{
@@ -117,7 +117,7 @@ export class ExpertuserService {
       headers: new HttpHeaders(headerDict),
     };
     
-    return this._http.post(requestUrl,data,requestOptions);
+    return this.http.post(requestUrl,data,requestOptions);
   }
 
   updateExpertPersonalInfo(data):Observable<any>{
@@ -132,7 +132,7 @@ export class ExpertuserService {
       headers: new HttpHeaders(headerDict),
     };
     
-    return this._http.post(requestUrl,data,requestOptions);
+    return this.http.post(requestUrl,data,requestOptions);
   }
 
 
@@ -149,7 +149,7 @@ export class ExpertuserService {
       headers: new HttpHeaders(headerDict),
     };
     
-    return this._http.post(requestUrl,data,requestOptions);
+    return this.http.post(requestUrl,data,requestOptions);
   }
 
 
@@ -166,7 +166,7 @@ export class ExpertuserService {
       headers: new HttpHeaders(headerDict),
     };
     
-    return this._http.post(requestUrl,data,requestOptions);
+    return this.http.post(requestUrl,data,requestOptions);
   }
 
 
@@ -183,7 +183,7 @@ export class ExpertuserService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(headerDict),
     };
-    return this._http.get(requestUrl,requestOptions);
+    return this.http.get(requestUrl,requestOptions);
   }
   createExpertBankDetailInfo(data:any):Observable<any>{
     let requestUrl = this.baseUrl+`/api/Expert/CreateExpertBankDetail`;
@@ -197,7 +197,7 @@ export class ExpertuserService {
       headers: new HttpHeaders(headerDict),
     };
     
-    return this._http.post(requestUrl,data,requestOptions);
+    return this.http.post(requestUrl,data,requestOptions);
   }
 
   updateExpertBankDetail(data:any):Observable<any>{
@@ -212,7 +212,7 @@ export class ExpertuserService {
       headers: new HttpHeaders(headerDict),
     };
     
-    return this._http.post(requestUrl,data,requestOptions);
+    return this.http.post(requestUrl,data,requestOptions);
   }
 
 
@@ -226,7 +226,7 @@ export class ExpertuserService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(headerDict),
     };
-    return this._http.get(requestUrl,requestOptions);
+    return this.http.get(requestUrl,requestOptions);
   }
 
   uploadPersonalDocuments(data:any):Observable<any>{
@@ -239,7 +239,7 @@ export class ExpertuserService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(headerDict),
     };
-    return this._http.post(requestUrl,data,requestOptions);
+    return this.http.post(requestUrl,data,requestOptions);
   }
 
 
@@ -255,7 +255,7 @@ export class ExpertuserService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(headerDict),
     };
-    return this._http.post(requestUrl,data,requestOptions);
+    return this.http.post(requestUrl,data,requestOptions);
   }
 
   //Expert ExpertMedicalRequiredRecord
@@ -270,7 +270,7 @@ export class ExpertuserService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(headerDict),
     };
-    return this._http.get(requestUrl,requestOptions);
+    return this.http.get(requestUrl,requestOptions);
   }
 
   createExpertMedicalRequiredRecord(data):Observable<any>{
@@ -284,7 +284,7 @@ export class ExpertuserService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(headerDict),
     };
-    return this._http.post(requestUrl,data,requestOptions);
+    return this.http.post(requestUrl,data,requestOptions);
   }
 
   updateExpertMedicalRequiredRecord(data):Observable<any>{
@@ -298,6 +298,89 @@ export class ExpertuserService {
     const requestOptions = {                                                                                                                                                                                 
       headers: new HttpHeaders(headerDict),
     };
-    return this._http.post(requestUrl,data,requestOptions);
+    return this.http.post(requestUrl,data,requestOptions);
   }
+
+  downloadMedicalRecord(fileUrl):any{
+    return this.http.get(`${this.baseUrl}/api/Expert/Download/download?fileUrl=${fileUrl}`, {responseType: 'blob'});
+  }
+  
+  getExpertClinicPlan(id?,expertID?,LocationAddressID?):Observable<any>{
+    let requestUrl=this.baseUrl+`/api/Expert/GetExpertClinicPlan?ID=${id}&ExpertID=${expertID}&LocationAddressID=${LocationAddressID}`;
+    const headerDict = {
+      'Access-Control-Allow-Origin': '*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+    return this.http.get(requestUrl, requestOptions);
+  }
+
+  getExpertNearestClinicPlan(clinicLattitude,clinicLongitude):Observable<any>{
+    let requestUrl=this.baseUrl+`/api/Expert/GetNearestClinicPlan?clinicLatitude=${clinicLattitude}&clinicLongitude=${clinicLongitude}`;
+    const headerDict = {
+      'Access-Control-Allow-Origin': '*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+    return this.http.get(requestUrl, requestOptions);
+  }
+
+  getExpertClinicSlotPlan(id,expertID,instructionID,expertClinicPlanID){
+    let requestUrl=this.baseUrl+`/api/Expert/GetExpertClinicSlotPlan?ID=${id}&ExpertID=${expertID}&InstructionID=${instructionID}&ExpertClinicPlanID=${expertClinicPlanID}`;
+    const headerDict = {
+      'Access-Control-Allow-Origin': '*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+    return this.http.get(requestUrl, requestOptions);
+  }
+
+  createExpertClinicSlotPlan(data):Observable<any>{
+    let requestUrl=this.baseUrl+`/api/Expert/CreateExpertClinicSlotPlan`;
+    const headerDict = {
+      'Access-Control-Allow-Origin': '*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+    return this.http.post(requestUrl,data, requestOptions);
+  }
+
+  updateExpertClinicSlotPlan(data):Observable<any>{
+    let requestUrl=this.baseUrl+`/api/Expert/UpdateExpertClinicSlotPlan`;
+    const headerDict = {
+      'Access-Control-Allow-Origin': '*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+    return this.http.post(requestUrl,data, requestOptions);
+  }
+
+  isAppointmentReserve(params):Observable<any>{
+    let requestUrl=this.baseUrl+`/api/Expert/IsAppointmentReserve`;
+    const headerDict = {
+      'Access-Control-Allow-Origin': '*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+    return this.http.post(requestUrl,params,requestOptions);
+  }
+
 }

@@ -8,6 +8,7 @@ import { ExpertuserService } from 'src/app/Services/Experts Services/expertuser.
   styleUrls: ['./experts-draft-list.component.scss']
 })
 export class ExpertsDraftListComponent implements OnInit {
+  currentPage:number=1;
   expertDraftProfiles:ExpertBasicInfo[]=[];
   constructor(private expertUserService: ExpertuserService) { }
 
@@ -17,7 +18,7 @@ export class ExpertsDraftListComponent implements OnInit {
   }
 
   getDraftProfiles(){
-    this.expertUserService.getExpertProfileInfo(0,"","draftprofile").subscribe((response)=>{
+    this.expertUserService.getExpertProfileInfo("Expert",0,"","draftprofile").subscribe((response)=>{
       debugger
       this.expertDraftProfiles=response.outputObject;
     },error=>{

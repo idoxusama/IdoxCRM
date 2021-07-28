@@ -38,7 +38,7 @@ export class RequiredMedicalRecordComponent implements OnInit {
     if(localStorage.getItem('expertID')){
       this.getRequiredMedicalRecord(0,localStorage.getItem('expertID'))
     }
-    else{
+    else if(this.expertID){
       this.getRequiredMedicalRecord(0,this.expertID);
     }
 
@@ -71,14 +71,14 @@ export class RequiredMedicalRecordComponent implements OnInit {
         medicalRecordType:[data.medicalRecordType?data.medicalRecordType:'',Validators.required],
         medicalRecordName:[data.medicalRecordName?data.medicalRecordName:'',Validators.required],
         isRequired:[true],
-        isEditable:[false],
+        isEditable:[false]
       });
     }else{
       return this.fb.group({
         medicalRecordType:['',Validators.required],
         medicalRecordName:['',Validators.required],
         isRequired:[true],
-        isEditable:[true],
+        isEditable:[true]
       });
     }
     
@@ -90,10 +90,13 @@ export class RequiredMedicalRecordComponent implements OnInit {
 
   getRequiredMedicalRecord(id,expertID){
     this.expertUserService.getExpertMedicalRequiredRecord(id,expertID).subscribe(response=>{
-      this.medicalRequiredRecordList=response.outputObject;
-      this.medicalRequiredRecordList.forEach(x=>{
-        this.addRequiredMedicalRecord(x);
-      })
+      debugger
+      this.medicalRequiredRecordList=response.outputObject?response.outputObject:null;
+      if(this.medicalRequiredRecordList){
+        this.medicalRequiredRecordList.forEach(x=>{
+          this.addRequiredMedicalRecord(x);
+        })
+      }
       this.toasterService.success('Record loaded successfully.');
     },error=>{
       console.log(error);
@@ -121,7 +124,7 @@ export class RequiredMedicalRecordComponent implements OnInit {
     this.expertMedicalRequiredRecord.medicalRequiredRecordList.push(group.value);
     this.expertMedicalRequiredRecord.medicalRequiredRecordList.forEach(x=>{
       x.userID= +localStorage.getItem('userID');
-      x.expertID=this.expertID?+this.expertID:+localStorage.getItem('userID');
+      x.expertID=this.expertID!="0"?+this.expertID:+localStorage.getItem('expertID');
       x.isRequired=true;
       x.expertTypeID=0;
     });
@@ -130,6 +133,8 @@ export class RequiredMedicalRecordComponent implements OnInit {
       this.toasterService.success('Record successfully added.');
     },error=>{
       console.log(error);
+    },()=>{
+      this.ngOnInit();
     });
   }
 
@@ -142,7 +147,7 @@ export class RequiredMedicalRecordComponent implements OnInit {
     this.expertMedicalRequiredRecord.medicalRequiredRecordList.push(group.value);
     this.expertMedicalRequiredRecord.medicalRequiredRecordList.forEach(x=>{
       x.userID= +localStorage.getItem('userID');
-      x.expertID=this.expertID?+this.expertID:+localStorage.getItem('userID');
+      x.expertID=this.expertID?+this.expertID:+localStorage.getItem('expertID');
       x.isRequired=true;
       x.expertTypeID=0;
     });
@@ -151,6 +156,22 @@ export class RequiredMedicalRecordComponent implements OnInit {
       this.toasterService.success('Record successfully updated.');
     },error=>{
       console.log(error);
+    });
+  }
+
+  deleteMedicalRequiredRecord(id){
+    let model:any={};
+    model.id=id;
+    model.event="IsDeleted";
+    model.value=1;
+    model.userID=+localStorage.getItem('userID');
+    model.functionName="ExpertMedicalReqRecord";
+    this.expertUserService.updateProfileStatus(model).subscribe(response=>{
+      this.toasterService.success("Medical Required Record has been deleted.");
+    },error=>{
+      console.log(error);
+    },()=>{
+      this.ngOnInit();
     });
   }
 

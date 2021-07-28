@@ -1,3 +1,939 @@
-<p>
-  instruction-detail works!
-</p>
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+    <div class="container my-3 main-container">
+      <div class="row align-items-center">
+        <div class="col">
+          <h2 class="content-color-primary page-title">Instruction Detail</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4 main-container">
+  <div class="row">
+    <div class="col-12 col-md-12 col-lg-8">
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="media">
+            <div class="media-body">
+              <h4 class="content-color-primary mb-0">Personal Info </h4>
+            </div>
+            <div *ngIf="instPersonalInfo">
+              <button class="btn btn-sm primary-gradient mr-2"
+                (click)="openPersonalInfoModal(modalPersonalInfo)">Edit</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body p-1">
+          <div class="row no-gutters">
+            <table class="table" *ngIf="instPersonalInfo">
+              <tr>
+                <th>Client Name</th>
+                <th>Gender</th>
+                <th>DOB</th>
+                <th title="Instruction Code">I.C</th>
+                <th>Email</th>
+                <th>Mobile</th>
+              </tr>
+              <tr>
+                <td>{{instPersonalInfo.firstName}} {{instPersonalInfo.lastName}}</td>
+                <td>{{instPersonalInfo.gender}}</td>
+                <td>{{instPersonalInfo.dob | date:'yyyy-MM-dd'}}</td>
+                <td>{{instPersonalInfo.instructionCode}}</td>
+                <td>{{instPersonalInfo.email}}</td>
+                <td>{{instPersonalInfo.mobileNumber}}</td>
+              </tr>
+            </table>
+            <table class="table" *ngIf="instPersonalInfo">
+              <tr>
+                <th>County</th>
+                <td>{{instPersonalInfo.county}}</td>
+              </tr>
+              <tr>
+                <th>PostCode</th>
+                <td>{{instPersonalInfo.postCode}}</td>
+              </tr>
+              <tr>
+                <th>Address</th>
+                <td>
+                  <p>{{instPersonalInfo.addressLine1}}</p>
+                  <p>{{instPersonalInfo.addressLine2}}</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="media">
+            <div class="media-body">
+              <h4 class="content-color-primary mb-0">Case Info </h4>
+            </div>
+            <div *ngIf="instCaseInfo">
+              <button class="btn btn-sm primary-gradient mr-2" (click)="openCaseInfoModal(modalCaseInfo)">Edit</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body p-1">
+          <div class="row no-gutters">
+            <table class="table" *ngIf="instCaseInfo">
+              <tr>
+                <th title="Accident Circumstances">A.C</th>
+                <th title="Appointment Date">Appointment Date</th>
+                <th title="Instruction DeadLine Date">Dead Line</th>
+                <th title="No Of Sessions">Session No</th>
+              </tr>
+              <tr>
+                <td>{{instCaseInfo.accidentCircumstances}}</td>
+                <td>{{instCaseInfo.appointmentDate | date:'yyyy-MM-dd'}}</td>
+                <td>{{instCaseInfo.instructionDeadLineDate | date:'yyyy-MM-dd'}}</td>
+                <td>{{instCaseInfo.noOfSessions}}</td>
+              </tr>
+            </table>
+            <table class="table" *ngIf="instCaseInfo">
+
+              <tr>
+                <th>Priority</th>
+                <td>{{instCaseInfo.priority}}</td>
+              </tr>
+              <tr>
+                <th>Appointment Date</th>
+                <td>{{instCaseInfo.appointmentDate | date:'yyyy-MM-dd'}}</td>
+              </tr>
+              <tr>
+                <th>Is Initial Assessment</th>
+                <td>{{instCaseInfo.isInitialAssessment}}</td>
+              </tr>
+              <tr>
+                <th>Is Court Case</th>
+                <td>{{instCaseInfo.isCourtCase}}</td>
+              </tr>
+              <tr>
+                <th>Court Date</th>
+                <td>{{instCaseInfo.courtDate | date:'yyyy-MM-dd'}}</td>
+              </tr>
+              <tr>
+                <th>Is Translator Required</th>
+                <td>{{instCaseInfo.isTranslatorRequired}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="media">
+            <div class="media-body">
+              <h4 class="content-color-primary mb-0">Special Info </h4>
+            </div>
+            <div *ngIf="instSpecialInfo">
+              <button class="btn btn-sm primary-gradient mr-2"
+                (click)="openSpecialModal(modalSpecialInfo)">Edit</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body p-1">
+          <div class="row no-gutters">
+            <table class="table" *ngIf="instSpecialInfo">
+              <tr>
+                <th>Medico Ref No</th>
+                <td>{{instSpecialInfo.medicoRefNo}}</td>
+              </tr>
+              <tr>
+                <th>Client Ref No</th>
+                <td>{{instSpecialInfo.clientRefNo}}</td>
+              </tr>
+              <tr>
+                <th>Instruction Name</th>
+                <td>{{instSpecialInfo.instructionName}}</td>
+              </tr>
+              <tr>
+                <th>Expert Name</th>
+                <td>{{instSpecialInfo.expertName}}</td>
+              </tr>
+              <tr>
+                <th>Referrer Description</th>
+                <td>{{instSpecialInfo.referrerDescription}}</td>
+              </tr>
+              <tr>
+                <th>Speciality Name</th>
+                <td>{{instSpecialInfo.specialityName}}</td>
+              </tr>
+              <tr>
+                <th>Incident Type</th>
+                <td>{{instSpecialInfo.incidentType}}</td>
+              </tr>
+              <tr>
+                <th>Special Note</th>
+                <td>{{instSpecialInfo.specialNote}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="media">
+            <div class="media-body">
+              <h4 class="content-color-primary mb-0">Medical Record </h4>
+            </div>
+            <div>
+              <button class="btn btn-sm primary-gradient mr-2"
+                (click)="openUploadRecordModal(uploadMedicalRecord)">Upload</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body p-1">
+          <div class="row no-gutters" *ngIf="instMedicoRecord">
+            <div class="col-12 col-md-6 col-lg-4 mr-3" *ngFor="let item of instMedicoRecord">
+              <div class="card mb-4 bg-light-primary border border-primary no-shadow">
+                <div class="card-body p-2">
+                  <div class="media">
+                    <div class="media-body">
+                      <p class="mb-0">{{item.recordName}}</p>
+                      <h5 class="mb-0">21.0 mb</h5>
+                    </div>
+                    <a href="javascript:void(0)" class="icon-rounded icon-40 bg-primary ml-2 mr-1">
+                      <i class="material-icons text-white">cloud_download</i>
+                    </a>
+                    <a href="javascript:void(0)" class="icon-rounded icon-40 bg-danger ml-2 mr-1" (click)="deleteMedicalRecord(item.id)">
+                      <i class="material-icons text-white">delete</i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-12 col-lg-4">
+      <div class="card mb-4 fullscreen">
+        <div class="card-header">
+          <div class="media">
+            <div class="media-body">
+              <h4 class="content-color-primary mb-0">Case Hanlder </h4>
+            </div>
+            <div *ngIf="instCaseHandler">
+              <button class="btn btn-sm primary-gradient mr-2"
+                (click)="openCaseHandlerModal(modalCaseHandler)">Edit</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body pt-0">
+          <div class="media mb-3">
+            <table class="table" *ngIf="instCaseHandler">
+              <tr>
+                <th>Name</th>
+                <td>{{instCaseHandler.caseHandlerName}}</td>
+              </tr>
+              <tr>
+                <th>Email</th>
+                <td>{{instCaseHandler.caseHandlerEmail}}</td>
+              </tr>
+              <tr>
+                <th>Phone</th>
+                <td>{{instCaseHandler.caseHandlerPhone}}</td>
+              </tr>
+              <tr>
+                <th>Fax</th>
+                <td>{{instCaseHandler.caseHandlerFax}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-4 fullscreen">
+        <div class="card-header">
+          <div class="media">
+            <div class="media-body">
+              <h4 class="content-color-primary mb-0">Translator </h4>
+            </div>
+            <div *ngIf="instTranslator">
+              <button class="btn btn-sm primary-gradient mr-2"
+                (click)="openTranslatorModal(modalTranslator)">Edit</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body pt-0">
+          <table class="table" *ngIf="instTranslator">
+            <tr>
+              <th>Name</th>
+              <td>{{instTranslator.translatorName}}</td>
+            </tr>
+            <tr>
+              <th>Email</th>
+              <td>{{instTranslator.translatorEmail}}</td>
+            </tr>
+            <tr>
+              <th>Language</th>
+              <td>{{instTranslator.translatorLanguages}}</td>
+            </tr>
+            <tr>
+              <th>Phone</th>
+              <td>{{instTranslator.translatorPhone}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- content page ends -->
+</div>
+
+<ng-template #modalPersonalInfo>
+  <div class="modal-header pink-gradient">
+    <h4 class="modal-title pull-left">Edit Instruction Personal Info</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="instPersonalInfoForm" (ngSubmit)="submitPersonalInfo()">
+      <div class="row">
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" appAlphabetsOnly class="form-control" placeholder="" formControlName="firstName"
+              [ngClass]="{'is-invalid': instPersonalInfoForm.get('firstName').errors 
+            && (instPersonalInfoForm.get('firstName').touched||instPersonalInfoFormSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(instPersonalInfoForm.get('firstName').touched||instPersonalInfoFormSubmit) && instPersonalInfoForm.get('firstName').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" appAlphabetsOnly class="form-control" placeholder="" formControlName="lastName"
+              [ngClass]="{'is-invalid': instPersonalInfoForm.get('lastName').errors 
+            && (instPersonalInfoForm.get('lastName').touched||instPersonalInfoFormSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(instPersonalInfoForm.get('lastName').touched||instPersonalInfoFormSubmit) && instPersonalInfoForm.get('lastName').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Middle Name</label>
+            <input type="text" appAlphabetsOnly class="form-control" placeholder="" formControlName="middleName">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Gender</label>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" formControlName="gender" id="customCheck1payment"
+                    value="male">
+                  <label class="custom-control-label" for="customCheck1payment"> <span class="">Male
+                    </span></label>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" formControlName="gender" id="customCheck2payment"
+                    value="female">
+                  <label class="custom-control-label" for="customCheck2payment"> <span class="">Female
+                    </span></label>
+                </div>
+              </div>
+            </div>
+            <div class="invalid-feedback"
+              *ngIf="(instPersonalInfoForm.get('gender').touched||instPersonalInfoFormSubmit) && instPersonalInfoForm.get('gender').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>DOB</label>
+            <input type="text" appAlphabetsOnly class="form-control" placeholder="" formControlName="dob" [ngClass]="{'is-invalid': instPersonalInfoForm.get('dob').errors 
+            && (instPersonalInfoForm.get('dob').touched||instPersonalInfoFormSubmit)}" bsDatepicker
+              [maxDate]="maxDate">
+            <div class="invalid-feedback"
+              *ngIf="(instPersonalInfoForm.get('dob').touched||instPersonalInfoFormSubmit) && instPersonalInfoForm.get('dob').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" class="form-control" placeholder="" formControlName="email" email="true" [ngClass]="{'is-invalid': instPersonalInfoForm.get('email').errors 
+                                && (instPersonalInfoForm.get('email').touched||instPersonalInfoFormSubmit)}">
+            <div class="invalid-feedback">
+              <div
+                *ngIf="(instPersonalInfoForm.get('email').touched||instPersonalInfoFormSubmit) && instPersonalInfoForm.get('email').hasError('required')">
+                This field is required
+              </div>
+              <div
+                *ngIf="(instPersonalInfoForm.get('email').touched||instPersonalInfoFormSubmit) && instPersonalInfoForm.get('email').hasError('email')">
+                Email is not valid.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Mobile Number</label>
+            <input type="text" appOnlynumbers class="form-control" placeholder="" formControlName="mobileNumber"
+              [ngClass]="{'is-invalid': instPersonalInfoForm.get('mobileNumber').errors 
+                                                    && (instPersonalInfoForm.get('mobileNumber').touched||instPersonalInfoFormSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(instPersonalInfoForm.get('mobileNumber').touched||instPersonalInfoFormSubmit) && instPersonalInfoForm.get('mobileNumber').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>County</label>
+            <input type="text" appOnlynumbers class="form-control" placeholder="" formControlName="county"
+              [ngClass]="{'is-invalid': instPersonalInfoForm.get('county').errors 
+                                                    && (instPersonalInfoForm.get('county').touched||instPersonalInfoFormSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(instPersonalInfoForm.get('county').touched||instPersonalInfoFormSubmit) && instPersonalInfoForm.get('county').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Town</label>
+            <input type="text" appOnlynumbers class="form-control" placeholder="" formControlName="town"
+              [ngClass]="{'is-invalid': instPersonalInfoForm.get('town').errors 
+                                                    && (instPersonalInfoForm.get('town').touched||instPersonalInfoFormSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(instPersonalInfoForm.get('town').touched||instPersonalInfoFormSubmit) && instPersonalInfoForm.get('town').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Co</label>
+            <input type="text" appOnlynumbers class="form-control" placeholder="" formControlName="cO">
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Post Code</label>
+            <input type="text" appOnlynumbers class="form-control" placeholder="" formControlName="postCode"
+              [ngClass]="{'is-invalid': instPersonalInfoForm.get('postCode').errors 
+                                                    && (instPersonalInfoForm.get('postCode').touched||instPersonalInfoFormSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(instPersonalInfoForm.get('postCode').touched||instPersonalInfoFormSubmit) && instPersonalInfoForm.get('postCode').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Post Code</label>
+            <input type="text" appOnlynumbers class="form-control" placeholder="" formControlName="postCode"
+              [ngClass]="{'is-invalid': instPersonalInfoForm.get('postCode').errors 
+                                                    && (instPersonalInfoForm.get('postCode').touched||instPersonalInfoFormSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(instPersonalInfoForm.get('postCode').touched||instPersonalInfoFormSubmit) && instPersonalInfoForm.get('postCode').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Occupancy Type</label>
+            <select2 [data]="occupancyTypes" [cssImport]="true" [ngClass]="{'is-invalid': instPersonalInfoForm.get('occupancyTypeID').errors 
+            && (instPersonalInfoForm.get('occupancyTypeID').touched||instPersonalInfoFormSubmit)}" width="100%"
+              (valueChanged)="onSelectOption($event,instPersonalInfoForm,'occupancyTypeID')">
+            </select2>
+            <div class="invalid-feedback"
+              *ngIf="(instPersonalInfoForm.get('occupancyTypeID').touched||instPersonalInfoFormSubmit) && instPersonalInfoForm.get('occupancyTypeID').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Occupation</label>
+            <select2 [data]="occupations" [cssImport]="true" [ngClass]="{'is-invalid': instPersonalInfoForm.get('occupationID').errors 
+                && (instPersonalInfoForm.get('occupationID').touched||instPersonalInfoFormSubmit)}" width="100%"
+              (valueChanged)="onSelectOption($event,instPersonalInfoForm,'occupationID')">
+            </select2>
+            <div class="invalid-feedback"
+              *ngIf="(instPersonalInfoForm.get('occupationID').touched||instPersonalInfoFormSubmit) && instPersonalInfoForm.get('occupationID').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-lg-12 col-md-12">
+          <label>Address Line1</label>
+          <input type="text" class="form-control" placeholder="" formControlName="addressLine1" [ngClass]="{'is-invalid': instPersonalInfoForm.get('addressLine1').errors 
+          && (instPersonalInfoForm.get('addressLine1').touched||instPersonalInfoFormSubmit)}">
+          <div class="invalid-feedback"
+            *ngIf="(instPersonalInfoForm.get('addressLine1').touched||instPersonalInfoFormSubmit) && instPersonalInfoForm.get('addressLine1').hasError('required')">
+            This field is required
+          </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+          <label>Address Line2</label>
+          <input type="text" class="form-control" formControlName="addressLine2" placeholder="">
+        </div>
+      </div>
+      <div class="border-top mt-2 text-right">
+        <button type="button" class="btn btn-sm secondary-gradient mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button type="submit" class="btn btn-sm primary-gradient mr-2">Save</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #modalCaseHandler>
+  <div class="modal-header pink-gradient">
+    <h4 class="modal-title pull-left">Edit Case Handler</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="instCaseHandlerForm" (ngSubmit)="submitCaseHandler()">
+      <div class="row">
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" appAlphabetsOnly class="form-control" placeholder="" formControlName="caseHandlerName"
+              [ngClass]="{'is-invalid': instCaseHandlerForm.get('caseHandlerName').errors 
+            && (instCaseHandlerForm.get('caseHandlerName').touched||instCaseHandlerFormSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(instCaseHandlerForm.get('caseHandlerName').touched||instCaseHandlerFormSubmit) && instCaseHandlerForm.get('caseHandlerName').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="text" class="form-control" placeholder="" formControlName="caseHandlerEmail" [ngClass]="{'is-invalid': instCaseHandlerForm.get('caseHandlerEmail').errors 
+            && (instCaseHandlerForm.get('caseHandlerEmail').touched||instCaseHandlerFormSubmit)}">
+            <div class="invalid-feedback">
+              <div
+                *ngIf="(instCaseHandlerForm.get('caseHandlerEmail').touched||instCaseHandlerFormSubmit) && instCaseHandlerForm.get('caseHandlerEmail').hasError('required')">
+                This field is required
+              </div>
+              <div
+                *ngIf="(instCaseHandlerForm.get('caseHandlerEmail').touched||instCaseHandlerFormSubmit) && instCaseHandlerForm.get('caseHandlerEmail').hasError('email')">
+                Email is not valid.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="text" appOnlynumbers class="form-control" placeholder="" formControlName="caseHandlerPhone"
+              [ngClass]="{'is-invalid': instCaseHandlerForm.get('caseHandlerPhone').errors 
+            && (instCaseHandlerForm.get('caseHandlerPhone').touched||instCaseHandlerFormSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(instCaseHandlerForm.get('caseHandlerPhone').touched||instCaseHandlerFormSubmit) && instCaseHandlerForm.get('caseHandlerPhone').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="text" appOnlynumbers formControlName="caseHandlerFax" class="form-control" placeholder="">
+          </div>
+        </div>
+      </div>
+      <div class="border-top mt-2 text-right">
+        <button type="button" class="btn btn-sm secondary-gradient mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button type="submit" class="btn btn-sm primary-gradient mr-2">Save</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #modalTranslator>
+  <div class="modal-header pink-gradient">
+    <h4 class="modal-title pull-left">Edit Translator</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="instTranslatorFrom" (ngSubmit)="submitTranslator()">
+      <div class="form-group row">
+        <div class="col-lg-6 col-md-6">
+          <label>Language</label>
+          <input type="text" appAlphabetsOnly formControlName="translatorLanguages" class="form-control" placeholder="">
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <label>Name</label>
+          <input type="text" appAlphabetsOnly formControlName="translatorName" class="form-control" placeholder="">
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-lg-6 col-md-6">
+          <label>Email</label>
+          <input type="text" email="true" formControlName="translatorEmail" class="form-control" placeholder=""
+            [ngClass]="{'is-invalid': instTranslatorFrom.get('translatorEmail').errors 
+          && (instTranslatorFrom.get('translatorEmail').touched||instTranslatorFromSubmit)}">
+          <div class="invalid-feedback"
+            *ngIf="(instTranslatorFrom.get('translatorEmail').touched||instTranslatorFromSubmit) && instTranslatorFrom.get('translatorEmail').hasError('email')">
+            Email is not valid.
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <label>Phone</label>
+          <input type="text" appOnlynumbers formControlName="translatorPhone" class="form-control" placeholder="">
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-lg-6 col-md-6">
+          <label>Co</label>
+          <input type="text" formControlName="translatorCO" class="form-control" placeholder="">
+        </div>
+      </div>
+      <div class="border-top mt-2 text-right">
+        <button type="button" class="btn btn-sm secondary-gradient mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button type="submit" class="btn btn-sm primary-gradient mr-2">Save</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #modalCaseInfo>
+  <div class="modal-header pink-gradient">
+    <h4 class="modal-title pull-left">Edit Case Info</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="instCaseInfoForm" (ngSubmit)="submitCaseInfo()">
+      <div class="row">
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Accident Circumstances</label>
+            <input type="text" class="form-control" placeholder="" formControlName="accidentCircumstances" [ngClass]="{'is-invalid': instCaseInfoForm.get('accidentCircumstances').errors 
+            && (instCaseInfoForm.get('accidentCircumstances').touched||instCaseInfoFormSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(instCaseInfoForm.get('accidentCircumstances').touched||instCaseInfoFormSubmit) && instCaseInfoForm.get('accidentCircumstances').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Assignment Date</label>
+            <input type="text" class="form-control" placeholder="" formControlName="assignmentDate" [ngClass]="{'is-invalid': instCaseInfoForm.get('assignmentDate').errors 
+            && (instCaseInfoForm.get('assignmentDate').touched||instCaseInfoFormSubmit)}" bsDatepicker>
+            <div class="invalid-feedback"
+              *ngIf="(instCaseInfoForm.get('assignmentDate').touched||instCaseInfoFormSubmit) && instCaseInfoForm.get('assignmentDate').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Priority</label>
+            <input type="text" class="form-control" placeholder="" formControlName="priority" [ngClass]="{'is-invalid': instCaseInfoForm.get('priority').errors 
+            && (instCaseInfoForm.get('priority').touched||instCaseInfoFormSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(instCaseInfoForm.get('priority').touched||instCaseInfoFormSubmit) && instCaseInfoForm.get('priority').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Start Time</label>
+            <input type="time" class="form-control" formControlName="startTime" placeholder="">
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>No Of Sessions</label>
+            <input type="text" class="form-control" placeholder="" formControlName="noOfSessions" [ngClass]="{'is-invalid': instCaseInfoForm.get('noOfSessions').errors 
+            && (instCaseInfoForm.get('noOfSessions').touched||instCaseInfoFormSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(instCaseInfoForm.get('noOfSessions').touched||instCaseInfoFormSubmit) && instCaseInfoForm.get('noOfSessions').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Appointment Date</label>
+            <input type="text" class="form-control" placeholder="Appointment Date" formControlName="appointmentDate"
+              [ngClass]="{'is-invalid': instCaseInfoForm.get('appointmentDate').errors 
+            && (instCaseInfoForm.get('appointmentDate').touched||instCaseInfoFormSubmit)}" bsDatepicker>
+            <div class="invalid-feedback"
+              *ngIf="(instCaseInfoForm.get('appointmentDate').touched||instCaseInfoFormSubmit) && instCaseInfoForm.get('appointmentDate').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Clinic Type</label>
+            <select2 [data]="expertTypes" [cssImport]="true" width="100%" [ngClass]="{'is-invalid': instCaseInfoForm.get('clinicType').errors 
+            && (instCaseInfoForm.get('clinicType').touched||instCaseInfoFormSubmit)}"
+              (valueChanged)="onSelectOption($event,instCaseInfoForm,'clinicType')">
+            </select2>
+            <div class="invalid-feedback"
+              *ngIf="(instCaseInfoForm.get('clinicType').touched||instCaseInfoFormSubmit) && instCaseInfoForm.get('clinicType').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Istruction Type</label>
+            <select2 [data]="expertTypes" [cssImport]="true" width="100%" [ngClass]="{'is-invalid': instCaseInfoForm.get('instructionType').errors 
+            && (instCaseInfoForm.get('instructionType').touched||instCaseInfoFormSubmit)}"
+              (valueChanged)="onSelectOption($event,instCaseInfoForm,'instructionType')">
+            </select2>
+            <div class="invalid-feedback"
+              *ngIf="(instCaseInfoForm.get('instructionType').touched||instCaseInfoFormSubmit) && instCaseInfoForm.get('instructionType').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Court Date</label>
+            <input type="text" class="form-control" placeholder="Court Date" formControlName="courtDate" [ngClass]="{'is-invalid': instCaseInfoForm.get('courtDate').errors 
+            && (instCaseInfoForm.get('courtDate').touched||instCaseInfoFormSubmit)}" bsDatepicker>
+            <div class="invalid-feedback"
+              *ngIf="(instCaseInfoForm.get('courtDate').touched||instCaseInfoFormSubmit) && instCaseInfoForm.get('courtDate').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group">
+            <label>Instruction DeadLine Date</label>
+            <input type="text" class="form-control" placeholder="Court Date" formControlName="instructionDeadLineDate"
+              [ngClass]="{'is-invalid': instCaseInfoForm.get('courtDate').errors 
+            && (instCaseInfoForm.get('instructionDeadLineDate').touched||instCaseInfoFormSubmit)}" bsDatepicker>
+            <div class="invalid-feedback"
+              *ngIf="(instCaseInfoForm.get('instructionDeadLineDate').touched||instCaseInfoFormSubmit) && instCaseInfoForm.get('instructionDeadLineDate').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="media" style="margin-top: 35px;">
+            <div class="custom-control custom-checkbox todo-checkbox">
+              <input type="checkbox" class="custom-control-input" id="isInitialAssessment"
+                formControlName="isInitialAssessment">
+              <label class="custom-control-label " for="isInitialAssessment"></label>
+            </div>
+            <div class="media-body">
+              <h6 class="my-0 text-truncated">Is Initial Assessment</h6>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4">
+          <div class="media" style="margin-top: 35px;">
+            <div class="custom-control custom-checkbox todo-checkbox">
+              <input type="checkbox" class="custom-control-input" id="isTralatorRequired"
+                formControlName="isTranslatorRequired">
+              <label class="custom-control-label " for="isTralatorRequired"></label>
+            </div>
+            <div class="media-body">
+              <h6 class="my-0 text-truncated">Is Translator Required</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4 col-md-4">
+          <div class="media" style="margin-top: 35px;">
+            <div class="custom-control custom-checkbox todo-checkbox">
+              <input type="checkbox" class="custom-control-input" id="isCourtCase" formControlName="isCourtCase">
+              <label class="custom-control-label " for="isCourtCase"></label>
+            </div>
+            <div class="media-body">
+              <h6 class="my-0 text-truncated">Is Court Case</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-top mt-2 text-right">
+        <button type="button" class="btn btn-sm secondary-gradient mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button type="submit" class="btn btn-sm primary-gradient mr-2">Save</button>
+      </div>
+    </form>
+  </div>
+
+</ng-template>
+
+<ng-template #modalSpecialInfo>
+  <div class="modal-header pink-gradient">
+    <h4 class="modal-title pull-left">Edit Special Info</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="instSpecialInfoForm" *ngIf="instSpecialInfoForm" (ngSubmit)="submitSpecialInfo()">
+      <div class="row">
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group">
+            <label>Expert</label>
+            <select2 [data]="experts" [cssImport]="true" [ngClass]="{'is-invalid': instSpecialInfoForm.get('expertID').errors &&
+               (instSpecialInfoForm.get('expertID').touched||instSpecialInfoFormSubmit)}" width="100%"
+              (valueChanged)="onSelectOption($event,instSpecialInfoForm,'expertID')">
+            </select2>
+            <div class="invalid-feedback" *ngIf="(instSpecialInfoForm.get('expertID').touched||instSpecialInfoFormSubmit) && 
+              instSpecialInfoForm.get('expertID').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group">
+            <label>Referrer</label>
+            <select2 [data]="referrers" [cssImport]="true" [ngClass]="{'is-invalid': instSpecialInfoForm.get('referrerID').errors 
+                    && (instSpecialInfoForm.get('referrerID').touched||instSpecialInfoFormSubmit)}" width="100%"
+              (valueChanged)="onSelectOption($event,instSpecialInfoForm,'referrerID')">
+            </select2>
+            <div class="invalid-feedback"
+              *ngIf="(instSpecialInfoForm.get('referrerID').touched||instSpecialInfoFormSubmit) && instSpecialInfoForm.get('referrerID').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-6">
+          <label>IncidentType</label>
+          <select2 [data]="incidentTypes" [cssImport]="true" [ngClass]="{'is-invalid': instSpecialInfoForm.get('incidentTypeID').errors 
+          && (instSpecialInfoForm.get('incidentTypeID').touched||instSpecialInfoFormSubmit)}" width="100%"
+            (valueChanged)="onSelectOption($event,instSpecialInfoForm,'incidentTypeID')">
+          </select2>
+          <div class="invalid-feedback"
+            *ngIf="(instSpecialInfoForm.get('incidentTypeID').touched||instSpecialInfoFormSubmit) && instSpecialInfoForm.get('incidentTypeID').hasError('required')">
+            This field is required
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group">
+            <label>Speciality</label>
+            <select2 [data]="specialities" [cssImport]="true" [ngClass]="{'is-invalid': instSpecialInfoForm.get('specialityID').errors 
+            && (instSpecialInfoForm.get('specialityID').touched||instSpecialInfoFormSubmit)}" width="100%"
+              (valueChanged)="onSelectOption($event,instSpecialInfoForm,'specialityID')">
+            </select2>
+            <div class="invalid-feedback"
+              *ngIf="(instSpecialInfoForm.get('specialityID').touched||instSpecialInfoFormSubmit) && instSpecialInfoForm.get('specialityID').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <label>Special Note</label>
+          <textarea type="text" class="form-control" formControlName="specialNote" placeholder=""></textarea>
+        </div>
+      </div>
+
+      <div class="row">
+        <ng-container formArrayName="requiredMedicalRecordFormArray">
+          <div class="col-lg-6" *ngFor="let group of requiredMedicalRecordFormArray.controls; let i = index;">
+            <div class="form-group">
+              <label>{{group.get('recordName').value}}</label>
+              <input type="file" #file class="form-control" placeholder="" [formControl]="group.get('files')"
+                [ngClass]="{'is-invalid': group.get('files').errors 
+            && (group.get('files').touched||instSpecialInfoFormSubmit)}"
+                (change)="onSelectFiles(file.files,group.get('recordName').value)">
+              <div class="invalid-feedback"
+                *ngIf="(group.get('files').touched||instSpecialInfoFormSubmit) && group.get('files').hasError('required')">
+                This field is required
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="border-top mt-2 text-right">
+        <button type="button" class="btn btn-sm secondary-gradient mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button type="submit" class="btn btn-sm primary-gradient mr-2">Save</button>
+      </div>
+
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #uploadMedicalRecord>
+  <div class="modal-header pink-gradient">
+    <h4 class="modal-title pull-left">Upload Medical Record</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+
+    <form [formGroup]="instMedicoRecordForm" (ngSubmit)="submitMedicalRecord()">
+
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Record Name" formControlName="recordName" [ngClass]="{'is-invalid': instMedicoRecordForm.get('recordName').errors &&
+            (instMedicoRecordForm.get('recordName').touched||instMedicoRecordFormSubmit)}">
+            <div class="invalid-feedback"
+              *ngIf="(instMedicoRecordForm.get('recordName').touched||instMedicoRecordFormSubmit) && instMedicoRecordForm.get('recordName').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+          <div class="form-group">
+            <input type="file" #file multiple class="form-control" formControlName="files" [ngClass]="{'is-invalid': instMedicoRecordForm.get('files').errors &&
+            (instMedicoRecordForm.get('files').touched||instMedicoRecordFormSubmit)}"
+              (change)="onSelectFiles(file.files)">
+            <div class="invalid-feedback"
+              *ngIf="(instMedicoRecordForm.get('files').touched||instMedicoRecordFormSubmit) && instMedicoRecordForm.get('files').hasError('required')">
+              This field is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-top mt-2 text-right">
+        <button type="button" class="btn btn-sm secondary-gradient mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button type="submit" class="btn btn-sm primary-gradient mr-2">Upload Record</button>
+      </div>
+    </form>
+
+  </div>
+</ng-template>

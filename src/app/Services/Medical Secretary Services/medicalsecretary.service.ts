@@ -29,9 +29,6 @@ export class MedicalsecretaryService {
   }
 
   CreateMedicalSecretary(Data:any):Observable<any>{
-    debugger
-    Data.createdBy = localStorage.getItem('userName');
-    Data.fullName = Data.namePrefix + ' ' + Data.firstName + ' ' + Data.lastName;
     const headerDict = {
       'Access-Control-Allow-Origin':'*',
       "Authorization": "Bearer " + localStorage.getItem('access_token'),
@@ -78,4 +75,16 @@ export class MedicalsecretaryService {
   }
 
 
+  //Reprot writing services
+  createRptConversationLog(data):Observable<any>{
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token')
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict), 
+    };
+    let requestUrl = this.baseUrl+"/api/ReportWriting/CreateRptConversationLog";
+    return this._http.post(requestUrl,data,requestOptions);
+  }
 }

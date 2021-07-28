@@ -12,3 +12,7 @@
 .form-continue-btn:hover{
     background: rgb(124, 124, 247);
 }
+
+agm-map {
+    height: 300px;
+}

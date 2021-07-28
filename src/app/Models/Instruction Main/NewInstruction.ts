@@ -18,4 +18,5 @@ export class NewInstruction{
     occupancyTypeID:number;
     occupationID:number;
     userID:number;
+    instructionCode:string;
 }

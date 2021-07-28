@@ -32,8 +32,9 @@ export class ExpertSLAService{
 
 export class SLATimeManagement{
     id:number;
-    serviceSLAID:number;
-    slaServices:string;
+    expertID:number;
+    expertServiceID:number;
+    expertServiceName:string;
     estTime:string;
     estReturnTime:string;
     userID:number;

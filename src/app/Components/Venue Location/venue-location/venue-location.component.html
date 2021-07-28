@@ -153,12 +153,12 @@
 
                 <div class="form-group">
                   <label>Enter address</label>
-                  <input type="text" class="form-control" formControlName="enterAddress" (keydown.enter)="$event.preventDefault()"
+                  <input type="text" class="form-control" formControlName="mapAddress" (keydown.enter)="$event.preventDefault()"
                     placeholder="Search Nearest Location" autocorrect="off" autocapitalize="off" spellcheck="off"
-                    type="text" #search  [ngClass]="{'is-invalid': venueLocationForm.get('enterAddress').errors 
-                    && (venueLocationForm.get('enterAddress').touched||venueLocationSubmitted)}">
+                    type="text" #search  [ngClass]="{'is-invalid': venueLocationForm.get('mapAddress').errors 
+                    && (venueLocationForm.get('mapAddress').touched||venueLocationSubmitted)}">
                     <div class="invalid-feedback"
-                    *ngIf="(venueLocationForm.get('enterAddress').touched||venueLocationSubmitted) && venueLocationForm.get('enterAddress').hasError('required')">
+                    *ngIf="(venueLocationForm.get('mapAddress').touched||venueLocationSubmitted) && venueLocationForm.get('mapAddress').hasError('required')">
                     This field is required
                   </div>
                 </div>

@@ -1,0 +1,125 @@
+<div class="row mt-2 mb-2">
+  <div class="col-sm-12 text-right">
+    <button type="button" class="btn btn-success btn-sm" (click)="openExpertAvailabilityModal(addExpertAvailybility)">
+      <i class="material-icons">add</i>
+    </button>
+  </div>
+</div>
+<div class="row">
+  <table class="table">
+    <tr>
+      <th>Sr.</th>
+      <th>Day</th>
+      <th>Start Time (minute)</th>
+      <th>End Time (minute)</th>
+      <th>Start Lunch Time</th>
+      <th>End Lunch Time</th>
+      <th>IsActive</th>
+      <th>Action</th>
+    </tr>
+    <tr *ngFor="let item of expertAvailabilityList; let i=index;">
+      <td>{{i+1}}</td>
+      <td>{{item.days}}</td>
+      <td>{{item.startTime}}</td>
+      <td>{{item.endTime}}</td>
+      <td>{{item.startLunchTime}}</td>
+      <td>{{item.endLunchTime}}</td>
+      <td>
+        <button title="Update status" type="button" *ngIf="item.isActive" class="btn btn-success btn-sm" (click)="updateServiceStatus(item.id,'IsActive',0,'ExpertAvailibility')">{{item.isActive}}</button>
+        <button title="Update status" type="button" *ngIf="!item.isActive" class="btn btn-secondary btn-sm" (click)="updateServiceStatus(item.id,'IsActive',1,'ExpertAvailibility')">{{item.isActive}}</button>
+      </td>
+      <td>
+        <!-- <button type="button" class="btn pink-gradient btn-sm mr-1" (click)="editExpertAvailability(item.id)">Edit</button> -->
+        <button type="button" class="btn btn-danger btn-sm" (click)="updateServiceStatus(item.id,'IsDeleted',1,'ExpertAvailibility')">Delete</button>
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+<ng-template #addExpertAvailybility>
+  <div class="modal-header pink-gradient">
+    <h4 class="modal-title pull-left">Expert Availability</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="availabilityForm" *ngIf="availabilityForm" (ngSubmit)="saveExpertAvailability()">
+      <div class="row ">
+        <div class="col-lg-12 col-md-12">
+          <div class="form-group ">
+            <label>Day</label>
+            <select class="form-control" formControlName="days" [ngClass]="{'is-invalid': availabilityForm.get('days').errors 
+            && (availabilityForm.get('days').touched||availabilityFormSubmitted)}">
+              <option *ngFor="let day of DAYS" value="{{day}}">
+                {{day}}
+              </option>
+            </select>
+            <div class="invalid-feedback"
+            *ngIf="(availabilityForm.get('days').touched||availabilityFormSubmitted) && availabilityForm.get('days').hasError('required')">
+            This field is required
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group ">
+            <label>Start Time (minute)</label>
+            <timepicker formControlName="startTime" [showMinutes]="showMin" [showMeridian]="isMeridian" [minuteStep]="minuteStep" [ngClass]="{'is-invalid': availabilityForm.get('startTime').errors 
+            && (availabilityForm.get('startTime').touched||availabilityFormSubmitted)}"></timepicker>
+            <!-- <input type="time" class="form-control" placeholder="Start Time" formControlName="startTime" [ngClass]="{'is-invalid': availabilityForm.get('startTime').errors 
+            && (availabilityForm.get('startTime').touched||availabilityFormSubmitted)}" (change)="calculateTotalTime()"> -->
+            <div class="invalid-feedback"
+            *ngIf="(availabilityForm.get('startTime').touched||availabilityFormSubmitted) && availabilityForm.get('startTime').hasError('required')">
+            This field is required
+          </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-cm-6">
+          <div class="form-group ">
+            <label>End Time (minute)</label>
+            <timepicker formControlName="startTime" [showMinutes]="showMin" [showMeridian]="isMeridian" [minuteStep]="minuteStep" formControlName="endTime" [ngClass]="{'is-invalid': availabilityForm.get('endTime').errors 
+            && (availabilityForm.get('endTime').touched||availabilityFormSubmitted) || (availabilityForm.get('endTime').touched&& availabilityForm.hasError('endRangeGreater'))}"
+            (change)="calculateTotalTime()"></timepicker>
+            
+            <!-- <input type="time" class="form-control" placeholder="End Time" formControlName="endTime" [ngClass]="{'is-invalid': availabilityForm.get('endTime').errors 
+            && (availabilityForm.get('endTime').touched||availabilityFormSubmitted) || (availabilityForm.get('endTime').touched&& availabilityForm.hasError('endRangeGreater'))}"
+            (change)="calculateTotalTime()"> -->
+            <div class="invalid-feedback"
+            *ngIf="(availabilityForm.get('endTime').touched||availabilityFormSubmitted) && availabilityForm.get('endTime').hasError('required')">
+            This field is required
+          </div>
+          
+          <div class="invalid-feedback"
+          *ngIf="availabilityForm.hasError('endRangeGreater') && availabilityForm.get('endTime').touched">End Time
+          must be greater!</div>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="availabilityForm.get('startTime').value && availabilityForm.get('endTime').value">
+        <div class="col-lg-12 col-sm-12">
+          <label>Total Time: {{totalAvailabilityTime}}</label>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group ">
+            <label>Start Lunch Time</label>
+            <timepicker formControlName="startLunchTime" [minuteStep]="minuteStep" [showMinutes]="showMin" [showMeridian]="isMeridian"></timepicker>
+            <!-- <input type="time" class="form-control" formControlName="startLunchTime" placeholder="Start Lunch Time"> -->
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group ">
+            <label>End Lunch Time</label>
+            <timepicker formControlName="endLunchTime" [minuteStep]="minuteStep" [showMinutes]="showMin" [showMeridian]="isMeridian" (change)="checkLunchTime()"></timepicker>
+            <!-- <input type="time" class="form-control" formControlName="endLunchTime" placeholder="End Lunch Time" (change)="checkLunchTime()"> -->
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success float-right">Submit</button>
+    </form>
+  </div>
+</ng-template>

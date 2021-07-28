@@ -73,19 +73,6 @@ export class MedicalPerformaService {
       ?  { match: true } :null;
   }
 
-  getExpertTypes(id: number) {
-    let requestUrl = this.baseUrl + "/api/Setting/GetAllExpertType?ExpertTypeId=" + id;
-    const headerDict = {
-      'Access-Control-Allow-Origin': '*',
-      "Authorization": "Bearer " + localStorage.getItem('access_token'),
-      'Accept': 'application/json'
-    }
-    const requestOptions = {
-      headers: new HttpHeaders(headerDict)
-    };
-    return this.http.get<any>(requestUrl, requestOptions);
-  }
-
   getQuestionariesForClient(id: any): Observable<any> {
     let requestUrl = this.baseUrl + "/api/MedicalSecretary/GetAllPerformaQuestionaireClient?ExpertTypeID=" + id;
     const headerDict = {

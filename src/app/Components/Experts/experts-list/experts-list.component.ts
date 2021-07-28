@@ -11,6 +11,7 @@ import { ExpertuserService } from 'src/app/Services/Experts Services/expertuser.
   styleUrls: ['./experts-list.component.scss']
 })
 export class ExpertsListComponent implements OnInit {
+  currentPage:number=1;
   expertsList: ExpertBasicInfo[] = [];
   filterList: ExpertBasicInfo[] = [];
 
@@ -23,7 +24,7 @@ export class ExpertsListComponent implements OnInit {
   }
 
   getCompletedExpertsProfile() {
-    this.expertUserService.getExpertProfileInfo(0, "", "completedprofile").subscribe((response) => {
+    this.expertUserService.getExpertProfileInfo("Expert",0, "", "completedprofile").subscribe((response) => {
       this.expertsList = response.outputObject;
       this.filterList = this.expertsList;
     }, error => {
