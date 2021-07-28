@@ -62,6 +62,7 @@ export class ServicesComponent implements OnInit {
     private route:ActivatedRoute) { }
 
   ngOnInit() {
+<<<<<<< HEAD
 
     this.route.paramMap.subscribe(params=>{
       this.expertID=params.get('id');
@@ -69,6 +70,16 @@ export class ServicesComponent implements OnInit {
 
     this.getService();
     this.getExpertSlaServices(1);
+=======
+    this.route.queryParams.subscribe(params=>{
+      this.expertID=params['id'];
+    })
+
+    if(this.expertID){
+      this.getService();
+      this.getExpertSlaServices(1);
+    }
+>>>>>>> 73dc412bb65b230683769700ab0387e3c2ee480f
   }
 
   getService() {
@@ -381,6 +392,10 @@ export class ServicesComponent implements OnInit {
 
     this.slaService.createExpertSLATimeManagement(this.expertSLATimeManagement).subscribe(response => {
       this.toasterService.success('Time has been added!.');
+<<<<<<< HEAD
+=======
+      this.modalRef.hide();
+>>>>>>> 73dc412bb65b230683769700ab0387e3c2ee480f
     }, error => {
       console.log(error);
     }, () => { this.getExpertSlaServices(this.expertSLATimeManagement.serviceSLAID) })

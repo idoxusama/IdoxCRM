@@ -49,10 +49,19 @@ export class AvailabilityComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
+<<<<<<< HEAD
     this.route.paramMap.subscribe(params => {
       this.expertID = params.get('id');
     })
     this.getExpertAvailability();
+=======
+    this.route.queryParams.subscribe(params => {
+      this.expertID = params['id'];
+    })
+    if(this.expertID){
+      this.getExpertAvailability();
+    }
+>>>>>>> 73dc412bb65b230683769700ab0387e3c2ee480f
   }
 
 
@@ -110,7 +119,10 @@ export class AvailabilityComponent implements OnInit {
 
   editExpertAvailability(id) {
     this.slaService.getExpertAvailability(id,this.expertID).subscribe(response=>{
+<<<<<<< HEAD
       debugger
+=======
+>>>>>>> 73dc412bb65b230683769700ab0387e3c2ee480f
       let data= response.outputObject?response.outputObject.pop():null;
       this.createExpertAvailabilityForm(data);
       this.modalRef = this.modalService.show(this.addExpertAvailybility);
@@ -197,7 +209,10 @@ export class AvailabilityComponent implements OnInit {
   }
 
   checkStartEndTime(day): boolean {
+<<<<<<< HEAD
     debugger
+=======
+>>>>>>> 73dc412bb65b230683769700ab0387e3c2ee480f
     let ifNotExist = false;
 
     let startTime = this.availabilityForm.get('startTime').value;
@@ -229,7 +244,10 @@ export class AvailabilityComponent implements OnInit {
   }
 
   checkLunchTime(): boolean {
+<<<<<<< HEAD
     debugger
+=======
+>>>>>>> 73dc412bb65b230683769700ab0387e3c2ee480f
     let ifNotExist = false;
 
     let startTime = this.availabilityForm.get('startTime').value;

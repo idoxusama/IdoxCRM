@@ -32,10 +32,19 @@ export class DnasComponent implements OnInit {
     private route:ActivatedRoute) { }
 
   ngOnInit() {
+<<<<<<< HEAD
     this.route.paramMap.subscribe(params=>{
       this.expertID=params.get('id');
     })
     this.getExpertDNAS();
+=======
+    this.route.queryParams.subscribe(params=>{
+      this.expertID=params['id'];
+    })
+    if(this.expertID){
+      this.getExpertDNAS();
+    }
+>>>>>>> 73dc412bb65b230683769700ab0387e3c2ee480f
   }
 
   getExpertDNAS() {
@@ -71,7 +80,10 @@ export class DnasComponent implements OnInit {
   }
 
   endRangeValidation(group: FormGroup) {
+<<<<<<< HEAD
     debugger
+=======
+>>>>>>> 73dc412bb65b230683769700ab0387e3c2ee480f
     let startRange = +group.get('startRange').value;
     let endRange = +group.get('endRange').value;
     return endRange < startRange ? { endRangeGreater: true } : null;

@@ -32,10 +32,19 @@ export class PaidAllowancesComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+<<<<<<< HEAD
     this.router.paramMap.subscribe(params=>{
       this.expertID= params.get('id');
     })
     this.getOTOP();
+=======
+    this.router.queryParams.subscribe(params=>{
+      this.expertID= params['id'];
+    })
+    if(this.expertID){
+      this.getOTOP();
+    }
+>>>>>>> 73dc412bb65b230683769700ab0387e3c2ee480f
   }
 
   createOTOPForm(data?:any){
