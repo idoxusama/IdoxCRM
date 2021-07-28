@@ -171,7 +171,12 @@ export class InstructionService {
   }
 
   getInstructionMedicalRecord(id, instructionId): Observable<any> {
-    let requestUrl = this.baseUrl + `/api/Instruction/GetInstructionMedicalRecord?ID=${id}&InstructionID=${instructionId}`;
+    let model={
+      id:id,
+      instructionId:instructionId
+    };
+
+    let requestUrl = this.baseUrl + `/api/Instruction/GetInstructionMedicalRecord`;
     const headerDict = {
       'Access-Control-Allow-Origin': '*',
       "Authorization": "Bearer " + localStorage.getItem('access_token'),
@@ -180,7 +185,7 @@ export class InstructionService {
     const requestOptions = {
       headers: new HttpHeaders(headerDict),
     };
-    return this.http.get(requestUrl, requestOptions);
+    return this.http.post(requestUrl,model, requestOptions);
   }
 
   createInstructionMedicalRecord(data): Observable<any> {

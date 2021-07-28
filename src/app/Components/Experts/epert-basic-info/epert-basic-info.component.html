@@ -125,7 +125,58 @@
           This field is required</div>
       </div>
     </div>
+    <div class="col-lg-12 col-md-12">
+      <div class="form-group">
+        <div class="form-group ">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="isUser" formControlName="isUser" (change)="isAppUser(basicInfoForm.get('isUser').value)">
+            <label class="custom-control-label" for="isUser">Is User</label>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+  <ng-container formArrayName="userFormArray">
+    <div class="row" *ngFor="let control of userFormArray.controls">
+      <div class="col-lg-4 col-md-4">
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" class="form-control" [formControl]="control.get('username')" [ngClass]="{'is-invalid': control.get('username').errors 
+            && (control.get('username').touched||submitted)}" placeholder="Username">
+          <div class="invalid-feedback"
+            *ngIf="(control.get('username').touched||submitted) && control.get('username').hasError('required')">
+            This field is required</div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" class="form-control" [formControl]="control.get('password')" [ngClass]="{'is-invalid': control.get('password').errors 
+            && (control.get('password').touched||submitted)}" placeholder="Password">
+          <div class="invalid-feedback"
+            *ngIf="(control.get('password').touched||submitted) && control.get('password').hasError('required')">
+            This field is required</div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input type="password" class="form-control" [formControl]="control.get('confirmPassword')" [ngClass]="{'is-invalid': control.get('confirmPassword').errors 
+            && (control.get('confirmPassword').touched||submitted)}" placeholder="Confirm Password">
+          <div class="invalid-feedback"
+            *ngIf="(control.get('confirmPassword').touched|| 
+            control.get('confirmPassword').touched && control.hasError('mismatch') ||submitted) 
+            && control.get('confirmPassword').hasError('required')">
+            This field is required
+          </div>
+          <div class="text-danger"
+            *ngIf="control.hasError('mismatch') && control.get('confirmPassword').touched">
+            Passwords must mactch
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 
   <div class="text-right">
     <button type="submit" (click)="onNextStep()" class="form-continue-btn">
