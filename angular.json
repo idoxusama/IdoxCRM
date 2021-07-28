@@ -28,12 +28,15 @@
               "src/assets/css/style.css",
               "src/assets/styles/materializeicon/material-icons.css",
               "node_modules/ngx-toastr/toastr.css",
-              "node_modules/select2/dist/css/select2.min.css"
+              "node_modules/select2/dist/css/select2.css",
+              "node_modules/select2/dist/css/select2.min.css",
+              "node_modules/cropperjs/dist/cropper.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "src/assets/js/main.js",
-              "node_modules/select2/dist/js/select2.full.js"
+              "node_modules/select2/dist/js/select2.full.js",
+              "node_modules/cropperjs/dist/cropper.min.js"
             ]
           },
           "configurations": {
