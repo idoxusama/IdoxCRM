@@ -178,13 +178,13 @@ export class NewMedicalSecretaryComponent implements OnInit {
 
       //check Username if exist
       let userExist = await this.existUserName(this.CreateMedicalSecretary.username);
-      if(userExist){
+      if(userExist===false){
         await this.medicalsecretaryService.CreateMedicalSecretary(this.CreateMedicalSecretary).toPromise();
         this.toasterService.success('Medical Secretary created successfully.');
         this.router.navigate(['/MedicalSecretary/List']);
       }
       else{
-        this.toasterService.warning('Username already exist.');
+        this.toasterService.warning('Username already exist!');
       }
     }
   }

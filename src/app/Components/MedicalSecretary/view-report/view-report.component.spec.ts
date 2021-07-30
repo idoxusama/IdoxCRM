@@ -1,21 +1,23 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
 
-import { ServiceLegalAgrementComponent } from './service-legal-agrement.component';
+import { ViewReportComponent } from './view-report.component';
 
-describe('ServiceLegalAgrementComponent', () => {
-  let component: ServiceLegalAgrementComponent;
-  let fixture: ComponentFixture<ServiceLegalAgrementComponent>;
+describe('ViewReportComponent', () => {
+  let component: ViewReportComponent;
+  let fixture: ComponentFixture<ViewReportComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ServiceLegalAgrementComponent ]
+      declarations: [ ViewReportComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ServiceLegalAgrementComponent);
+    fixture = TestBed.createComponent(ViewReportComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

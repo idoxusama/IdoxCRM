@@ -196,6 +196,7 @@ import {
   EntcmsPreviousclinicsComponent,
 } from './Components/ENT CMS/entcms-previousclinics/entcms-previousclinics.component';
 import { ExpertPerformaComponent } from './Components/Experts/expert-performa/expert-performa.component';
+import { ExpertRecordReviewComponent } from './Components/Experts/expert-record-review/expert-record-review.component';
 import {
   ServiceLegalAgrementComponent,
 } from './Components/Experts/expert-sla/service-legal-agrement/service-legal-agrement.component';
@@ -333,6 +334,7 @@ import {
 } from './Components/MedicalSecretary/new-medical-secretary/new-medical-secretary.component';
 import { NewlyAssignedComponent } from './Components/MedicalSecretary/newly-assigned/newly-assigned.component';
 import { RecordReviewComponent } from './Components/MedicalSecretary/record-review/record-review.component';
+import { ViewReportComponent } from './Components/MedicalSecretary/view-report/view-report.component';
 import {
   OrthopaedicClientlogComponent,
 } from './Components/Orthopaedic CMS/orthopaedic-clientlog/orthopaedic-clientlog.component';
@@ -1268,6 +1270,17 @@ const routes: Routes = [
 },
 
 {
+  path: 'Experts/record-review',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: ExpertRecordReviewComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+
+
+{
   path: 'Experts/Experts_Agreement',
   component: AppLayoutComponent,
   children: [
@@ -1480,6 +1493,15 @@ const routes: Routes = [
   children: [
     {
       path: '', component: RecordReviewComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'MedicalSecretary/view-report',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: ViewReportComponent, pathMatch: 'full', canActivate:[AuthGuard]
     }
   ]
 },

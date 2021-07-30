@@ -21,6 +21,8 @@ export class ExpertBasicInfo{
   isActive:number;
   expertType:number;
   assessmentTime:string;
+  username:string;
+  password:string;
 }
 
 export class ExpertContactInfo{

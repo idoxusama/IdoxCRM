@@ -1,8 +1,3 @@
-import { htmlAstToRender3Ast } from '@angular/compiler/src/render3/r3_template_transform';
-import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { debug, timeStamp } from 'console';
-import { BsModalRef, BsModalService, plLocale } from 'ngx-bootstrap';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';

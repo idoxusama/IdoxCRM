@@ -122,36 +122,62 @@
 
 <ng-template #modalForNote>
   <div class="modal-header bg-primary">
-    <h4 class="modal-title pull-left text-white">Note</h4>
+    <h4 class="modal-title pull-left text-white">Review Note</h4>
     <button type="button" class="close pull-right text-white" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
-    <form #f="ngForm"(ngSubmit)="saveNote()">
+  <form [formGroup]="reviewNoteForm" (ngSubmit)="saveNote()">
+    <div class="modal-body">
       <div class="row ">
         <div class="col-lg-12 col-md-12">
           <div class="form-group ">
             <label>Note</label>
-            <textarea type="text" class="form-control" placeholder="Note" name="note" #note="ngModel" [(ngModel)]="reviewNote.note"></textarea>
+            <textarea type="text" class="form-control" placeholder="Note" formControlName="userNote"></textarea>
           </div>
         </div>
       </div>
-      <div class="row ">
-        <div class="col-lg-12 col-md-12">
-          <div class="form-group ">
-            <label>Upload Files</label>
-            <input type="file" #file class="form-control" multiple (change)="onSelectFile(file.files)">
-          </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-6">
+          <h5>References</h5>
+        </div>
+        <div class="col-lg-6 col-md-6 text-right">
+          <a style="cursor: pointer;" class="text-primary" (click)="addReferenceNote()"><i class="material-icons">add</i></a>
         </div>
       </div>
-      <div class="text-right">
-        <button type="button" class="btn btn-sm secondary-gradient mr-2">Cancel</button>
+      <div class="border-top">
+        <ng-container formArrayName="referenceNotes">
+          <div class="row border-bottom" *ngFor="let c of referenceNotes.controls;">
+            <div class="col-lg-12 col-md-12">
+              <div class="form-group">
+                <label>Upload File</label>
+                <input type="file" #file class="form-control" [formControl]="c.get('file')" multiple
+                 [ngClass]="{'is-invalid': c.get('file')?.errors && (c.get('file')?.touched || reviewNoteFormSubmit)}">
+                <div class="invalid-feedback" *ngIf="(c.get('file')?.touched || reviewNoteFormSubmit) && c.get('file')?.hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+              <div class="form-group">
+                <label>Reference Note</label>
+                <textarea type="text" class="form-control" [formControl]="c.get('note')"
+                [ngClass]="{'is-invalid': c.get('note')?.errors && (c.get('note')?.touched || reviewNoteFormSubmit)}"
+                 (change)="onSelectFile(file.files,c.get('note').value)"></textarea>
+                <div class="invalid-feedback" *ngIf="(c.get('note')?.touched || reviewNoteFormSubmit) && c.get('note')?.hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="text-right mt-2">
+        <button type="button" class="btn btn-sm secondary-gradient mr-2"(click)="modalRef.hide()">Cancel</button>
         <button type="submit" class="btn btn-sm primary-gradient mr-2">Save</button>
       </div>
-    </form>
-    
-  </div>
+    </div>
+  </form>
 </ng-template>
 
 

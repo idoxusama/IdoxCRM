@@ -87,4 +87,16 @@ export class MedicalsecretaryService {
     let requestUrl = this.baseUrl+"/api/ReportWriting/CreateRptConversationLog";
     return this._http.post(requestUrl,data,requestOptions);
   }
+  
+  createRptLogReferenceImg(data):Observable<any>{
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token')
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict), 
+    };
+    let requestUrl = this.baseUrl+"/api/ReportWriting/CreateRptLogReferenceImg";
+    return this._http.post(requestUrl,data,requestOptions);
+  }
 }
