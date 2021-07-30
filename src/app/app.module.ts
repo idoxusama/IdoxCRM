@@ -288,6 +288,8 @@ import { NewlyAssignedComponent } from './Components/MedicalSecretary/newly-assi
 import { RecordReviewComponent } from './Components/MedicalSecretary/record-review/record-review.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { NgxGalleryModule } from 'ngx-gallery';
+import { ExpertRecordReviewComponent } from './Components/Experts/expert-record-review/expert-record-review.component';
+import { ViewReportComponent } from './Components/MedicalSecretary/view-report/view-report.component';
 
 @NgModule({
   declarations: [	
@@ -515,6 +517,7 @@ import { NgxGalleryModule } from 'ngx-gallery';
     NewMedicalSecretaryComponent,
     EditMedicalSecretaryComponent,
     NewlyAssignedComponent,
+    ViewReportComponent,
     RecordReviewComponent,
     ChooseExpertComponent,
     GeneratePerformaComponent,
@@ -525,6 +528,7 @@ import { NgxGalleryModule } from 'ngx-gallery';
     ExpertBankChargesComponent,
     EpertBasicInfoComponent,
     RequiredMedicalRecordComponent,
+    ExpertRecordReviewComponent,
     ExpertUploadDocComponent,
     ExpertContactInfoComponent,
     ExpertChargesComponent,

@@ -7,6 +7,7 @@ import { ExpertBasicInfo } from 'src/app/Models/Experts Model/User';
 import { ExpertuserService } from 'src/app/Services/Experts Services/expertuser.service';
 import { StepsService } from 'src/app/Services/Experts Services/steps.service';
 import { SettingsService } from 'src/app/Services/Settings Services/settings.service';
+import { UserService } from 'src/app/Services/Users Services/user.service';
 
 @Component({
   selector: 'app-epert-basic-info',
@@ -28,12 +29,13 @@ export class EpertBasicInfoComponent implements OnInit {
   state: string;
 
   constructor(private stepsService: StepsService,
-    private fb: FormBuilder,
     private experUserSerice: ExpertuserService,
+    private settingService: SettingsService,
+    private userService:UserService,
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private toaserService: ToastrService,
-    private settingService: SettingsService) {
+    private toaserService: ToastrService) {
     this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
     };
@@ -188,31 +190,43 @@ export class EpertBasicInfoComponent implements OnInit {
     });
   }
 
-  submit() {
-    this.expertBasicInfo = Object.assign({}, this.basicInfoForm.value);
-
-    this.expertBasicInfo.userID = +localStorage.getItem('userID');
-
-    this.experUserSerice.createPersonalInfo(this.expertBasicInfo).subscribe(response => {
-      let output = response.outputObject;
-      localStorage.setItem("expertID", output.pop().id);
-      this.toaserService.success('Personal information has been added!')
-    }, error => {
-      console.log(error);
-    });
+  assignUserInfo(){
+    let info = this.userFormArray.value;
+    if(info){
+      this.expertBasicInfo.username = info.username?info.username:'';
+      this.expertBasicInfo.password = info.password?info.password:'';
+    }
   }
 
-  update() {
-    this.expertBasicInfo = Object.assign({}, this.basicInfoForm.value);
+  async checkUserExist(username){
+    let user = await this.userService.checkUserExist(username).toPromise();
+    if(user) return true;
+    return false;
+  }
 
+  async submit() {
+    this.expertBasicInfo = Object.assign({}, this.basicInfoForm.value);
+    this.expertBasicInfo.userID = +localStorage.getItem('userID');
+
+    let userExist = await this.checkUserExist(this.expertBasicInfo.username);
+    if(userExist===false){
+      let result = await this.experUserSerice.createPersonalInfo(this.expertBasicInfo).toPromise();
+      let output = result.outputObject;
+      localStorage.setItem("expertID", output.pop().id);
+      this.toaserService.success('Personal information has been added!');
+    } 
+    else{
+      this.toaserService.warning('Username already exist!');
+    }
+  }
+
+  async update() {
+    this.expertBasicInfo = Object.assign({}, this.basicInfoForm.value);
     this.expertBasicInfo.id = +this.expertID;
     this.expertBasicInfo.userID = +localStorage.getItem('userID');
 
-    this.experUserSerice.updateExpertPersonalInfo(this.expertBasicInfo).subscribe(response => {
-      this.toaserService.success('Personal information has been updated!')
-    }, error => {
-      console.log(error);
-    })
+    await this.experUserSerice.updateExpertPersonalInfo(this.expertBasicInfo).toPromise();
+    this.toaserService.success('Personal information has been updated!');
   }
 
   onNextStep() {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import Cropper from 'cropperjs';
 import * as fileSaver from 'file-saver';
@@ -22,25 +23,28 @@ export class RecordReviewComponent implements OnInit {
   private cropper!: Cropper;
   public medcoRecord: MedcoRecord[] = [];
   public showPreview: boolean = false;
-  public fileContent="";
+  public fileContent = "";
   public pdfSrc;
   public totalPages: number = 0;
   public currentpage: number = 0;
   public isCropImage: boolean = false;
-  public croppedImages:CroppedImages[]=[];
-  public croppedImageReferences=[];
-  public modalRef:BsModalRef;
-  public reviewNote:any={};
-  public uploadedFiles=[];
+  public croppedImages: CroppedImages[] = [];
+  public croppedImageReferences = [];
+  public modalRef: BsModalRef;
+  public reviewNote: any = {};
+  public reviewNoteForm: FormGroup;
+  public reviewNoteFormSubmit: boolean = false;
+  public uploadedFiles = [];
   public galleryOptions: NgxGalleryOptions[];
   public galleryImages: NgxGalleryImage[];
-  private startTime:Date;
+  private startTime: Date;
 
   constructor(private expertUserService: ExpertuserService,
     private instructionService: InstructionService,
     private route: ActivatedRoute,
-    private modalService:BsModalService,
-    private medicalSecretaryService:MedicalsecretaryService) { }
+    private modalService: BsModalService,
+    private medicalSecretaryService: MedicalsecretaryService,
+    private fb: FormBuilder) { }
 
   ngOnInit() {
     this.startTime = new Date();
@@ -51,6 +55,8 @@ export class RecordReviewComponent implements OnInit {
       this.getMedicalRecord();
     }
   }
+
+  /* #region  medical record actions */
 
   getMedicalRecord() {
     this.instructionService.getInstructionMedicalRecord(0, this.instructionID).subscribe(res => {
@@ -69,79 +75,74 @@ export class RecordReviewComponent implements OnInit {
   }
 
   preview(base64String) {
-    if(this.cropper) {
+    if (this.cropper) {
       this.cropper.destroy();
       this.isCropImage = false;
       this.ngOnInit();
     }
-    this.pdfSrc = this.base64ToArrayBuffer(base64String);   
+    this.pdfSrc = this.base64ToArrayBuffer(base64String);
     this.showPreview = true;
   }
 
-  private base64ToArrayBuffer(base64) {
-    const binary_string = window.atob(base64);
-    const len = binary_string.length;
-    const bytes = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-
-    return bytes.buffer;
-  }
-
-  private convertBase64ToFile(base64,filename){
-    const arr = base64.split(',');
-    const mime = arr[0].match(/:(.*?);/)[1];
-    const binary_string = atob(arr[1]);
-    const len = binary_string.length;
-    const bytes = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-    return new File([bytes], filename, { type: mime });
-  }
-
-  private get_time_diff( startTime ){
-      var now = new Date().getTime();
-      if( isNaN(startTime) ) return "";
-      if (startTime < now)
-          var milisec_diff = now - startTime;
-      else
-          var milisec_diff = startTime - now;
+  /* #endregion */
   
-      var days = Math.floor(milisec_diff / 1000 / 60 / (60 * 24));
-      var date_diff = new Date( milisec_diff );
-      return date_diff.getHours() + ":" + date_diff.getMinutes();
-  }
+  /* #region  prepare review note form and modal */
 
-  openNoteModal(template){
-    this.modalRef = this.modalService.show(template);
-  }
-
-  saveNote(){
-    //get cropped canvas
-    let canvas = this.cropper.getCroppedCanvas();
-    this.getCanvasToDownload(canvas,this.reviewNote.note);
-
-    //push upload images to cropped images array for displaying in cropped image list
-    this.croppedImages.forEach(x=>{
-      this.uploadedFiles.forEach(e=>{
-        let object = {
-          croppedImageId:x.id,
-          image :e
-        };
-        x.references.push(object);
-      });
+  createReviewNoteForm() {
+    this.reviewNoteForm = this.fb.group({
+      userNote: [''],
+      referenceNotes: this.fb.array([])
     });
-
-    this.destroyCropper();
-    this.modalRef.hide();
-    this.reviewNote.note="";
-    this.uploadedFiles=[];
   }
 
-  getCroppedReferences(id,template){
-    this.croppedImageReferences = this.croppedImages.filter(e=>e.id==id).pop().references;
+  get referenceNotes() {
+    return this.reviewNoteForm.get('referenceNotes') as FormArray;
+  }
+
+  addReferenceNoteGroup() {
+    return this.fb.group({
+      file: [null, Validators.required],
+      note: ['', Validators.required]
+    });
+  }
+
+  addReferenceNote() {
+    this.referenceNotes.push(this.addReferenceNoteGroup());
+  }
+
+  openNoteModal(template) {
+    this.createReviewNoteForm();
+    this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
+  }
+
+
+  /* #endregion */
+
+  saveNote() {
+    debugger
+    this.reviewNoteFormSubmit = true;
+    if (this.reviewNoteForm.valid) {
+      //get cropped canvas
+      let canvas = this.cropper.getCroppedCanvas();
+      this.getCanvasToDownload(canvas, this.reviewNoteForm.get('userNote').value);
+
+      //push upload images to cropped images array for displaying in cropped image list
+      this.croppedImages.forEach(x => {
+        this.uploadedFiles.forEach(e => {
+          e.croppedImageId= x.id,
+          x.references.push(e);
+        });
+      });
+
+      this.destroyCropper();
+      this.modalRef.hide();
+      this.referenceNotes.controls.length=0;
+      this.uploadedFiles = [];
+    }
+  }
+
+  getCroppedReferences(id, template) {
+    this.croppedImageReferences = this.croppedImages.filter(e => e.id == id).pop().references;
 
     //prepare gallary
     const imageUrls = [];
@@ -163,37 +164,57 @@ export class RecordReviewComponent implements OnInit {
       }
     ];
     this.galleryImages = imageUrls;
-    this.modalRef = this.modalService.show(template,{class:'modal-md'});
+    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
   }
 
-  onSelectFile(files) {
-    if (files.length===0) return;
+  onSelectFile(files,note) {
+    if (files.length === 0) return;
     for (let i = 0; i < files.length; i++) {
       let reader = new FileReader();
       let self = this;
       reader.onload = function (e) {
-        self.uploadedFiles.push(reader.result);
+        let refNoteObject ={
+          note:note,
+          image:reader.result
+        };
+        self.uploadedFiles.push(refNoteObject);
       }
       reader.readAsDataURL(files[i]);
     }
   }
 
-  saveCroppedImages(){
-    this.croppedImages.forEach(async x=>{
+  saveCroppedImages() {
+    debugger
+    this.croppedImages.forEach(async x => {
+      //post crop images to api.
       let formData = new FormData();
-      formData.append("InstructionID",this.instructionID);
-      formData.append("ExpertID","0");
-      formData.append("MedicalSecretaryID","0");
-      formData.append("Description","");
-      formData.append("UserNote",x.note);
-      formData.append("TotalSpendTime",this.get_time_diff(this.startTime));
-      formData.append("UserID",localStorage.getItem("userID"));
-      formData.append("RequestType","MedicalSecretary");
-      formData.append("File",this.convertBase64ToFile(x.image,"Cropped"));
-      formData.append("FileName","Cropped");
+      formData.append("InstructionID", this.instructionID);
+      formData.append("ExpertID", "0");
+      formData.append("MedicalSecretaryID", "0");
+      formData.append("Description", "");
+      formData.append("UserNote", x.note);
+      formData.append("TotalSpendTime", this.get_time_diff(this.startTime));
+      formData.append("UserID", localStorage.getItem("userID"));
+      formData.append("RequestType", "MedicalSecretary");
+      formData.append("File", this.convertBase64ToFile(x.image, "crop"));
+      formData.append("FileName", "crop");
+
       let result = await this.medicalSecretaryService.createRptConversationLog(formData).toPromise();
+      debugger
+      // post the cropped images references to api
+      this.croppedImageReferences = x.references;
+      this.croppedImageReferences.forEach(async cr => {
+        let formData = new FormData();
+        formData.append("File", this.convertBase64ToFile(cr.image, "browseupload"));
+        formData.append("ExpertRptLogID", result.expertRptLogID);
+        formData.append("MedSecRptLogID", result.medSecRptLogID);
+        formData.append("InstructionID", this.instructionID);
+        formData.append("Note", cr.note);
+        formData.append("userID", localStorage.getItem('userID'));
+        await this.medicalSecretaryService.createRptLogReferenceImg(formData).toPromise();
+      });
+
     });
-    
   }
 
   /* #region  Cropper Methods */
@@ -203,8 +224,8 @@ export class RecordReviewComponent implements OnInit {
       ctx.scale(3, 3);
       let image = canvas.toDataURL("image/png").replace("image/png", "image/png");
 
-      if(image!=='data:,') this.fileContent=image; //after destroy init the cropper 
-      image= this.fileContent;
+      if (image !== 'data:,') this.fileContent = image; //after destroy init the cropper 
+      image = this.fileContent;
 
       $("#cropper-img").attr('src', image);
       $('#cropper-img').addClass('ready');
@@ -216,14 +237,14 @@ export class RecordReviewComponent implements OnInit {
         guides: false,
         highlight: false,
         movable: false,
-        data:{
+        data: {
           width: 240,
-          height:  240,
+          height: 240,
         },
         ready: (e) => {
           let cropper = this.cropper;
         },
-        crop: (e) => {}
+        crop: (e) => { }
       });
     })
   }
@@ -250,14 +271,16 @@ export class RecordReviewComponent implements OnInit {
     }
   }
 
-  destroyCropper(){
+  destroyCropper() {
     this.cropper.destroy();
     this.ngOnInit();
-    this.isCropImage=false;
+    this.isCropImage = false;
   }
+  /* #endregion */
 
-  private getCanvasToDownload(canvas: any,note) {
-    debugger
+  /* #region private functions */
+
+  private getCanvasToDownload(canvas: any, note) {
     let ctx = canvas.getContext('2d');
     ctx.scale(3, 3);
     let image = canvas.toDataURL("image/png").replace("image/png", "image/png");
@@ -265,8 +288,44 @@ export class RecordReviewComponent implements OnInit {
     cImages.id = cImages.id > 0 ? cImages.id + 1 : 1;
     cImages.image = image;
     cImages.note = note;
-    cImages.references =[];
+    cImages.references = [];
     this.croppedImages.push(cImages);
   }
+
+  private base64ToArrayBuffer(base64) {
+    const binary_string = window.atob(base64);
+    const len = binary_string.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+    }
+
+    return bytes.buffer;
+  }
+
+  private convertBase64ToFile(base64, filename) {
+    const arr = base64.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const binary_string = atob(arr[1]);
+    const len = binary_string.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+    }
+    return new File([bytes], filename, { type: mime });
+  }
+
+  private get_time_diff(startTime) {
+    var now = new Date().getTime();
+    if (isNaN(startTime)) return "";
+    if (startTime < now)
+      var milisec_diff = now - startTime;
+    else
+      var milisec_diff = startTime - now;
+    var days = Math.floor(milisec_diff / 1000 / 60 / (60 * 24));
+    var date_diff = new Date(milisec_diff);
+    return date_diff.getHours() + ":" + date_diff.getMinutes();
+  }
+
   /* #endregion */
 }
