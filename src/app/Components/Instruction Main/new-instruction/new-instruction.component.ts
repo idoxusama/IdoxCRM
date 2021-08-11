@@ -306,7 +306,6 @@ export class NewInstructionComponent implements OnInit {
   }
 
   addRequiredMedicalFormGroup(data?: any) {
-    debugger
     if (data) {
       return this.fb.group({
         recordName: [data.medicalRecordName ? data.medicalRecordName : ''],
@@ -315,15 +314,16 @@ export class NewInstructionComponent implements OnInit {
     }
   }
 
-  onSelectFile(files, recordName) {
+  onSelectRequiredMedicalRecrod(files, recordName) {
     if (files.length == 0) {
       return;
     }
     else {
       let object = {
         recordName: recordName,
-        file: files
+        file: files[0]
       };
+      this.requiredMedicalRecordUploadFiles.push(object);
     }
   }
 
@@ -352,10 +352,7 @@ export class NewInstructionComponent implements OnInit {
   }
 
   onSelectOtherMedicalRecord(files, recordName) {
-    debugger
-    if (files.length == 0) {
-      return;
-    }
+    if (files.length == 0) return;
     else {
       let object = {
         recordName: recordName,
@@ -363,7 +360,6 @@ export class NewInstructionComponent implements OnInit {
       };
       this.otherMedicalRecordUploadFiles.push(object);
     }
-
   }
 
   /* #endregion */
@@ -398,7 +394,6 @@ export class NewInstructionComponent implements OnInit {
           await this.createCaseInfo();
 
           this.toasterService.success('Instruction created successfully.');
-          debugger
           this.ngZone.run(() => this.router.navigate(['/IndoxCMS/Intruction/List']));
         }
       }
@@ -438,11 +433,11 @@ export class NewInstructionComponent implements OnInit {
       this.requiredMedicalRecordUploadFiles.forEach(async element => {
         let formData = new FormData();
         formData.append("RecordName", element.recordName);
-        formData.append("InstructionID", '' + this.instructionID);
+        formData.append("InstructionID", ''+this.instructionID);
         formData.append("IsReceived", 'true');
         formData.append("IsRequiredByExpert", 'true');
         formData.append("UserID", '' + localStorage.getItem('userID'));
-        element.file.forEach((f) => formData.append("files", f));
+        formData.append("files", element.file);
         await this.instructionService.createInstructionMedicalRecord(formData).toPromise();
       });
     }
@@ -451,7 +446,7 @@ export class NewInstructionComponent implements OnInit {
       this.otherMedicalRecordUploadFiles.forEach(async element => {
         let formData = new FormData();
         formData.append("RecordName", element.recordName);
-        formData.append("InstructionID", '' + this.instructionID);
+        formData.append("InstructionID", ''+this.instructionID);
         formData.append("IsReceived", 'true');
         formData.append("IsRequiredByExpert", 'false');
         formData.append("UserID", '' + localStorage.getItem('userID'));

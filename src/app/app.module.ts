@@ -290,6 +290,9 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { ExpertRecordReviewComponent } from './Components/Experts/expert-record-review/expert-record-review.component';
 import { ViewReportComponent } from './Components/MedicalSecretary/view-report/view-report.component';
+import { ReportConversationComponent } from './Components/MedicalSecretary/report-conversation/report-conversation.component';
+import { HoldReportsComponent } from './Components/MedicalSecretary/hold-reports/hold-reports.component';
+import { ReportWritingSummaryComponent } from './Components/MedicalSecretary/report-writing-summary/report-writing-summary.component';
 
 @NgModule({
   declarations: [	
@@ -518,6 +521,9 @@ import { ViewReportComponent } from './Components/MedicalSecretary/view-report/v
     EditMedicalSecretaryComponent,
     NewlyAssignedComponent,
     ViewReportComponent,
+    ReportConversationComponent,
+    HoldReportsComponent,
+    ReportWritingSummaryComponent,
     RecordReviewComponent,
     ChooseExpertComponent,
     GeneratePerformaComponent,
@@ -558,7 +564,7 @@ import { ViewReportComponent } from './Components/MedicalSecretary/view-report/v
     AlphabetsOnlyDirective,
     NotAllowSepacialChatactorDirective,
     DisableControlDirective,
-    InvalidControlScrollDirective,
+    InvalidControlScrollDirective
    ],
   entryComponents: [
     ConfirmModalDialogComponent

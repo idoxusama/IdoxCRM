@@ -1,11 +1,8 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as moment from 'moment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { isBetween } from 'ngx-bootstrap/chronos/utils/date-compare';
 import { ToastrService } from 'ngx-toastr';
-import { filter } from 'rxjs/operators';
 import { Availability } from 'src/app/Models/SLA Models/availability';
 import { SlaService } from 'src/app/Services/SLA Service/sla.service';
 

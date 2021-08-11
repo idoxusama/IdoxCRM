@@ -326,6 +326,7 @@ import {
 import {
   EditMedicalSecretaryComponent,
 } from './Components/MedicalSecretary/edit-medical-secretary/EditMedicalSecretary.component';
+import { HoldReportsComponent } from './Components/MedicalSecretary/hold-reports/hold-reports.component';
 import {
   MedicalSecretaryListComponent,
 } from './Components/MedicalSecretary/medical-secretary-list/MedicalSecretaryList.component';
@@ -334,6 +335,8 @@ import {
 } from './Components/MedicalSecretary/new-medical-secretary/new-medical-secretary.component';
 import { NewlyAssignedComponent } from './Components/MedicalSecretary/newly-assigned/newly-assigned.component';
 import { RecordReviewComponent } from './Components/MedicalSecretary/record-review/record-review.component';
+import { ReportConversationComponent } from './Components/MedicalSecretary/report-conversation/report-conversation.component';
+import { ReportWritingSummaryComponent } from './Components/MedicalSecretary/report-writing-summary/report-writing-summary.component';
 import { ViewReportComponent } from './Components/MedicalSecretary/view-report/view-report.component';
 import {
   OrthopaedicClientlogComponent,
@@ -1502,6 +1505,33 @@ const routes: Routes = [
   children: [
     {
       path: '', component: ViewReportComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'MedicalSecretary/report-conversation',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: ReportConversationComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'MedicalSecretary/hold-reports',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: HoldReportsComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'MedicalSecretary/report-summary',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: ReportWritingSummaryComponent, pathMatch: 'full', canActivate:[AuthGuard]
     }
   ]
 },

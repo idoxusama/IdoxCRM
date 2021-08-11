@@ -424,7 +424,7 @@
                       <input type="file" #file class="form-control" placeholder="" [formControl]="group.get('files')"
                         [ngClass]="{'is-invalid': group.get('files').errors 
                     && (group.get('files').touched||instructionFromSubmit)}"
-                        (change)="onSelectFile(file.files,group.get('recordName').value)">
+                        (change)="onSelectRequiredMedicalRecrod(file.files,group.get('recordName').value)">
                       <div class="invalid-feedback"
                         *ngIf="(group.get('files').touched||instructionFromSubmit) && group.get('files').hasError('required')">
                         This field is required

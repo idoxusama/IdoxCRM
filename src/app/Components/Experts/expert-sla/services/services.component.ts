@@ -1,10 +1,7 @@
-import { htmlAstToRender3Ast } from '@angular/compiler/src/render3/r3_template_transform';
-import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { debug, timeStamp } from 'console';
-import * as moment from 'moment';
-import { BsModalRef, BsModalService, plLocale } from 'ngx-bootstrap';
+import { ActivatedRoute } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { ExpertSLAService, SLAService, SLATimeManagement } from 'src/app/Models/SLA Models/SLAService';
 import { SlaService } from 'src/app/Services/SLA Service/sla.service';
@@ -20,66 +17,92 @@ export class ServicesComponent implements OnInit {
   @ViewChild('perPages') perPages: ElementRef;
   @ViewChild('timeManagement') timeManagement: ElementRef;
 
-  isMeridian = true;
-  isDisabled = true;
-  myTime = new Date();
-  showMin: boolean = true;
-  showSec: boolean = true;
-
-  fixedForm: FormGroup;
-  fixedFormSubmitted: boolean = false;
-
-  hourlyForm: FormGroup;
-  hourlyFormSubmitted: boolean = false;
-  totalHourlyTime: string;
-
-  perPagesForm: FormGroup;
-  perPagesFormSubmitted: boolean = false;
-
-  timeManagementForm: FormGroup;
-  timeManagementFormSubmitted: boolean = false;
-
-  slaServices: SLAService[] = [];
-  expertSLAServices: ExpertSLAService[] = [];
-  expertSLAService: ExpertSLAService = new ExpertSLAService();
-  expertSLATimeManagement: SLATimeManagement = new SLATimeManagement();
-  getExpertSLATime: SLATimeManagement = new SLATimeManagement();
-  estColumns: any[];
-
-  modalRef: BsModalRef;
-
-  serviceName: string;
-  serviceId: string;
-  paymentType: string;
-
-  expertID:string;
+  public isMeridian = true;
+  public sDisabled = true;
+  public myTime = new Date();
+  public showMin: boolean = true;
+  public showSec: boolean = true;
+  public fixedForm: FormGroup;
+  public fixedFormSubmitted: boolean = false;
+  public hourlyForm: FormGroup;
+  public hourlyFormSubmitted: boolean = false;
+  public totalHourlyTime: string;
+  public perPagesForm: FormGroup;
+  public perPagesFormSubmitted: boolean = false;
+  public timeManagementForm: FormGroup;
+  public timeManagementFormSubmitted: boolean = false;
+  public slaServices: SLAService[] = [];
+  public expertSLAServices: ExpertSLAService[] = [];
+  public expertSLAService: ExpertSLAService = new ExpertSLAService();
+  public expertSLATimeManagement: SLATimeManagement = new SLATimeManagement();
+  public getExpertSLATime: SLATimeManagement = new SLATimeManagement();
+  public estColumns: any[];
+  public modalRef: BsModalRef;
+  public serviceName: string;
+  public serviceId: string;
+  public paymentType: string;
+  public expertID:string;
 
   constructor(private slaService: SlaService,
     private modalService: BsModalService,
     private fb: FormBuilder,
     private toasterService: ToastrService,
-    private router:Router,
     private route:ActivatedRoute) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.route.queryParams.subscribe(params=>{
       this.expertID=params['id'];
     })
 
     if(this.expertID){
-      this.getService();
-      this.getExpertSlaServices(1);
+      await this.getService();
+      await this.getExpertSlaServices(1);
     }
   }
 
-  getService() {
-    this.slaService.getSLAServices(0).subscribe(response => {
-      this.slaServices = response.outputObject;
-      this.slaServices.map(x => { x.paymentTypesList.map(x => x.isShown = true) });
-    }, error => {
-      console.log(error);
-    });
+  async getService() {
+    let result = await this.slaService.getSLAServices(0).toPromise();
+    if(result.outputObject){
+      this.slaServices = result.outputObject;
+      this.slaServices.forEach(x => { x.paymentTypesList.map(x => x.isShown = true) });
+    }
   }
+  
+  async getExpertSlaServices(id) {
+    let result = await this.slaService.getExpertServicesSLA(0,this.expertID,id).toPromise();
+    debugger
+    if (result.outputObject) {
+      this.expertSLAServices = result.outputObject;
+      let paymentType = this.expertSLAServices[0].paymentType;
+      if (paymentType.trim() == 'Fix') {
+        this.slaServices.forEach(e => {
+          e.paymentTypesList.map(x => {
+            x.isShown = false;
+          });
+        });
+      } 
+      else {
+        this.slaServices.forEach(e => {
+          e.paymentTypesList.map(x => {
+            x.isShown = x.paymentType == paymentType.trim() ? true : false;
+          });
+        });
+      }
+    }
+    else {
+      this.expertSLAServices.length=0;
+      this.slaServices.forEach(e => {
+        e.paymentTypesList.map(x => {
+          x.isShown = true;
+        });
+      });
+    }
+
+    //get services estimated time
+    let response= await this.slaService.getExpertSLATimeManagement(0,this.expertID,id).toPromise();
+    this.getExpertSLATime = response.outputObject ? response.outputObject.pop() : response.outputObject;
+  }
+
 
   createFixedForm(data?: any) {
     if (data) {
@@ -94,6 +117,7 @@ export class ServicesComponent implements OnInit {
       });
     }
   }
+
   createHourlyForm(data?: any) {
     if (data) {
       this.hourlyForm = this.fb.group({
@@ -111,6 +135,7 @@ export class ServicesComponent implements OnInit {
       });
     }
   }
+
   createPerPagesForm(data?: any) {
     if (data) {
       this.perPagesForm = this.fb.group({
@@ -130,7 +155,6 @@ export class ServicesComponent implements OnInit {
   }
  
   openModal(paymentType, serviceId, serviceName) {
-    
     if (paymentType == 'Fix') {
       this.createFixedForm();
       this.modalRef = this.modalService.show(this.fixed);
@@ -214,6 +238,7 @@ export class ServicesComponent implements OnInit {
       this.getExpertSlaServices(this.serviceId);
     });
   }
+
   update(expertSLAService) {
     
     this.expertSLAService = expertSLAService;
@@ -231,48 +256,6 @@ export class ServicesComponent implements OnInit {
     }, () => {
       this.getExpertSlaServices(this.serviceId);
     });
-  }
-
-  getExpertSlaServices(id) {
-    debugger
-    this.slaService.getExpertServicesSLA(id).subscribe(response => {
-      this.expertSLAServices = response.outputObject;
-      if (this.expertSLAServices) {
-        let paymentType = this.expertSLAServices[0].paymentType;
-        if (paymentType.trim() == 'Fix') {
-          this.slaServices.map(e => {
-            e.paymentTypesList.map(x => {
-              x.isShown = false;
-            });
-          });
-        } else {
-          this.slaServices.map(e => {
-            e.paymentTypesList.map(x => {
-              x.isShown = x.paymentType == paymentType.trim() ? true : false;
-            });
-          });
-        }
-      }
-      else {
-        this.slaServices.map(e => {
-          e.paymentTypesList.map(x => {
-            x.isShown = true;
-          });
-        });
-      }
-    }, error => {
-      console.log(error);
-    });
-
-
-    //get services estimated time
-    this.slaService.getExpertSLATimeManagement(0, id).subscribe(response => {
-      debugger
-      this.getExpertSLATime = response.outputObject ? response.outputObject.pop() : response.outputObject;
-      console.log(this.getExpertSLATime);
-    }, error => {
-      console.log(error);
-    })
   }
 
   editExpertService(serviceId, paymentType) {
@@ -328,7 +311,6 @@ export class ServicesComponent implements OnInit {
     });
   }
 
-
   openTimeManageModal(serviceId, serviceName) {
     this.serviceName = serviceName;
     this.serviceId = serviceId;
@@ -344,7 +326,6 @@ export class ServicesComponent implements OnInit {
   }
 
   editServiceEstTime(serviceName,serviceId) {
-    debugger 
     this.serviceName = serviceName;
     this.serviceId = serviceId;
 

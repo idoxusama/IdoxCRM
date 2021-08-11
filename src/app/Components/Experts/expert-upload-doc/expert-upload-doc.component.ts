@@ -145,8 +145,8 @@ export class ExpertUploadDocComponent implements OnInit {
   }
 
   onNextStep() {
+    debugger
     var expertID= this.expertID?this.expertID:localStorage.getItem('expertID');
-    localStorage.removeItem('expertID');
     this.step.isComplete = true;
     if (!this.stepsService.isLastStep()) {
       this.stepsService.moveToNextStep();
