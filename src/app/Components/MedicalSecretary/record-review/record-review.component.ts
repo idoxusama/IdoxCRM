@@ -210,7 +210,7 @@ export class RecordReviewComponent implements OnInit {
         formData.append("UserNote", x.note);
         formData.append("TotalSpendTime", ''+this.get_time_diff(this.startTime));
         formData.append("UserID", localStorage.getItem("userID"));
-        formData.append("RequestType", "MedicalSecretary");
+        formData.append("UserType", localStorage.getItem("userTypeID"));
         formData.append("File", this.convertBase64ToFile(x.image, "crop"));
         formData.append("FileName", "crop");
         let result = await this.reportWritingService.createRptConversationLog(formData).toPromise();

@@ -315,14 +315,16 @@ import { SchedualAppointmentsComponent } from './Components/Medco CMS/schedual-a
 import {
   UnassignedMedicalSecretaryListComponent,
 } from './Components/Medco CMS/unassigned-medical-secretary-list/unassigned-medical-secretary-list.component';
-import { ChooseExpertComponent } from './Components/Medical Performa/medical-performa/choose-expert/choose-expert.component';
-import { DraftListComponent } from './Components/Medical Performa/medical-performa/draft-list/draft-list.component';
+import { ChooseExpertComponent } from './Components/Medical Performa/choose-expert/choose-expert.component';
+import { ClientQuestionsCreateComponent } from './Components/Medical Performa/client-questions-create/client-questions-create.component';
+import { DraftListComponent } from './Components/Medical Performa/draft-list/draft-list.component';
+import { ExpertQuestionsCreateComponent } from './Components/Medical Performa/expert-questions-create/expert-questions-create.component';
 import {
   GeneratePerformaComponent,
-} from './Components/Medical Performa/medical-performa/generate-performa/generate-performa.component';
+} from './Components/Medical Performa/generate-performa/generate-performa.component';
 import {
   PerformasSummaryComponent,
-} from './Components/Medical Performa/medical-performa/performas-summary/performas-summary.component';
+} from './Components/Medical Performa/performas-summary/performas-summary.component';
 import {
   EditMedicalSecretaryComponent,
 } from './Components/MedicalSecretary/edit-medical-secretary/EditMedicalSecretary.component';
@@ -1568,6 +1570,24 @@ const routes: Routes = [
   children: [
     {
       path: '', component: PerformasSummaryComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'MedicalPerforma/client-question',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: ClientQuestionsCreateComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'MedicalPerforma/expert-question',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: ExpertQuestionsCreateComponent, pathMatch: 'full', canActivate:[AuthGuard]
     }
   ]
 },

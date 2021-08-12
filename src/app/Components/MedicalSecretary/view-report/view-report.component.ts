@@ -140,7 +140,6 @@ export class ViewReportComponent implements OnInit {
   async getMedSecRptLogResponse(id){
     let result = await this.reportWritingService.getMedSecRptLogResponse(id).toPromise();
     if(result){
-      debugger
       this.medSecRptLogResponces = result;
       for (let i = 0; i < this.expertRptLogResponse.length; i++) {
         this.expertRptLogResponse[i].medSecRptLogResponseID = this.medSecRptLogResponces[i].medSecRptLogResponseID;
@@ -205,7 +204,7 @@ export class ViewReportComponent implements OnInit {
     formData.append("IsSourceCaseClosed",''+isSourceCaseClosed);
     formData.append("CaseStatusID", ''+caseStatusID);
     formData.append("TotalSpendTime","");
-    formData.append("RequestType",localStorage.getItem('userTypeID'));
+    formData.append("UserType", localStorage.getItem("userTypeID"));
     formData.append("UserID",localStorage.getItem('userID'));
     this.uploadedFiles.forEach((f)=>{formData.append("File",f)});
 
@@ -236,7 +235,7 @@ export class ViewReportComponent implements OnInit {
     formData.append("IsCaseClosed", '' + caseClosed);
     formData.append("CaseStatusID", '' + caseStatusID);
     formData.append("TotalSpendTime", "");
-    formData.append("RequestType", localStorage.getItem('userTypeID'));
+    formData.append("UserType", localStorage.getItem("userTypeID"));
     this.uploadedFiles.forEach((f) => formData.append("File", f));
 
     await this.reportWritingService.createRptLogRefImgResponse(formData).toPromise();
@@ -246,7 +245,6 @@ export class ViewReportComponent implements OnInit {
   }
 
   async submitResponce(){
-    debugger
     let findLog = this.expertRPTLog.find(e=>e.expertRptLogID==this.logId);  
     let rptExpertResponseLog = this.expertRptLogResponse.find(e=>e.expertRptLogResponseID==this.resLogId);
 
@@ -266,7 +264,7 @@ export class ViewReportComponent implements OnInit {
     formData.append("IsSourceCaseClosed",''+isSourceCaseClosed);
     formData.append("CaseStatusID", ''+caseStatusID);
     formData.append("TotalSpendTime","");
-    formData.append("RequestType",localStorage.getItem('userTypeID'));
+    formData.append("UserType", localStorage.getItem("userTypeID"));
     formData.append("UserID",localStorage.getItem('userID'));
     this.uploadedFiles.forEach((f)=>{formData.append("File",f)});
 

@@ -22,11 +22,11 @@ import { SettingsService } from 'src/app/Services/Settings Services/settings.ser
 })
 export class NewInstructionComponent implements OnInit {
   /* #region  Fields */
-  maxDate: Date;
+  public maxDate: Date;
 
-  instructionID: number;
-  instructionForm: FormGroup;
-  instructionFromSubmit: boolean = false;
+  public instructionID: number;
+  public instructionForm: FormGroup;
+  public instructionFromSubmit: boolean = false;
 
   public experts: Array<Select2OptionData>;
   public specialities: Array<Select2OptionData>;
@@ -37,15 +37,15 @@ export class NewInstructionComponent implements OnInit {
   public incidentTypes: Array<Select2OptionData>;
   public expertTypes: Array<Select2OptionData>;
 
-  newInstruction: NewInstruction = new NewInstruction();
-  instructionSpecial: IntructionSpecial = new IntructionSpecial();
-  caseHandler: CaseHandler = new CaseHandler();
-  medicoRecord: MedcoRecord = new MedcoRecord();
-  translator: Tranlator = new Tranlator();
-  caseInfo: CaseInfo = new CaseInfo();
+  public newInstruction: NewInstruction = new NewInstruction();
+  public instructionSpecial: IntructionSpecial = new IntructionSpecial();
+  public caseHandler: CaseHandler = new CaseHandler();
+  public medicoRecord: MedcoRecord = new MedcoRecord();
+  public translator: Tranlator = new Tranlator();
+  public caseInfo: CaseInfo = new CaseInfo();
 
-  requiredMedicalRecordUploadFiles = [];
-  otherMedicalRecordUploadFiles = [];
+  public requiredMedicalRecordUploadFiles = [];
+  public otherMedicalRecordUploadFiles = [];
   /* #endregion */
 
   constructor(private expertUserService: ExpertuserService,
