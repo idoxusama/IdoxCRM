@@ -1,0 +1,56 @@
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+      <div class="container my-3 main-container">
+          <div class="row align-items-center">
+              <div class="col">
+                  <h2 class="content-color-primary page-title">Hold Reports</h2>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="container mt-4 main-container">
+  <div class="row">
+      <div class="col-sm-12 col-md-12">
+          <div class="card rounded-0 border-0 mb-3">
+              <div class="card-header">
+                  <div class="row">
+                      <div class="col-8">
+                          <h5 class="card-title mb-0">Conversations</h5>
+                      </div>
+                  </div>
+              </div>
+              <div class="card-body">
+                  <table class="table">
+                      <thead>
+                          <tr>
+                              <th scope="col">Sr.#</th>
+                              <th scope="col">Instruction Code</th>
+                              <th scope="col">Med. Sec. Name</th>
+                              <th scope="col">Expert Name</th>
+                              <th scope="col">Spent Time Min</th>
+                              <th scope="col">Case Opened</th>
+                              <th scope="col">Actions</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let item of conversations;let i = index;">
+                              <th scope="row">{{i+1}}</th>
+                              <td>{{item.instructionCode}}</td>
+                              <td>{{item.medSecName}}</td>
+                              <td>{{item.expertName}}</td>
+                              <td>{{item.spentTimeMin}}</td>
+                              <td>{{item.caseOpened | date:'dd/MM/yyyy'}}</td>
+                              <td>
+                                <a style="cursor: pointer;" [routerLink]="['/MedicalSecretary/view-report']" [queryParams]="{id:item.instructionID}" class="btn btn-sm warning-gradient mr-2">Detail</a>
+                                <a style="cursor: pointer;" [routerLink]="['/MedicalSecretary/report-summary']" [queryParams]="{id:item.instructionID}" class="btn btn-sm primary-gradient mr-2">Summary</a>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

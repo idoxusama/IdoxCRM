@@ -41,8 +41,8 @@ export class SlaService {
     return this.http.post(requestUrl,data,requestOptions);
   }
 
-  getExpertServicesSLA(id):Observable<any>{
-    let requestUrl = this.baseUrl+`/api/ExpertServices/GetExpertServicesSLA?expertServiceID=${id}`;
+  getExpertServicesSLA(id,expertID,expertServiceID):Observable<any>{
+    let requestUrl = this.baseUrl+`/api/ExpertServices/GetExpertServicesSLA?id=${id}&expertID=${expertID}&expertServiceID=${expertServiceID}`;
     
     const headerDict = {
       'Access-Control-Allow-Origin':'*',
@@ -71,8 +71,8 @@ export class SlaService {
     return this.http.post(requestUrl,data,requestOptions);
   }
 
-  getExpertSLATimeManagement(id,expertServiceID):Observable<any>{
-    let requestUrl = this.baseUrl+`/api/ExpertServices/GetExpertSLATimeManagement?ID=${id}&ExpertServiceID=${expertServiceID}`;
+  getExpertSLATimeManagement(id,expertID,expertServiceID):Observable<any>{
+    let requestUrl = this.baseUrl+`/api/ExpertServices/GetExpertSLATimeManagement?id=${id}&expertID=${expertID}&expertServiceID=${expertServiceID}`;
     
     const headerDict = {
       'Access-Control-Allow-Origin':'*',

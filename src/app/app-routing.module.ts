@@ -315,17 +315,20 @@ import { SchedualAppointmentsComponent } from './Components/Medco CMS/schedual-a
 import {
   UnassignedMedicalSecretaryListComponent,
 } from './Components/Medco CMS/unassigned-medical-secretary-list/unassigned-medical-secretary-list.component';
-import { ChooseExpertComponent } from './Components/Medical Performa/medical-performa/choose-expert/choose-expert.component';
-import { DraftListComponent } from './Components/Medical Performa/medical-performa/draft-list/draft-list.component';
+import { ChooseExpertComponent } from './Components/Medical Performa/choose-expert/choose-expert.component';
+import { ClientQuestionsCreateComponent } from './Components/Medical Performa/client-questions-create/client-questions-create.component';
+import { DraftListComponent } from './Components/Medical Performa/draft-list/draft-list.component';
+import { ExpertQuestionsCreateComponent } from './Components/Medical Performa/expert-questions-create/expert-questions-create.component';
 import {
   GeneratePerformaComponent,
-} from './Components/Medical Performa/medical-performa/generate-performa/generate-performa.component';
+} from './Components/Medical Performa/generate-performa/generate-performa.component';
 import {
   PerformasSummaryComponent,
-} from './Components/Medical Performa/medical-performa/performas-summary/performas-summary.component';
+} from './Components/Medical Performa/performas-summary/performas-summary.component';
 import {
   EditMedicalSecretaryComponent,
 } from './Components/MedicalSecretary/edit-medical-secretary/EditMedicalSecretary.component';
+import { HoldReportsComponent } from './Components/MedicalSecretary/hold-reports/hold-reports.component';
 import {
   MedicalSecretaryListComponent,
 } from './Components/MedicalSecretary/medical-secretary-list/MedicalSecretaryList.component';
@@ -334,6 +337,8 @@ import {
 } from './Components/MedicalSecretary/new-medical-secretary/new-medical-secretary.component';
 import { NewlyAssignedComponent } from './Components/MedicalSecretary/newly-assigned/newly-assigned.component';
 import { RecordReviewComponent } from './Components/MedicalSecretary/record-review/record-review.component';
+import { ReportConversationComponent } from './Components/MedicalSecretary/report-conversation/report-conversation.component';
+import { ReportWritingSummaryComponent } from './Components/MedicalSecretary/report-writing-summary/report-writing-summary.component';
 import { ViewReportComponent } from './Components/MedicalSecretary/view-report/view-report.component';
 import {
   OrthopaedicClientlogComponent,
@@ -1506,6 +1511,33 @@ const routes: Routes = [
   ]
 },
 {
+  path: 'MedicalSecretary/report-conversation',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: ReportConversationComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'MedicalSecretary/hold-reports',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: HoldReportsComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'MedicalSecretary/report-summary',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: ReportWritingSummaryComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
   path: 'MedicalPerforma/Generate',
   component: AppLayoutComponent,
   children: [
@@ -1538,6 +1570,24 @@ const routes: Routes = [
   children: [
     {
       path: '', component: PerformasSummaryComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'MedicalPerforma/client-question',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: ClientQuestionsCreateComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'MedicalPerforma/expert-question',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: ExpertQuestionsCreateComponent, pathMatch: 'full', canActivate:[AuthGuard]
     }
   ]
 },

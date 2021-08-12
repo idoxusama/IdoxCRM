@@ -199,6 +199,8 @@ export class EpertBasicInfoComponent implements OnInit {
   }
 
   async checkUserExist(username){
+    if(username==='' || username===undefined) return false;
+
     let user = await this.userService.checkUserExist(username).toPromise();
     if(user) return true;
     return false;
@@ -209,6 +211,7 @@ export class EpertBasicInfoComponent implements OnInit {
     this.expertBasicInfo.userID = +localStorage.getItem('userID');
 
     let userExist = await this.checkUserExist(this.expertBasicInfo.username);
+    debugger
     if(userExist===false){
       let result = await this.experUserSerice.createPersonalInfo(this.expertBasicInfo).toPromise();
       let output = result.outputObject;

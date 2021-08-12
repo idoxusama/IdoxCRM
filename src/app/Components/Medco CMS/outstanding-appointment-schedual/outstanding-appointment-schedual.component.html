@@ -163,7 +163,7 @@
                       <tbody>
                         <tr *ngFor="let item of expertAvailabilities">
                           <th>{{item.days}}</th>
-                          <td>{{item.startTime}} - {{item.endTime}}</td>
+                          <td>{{item.startTime | date:'HH:mm'}} - {{item.endTime | date:'HH:mm'}}</td>
                         </tr>
                       </tbody>
                     </table>

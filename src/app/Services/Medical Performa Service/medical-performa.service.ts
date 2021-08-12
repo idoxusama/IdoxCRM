@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { debug } from 'console';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -73,8 +72,8 @@ export class MedicalPerformaService {
       ?  { match: true } :null;
   }
 
-  getQuestionariesForClient(id: any): Observable<any> {
-    let requestUrl = this.baseUrl + "/api/MedicalSecretary/GetAllPerformaQuestionaireClient?ExpertTypeID=" + id;
+  getQuestionariesForClient(expertTypeID: any,expertID:any): Observable<any> {
+    let requestUrl = this.baseUrl + `/api/MedicalSecretary/GetAllPerformaQuestionaireClient?ExpertTypeID=${expertTypeID}&ExpertID=${expertID}`;
     const headerDict = {
       'Access-Control-Allow-Origin': '*',
       "Authorization": "Bearer " + localStorage.getItem('access_token'),
@@ -198,6 +197,19 @@ export class MedicalPerformaService {
       headers: new HttpHeaders(headerDict)
     };
     return this.http.get<any>(requestUrl, requestOptions);
+  }
+
+  createPerformaQuestionniareForClient(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/MedicalSecretary/CreatePerformaQuestionniareForClient';
+    const headerDict = {
+      'Access-Control-Allow-Origin': '*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict)
+    };
+    return this.http.post<any>(requestUrl,data, requestOptions);
   }
 
 }

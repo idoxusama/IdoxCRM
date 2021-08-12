@@ -7,11 +7,14 @@ import html2canvas from 'html2canvas';
 import { PDFDocumentProxy } from 'ng2-pdf-viewer';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from 'ngx-gallery';
+import { ToastrService } from 'ngx-toastr';
 import { MedcoRecord } from 'src/app/Models/Instruction Main/MedcoRecord';
 import { CroppedImages } from 'src/app/Models/Medical Secretary Model/cropped-image';
+import { NewlyAssigned } from 'src/app/Models/Medical Secretary Model/newly-assigned';
 import { ExpertuserService } from 'src/app/Services/Experts Services/expertuser.service';
 import { InstructionService } from 'src/app/Services/Instruction Main/instruction.service';
 import { MedicalsecretaryService } from 'src/app/Services/Medical Secretary Services/medicalsecretary.service';
+import { ReportWritingService } from 'src/app/Services/Report Writing Services/report-writing.service';
 
 @Component({
   selector: 'app-record-review',
@@ -22,6 +25,7 @@ export class RecordReviewComponent implements OnInit {
   private instructionID: string;
   private cropper!: Cropper;
   public medcoRecord: MedcoRecord[] = [];
+  public assignedMedSecList:NewlyAssigned[]=[];
   public showPreview: boolean = false;
   public fileContent = "";
   public pdfSrc;
@@ -43,8 +47,9 @@ export class RecordReviewComponent implements OnInit {
     private instructionService: InstructionService,
     private route: ActivatedRoute,
     private modalService: BsModalService,
-    private medicalSecretaryService: MedicalsecretaryService,
-    private fb: FormBuilder) { }
+    private reportWritingService: ReportWritingService,
+    private fb: FormBuilder,
+    private toasterService:ToastrService) { }
 
   ngOnInit() {
     this.startTime = new Date();
@@ -53,7 +58,17 @@ export class RecordReviewComponent implements OnInit {
     });
     if (this.instructionID) {
       this.getMedicalRecord();
+      this.getAllAssignedMedSec();
     }
+  }
+
+  getAllAssignedMedSec(){
+    let userID = +localStorage.getItem('userID');
+    this.instructionService.getAllInstAssignMedSec(0,userID).subscribe(response=>{
+      this.assignedMedSecList = response.outputObject;
+    },error=>{
+      console.log(error);
+    });
   }
 
   /* #region  medical record actions */
@@ -119,7 +134,6 @@ export class RecordReviewComponent implements OnInit {
   /* #endregion */
 
   saveNote() {
-    debugger
     this.reviewNoteFormSubmit = true;
     if (this.reviewNoteForm.valid) {
       //get cropped canvas
@@ -143,7 +157,6 @@ export class RecordReviewComponent implements OnInit {
 
   getCroppedReferences(id, template) {
     this.croppedImageReferences = this.croppedImages.filter(e => e.id == id).pop().references;
-
     //prepare gallary
     const imageUrls = [];
     for (let i = 0; i < this.croppedImageReferences.length; i++) {
@@ -185,36 +198,43 @@ export class RecordReviewComponent implements OnInit {
 
   saveCroppedImages() {
     debugger
-    this.croppedImages.forEach(async x => {
-      //post crop images to api.
-      let formData = new FormData();
-      formData.append("InstructionID", this.instructionID);
-      formData.append("ExpertID", "0");
-      formData.append("MedicalSecretaryID", "0");
-      formData.append("Description", "");
-      formData.append("UserNote", x.note);
-      formData.append("TotalSpendTime", this.get_time_diff(this.startTime));
-      formData.append("UserID", localStorage.getItem("userID"));
-      formData.append("RequestType", "MedicalSecretary");
-      formData.append("File", this.convertBase64ToFile(x.image, "crop"));
-      formData.append("FileName", "crop");
-
-      let result = await this.medicalSecretaryService.createRptConversationLog(formData).toPromise();
-      debugger
-      // post the cropped images references to api
-      this.croppedImageReferences = x.references;
-      this.croppedImageReferences.forEach(async cr => {
+    let recordRecordInfo = this.assignedMedSecList.find(e=>e.instructionID == +this.instructionID);
+    if(this.croppedImages.length>0){
+      this.croppedImages.forEach(async x => {
+        //post crop images to api.
         let formData = new FormData();
-        formData.append("File", this.convertBase64ToFile(cr.image, "browseupload"));
-        formData.append("ExpertRptLogID", result.expertRptLogID);
-        formData.append("MedSecRptLogID", result.medSecRptLogID);
         formData.append("InstructionID", this.instructionID);
-        formData.append("Note", cr.note);
-        formData.append("userID", localStorage.getItem('userID'));
-        await this.medicalSecretaryService.createRptLogReferenceImg(formData).toPromise();
+        formData.append("ExpertID", ''+recordRecordInfo.expertID);
+        formData.append("MedicalSecretaryID", ''+recordRecordInfo.medSecID);
+        formData.append("Description", "");
+        formData.append("UserNote", x.note);
+        formData.append("TotalSpendTime", ''+this.get_time_diff(this.startTime));
+        formData.append("UserID", localStorage.getItem("userID"));
+        formData.append("UserType", localStorage.getItem("userTypeID"));
+        formData.append("File", this.convertBase64ToFile(x.image, "crop"));
+        formData.append("FileName", "crop");
+        let result = await this.reportWritingService.createRptConversationLog(formData).toPromise();
+
+        // post the cropped images references to api
+        this.croppedImageReferences = x.references;
+        for (let i = 0; i < this.croppedImageReferences.length; i++) {
+          let formData = new FormData();
+          formData.append("File", this.convertBase64ToFile(this.croppedImageReferences[i].image, "browseupload"));
+          formData.append("ExpertRptLogID", result.expertRptLogID);
+          formData.append("MedSecRptLogID", result.medSecRptLogID);
+          formData.append("InstructionID", this.instructionID);
+          formData.append("Note", this.croppedImageReferences[i].note);
+          formData.append("userID", localStorage.getItem('userID'));
+          let res = await this.reportWritingService.createRptLogReferenceImg(formData).toPromise();
+        }
       });
 
-    });
+      this.toasterService.success('Cropped images and references saved successfully!');
+      this.ngOnInit();
+    }
+    else{
+      this.toasterService.error('Please cropped the image then proceed!');
+    } 
   }
 
   /* #region  Cropper Methods */
@@ -324,7 +344,7 @@ export class RecordReviewComponent implements OnInit {
       var milisec_diff = startTime - now;
     var days = Math.floor(milisec_diff / 1000 / 60 / (60 * 24));
     var date_diff = new Date(milisec_diff);
-    return date_diff.getHours() + ":" + date_diff.getMinutes();
+    return date_diff.getSeconds();
   }
 
   /* #endregion */

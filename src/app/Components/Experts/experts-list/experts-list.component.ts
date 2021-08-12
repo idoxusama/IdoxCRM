@@ -25,15 +25,14 @@ export class ExpertsListComponent implements OnInit {
 
   getCompletedExpertsProfile() {
     this.expertUserService.getExpertProfileInfo("Expert",0, "", "completedprofile").subscribe((response) => {
+      this.filterList = response.outputObject;
       this.expertsList = response.outputObject;
-      this.filterList = this.expertsList;
     }, error => {
       console.log(error);
     })
   }
 
   filterExperts(value:string) {
-    debugger
     this.filterList = value ? this.expertsList.filter(e =>
          e.firstName.toLocaleLowerCase().includes(value.toLocaleLowerCase()) || 
          e.lastName.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||

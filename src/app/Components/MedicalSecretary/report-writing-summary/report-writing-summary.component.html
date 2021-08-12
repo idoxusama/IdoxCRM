@@ -1,0 +1,74 @@
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+      <div class="container my-3 main-container">
+          <div class="row align-items-center">
+              <div class="col">
+                  <h2 class="content-color-primary page-title">Report Summary</h2>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="container mt-4 main-container">
+  <div class="row">
+      <div class="col-sm-12 col-md-12">
+          <div class="card rounded-0 border-0 mb-3">
+              <div class="card-body">
+                <ng-container *ngFor="let item of reportSummary">
+                  <div class="row">
+                    <div class="col-8">
+                        <h3 class="card-title mb-0">Source</h3>
+                    </div>
+                </div>
+                  <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Log Status</th>
+                            <th scope="col">Is Case Closed</th>
+                            <th scope="col">Total Spend Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{item.dateOfSourceCreate |date:'dd/MM/yyyy'}}</td>
+                            <td>{{item.rptLogStatus}}</td>
+                            <td>{{item.rptLogIsCaseClosed}}</td>
+                            <td>{{item.rptLogTotalSpendTime}}</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <div class="row">
+                  <div class="col-8">
+                      <h3 class="card-title mb-0">Responce</h3>
+                  </div>
+              </div>
+                <table class="table">
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Status Name</th>
+                    <th scope="col">Res. Status Name</th> 
+                    <th scope="col">View Date</th>
+                    <th scope="col">Respond Date</th>
+                    <th scope="col">Is Case Closed</th>
+                    <th scope="col">Total Spend Time</th>
+                  </tr>
+                  <tr *ngFor="let i of item.rcdRevRptLogResponseList">
+                    <td>{{i.dateOfResponseCreate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{i.statusName}}</td>
+                    <td>{{i.reponseStatusName}}</td>
+                    <td>{{i.viewDate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{i.respondDate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{i.responseIsCaseClosed}}</td>
+                    <td>{{i.responseTotalSpendTime}}</td>
+                  </tr>
+                </table>
+                </ng-container>
+                  
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

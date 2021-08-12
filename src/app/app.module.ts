@@ -236,12 +236,12 @@ import { NewInstructionSettingComponent } from './Components/Instruction/new-ins
 import { ExpertPerformaComponent } from './Components/Experts/expert-performa/expert-performa.component';
 import { MedicalSecretaryListComponent } from './Components/MedicalSecretary/medical-secretary-list/MedicalSecretaryList.component';
 import { EditMedicalSecretaryComponent } from './Components/MedicalSecretary/edit-medical-secretary/EditMedicalSecretary.component';
-import { ChooseExpertComponent } from './Components/Medical Performa/medical-performa/choose-expert/choose-expert.component';
+import { ChooseExpertComponent } from './Components/Medical Performa/choose-expert/choose-expert.component';
 import { ConfirmModalDialogComponent } from './Components/Medical Performa/confirmModalDialog/confirmModalDialog.component';
-import { GeneratePerformaComponent } from './Components/Medical Performa/medical-performa/generate-performa/generate-performa.component';
-import { DraftListComponent } from './Components/Medical Performa/medical-performa/draft-list/draft-list.component';
+import { GeneratePerformaComponent } from './Components/Medical Performa/generate-performa/generate-performa.component';
+import { DraftListComponent } from './Components/Medical Performa/draft-list/draft-list.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { PerformasSummaryComponent } from './Components/Medical Performa/medical-performa/performas-summary/performas-summary.component';
+import { PerformasSummaryComponent } from './Components/Medical Performa/performas-summary/performas-summary.component';
 import { StepsComponent } from './Components/Experts/steps/steps.component';
 import { ExpertBankChargesComponent } from './Components/Experts/expert-bank-charges/expert-bank-charges.component';
 import { EpertBasicInfoComponent } from './Components/Experts/epert-basic-info/epert-basic-info.component';
@@ -290,6 +290,11 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { ExpertRecordReviewComponent } from './Components/Experts/expert-record-review/expert-record-review.component';
 import { ViewReportComponent } from './Components/MedicalSecretary/view-report/view-report.component';
+import { ReportConversationComponent } from './Components/MedicalSecretary/report-conversation/report-conversation.component';
+import { HoldReportsComponent } from './Components/MedicalSecretary/hold-reports/hold-reports.component';
+import { ReportWritingSummaryComponent } from './Components/MedicalSecretary/report-writing-summary/report-writing-summary.component';
+import { ClientQuestionsCreateComponent } from './Components/Medical Performa/client-questions-create/client-questions-create.component';
+import { ExpertQuestionsCreateComponent } from './Components/Medical Performa/expert-questions-create/expert-questions-create.component';
 
 @NgModule({
   declarations: [	
@@ -518,12 +523,17 @@ import { ViewReportComponent } from './Components/MedicalSecretary/view-report/v
     EditMedicalSecretaryComponent,
     NewlyAssignedComponent,
     ViewReportComponent,
+    ReportConversationComponent,
+    HoldReportsComponent,
+    ReportWritingSummaryComponent,
     RecordReviewComponent,
     ChooseExpertComponent,
     GeneratePerformaComponent,
     ConfirmModalDialogComponent,
     DraftListComponent,
     PerformasSummaryComponent,
+    ClientQuestionsCreateComponent,
+    ExpertQuestionsCreateComponent,
     StepsComponent,
     ExpertBankChargesComponent,
     EpertBasicInfoComponent,
@@ -558,7 +568,7 @@ import { ViewReportComponent } from './Components/MedicalSecretary/view-report/v
     AlphabetsOnlyDirective,
     NotAllowSepacialChatactorDirective,
     DisableControlDirective,
-    InvalidControlScrollDirective,
+    InvalidControlScrollDirective
    ],
   entryComponents: [
     ConfirmModalDialogComponent

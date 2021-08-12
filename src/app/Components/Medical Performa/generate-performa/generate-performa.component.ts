@@ -1,13 +1,20 @@
-import { Component, EventEmitter, OnInit, Output, Input, SimpleChange, OnDestroy, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { debug } from 'console';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { VirtualTimeScheduler } from 'rxjs';
-import { ClientQuesitons, DraftAnswersForClient, PerformaAnswersOFClient } from 'src/app/Models/Medical Performa/MedicalPerformaQuestionsForClient';
-import { DraftAnswersForExpert, ExpertQuestions, PerformaAnswersOFExpert } from 'src/app/Models/Medical Performa/MedicalPerformaQuestionsForExpert';
+import {
+  ClientQuesitons,
+  DraftAnswersForClient,
+  PerformaAnswersOFClient,
+} from 'src/app/Models/Medical Performa/MedicalPerformaQuestionsForClient';
+import {
+  DraftAnswersForExpert,
+  ExpertQuestions,
+  PerformaAnswersOFExpert,
+} from 'src/app/Models/Medical Performa/MedicalPerformaQuestionsForExpert';
 import { MedicalPerformaService } from 'src/app/Services/Medical Performa Service/medical-performa.service';
-import { ConfirmModalDialogComponent } from '../../confirmModalDialog/confirmModalDialog.component';
+
+import { ConfirmModalDialogComponent } from '../confirmModalDialog/confirmModalDialog.component';
 
 @Component({
   selector: 'app-generate-performa',
@@ -81,7 +88,7 @@ export class GeneratePerformaComponent implements OnInit,OnChanges {
 
   /* #region  get questions */
   getClientQuestions(id) {
-    this.medicalPerformaSerivce.getQuestionariesForClient(id).subscribe((response) => {
+    this.medicalPerformaSerivce.getQuestionariesForClient(id,0).subscribe((response) => {
       this.clientQuestions = response.outputObject;
       this.formGroup.push(response.outputObject);
     }, error => {
@@ -124,7 +131,7 @@ export class GeneratePerformaComponent implements OnInit,OnChanges {
       this.noOfDraftEntry = Math.max.apply(Math, this.PerformaAnswerForClient.map(function (o) { return o.noOfState; }));
 
       //get questions
-      let questions = await this.medicalPerformaSerivce.getQuestionariesForClient(this.expertTypeId).toPromise();
+      let questions = await this.medicalPerformaSerivce.getQuestionariesForClient(this.expertTypeId,0).toPromise();
       let data = questions.outputObject;
       this.clientQuestions = data.forEach(element => {
         element.questionList.map(m => {
