@@ -1,3 +1,320 @@
-<p>
-  expert-questions-create works!
-</p>
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+    <div class="container my-3 main-container">
+      <div class="row align-items-center">
+        <div class="col">
+          <h2 class="content-color-primary page-title">Expert Questions</h2>
+          <p class="content-color-secondary page-sub-title">Create questions for expert</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4 main-container">
+  <form [formGroup]="expertQuestionForm" *ngIf="expertQuestionForm" (ngSubmit)="submitExpertQuestions()">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row justify-content-center">
+          <div class="col-md-10 mx-auto">
+            <div class="row ">
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group ">
+                  <label>Expert Type</label>
+                  <select2 [data]="expertTypes" [cssImport]="true" [ngClass]="{'is-invalid': expertQuestionForm.get('expertTypeID').errors 
+                  && (expertQuestionForm.get('expertTypeID').touched||expertQuestionFormSubmit)}" width="100%"
+                    (valueChanged)="selectExpertType($event,'expertTypeID')">
+                  </select2>
+                  <div class="invalid-feedback"
+                    *ngIf="(expertQuestionForm.get('expertTypeID').touched||expertQuestionFormSubmit) && expertQuestionForm.get('expertTypeID').hasError('required')">
+                    This field is required
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group ">
+                  <label>Expert</label>
+                  <select2 [data]="experts" [cssImport]="true" [ngClass]="{'is-invalid': expertQuestionForm.get('expertID').errors 
+                  && (expertQuestionForm.get('expertID').touched||expertQuestionFormSubmit)}" width="100%" (valueChanged)="selectExpert($event,'expertID')">
+                  </select2>
+                  <div class="invalid-feedback"
+                    *ngIf="(expertQuestionForm.get('expertID').touched||expertQuestionFormSubmit) && expertQuestionForm.get('expertID').hasError('required')">
+                    This field is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row ">
+              <div class="col-lg-5 col-md-5">
+                <div class="form-group ">
+                  <label>Section Name</label>
+                  <select2 [data]="sectionNames" [value]="expertQuestionForm.get('sectionName').value" [cssImport]="true" [ngClass]="{'is-invalid': expertQuestionForm.get('sectionName').errors 
+                  && (expertQuestionForm.get('sectionName').touched||expertQuestionFormSubmit)}" width="100%" (valueChanged)="onSelectOption($event,'sectionName')">
+                  </select2>
+                  <div class="invalid-feedback"
+                    *ngIf="(expertQuestionForm.get('sectionName').touched||expertQuestionFormSubmit) && expertQuestionForm.get('sectionName').hasError('required')">
+                    This field is required
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-1 col-md-1 mt-4 text-right">
+                <a style="cursor: pointer;" class="text-primary" (click)="openSectionModal(newSection)"><i class="material-icons">add</i></a>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group ">
+                  <label>Question Name</label>
+                  <input type="text" class="form-control" formControlName="questionName" placeholder="" [ngClass]="{'is-invalid': expertQuestionForm.get('questionName').errors 
+                  && (expertQuestionForm.get('questionName').touched||expertQuestionFormSubmit)}">
+                  <div class="invalid-feedback"
+                    *ngIf="(expertQuestionForm.get('questionName').touched||expertQuestionFormSubmit) && expertQuestionForm.get('questionName').hasError('required')">
+                    This field is required
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="row ">
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group ">
+                  <label>Question Type</label>
+                  <select2 [data]="questionTypes" [value]="expertQuestionForm.get('qType').value" [cssImport]="true" [ngClass]="{'is-invalid': expertQuestionForm.get('qType').errors 
+                  && (expertQuestionForm.get('qType').touched||expertQuestionFormSubmit)}" width="100%" (valueChanged)="onQuestionTypeChange($event,'qType')">
+                  </select2>
+                  <div class="invalid-feedback"
+                    *ngIf="(expertQuestionForm.get('qType').touched||expertQuestionFormSubmit) && expertQuestionForm.get('qType').hasError('required')">
+                    This field is required
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group ">
+                  <label>Serial No.</label>
+                  <input type="text" class="form-control" formControlName="srNo" placeholder="" [ngClass]="{'is-invalid': expertQuestionForm.get('srNo').errors 
+                  && (expertQuestionForm.get('srNo').touched||expertQuestionFormSubmit)}">
+                  <div class="invalid-feedback"
+                    *ngIf="(expertQuestionForm.get('srNo').touched||expertQuestionFormSubmit) && expertQuestionForm.get('srNo').hasError('required')">
+                    This field is required
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="row">
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group ">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="isRequired" id="isRequired">
+                    <label class="custom-control-label" for="isRequired">Is Required</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group ">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="isActive" id="isActive">
+                    <label class="custom-control-label" for="isActive">Is Active</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group ">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="isOptional" id="isOptional">
+                    <label class="custom-control-label" for="isOptional">Is Optional</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row border-top border-bottom mt-3 mb-3">
+              <div class="col-sm-6 col-sm-6">
+                <h5 class="mt-3">Add Options <a class="text-primary" style="cursor: pointer;" (click)="addOptionFormGroup()"><i class="material-icons">add</i></a></h5>             
+              </div>
+            </div>
+            
+            <ng-container formArrayName="optionsFormArray">
+              <div class="row" *ngFor="let control of optionsFormArray.controls; let i=index;">
+                <div class="col-sm-3">
+                  <label>Option Name</label>
+                  <input type="text" class="form-control" [formControl]="control.get('optionName')" placeholder="" 
+                  [ngClass]="{'is-invalid': control.get('optionName').errors 
+                  && (control.get('optionName').touched||expertQuestionFormSubmit)}">
+                  <div class="invalid-feedback"
+                    *ngIf="(control.get('optionName').touched||expertQuestionFormSubmit) && control.get('optionName').hasError('required')">
+                    This field is required
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <label>Option Type</label>
+                  <select2 [data]="optionTypes" [cssImport]="true" [value]="control.get('optionType').value" [ngClass]="{'is-invalid': control.get('optionType').errors 
+                  && (control.get('optionType').touched||expertQuestionFormSubmit)}" width="100%" (valueChanged)="setOptionType($event,'optionType',i)">
+                  </select2>
+                  <div class="invalid-feedback"
+                    *ngIf="(control.get('optionType').touched||expertQuestionFormSubmit) && control.get('optionType').hasError('required')">
+                    This field is required
+                  </div>
+                </div>
+                <div class="col-sm-3 mt-4">
+                  <div class="form-group ">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" [formControl]="control.get('isActive')" id="isActive{{i}}">
+                      <label class="custom-control-label" for="isActive{{i}}">Is Active</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3 mt-4">
+                  <button class="btn btn-sm danger-gradient mr-2" (click)="deleteOption(i)">Remove</button>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer align-content-center text-center">
+        <button type="submit" class="btn btn-success px-4">{{getButtonLable()}}</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="container mt-4 main-container">
+  <div class="row">
+      <div class="col-sm-12 col-md-12">
+          <div class="card rounded-0 border-0 mb-3">
+              <div class="card-header">
+                  <div class="row">
+                      <div class="col-8">
+                          <h5 class="card-title mb-0">Questions</h5>
+                      </div>
+                      <div class="col-4" *ngIf="expertQuestions.length>0">
+                        <div class="row">
+                          <div class="col-sm-8">
+                            <h5 class="card-title mb-0">Active all questionaire</h5>
+                          </div>
+                          <div class="col-sm-4">
+                            <label class="switch">
+                              <input type="checkbox" [checked]="isActiveAll?true:false" (change)="activeOrInActive($event)">
+                              <span class="slider round"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="card-body">
+                  <table class="table">
+                      <thead>
+                          <tr>
+                              <th scope="col">Sr. #</th>
+                              <th scope="col">Section Name</th>
+                              <th scope="col">Question Name</th>
+                              <th scope="col">Question Type</th>
+                              <th scope="col">Is Required</th>
+                              <th scope="col">Is Optional</th>
+                              <th scope="col">Is Active</th>
+                              <th scope="col">Actions</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let item of expertQuestions">
+                              <th scope="row">{{item.srNo}}</th>
+                              <td>{{item.sectionName}}</td>
+                              <td>{{item.questionName}}</td>
+                              <td>{{item.qType}}</td>
+                              <td>
+                                <span *ngIf="item.isRequired" class="text-success"><i class="material-icons">check</i></span>
+                                <span *ngIf="!item.isRequired" class="text-danger"><i class="material-icons">close</i></span>
+                              </td>
+                              <td>
+                                <span *ngIf="item.isOptional" class="text-success"><i class="material-icons">check</i></span>
+                                <span *ngIf="!item.isOptional" class="text-danger"><i class="material-icons">close</i></span>
+                              </td>
+                              <td>
+                                <span *ngIf="item.isActive" class="text-success"><i class="material-icons">check</i></span>
+                                <span *ngIf="!item.isActive" class="text-danger"><i class="material-icons">close</i></span>
+                              </td>
+                              <td>
+                                <button class="btn btn-sm primary-gradient mr-2" (click)="getQuestionOptions(item.id,optionsTemplate)">Options</button>
+                                <button class="btn btn-sm primary-gradient mr-2" (click)="editQuestion(item.id)">Edit</button>
+                                <button class="btn btn-sm danger-gradient mr-2" (click)="deleteQuestion(item.id)">Delete</button>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+              <div class="card-footer align-content-center text-center" *ngIf="expertQuestions.length>0">
+                <button type="button" class="btn btn-success px-4" (click)="saveAll()">Submit</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<ng-template #newSection>
+  <div class="modal-header bg-primary">
+    <h4 class="modal-title pull-left text-white">Modal</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form #f="ngForm" (ngSubmit)="addNewSection()">
+    <div class="modal-body">
+      <div class="row ">
+        <div class="col-lg-12 col-md-12">
+          <div class="form-group ">
+            <label>Section Name</label>
+            <input type="text" class="form-control" placeholder="Section Name" #sectionName="ngModel" [(ngModel)]="sectionModal.sectionName" name="sectionName" required>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer float-right">
+      <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Cancel</button>
+      <button type="submit" class="btn btn-success">Save</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #confirmBox>
+  <div class="modal-header">
+    <h5>Confirm</h5>
+  </div>
+  <div class="modal-body">
+    <h6 class="my-0 text-truncated">You have choosed general, no need to select expert now!</h6>
+    <div class="text-center mt-3">
+      <button type="submit" class="mb-2 btn btn-primary btn-rounded" (click)="modalRef.hide()">Ok</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #optionsTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Options</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card-body p-0">
+      <table class="table mb-0">
+        <thead>
+          <tr>
+            <th>Option Name</th>
+            <th>Option Type</th>
+            <th>Is Active</th>
+          </tr>
+        </thead>
+          <tbody>
+            <tr *ngFor="let item of questionOptions; let i = index;">
+              <td>{{item.optionName}}</td>
+              <td>{{item.optionType}}</td>
+              <td>
+                <span *ngIf="item.isActive" class="text-success"><i class="material-icons">check</i></span>
+                <span *ngIf="!item.isActive" class="text-danger"><i class="material-icons">close</i></span>
+              </td>
+            </tr>
+          </tbody>
+      </table>
+  </div>
+  </div>
+</ng-template>

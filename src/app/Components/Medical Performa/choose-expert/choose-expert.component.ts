@@ -1,11 +1,12 @@
-import { Time } from '@angular/common';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as moment from 'moment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { ExpertBasicInfo, ExpertUser } from 'src/app/Models/Experts Model/User';
-import { ExpertType, MedicalPerformaQuestionsForClient } from 'src/app/Models/Medical Performa/MedicalPerformaQuestionsForClient';
+import { ExpertBasicInfo } from 'src/app/Models/Experts Model/User';
+import {
+  ExpertType,
+  MedicalPerformaQuestionsForClient,
+} from 'src/app/Models/Medical Performa/MedicalPerformaQuestionsForClient';
 import { MedicalPerformaQuestionsForExpert } from 'src/app/Models/Medical Performa/MedicalPerformaQuestionsForExpert';
 import { ExpertuserService } from 'src/app/Services/Experts Services/expertuser.service';
 import { MedicalPerformaService } from 'src/app/Services/Medical Performa Service/medical-performa.service';
@@ -19,22 +20,21 @@ import { UserActivityService } from 'src/app/Services/Users Services/user-activi
 })
 export class ChooseExpertComponent implements OnInit,OnDestroy {
   @Output() headerTitle = new EventEmitter<string>();
-  ExpertTypes: Array<ExpertType> = new Array();
-  Experts: Array<ExpertBasicInfo> = new Array();
-  expertId:string;
-  experTypeId: string;
-  draftCode:string;
-  modalRef: BsModalRef;
-  config = {
+
+  public ExpertTypes: Array<ExpertType> = new Array();
+  public Experts: Array<ExpertBasicInfo> = new Array();
+  public expertId:string;
+  public experTypeId: string;
+  public draftCode:string;
+  public modalRef: BsModalRef;
+  public config = {
     animated: true
   };
-  model: any = {};
-
-  startTime:Date;
-  endTime:Date;
-
-  MedicalPerformaQuestionsForClient: Array<MedicalPerformaQuestionsForClient> = new Array();
-  MedicalPerformaQuestionsForExpert: Array<MedicalPerformaQuestionsForExpert> = new Array();
+  public model: any = {};
+  public startTime:Date;
+  public endTime:Date;
+  public MedicalPerformaQuestionsForClient: Array<MedicalPerformaQuestionsForClient> = new Array();
+  public MedicalPerformaQuestionsForExpert: Array<MedicalPerformaQuestionsForExpert> = new Array();
 
   constructor(private medicalPerformaSerivce: MedicalPerformaService,
     private settingService:SettingsService,
@@ -49,9 +49,9 @@ export class ChooseExpertComponent implements OnInit,OnDestroy {
     this.headerTitle.emit("Medical Secretary Performa");
     this.settingService.getAllExpertType(0).subscribe((response) => {
       this.ExpertTypes = response.outputObject;
-    })
+    });
+    
     this.route.queryParams.subscribe(params => {
-      debugger
       if(params.code){
         this.draftCode = params.code;
         this.experTypeId= this.medicalPerformaSerivce.expertType.value;

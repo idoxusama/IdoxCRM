@@ -21,34 +21,32 @@ import { ConfirmModalDialogComponent } from '../confirmModalDialog/confirmModalD
   templateUrl: './generate-performa.component.html',
   styleUrls: ['./generate-performa.component.css']
 })
-export class GeneratePerformaComponent implements OnInit,OnChanges {
-
+export class GeneratePerformaComponent implements OnInit, OnChanges {
   /* #region  Fields */
-
   @Output() headerTitle = new EventEmitter<string>();
   @Input() experTypeId: string;
   @Input() draftCode: string;
-  timeSpent:Date;
-  performaForm: FormGroup;
-  formSumitted: boolean = false;
-  formGroup = [];
-  modalRef: BsModalRef;
+  public timeSpent: Date;
+  public performaForm: FormGroup;
+  public formSumitted: boolean = false;
+  public formGroup = [];
+  public modalRef: BsModalRef;
 
-  expertTypeId: string;
-  expertId: string;
-  performaDraftCode: string;
-  referrerId: string = "4";
-  caseRefNo: string;
-  noOfDraftEntry: number = 0;
+  public expertTypeId: string;
+  public expertId: string;
+  public performaDraftCode: string;
+  public referrerId: string = "4";
+  public caseRefNo: string;
+  public noOfDraftEntry: number = 0;
 
-  clientQuestions: ClientQuesitons;
-  expertQuestions: ExpertQuestions[];
+  public clientQuestions: ClientQuesitons;
+  public expertQuestions: ExpertQuestions[];
 
-  PerformaAnswerForClient: PerformaAnswersOFClient[];
-  PerformaAnswerForExpert: PerformaAnswersOFExpert[];
+  public PerformaAnswerForClient: PerformaAnswersOFClient[];
+  public PerformaAnswerForExpert: PerformaAnswersOFExpert[];
 
-  DraftAnswersForClient: DraftAnswersForClient = new DraftAnswersForClient();
-  DraftAnswersForExpert: DraftAnswersForExpert = new DraftAnswersForExpert();
+  public DraftAnswersForClient: DraftAnswersForClient = new DraftAnswersForClient();
+  public DraftAnswersForExpert: DraftAnswersForExpert = new DraftAnswersForExpert();
 
   /* #endregion */
 
@@ -86,118 +84,25 @@ export class GeneratePerformaComponent implements OnInit,OnChanges {
     return arr.find(e => e.isOptional) ? true : false;
   }
 
-  /* #region  get questions */
-  getClientQuestions(id) {
-    this.medicalPerformaSerivce.getQuestionariesForClient(id,0).subscribe((response) => {
-      this.clientQuestions = response.outputObject;
+  /* #region get questions */
+  async getClientQuestions(id) {
+    let response = await this.medicalPerformaSerivce.getQuestionariesForClient(id, this.expertId).toPromise();
+    this.clientQuestions = response.outputObject;
+    if (response.outputObject) 
       this.formGroup.push(response.outputObject);
-    }, error => {
-      console.log(error);
-    });
   }
-  getExpertQuestions(id) {
-    this.medicalPerformaSerivce.getQuestionariesForExpert(id).subscribe((response) => {
-      debugger
-      this.expertQuestions = response.outputObject;
+
+  async getExpertQuestions(id) {
+    let response = await this.medicalPerformaSerivce.getQuestionariesForExpert(id, this.expertId).toPromise();
+    this.expertQuestions = response.outputObject;
+    if (response.outputObject)
       this.formGroup.push(response.outputObject);
-    }, error => {
-      console.log(error);
-    }, () => {
       this.performaForm = this.medicalPerformaSerivce.toFormBuilder(this.formGroup);
-    });
   }
 
   htmlToPlaintext(text) {
     return text ? String(text).replace(/<[^>]+>/gm, '') : '';
   }
-  /* #endregion */
-
-  /* #region Mapping draft answers */
-
-  async mapQuestionsWithAnsers(code) {
-    //get answers
-    let clientAnswers = await this.medicalPerformaSerivce.getAllAnswersForClient(code).toPromise();
-    let expertAnswers = await this.medicalPerformaSerivce.getAllAnswersForExpert(code).toPromise();
-    this.PerformaAnswerForClient = clientAnswers.outputObject;
-    this.PerformaAnswerForExpert = expertAnswers.outputObject;
-
-    if (this.PerformaAnswerForClient) {
-      //reset the expertId and expertTypeId for resuse.
-      this.medicalPerformaSerivce.expert.next(this.PerformaAnswerForClient.map(function (a) { return a.expertID }).pop().toString());
-      this.expertId = this.medicalPerformaSerivce.expert.value;
-      this.medicalPerformaSerivce.expertType.next(this.PerformaAnswerForClient.map(function (a) { return a.expertTypeID }).pop().toString());
-      this.expertTypeId = this.medicalPerformaSerivce.expertType.value;
-      this.caseRefNo = this.PerformaAnswerForClient.map(function (a) { return a.caseRefNo }).pop().toString();
-      this.noOfDraftEntry = Math.max.apply(Math, this.PerformaAnswerForClient.map(function (o) { return o.noOfState; }));
-
-      //get questions
-      let questions = await this.medicalPerformaSerivce.getQuestionariesForClient(this.expertTypeId,0).toPromise();
-      let data = questions.outputObject;
-      this.clientQuestions = data.forEach(element => {
-        element.questionList.map(m => {
-          const draftitem = this.PerformaAnswerForClient.find(e => e.clientQuestionID == m.id);
-          m.answer = draftitem ? draftitem.answers : "";
-          return m;
-        })
-      });
-      this.clientQuestions = data;
-      this.formGroup.push(data);
-    }
-    if (this.PerformaAnswerForExpert) {
-
-      //reset the expertId and expertTypeId for resuse.
-      this.medicalPerformaSerivce.expert.next(this.PerformaAnswerForExpert.map(function (a) { return a.expertID }).pop().toString());
-      this.expertId = this.medicalPerformaSerivce.expert.value;
-      this.medicalPerformaSerivce.expertType.next(this.PerformaAnswerForExpert.map(function (a) { return a.expertTypeID }).pop().toString());
-      this.expertTypeId = this.medicalPerformaSerivce.expertType.value;
-      this.caseRefNo = this.PerformaAnswerForExpert.map(function (a) { return a.caseRefNo }).pop().toString();
-      this.noOfDraftEntry = Math.max.apply(Math, this.PerformaAnswerForExpert.map(function (o) { return o.noOfState; }));
-      //get questions
-      let questions = await this.medicalPerformaSerivce.getQuestionariesForExpert(this.expertTypeId).toPromise();
-      let data1 = questions.outputObject;
-      if (data1) {
-        this.expertQuestions = data1.forEach(element => {
-          element.questionList.map(m => {
-            if (m.options) {
-              for (let i = 0; i < m.options.length; i++) {
-                const draftOptionItem = this.PerformaAnswerForExpert.find(o => o.performaQuestionnaireOptionsForExpertID == m.options[i].id);
-                if (m.options[i].optionType == "CheckBox") {
-                  m.options[i].answer = draftOptionItem ? draftOptionItem.performaQuestionnaireOptionsForExpertID : '';
-                }
-                else {
-                  if (m.selectedOption) {
-                    break;
-                  }
-                  else {
-                    m.selectedOption = draftOptionItem ? draftOptionItem.performaQuestionnaireOptionsForExpertID : '';
-                  }
-                }
-              }
-            }
-            const draftitem = this.PerformaAnswerForExpert.find(e => e.performaQuestionnaireForExpertID == m.id);
-            m.answer = draftitem ? draftitem.answer : "";
-            if (m.answer) {
-              m.isOptional = false;
-            }
-            return m;
-          })
-        });
-      }
-      this.expertQuestions = data1;
-      this.formGroup.push(data1);
-    }
-    else {
-      let questions = await this.medicalPerformaSerivce.getQuestionariesForExpert(this.expertTypeId).toPromise();
-      this.expertQuestions = questions.outputObject;
-      this.formGroup.push(questions.outputObject);
-    }
-
-    //Build FormGroup
-    if (this.formGroup.length > 0) {
-      this.performaForm = this.medicalPerformaSerivce.toFormBuilder(this.formGroup);
-    }
-  }
-
   /* #endregion */
 
   /* #region  fill ans save draft array */
@@ -206,7 +111,6 @@ export class GeneratePerformaComponent implements OnInit,OnChanges {
     this.modalRef = this.modalService.show(ConfirmModalDialogComponent);
     this.modalRef.content.onClose.subscribe(async result => {
       if (result) {
-        debugger
         this.noOfDraftEntry += 1;
 
         //Save Draft For Client
@@ -303,9 +207,101 @@ export class GeneratePerformaComponent implements OnInit,OnChanges {
     })
   }
 
-  saveClientDraft(reason?: any) {
-    this.medicalPerformaSerivce.saveDraftAnswersForClient(this.DraftAnswersForClient).subscribe((response) => {
-      debugger
+  addMoreQuestion(sectionName) {
+    this.expertQuestions.filter(s => s.sectionName == sectionName).pop().
+      questionList.filter(e => e.isOptional).map(m => m.isOptional = false);
+  }
+
+  /* #endregion */
+
+  /* #region  Async Functions */
+  async mapQuestionsWithAnsers(code) {
+    //get answers
+    let clientAnswers = await this.medicalPerformaSerivce.getAllAnswersForClient(code).toPromise();
+    let expertAnswers = await this.medicalPerformaSerivce.getAllAnswersForExpert(code).toPromise();
+    this.PerformaAnswerForClient = clientAnswers.outputObject;
+    this.PerformaAnswerForExpert = expertAnswers.outputObject;
+
+    if (this.PerformaAnswerForClient) {
+      //reset the expertId and expertTypeId for resuse.
+      this.medicalPerformaSerivce.expert.next(this.PerformaAnswerForClient.map(function (a) { return a.expertID }).pop().toString());
+      this.expertId = this.medicalPerformaSerivce.expert.value;
+      this.medicalPerformaSerivce.expertType.next(this.PerformaAnswerForClient.map(function (a) { return a.expertTypeID }).pop().toString());
+      this.expertTypeId = this.medicalPerformaSerivce.expertType.value;
+      this.caseRefNo = this.PerformaAnswerForClient.map(function (a) { return a.caseRefNo }).pop().toString();
+      this.noOfDraftEntry = Math.max.apply(Math, this.PerformaAnswerForClient.map(function (o) { return o.noOfState; }));
+
+      //get questions
+      let questions = await this.medicalPerformaSerivce.getQuestionariesForClient(this.expertTypeId, this.expertId).toPromise();
+      let data = questions.outputObject;
+      this.clientQuestions = data.forEach(element => {
+        element.questionList.map(m => {
+          const draftitem = this.PerformaAnswerForClient.find(e => e.clientQuestionID == m.id);
+          m.answer = draftitem ? draftitem.answers : "";
+          return m;
+        })
+      });
+      this.clientQuestions = data;
+      this.formGroup.push(data);
+    }
+    if (this.PerformaAnswerForExpert) {
+
+      //reset the expertId and expertTypeId for resuse.
+      this.medicalPerformaSerivce.expert.next(this.PerformaAnswerForExpert.map(function (a) { return a.expertID }).pop().toString());
+      this.expertId = this.medicalPerformaSerivce.expert.value;
+      this.medicalPerformaSerivce.expertType.next(this.PerformaAnswerForExpert.map(function (a) { return a.expertTypeID }).pop().toString());
+      this.expertTypeId = this.medicalPerformaSerivce.expertType.value;
+      this.caseRefNo = this.PerformaAnswerForExpert.map(function (a) { return a.caseRefNo }).pop().toString();
+      this.noOfDraftEntry = Math.max.apply(Math, this.PerformaAnswerForExpert.map(function (o) { return o.noOfState; }));
+      //get questions
+      let questions = await this.medicalPerformaSerivce.getQuestionariesForExpert(this.expertTypeId, this.expertId).toPromise();
+      let data1 = questions.outputObject;
+      if (data1) {
+        this.expertQuestions = data1.forEach(element => {
+          element.questionList.map(m => {
+            if (m.options) {
+              for (let i = 0; i < m.options.length; i++) {
+                const draftOptionItem = this.PerformaAnswerForExpert.find(o => o.performaQuestionnaireOptionsForExpertID == m.options[i].id);
+                if (m.options[i].optionType == "CheckBox") {
+                  m.options[i].answer = draftOptionItem ? draftOptionItem.performaQuestionnaireOptionsForExpertID : '';
+                }
+                else {
+                  if (m.selectedOption) {
+                    break;
+                  }
+                  else {
+                    m.selectedOption = draftOptionItem ? draftOptionItem.performaQuestionnaireOptionsForExpertID : '';
+                  }
+                }
+              }
+            }
+            const draftitem = this.PerformaAnswerForExpert.find(e => e.performaQuestionnaireForExpertID == m.id);
+            m.answer = draftitem ? draftitem.answer : "";
+            if (m.answer) {
+              m.isOptional = false;
+            }
+            return m;
+          })
+        });
+      }
+      this.expertQuestions = data1;
+      this.formGroup.push(data1);
+    }
+    else {
+      let questions = await this.medicalPerformaSerivce.getQuestionariesForExpert(this.expertTypeId, this.expertId).toPromise();
+      this.expertQuestions = questions.outputObject;
+      this.formGroup.push(questions.outputObject);
+    }
+
+    //Build FormGroup
+    if (this.formGroup.length > 0) {
+      this.performaForm = this.medicalPerformaSerivce.toFormBuilder(this.formGroup);
+    }
+  }
+  
+  async saveClientDraft(reason?: any) {
+    let response = await this.medicalPerformaSerivce.saveDraftAnswersForClient(this.DraftAnswersForClient).toPromise();
+    if (response.outputObject) {
       const code = response.outputObject.map(function (a) { return a.code });
       if (this.PerformaAnswerForExpert && this.PerformaAnswerForExpert.length > 0) {
         this.fillExpertAnswerObject(reason);
@@ -313,40 +309,20 @@ export class GeneratePerformaComponent implements OnInit,OnChanges {
       }
       this.toaster.success("Client changes draft successfully.");
       this.DraftAnswersForClient = null;
-    }, error => {
-      this.DraftAnswersForClient = null;
-      console.log(error)
-    });
-  }
-
-  saveExpertDraft(code?: any) {
-    if (code) {
-      this.DraftAnswersForExpert.performaAnswersOFExpert.forEach(x => {
-        x.performaQuestionnaireCode = code;
-      });
-      this.medicalPerformaSerivce.saveDraftAnswersForExpert(this.DraftAnswersForExpert).subscribe((response) => {
-        const data = response.outputObject;
-        this.toaster.success("Expert changes draft successfully.");
-        this.DraftAnswersForExpert = null;
-      }, error => {
-        this.DraftAnswersForExpert = null;
-        console.log(error)
-      });
     }
   }
 
-  /* #endregion */
+  async saveExpertDraft(code?: any) {
+    if (!code) return;
 
-  /* #region Add More Questions  */
-
-  addMoreQuestion(sectionName) {
-    this.expertQuestions.filter(s => s.sectionName == sectionName).pop().questionList.filter(e => e.isOptional).map(m => m.isOptional = false);
+    this.DraftAnswersForExpert.performaAnswersOFExpert.forEach(x => { x.performaQuestionnaireCode = code; });
+    await this.medicalPerformaSerivce.saveDraftAnswersForExpert(this.DraftAnswersForExpert).toPromise();
+    this.toaster.success("Expert changes draft successfully.");
+    this.DraftAnswersForExpert = null;
   }
 
-  /* #endregion */
-
-  onSubmit() {
-    this.formSumitted=true;
+  async onSubmit() {
+    this.formSumitted = true;
     //execute this code for find invalid controls
 
     // var controls = this.performaForm.controls;
@@ -356,29 +332,23 @@ export class GeneratePerformaComponent implements OnInit,OnChanges {
     //     invalid.push(name);
     //   }
     // }
-    
-    if (!this.performaForm.valid) { return; }
+
+    if (!this.performaForm.valid) return;
     else {
       if (this.DraftAnswersForClient) {
+        //submit client performa
         this.fillClientAnswerObject("N/A");
         this.DraftAnswersForExpert.performaAnswersOFExpert.forEach(e => { e.state = "Submit" });
-        this.medicalPerformaSerivce.saveAnswerForClient(this.DraftAnswersForClient).subscribe(response => {
-        }, error => {
-          console.log(error);
-        }, () => {
-          this.toaster.success("Client Performa Sumitted successfully.")
-          if (this.DraftAnswersForExpert) {
-            this.fillExpertAnswerObject("N/A");
-            this.DraftAnswersForExpert.performaAnswersOFExpert.forEach(e => { e.state = "Submit" });
-            this.medicalPerformaSerivce.saveAnswerForExpert(this.DraftAnswersForExpert).subscribe(response => {
-            }, error => {
-              console.log(error);
-            }, () => {
-              this.toaster.success("Ëxpert Performa Sumitted successfully.");
-            });
-          }
-        });
+        await this.medicalPerformaSerivce.saveAnswerForClient(this.DraftAnswersForClient).toPromise();
+        //submit expert performa
+        this.fillExpertAnswerObject("N/A");
+        this.DraftAnswersForExpert.performaAnswersOFExpert.forEach(e => { e.state = "Submit" });
+        await this.medicalPerformaSerivce.saveAnswerForExpert(this.DraftAnswersForExpert).toPromise();
+
+        this.toaster.success("Performa submited successfully");
       }
     }
   }
+
+  /* #endregion */
 }
