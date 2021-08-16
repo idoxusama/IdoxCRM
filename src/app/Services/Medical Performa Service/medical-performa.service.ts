@@ -18,29 +18,32 @@ export class MedicalPerformaService {
 
   toFormBuilder(sectionsGroup: any[]) {
     let control: any = {};
-    sectionsGroup.forEach(sections => {
-      sections.forEach(qs => {
+    sectionsGroup.forEach(section => {
+      section.forEach(qs => {
         qs.questionList.forEach(element => {
+          debugger
           if (element.options) {
             if (element.options.length > 0) {
               element.options.forEach(el => {
-                switch (el.optionType) {
-                  case 'DropDown':
-                    control[element.questionName+element.id] = element.isRequired===true ? new FormControl(element.selectedOption||'', Validators.required) : new FormControl(element.selectedOption || '');
+                switch (el.optionType.toLowerCase()) {
+                  case 'dropdown':
+                    control[element.questionName+element.id] = element.isRequired===true ? 
+                    new FormControl(element.selectedOption||'', Validators.required) : 
+                    new FormControl(element.selectedOption || '');
                     break;
                   case 'radio':
                     let rValue = element.selectedOption == el.id ? element.selectedOption : '';
                     control[element.questionName] = new FormControl(rValue);
                     break;
-                  case 'CheckBox':
+                  case 'checkbox':
                     let cValue = el.answer == el.id ? el.answer : '';
                     control[element.questionName] = new FormControl(cValue);
                     break;
-                  case 'TextBox':
+                  case 'textbox':
                     let tValue = el.answer == el.id ? el.answer : '';
                     control[element.questionName] = new FormControl(tValue);
                     break;
-                  case 'Textarea':
+                  case 'textarea':
                     let taValue = el.answer == el.id ? el.answer : '';
                     control[element.questionName] = new FormControl(taValue);
                     break;
@@ -50,13 +53,15 @@ export class MedicalPerformaService {
               });
             }
             else {
-              control[element.questionName+element.id] = element.isRequired===true ? new FormControl(element.answer || '', Validators.required)
-                : new FormControl(element.answer || '');
+              control[element.questionName+element.id] = element.isRequired===true ? 
+              new FormControl(element.answer || '', Validators.required) :
+              new FormControl(element.answer || '');
             }
           }
           else {
-            control[element.questionName+element.id] = element.isRequired===true ? new FormControl(element.answer || '', Validators.required)
-              : new FormControl(element.answer || '');
+            control[element.questionName+element.id] = element.isRequired===true ? 
+            new FormControl(element.answer || '', Validators.required) : 
+            new FormControl(element.answer || '');
           }
         });
       });
@@ -85,8 +90,8 @@ export class MedicalPerformaService {
     return this.http.get<any>(requestUrl, requestOptions);
   }
 
-  getQuestionariesForExpert(id: any): Observable<any> {
-    let requestUrl = this.baseUrl + "/api/MedicalSecretary/GetAllPerformaExpertQuestionnaire?ExpertTypeID=" + id;
+  getQuestionariesForExpert(expertTypeID,expertID): Observable<any> {
+    let requestUrl = this.baseUrl + `/api/MedicalSecretary/GetAllPerformaExpertQuestionnaire?ExpertTypeID=${expertTypeID}&expertID=${expertID}`;
     const headerDict = {
       'Access-Control-Allow-Origin': '*',
       "Authorization": "Bearer " + localStorage.getItem('access_token'),
@@ -212,4 +217,69 @@ export class MedicalPerformaService {
     return this.http.post<any>(requestUrl,data, requestOptions);
   }
 
+  updatePerformaQuestionniareForClient(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/MedicalSecretary/UpdatePerformaQuestionniareForClient';
+    const headerDict = {
+      'Access-Control-Allow-Origin': '*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict)
+    };
+    return this.http.post<any>(requestUrl,data, requestOptions);
+  }
+
+  performaQClientStatusUpdate(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/MedicalSecretary/PerformaQClientStatusUpdate';
+    const headerDict = {
+      'Access-Control-Allow-Origin': '*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict)
+    };
+    return this.http.post<any>(requestUrl,data, requestOptions);
+  }
+
+  createPerformaQuestionniareForExpert(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/MedicalSecretary/CreatePerformaQuestionniareForExpert';
+    const headerDict = {
+      'Access-Control-Allow-Origin': '*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict)
+    };
+    return this.http.post<any>(requestUrl,data, requestOptions);
+  }
+
+  updatePerformaQuestionniareForExpert(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/MedicalSecretary/UpdatePerformaQuestionniareForExpert';
+    const headerDict = {
+      'Access-Control-Allow-Origin': '*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict)
+    };
+    return this.http.post<any>(requestUrl,data, requestOptions);
+  }
+
+  performaQExpertStatusUpdate(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/MedicalSecretary/PerformaQExpertStatusUpdate';
+    const headerDict = {
+      'Access-Control-Allow-Origin': '*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict)
+    };
+    return this.http.post<any>(requestUrl,data, requestOptions);
+  }
+  
 }

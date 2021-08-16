@@ -19,14 +19,17 @@ export class ClientQuestionsCreateComponent implements OnInit {
   public clientQuestionForm: FormGroup;
   public clientQuestionFormSubmit: Boolean;
   public clientQuestions: ClientQuestion[] = [];
-  public newClientQuestion:ClientQuestion[]=[];
+  public newClientQuestion: ClientQuestion[] = [];
   public expertTypes: Array<Select2OptionData>;
   public experts: Array<Select2OptionData>;
   public sectionNames: Array<Select2OptionData>;
   public questionTypes: Array<Select2OptionData>;
   public modalRef: BsModalRef;
-  public sectionModal:any={};
-  public isActiveAll:boolean;
+  public sectionModal: any = {};
+  public isActiveAll: boolean;
+  public isUpdate: boolean = false;
+  public expertTypeId: number;
+  public expertID: number;
 
   constructor(private fb: FormBuilder,
     private settingService: SettingsService,
@@ -42,21 +45,21 @@ export class ClientQuestionsCreateComponent implements OnInit {
     this.createClientQuestionForm();
   }
 
-  createClientQuestionForm(data?:any) {
-    if(data){
+  createClientQuestionForm(data?: any) {
+    if (data) {
       this.clientQuestionForm = this.fb.group({
-        id:[data.id?data.id:''],
-        srNo: [data.srNo?data.srNo:'', Validators.required],
-        sectionName: [data.sectionName?data.sectionName:'', Validators.required],
-        expertTypeID: [data.expertTypeID?data.expertTypeID:'', Validators.required],
-        expertID: [data.expertID?data.expertID:'', Validators.required],
-        questionName: [data.questionName?data.questionName:'', Validators.required],
-        questionType: [data.questionType?data.questionType:'', Validators.required],
-        isRequired: [data.isRequired?data.isRequired:true, Validators.required],
-        isActive: [data.isActive?data.isActive:true, Validators.required]
+        id: [data.id ? data.id : ''],
+        srNo: [data.srNo ? data.srNo : '', Validators.required],
+        sectionName: [data.sectionName ? data.sectionName : '', Validators.required],
+        expertTypeID: [data.expertTypeID ? data.expertTypeID : '', Validators.required],
+        expertID: [data.expertID ? data.expertID : '', Validators.required],
+        questionName: [data.questionName ? data.questionName : '', Validators.required],
+        questionType: [data.questionType ? data.questionType : '', Validators.required],
+        isRequired: [data.isRequired ? data.isRequired : false],
+        isActive: [data.isActive ? data.isActive : false],
       });
     }
-    else{
+    else {
       this.clientQuestionForm = this.fb.group({
         srNo: ['', Validators.required],
         sectionName: ['', Validators.required],
@@ -64,14 +67,45 @@ export class ClientQuestionsCreateComponent implements OnInit {
         expertID: ['', Validators.required],
         questionName: ['', Validators.required],
         questionType: ['', Validators.required],
-        isRequired: [true, Validators.required],
-        isActive: [true, Validators.required]
+        isRequired: [true],
+        isActive: [true]
       });
     }
-   
+
   }
 
   /* #region  Dropdowns */
+
+  prepareDropDown(optionsArray: Array<Select2OptionData>, data?: any[], selectedValue?) {
+    let arrayOfOptions = [];
+    arrayOfOptions = optionsArray;
+    if (data) {
+      let defualtOption = {
+        id: '',
+        text: 'Select Option'
+      };
+      optionsArray.push(defualtOption);
+      data.forEach(element => {
+        let object = {
+          id: element.id,
+          text: element.text
+        };
+        optionsArray.push(object);
+      });
+    }
+
+    if (selectedValue) {
+      let options = optionsArray;
+      optionsArray.forEach(function (item, i) {
+        if (item.id == selectedValue) {
+          options.splice(i, 1);
+          options.unshift(item);
+        }
+      });
+      optionsArray = options;
+    }
+    return optionsArray;
+  }
 
   onSelectOption(event, control) {
     this.clientQuestionForm.get(control).setValue(event.value);
@@ -83,9 +117,17 @@ export class ClientQuestionsCreateComponent implements OnInit {
     if (event.value == '0') {
       this.openConfirmBox();
       this.clientQuestionForm.get('expertID').setValue('0');
+
+      this.expertTypeId = this.clientQuestionForm.get('expertTypeID').value;
+      this.expertID = this.clientQuestionForm.get('expertID').value;
+
+      await this.getClientQuestions();
     }
     else {
       this.clientQuestionForm.get('expertID').setValue(event.value);
+
+      this.expertTypeId = this.clientQuestionForm.get('expertTypeID').value;
+      this.expertID = this.clientQuestionForm.get('expertID').value;
       await this.getClientQuestions();
     }
   }
@@ -95,34 +137,21 @@ export class ClientQuestionsCreateComponent implements OnInit {
     await this.getExperts(event.value);
   }
 
-  async getExpertTypes() {
+  async getExpertTypes(selectedId?) {
     let result = await this.settingService.getAllExpertType(0).toPromise();
     if (result) {
       this.expertTypes = [];
-      let defualtOptiton = {
-        id: '',
-        text: 'Select Option'
-      };
-      this.expertTypes.push(defualtOptiton);
-      result.outputObject.forEach(element => {
-        let object = {
-          id: element.expertTypeID,
-          text: element.expertCategories
-        };
-        this.expertTypes.push(object);
-      });
+      result.outputObject.map(e => { e.id = e.expertTypeID; e.text = e.expertCategories });
+      this.expertTypes = this.prepareDropDown(this.expertTypes, result.outputObject, selectedId);
     }
   }
 
-  async getExperts(id) {
+  async getExperts(id, selectedId?) {
     let result = await this.expertUserService.getExpertProfileInfo("ExpertType", id, "", "completedprofile").toPromise();
     if (result.outputObject) {
       this.experts = [];
-      let defualtOptiton = {
-        id: '',
-        text: 'Select Option'
-      };
-      this.experts.push(defualtOptiton);
+      result.outputObject.map(e => { e.text = e.firstName; });
+      this.experts = this.prepareDropDown(this.experts, result.outputObject, selectedId);
 
       //add general option
       let generalOptions = {
@@ -130,18 +159,10 @@ export class ClientQuestionsCreateComponent implements OnInit {
         text: 'General Option'
       };
       this.experts.push(generalOptions);
-
-      result.outputObject.forEach(element => {
-        let object = {
-          id: element.id,
-          text: element.firstName
-        };
-        this.experts.push(object);
-      });
     }
   }
 
-  async getSectionNames() {
+  async getSectionNames(selectedId?) {
     let modal = {
       Questionnaire: "client",
       FilterName: "sectiontype"
@@ -149,22 +170,12 @@ export class ClientQuestionsCreateComponent implements OnInit {
     let result = await this.settingService.getPerformaQuestionniareValue(modal).toPromise();
     if (result.outputObject) {
       this.sectionNames = [];
-      let defualtOptiton = {
-        id: '',
-        text: 'Select Option'
-      };
-      this.sectionNames.push(defualtOptiton);
-      result.outputObject.forEach(element => {
-        let object = {
-          id: element.sectionType,
-          text: element.sectionType
-        };
-        this.sectionNames.push(object);
-      });
+      result.outputObject.map(e => { e.id = e.sectionType, e.text = e.sectionType });
+      this.sectionNames = this.prepareDropDown(this.sectionNames, result.outputObject, selectedId);
     }
   }
 
-  async getQuestionTypes() {
+  async getQuestionTypes(selectedId?) {
     let modal = {
       Questionnaire: "client",
       FilterName: "inputType"
@@ -172,107 +183,183 @@ export class ClientQuestionsCreateComponent implements OnInit {
     let result = await this.settingService.getPerformaQuestionniareValue(modal).toPromise();
     if (result.outputObject) {
       this.questionTypes = [];
-      let defualtOptiton = {
-        id: '',
-        text: 'Select Option'
-      };
-      this.questionTypes.push(defualtOptiton);
-      result.outputObject.forEach(element => {
-        let object = {
-          id: element.inputType,
-          text: element.inputType
-        };
-        this.questionTypes.push(object);
-      });
+      result.outputObject.map(e => { e.id = e.inputType, e.text = e.inputType });
+      this.questionTypes = this.prepareDropDown(this.questionTypes, result.outputObject, selectedId);
     }
   }
   /* #endregion */
 
-  async getClientQuestions() {
-    this.clientQuestions.length=0;
-    let expertTypeId = this.clientQuestionForm.get('expertTypeID').value;
-    let expertId = this.clientQuestionForm.get('expertID').value;
-
-    if(expertTypeId=='' || expertId=='') return;
-
-    let result = await this.medicalPerformaService.getQuestionariesForClient(expertTypeId, expertId).toPromise();
-    if (result.outputObject) {
-      let questions = result.outputObject;
-      questions.forEach(element => {
-        element.questionList.forEach(e => {
-          this.clientQuestions.push(e);
-          this.isActiveAll = e.isActive===1?true:false;
-        });
-      });
-    }
-  }
-
-  activeOrInActive(event){
-    let value = event.target.checked;
-    if(value){
-
-    }
-    else{
-
-    }
-  }
-  
   openConfirmBox() {
     this.modalRef = this.modalService.show(this.confirmBox);
   }
 
-  openSectionModal(template){
-    this.modalRef= this.modalService.show(template);
+  openSectionModal(template) {
+    this.modalRef = this.modalService.show(template);
   }
 
-  addNewSection(){
+  getButtonLable() {
+    return !this.isUpdate ? 'Add Question' : 'Save';
+  }
+
+  addNewSection() {
     this.sectionNames = this.sectionNames.slice();
-    let sectionName= this.sectionModal.sectionName;
-    if(!this.sectionNames.some(e=>e.text==sectionName)){
+    let sectionName = this.sectionModal.sectionName;
+    if (!this.sectionNames.some(e => e.text == sectionName)) {
       let object = {
-        id:sectionName,
-        text:sectionName
+        id: sectionName,
+        text: sectionName
       };
       this.sectionNames.push(object);
       this.modalRef.hide();
     }
-    else{
+    else {
       this.toasterService.warning('Section Name already exist!');
     }
   }
 
-  submitClientQuestions() {
-    this.clientQuestionFormSubmit = true;
-    if (this.clientQuestionForm.valid) {
-      let object = Object.assign(this.clientQuestionForm.value);
-      if (!this.clientQuestions.some(e => e.srNo == object.srNo)) {
-        this.clientQuestions.push(object);
-        this.newClientQuestion.push(object);
-      }
-      else {
-        this.toasterService.warning('This serial no already exist. Please enter different!.');
+  async getClientQuestions() {
+    this.clientQuestions.length = 0;
+    if (this.expertID && this.expertTypeId) {
+      let result = await this.medicalPerformaService.getQuestionariesForClient(this.expertTypeId, this.expertID).toPromise();
+      if (result.outputObject) {
+        let questions = result.outputObject;
+        questions.forEach(element => {
+          element.questionList.forEach(e => {
+            this.clientQuestions.push(e);
+            this.isActiveAll = e.isActive === true ? true : false;
+          });
+        });
       }
     }
   }
 
-  editQuestion(id){
-    let question = this.clientQuestions.find(e => e.id == id);
-    this.createClientQuestionForm(question);
+  async activeOrInActive(event) {
+    let value = event.target.checked;
+    let updateItemsList = [];
+    if (value) {
+
+      //make status object list
+      this.clientQuestions.forEach(x => {
+        let object = {
+          ID: x.id,
+          Event: 'IsActive',
+          Value: 1,
+          UserID: localStorage.getItem('userID')
+        };
+        updateItemsList.push(object);
+      });
+
+      //submit to api for update status
+      let model = {
+        PerformaQuesStatusList: updateItemsList
+      };
+      let res = await this.medicalPerformaService.performaQClientStatusUpdate(model).toPromise();
+      this.toasterService.success('Questions are active.');
+      await this.getClientQuestions();
+    }
+    else {
+      //make status object list
+      this.clientQuestions.forEach(x => {
+        let object = {
+          ID: x.id,
+          Event: 'IsActive',
+          Value: 0,
+          UserID: localStorage.getItem('userID')
+        };
+        updateItemsList.push(object);
+      });
+
+      //submit to api for update status
+      let model = {
+        PerformaQuesStatusList: updateItemsList
+      };
+      let res = await this.medicalPerformaService.performaQClientStatusUpdate(model).toPromise();
+      this.toasterService.success('Questions are un active.');
+      await this.getClientQuestions();
+    }
   }
 
-  async saveAll(){
-    if(this.newClientQuestion){
-      this.newClientQuestion.forEach(e=>{
+  async deleteQuestion(id){
+    let deleteItemList=[];
+    let object = {
+      ID: id,
+      Event: 'IsDeleted',
+      Value: 1,
+      UserID: localStorage.getItem('userID')
+    };
+    deleteItemList.push(object);
+
+    let modal ={
+      PerformaQuesStatusList:deleteItemList
+    };
+
+    await this.medicalPerformaService.performaQClientStatusUpdate(modal).toPromise();
+    await this.getClientQuestions();
+    this.toasterService.success('Question delete successfully!');
+  }
+
+  async submitClientQuestions() {
+    this.clientQuestionFormSubmit = true;
+    if (this.clientQuestionForm.valid) {
+      if (this.isUpdate) {
+        let object = Object.assign(this.clientQuestionForm.value);
+        object.userID = localStorage.getItem('userID');
+        await this.medicalPerformaService.updatePerformaQuestionniareForClient(object).toPromise();
+        this.toasterService.success('Question update successfully!');
+        this.isUpdate = false;
+        await this.getSectionNames();
+        await this.getQuestionTypes();
+        await this.getClientQuestions();
+        this.createClientQuestionForm();
+
+        this.clientQuestionForm.get('expertTypeID').setValue(object.expertTypeID);
+        this.clientQuestionForm.get('expertID').setValue(object.expertID);
+        
+        this.clientQuestionFormSubmit = false;
+      }
+      else {
+        let object = Object.assign(this.clientQuestionForm.value);
+        if (!this.clientQuestions.some(e => e.srNo == object.srNo)) {
+          this.clientQuestions.push(object);
+          this.newClientQuestion.push(object);
+        }
+        else {
+          this.toasterService.warning('This serial no already exist. Please enter different!.');
+        }
+      }
+    }
+  }
+
+  async editQuestion(id) {
+    this.isUpdate = true;
+    let question = this.clientQuestions.find(e => e.id == id);
+    if (!question) return;
+    this.createClientQuestionForm(question);
+
+    let expertTypeID = this.clientQuestionForm.get('expertTypeID').value;
+    let expertID = this.clientQuestionForm.get('expertID').value;
+    let sectionName = this.clientQuestionForm.get('sectionName').value;
+    let questionType = this.clientQuestionForm.get('questionType').value;
+
+    this.expertTypes = this.prepareDropDown(this.expertTypes, null, expertTypeID);
+    this.experts = this.prepareDropDown(this.experts, null, expertID);
+    await this.getSectionNames(sectionName);
+    await this.getQuestionTypes(questionType);
+  }
+
+  async saveAll() {
+    if (this.newClientQuestion) {
+      this.newClientQuestion.forEach(e => {
         e.userID = +localStorage.getItem('userID');
       });
 
       let modal = {
-        performaQuestionForClientList:this.newClientQuestion
+        performaQuestionForClientList: this.newClientQuestion
       };
 
-      let result = await this.medicalPerformaService.createPerformaQuestionniareForClient(modal).toPromise();
+      await this.medicalPerformaService.createPerformaQuestionniareForClient(modal).toPromise();
       this.toasterService.success('Questions submit successfully!');
-      await this.ngOnInit();
+      await this.getClientQuestions();
     }
   }
 }

@@ -120,7 +120,7 @@
         </div>
       </div>
       <div class="card-footer align-content-center text-center">
-        <button class="btn btn-success px-4">Add Question</button>
+        <button type="submit" class="btn btn-success px-4">{{getButtonLable()}}</button>
       </div>
     </div>
   </form>
@@ -138,7 +138,7 @@
                       <div class="col-4" *ngIf="clientQuestions.length>0">
                         <div class="row">
                           <div class="col-sm-8">
-                            <h5 class="card-title mb-0">Active or UnActive All</h5>
+                            <h5 class="card-title mb-0">Active all questionaire</h5>
                           </div>
                           <div class="col-sm-4">
                             <label class="switch">
@@ -179,6 +179,7 @@
                               </td>
                               <td>
                                 <button class="btn btn-sm primary-gradient mr-2" (click)="editQuestion(item.id)">Edit</button>
+                                <button class="btn btn-sm danger-gradient mr-2" (click)="deleteQuestion(item.id)">Delete</button>
                               </td>
                           </tr>
                       </tbody>
