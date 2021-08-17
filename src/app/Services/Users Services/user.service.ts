@@ -196,6 +196,91 @@ export class UserService {
     return this._http.post(FullUrl,modal,requestOptions );
   }
 
+  createUserPermissionPlusUserRole(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/User/CreateUserPermissionPlusUserRole';
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict), 
+    };
+
+    return this._http.post(requestUrl,data,requestOptions);
+  }
+
+
+  updateUserRole(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api​/User​/UpdateUserRole';
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict), 
+    };
+
+    return this._http.post(requestUrl,data,requestOptions);
+  }
+
+  getUserRole(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/User/GetUserRole';
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict), 
+    };
+
+    return this._http.post(requestUrl,data,requestOptions);
+  }
+
+  getUserRolePermission(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/User/GetUserRolePermission';
+
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict), 
+    };
+
+    return this._http.post(requestUrl,data,requestOptions);
+  }
+
+  updateUserPermissionPlusUserRole(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/User/UpdateUserPermissionPlusUserRole';
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict), 
+    };
+
+    return this._http.post(requestUrl,data,requestOptions);
+  }
+
+  getUserType(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/User/GetUserType';
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict), 
+    };
+
+    return this._http.post(requestUrl,data,requestOptions);
+  }
 
 }
 

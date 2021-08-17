@@ -1,0 +1,46 @@
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+    <div class="container my-3 main-container">
+      <div class="row align-items-center">
+        <div class="col">
+          <h2 class="content-color-primary page-title">User Roles</h2>
+          <p class="content-color-secondary page-sub-title">User Roles for user accessibility</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4 main-container">
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="card rounded-0 border-0 mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-8">
+              <h5 class="card-title mb-0">Roles List</h5>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Sr.#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of userRoles;let i = index;">
+                <th scope="row">{{i+1}}</th>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

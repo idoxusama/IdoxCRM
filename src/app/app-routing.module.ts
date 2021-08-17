@@ -316,15 +316,15 @@ import {
   UnassignedMedicalSecretaryListComponent,
 } from './Components/Medco CMS/unassigned-medical-secretary-list/unassigned-medical-secretary-list.component';
 import { ChooseExpertComponent } from './Components/Medical Performa/choose-expert/choose-expert.component';
-import { ClientQuestionsCreateComponent } from './Components/Medical Performa/client-questions-create/client-questions-create.component';
+import {
+  ClientQuestionsCreateComponent,
+} from './Components/Medical Performa/client-questions-create/client-questions-create.component';
 import { DraftListComponent } from './Components/Medical Performa/draft-list/draft-list.component';
-import { ExpertQuestionsCreateComponent } from './Components/Medical Performa/expert-questions-create/expert-questions-create.component';
 import {
-  GeneratePerformaComponent,
-} from './Components/Medical Performa/generate-performa/generate-performa.component';
-import {
-  PerformasSummaryComponent,
-} from './Components/Medical Performa/performas-summary/performas-summary.component';
+  ExpertQuestionsCreateComponent,
+} from './Components/Medical Performa/expert-questions-create/expert-questions-create.component';
+import { GeneratePerformaComponent } from './Components/Medical Performa/generate-performa/generate-performa.component';
+import { PerformasSummaryComponent } from './Components/Medical Performa/performas-summary/performas-summary.component';
 import {
   EditMedicalSecretaryComponent,
 } from './Components/MedicalSecretary/edit-medical-secretary/EditMedicalSecretary.component';
@@ -337,8 +337,12 @@ import {
 } from './Components/MedicalSecretary/new-medical-secretary/new-medical-secretary.component';
 import { NewlyAssignedComponent } from './Components/MedicalSecretary/newly-assigned/newly-assigned.component';
 import { RecordReviewComponent } from './Components/MedicalSecretary/record-review/record-review.component';
-import { ReportConversationComponent } from './Components/MedicalSecretary/report-conversation/report-conversation.component';
-import { ReportWritingSummaryComponent } from './Components/MedicalSecretary/report-writing-summary/report-writing-summary.component';
+import {
+  ReportConversationComponent,
+} from './Components/MedicalSecretary/report-conversation/report-conversation.component';
+import {
+  ReportWritingSummaryComponent,
+} from './Components/MedicalSecretary/report-writing-summary/report-writing-summary.component';
 import { ViewReportComponent } from './Components/MedicalSecretary/view-report/view-report.component';
 import {
   OrthopaedicClientlogComponent,
@@ -579,10 +583,11 @@ import {
   ApplicationScreenObjectComponent,
 } from './Components/Users/application-screen-object/application-screen-object.component';
 import { ApplicationScreenComponent } from './Components/Users/application-screen/application-screen.component';
+import { CreateUserRoleComponent } from './Components/Users/Roles/create-user-role/create-user-role.component';
 import { GroupComponent } from './Components/Users/group/group.component';
 import { SecurityQuestionComponent } from './Components/Users/security-question/security-question.component';
 import { UserPermissionComponent } from './Components/Users/user-permission/user-permission.component';
-import { UserComponent } from './Components/Users/user/user.component';
+import { UserRolesListComponent } from './Components/Users/Roles/user-roles-list/user-roles-list.component';
 import {
   VenuLocationDetailComponent,
 } from './Components/Venue Location/venu-location-detail/venu-location-detail.component';
@@ -590,6 +595,7 @@ import { VenueLocationListComponent } from './Components/Venue Location/venue-lo
 import { VenueLocationComponent } from './Components/Venue Location/venue-location/venue-location.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
+import { CreateUserComponent } from './Components/Users/user/create-user/create-user.component';
 
 const routes: Routes = [
   {
@@ -2663,11 +2669,29 @@ const routes: Routes = [
   ]
 },
 {
-  path: 'Users/User',
+  path: 'Users/create-user',
   component: AppLayoutComponent,
   children: [
     {
-      path: '', component: UserComponent, pathMatch: 'full', canActivate:[AuthGuard]
+      path: '', component: CreateUserComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'Users/new-user-role',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: CreateUserRoleComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'Users/user-roles',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: UserRolesListComponent, pathMatch: 'full', canActivate:[AuthGuard]
     }
   ]
 },

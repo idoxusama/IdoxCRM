@@ -1,0 +1,108 @@
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+    <div class="container my-3 main-container">
+      <div class="row align-items-center">
+        <div class="col">
+          <h2 class="content-color-primary page-title">Create User Role</h2>
+          <p class="content-color-secondary page-sub-title">User Roles for user accessibility</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container mt-4 main-container">
+  <div class="card">
+    <div class="card-header border-bottom">
+      <h5 class="content-color-primary mb-0">Role Creation</h5>
+    </div>
+    <form [formGroup]="userRoleForm" (ngSubmit)="submitUserRole()">
+      <div class="card-body">
+        <div class="row ">
+          <div class="col-lg-12 col-md-12">
+            <div class="form-group ">
+              <label>Role Name</label>
+              <input type="text" class="form-control" formControlName="roleName" placeholder="" (change)="getMenuWithSubMenu()"
+                [ngClass]="{'is-invalid': userRoleForm.get('roleName').errors 
+                              && (userRoleForm.get('roleName').touched|| userRoleFormSubmit)}">
+              <div class="invalid-feedback"
+                *ngIf="(userRoleForm.get('roleName').touched||userRoleFormSubmit) && userRoleForm.get('roleName').hasError('required')">
+                This field is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="userMenus.length>0">
+          <h5>Permissions</h5>
+          <div class="row">
+            <div class="col-lg-6 col-md-6" *ngFor="let item of userMenus">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="menu{{item.id}}"
+                        (click)="showSubmenu(item.id)">
+                      <label class="custom-control-label" for="menu{{item.id}}"><b>{{item.menuName}}</b></label>
+                    </div>
+                  </div>
+                  <ul class="list-group list-group-flush ml-3" *ngIf="item.showSubMenu">
+                    <li class="list-group-item" *ngFor="let i of item.idoxSubMenuList">
+                      <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="subMenu{{i.id}}"
+                            (click)="showSubMenuCrud(item.id,i.id)">
+                          <label class="custom-control-label" for="subMenu{{i.id}}">{{i.subMenuName}}</label>
+                        </div>
+                      </div>
+                      <div class="row" *ngIf="i.showCrud">
+                        <div class="col-sm-2">
+                          <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="subMenuC{{i.id}}" [checked]="true" (change)="addUserRolePerminssions(item.id,i.id,'c',$event)">
+                              <label class="custom-control-label" for="subMenuC{{i.id}}">C</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-2">
+                          <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="subMenuR{{i.id}}" [checked]="true" (change)="addUserRolePerminssions(item.id,i.id,'r',$event)">
+                              <label class="custom-control-label" for="subMenuR{{i.id}}">R</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-2">
+                          <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="subMenuU{{i.id}}" [checked]="true" (change)="addUserRolePerminssions(item.id,i.id,'u',$event)">
+                              <label class="custom-control-label" for="subMenuU{{i.id}}">U</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-2">
+                          <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="subMenuD{{i.id}}" [checked]="true" (change)="addUserRolePerminssions(item.id,i.id,'d',$event)">
+                              <label class="custom-control-label" for="subMenuD{{i.id}}">D</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card-footer text-center">
+        <button type="submit" class="btn btn-success">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
