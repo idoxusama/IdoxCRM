@@ -1,25 +1,25 @@
 export class User{
 
-  GroupID: string;
-  ExpertID: number;
-  ReferrerID:number;
-  SolicitorID: number;
-  InstructionID: number;
-  MedicalSecretaryID:number;
-  SleepingReferrerID:number;
-  SecurityQuestionID: string;
-  SecurityQuestionAnswer: string;
-  UserName: string;
-  Password: string;
-  LastName: string;
-  FirstName: string;
-  CellNo: string;
-  HomePhoneNo:string;
-  WorkPhoneNo:string;
-  FaxNo:string;
-  Email: string;
-  IsGoPrivateUser:string;
-  CreatedBy:string;
-  Status:string;
+  groupID: string;
+  expertID: number;
+  referrerID:number;
+  solicitorID: number;
+  instructionID: number;
+  medicalSecretaryID:number;
+  sleepingReferrerID:number;
+  securityQuestionID: string;
+  securityQuestionAnswer: string;
+  userName: string;
+  password: string;
+  lastName: string;
+  firstName: string;
+  cellNo: string;
+  homePhoneNo:string;
+  workPhoneNo:string;
+  faxNo:string;
+  email: string;
+  isGoPrivateUser:string;
+  createdBy:string;
+  status:string;
 
 }

@@ -114,4 +114,83 @@ export class SettingsService {
     
     return this.http.post(requestUrl,data,requestOptions);
   }
+
+  getMenuWithSubMenu(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/Setting/GetMenuWithSubMenu';
+    
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict),
+    };
+    
+    return this.http.post(requestUrl,data,requestOptions);
+  }
+
+  getSubMenu(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/Setting/GetSubMenu';
+    
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict),
+    };
+    
+    return this.http.post(requestUrl,data,requestOptions);
+  }
+  getMenu(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/Setting/GetMenu';
+    
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict),
+    };
+    
+    return this.http.post(requestUrl,data,requestOptions);
+  }
+
+  idoxMenuStatusUpdate(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/Setting/IdoxMenuStatusUpdate';
+    
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict),
+    };
+    
+    return this.http.post(requestUrl,data,requestOptions);
+  }
+
+  idoxSubMenuStatusUpdate(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/Setting/IdoxSubMenuStatusUpdate';
+    
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict),
+    };
+    
+    return this.http.post(requestUrl,data,requestOptions);
+  }
 }

@@ -212,7 +212,6 @@ import { SettingsTermsandconditionsComponent } from './Components/Settings/setti
 import { SettingsAgreementComponent } from './Components/Settings/settings-agreement/settings-agreement.component';
 import { SettingsModalitiesComponent } from './Components/Settings/settings-modalities/settings-modalities.component';
 import { SoftwareerrorsSupportticketComponent } from './Components/Software Errors/softwareerrors-supportticket/softwareerrors-supportticket.component';
-import { UserComponent } from './Components/Users/user/user.component';
 import { GroupComponent } from './Components/Users/group/group.component';
 import { SecurityQuestionComponent } from './Components/Users/security-question/security-question.component';
 import { ApplicationConfigurationComponent } from './Components/Users/application-configuration/application-configuration.component';
@@ -295,6 +294,9 @@ import { HoldReportsComponent } from './Components/MedicalSecretary/hold-reports
 import { ReportWritingSummaryComponent } from './Components/MedicalSecretary/report-writing-summary/report-writing-summary.component';
 import { ClientQuestionsCreateComponent } from './Components/Medical Performa/client-questions-create/client-questions-create.component';
 import { ExpertQuestionsCreateComponent } from './Components/Medical Performa/expert-questions-create/expert-questions-create.component';
+import { CreateUserRoleComponent } from './Components/Users/Roles/create-user-role/create-user-role.component';
+import { UserRolesListComponent } from './Components/Users/Roles/user-roles-list/user-roles-list.component';
+import { CreateUserComponent } from './Components/Users/user/create-user/create-user.component';
 
 @NgModule({
   declarations: [	
@@ -496,7 +498,9 @@ import { ExpertQuestionsCreateComponent } from './Components/Medical Performa/ex
     SettingsAgreementComponent,
     SettingsModalitiesComponent,
     SoftwareerrorsSupportticketComponent,
-    UserComponent,
+    CreateUserComponent,
+    CreateUserRoleComponent,
+    UserRolesListComponent,
     GroupComponent,
     SecurityQuestionComponent,
     ApplicationConfigurationComponent,
