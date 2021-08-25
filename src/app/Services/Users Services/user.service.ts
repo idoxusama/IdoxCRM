@@ -26,6 +26,20 @@ export class UserService {
     return this._http.get(FullUrl,requestOptions );
   }
 
+  getUsers(data):Observable<any>{
+    let FullUrl = this.baseUrl+"/api/User/GetUser";
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict), 
+    };
+
+    return this._http.post(FullUrl,data,requestOptions );
+  }
+
   getSearchedUserData(GroupID,isgoprivate):Observable<any>{
 
     let FullUrl = this.baseUrl+"/api/User/GetUsers?userid="+GroupID+"&isgoprivate="+isgoprivate;
@@ -256,6 +270,20 @@ export class UserService {
 
   updateUserPermissionPlusUserRole(data):Observable<any>{
     let requestUrl = this.baseUrl+'/api/User/UpdateUserPermissionPlusUserRole';
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict), 
+    };
+
+    return this._http.post(requestUrl,data,requestOptions);
+  }
+
+  updatePermissionStatus(data){
+    let requestUrl = this.baseUrl+'/api/User/MenuStatusUpdate';
     const headerDict = {
       'Access-Control-Allow-Origin':'*',
       "Authorization": "Bearer " + localStorage.getItem('access_token'),
