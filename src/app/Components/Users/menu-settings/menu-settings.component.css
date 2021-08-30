@@ -1,0 +1,20 @@
+.subMenu-item {
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    display: block;
+    background-color: #fff;
+    outline: 0;
+    border: 1px solid rgba(0,0,0,.125);
+    margin: 5px 19px 10px 25px;
+    cursor: move;
+}
+.menu-item{
+
+    padding: 20px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    background-color: rgba(244, 245, 249, 0.667);
+    cursor: move;
+}

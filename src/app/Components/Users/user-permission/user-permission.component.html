@@ -1,4 +1,3 @@
-<!--page header-->
 <div class="container-fluid bg-light-opac">
   <div class="row">
     <div class="container my-3 main-container">
@@ -11,11 +10,212 @@
           </div>
         </div>
         <div class="col-auto">
-          <button class="btn btn-rounded primary-gradient text-uppercase pr-3 mr-1" (click)="ngOnInit()"><i
-              class="material-icons">refresh</i> Refresh</button>
+          <a class="btn btn-sm btn-primary primary-gradient mr-1"  (click)="submitNewPermissions()">Add Permission</a>
+          <a class="btn btn-sm btn-success success-gradient mr-1" (click)="updateAssignedPermissions()">Update Permission</a>
+          <a class="btn btn-sm btn-danger danger-gradient mr-1" (click)="removePermissions()">Remove Permission</a>
         </div>
       </div>
     </div>
   </div>
 </div>
-<!--page header end-->
+
+<div class="container mt-4 main-container">
+  <div class="card rounded-0 border-0 mb-3">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="form-group">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" value="ByUser" name="payment_option" id="byUser"
+                    style="cursor: pointer;" (change)="getPermissionBy($event)">
+                  <label class="custom-control-label" for="byUser"> <span class="">By User </span></label>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" value="ByRole" name="payment_option" id="byRole"
+                    style="cursor: pointer;" (change)="getPermissionBy($event)">
+                  <label class="custom-control-label" for="byRole"> <span class="">By Role </span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6" *ngIf="permissionsBy=='ByRole'">
+          <select2 [data]="roles" [cssImport]="true" width="100%" (valueChanged)="getPermissions($event)">
+          </select2>
+        </div>
+        <div class="col-md-6" *ngIf="permissionsBy=='ByUser'">
+          <select2 [data]="users" [cssImport]="true" width="100%" (valueChanged)="getPermissions($event)">
+          </select2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <div class="col-md-6">
+                <h5>Assinged Permissions</h5>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12" *ngFor="let item of permissions.menuPermissionList">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">
+                        <div class="form-group">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="menuAssign{{item.permitMenuID}}"
+                              [checked]="true" (change)="removeAssignedPermission(item.permitMenuID,$event)">
+                            <label class="custom-control-label"
+                              for="menuAssign{{item.permitMenuID}}"><b>{{item.menuName}}</b></label>
+                          </div>
+                        </div>
+                        <ul class="list-group list-group-flush ml-3">
+                          <li class="list-group-item" *ngFor="let subMenu of item.subMenuPermissionList">
+                            <div class="form-group">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input"
+                                  id="subMenuAssign_{{subMenu.permissionID}}" [checked]="true"
+                                  (change)="updateOrRemoveAssignSubMenu(item.permitMenuID,subMenu.permitSubMenuID,$event)">
+                                <label class="custom-control-label"
+                                  for="subMenuAssign_{{subMenu.permissionID}}">{{subMenu.subMenuName}}</label>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-sm-3">
+                                <div class="form-group">
+                                  <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input"
+                                      id="subMenuCAssign{{subMenu.permissionID}}" [checked]="subMenu.c"
+                                      (change)="updateUserRolePerminssions(item.permitMenuID,subMenu.permitSubMenuID,'c',$event)">
+                                    <label class="custom-control-label"
+                                      for="subMenuCAssign{{subMenu.permissionID}}">C</label>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-3">
+                                <div class="form-group">
+                                  <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input"
+                                      id="subMenuRAssign{{subMenu.permissionID}}" [checked]="subMenu.r"
+                                      (change)="updateUserRolePerminssions(item.permitMenuID,subMenu.permitSubMenuID,'r',$event)">
+                                    <label class="custom-control-label"
+                                      for="subMenuRAssign{{subMenu.permissionID}}">R</label>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-3">
+                                <div class="form-group">
+                                  <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input"
+                                      id="subMenuUAssign{{subMenu.permissionID}}" [checked]="subMenu.u"
+                                      (change)="updateUserRolePerminssions(item.permitMenuID,subMenu.permitSubMenuID,'u',$event)">
+                                    <label class="custom-control-label"
+                                      for="subMenuUAssign{{subMenu.permissionID}}">U</label>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-3">
+                                <div class="form-group">
+                                  <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input"
+                                      id="subMenuDAssign{{subMenu.permissionID}}" [checked]="subMenu.d"
+                                      (change)="updateUserRolePerminssions(item.permitMenuID,subMenu.permitSubMenuID,'d',$event)">
+                                    <label class="custom-control-label"
+                                      for="subMenuDAssign{{subMenu.permissionID}}">D</label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h5>Un Assigned Permissions</h5>
+              <div class="row">
+                <div class="col-lg-12 col-md-12" *ngFor="let item of unAssignedPermissions">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="menu{{item.id}}" [checked]="item.isActive" (change)="changeParent(item.id,$event)">
+                          <label class="custom-control-label" for="menu{{item.id}}"><b>{{item.menuName}}</b></label>
+                        </div>
+                      </div>
+                      <ul class="list-group list-group-flush ml-3">
+                        <li class="list-group-item" *ngFor="let i of item.idoxSubMenuList">
+                          <div>
+                            <div class="form-group">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="subMenu{{i.id}}" [checked]="i.isActive" (change)="changeChild(item.id,i.id,$event)">
+                                <label class="custom-control-label" for="subMenu{{i.id}}">{{i.subMenuName}}</label>
+                              </div>
+                            </div>
+                            <div class="row" *ngIf="i.isActive">
+                              <div class="col-sm-3">
+                                <div class="form-group">
+                                  <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="subMenuC{{i.id}}"
+                                      [checked]="i.c" (change)="assignOrUpdateCrudPermission(item.id,i.id,'c',$event)">
+                                    <label class="custom-control-label" for="subMenuC{{i.id}}">C</label>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-3">
+                                <div class="form-group">
+                                  <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="subMenuR{{i.id}}"
+                                      [checked]="i.r" (change)="assignOrUpdateCrudPermission(item.id,i.id,'r',$event)">
+                                    <label class="custom-control-label" for="subMenuR{{i.id}}">R</label>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-3">
+                                <div class="form-group">
+                                  <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="subMenuU{{i.id}}"
+                                      [checked]="i.u" (change)="assignOrUpdateCrudPermission(item.id,i.id,'u',$event)">
+                                    <label class="custom-control-label" for="subMenuU{{i.id}}">U</label>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-3">
+                                <div class="form-group">
+                                  <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="subMenuD{{i.id}}"
+                                      [checked]="i.d" (change)="assignOrUpdateCrudPermission(item.id,i.id,'d',$event)">
+                                    <label class="custom-control-label" for="subMenuD{{i.id}}">D</label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

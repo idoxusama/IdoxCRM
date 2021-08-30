@@ -3,7 +3,8 @@ export class UserMenus{
     menuName: string;
     label: string;
     menuOrderSr: number;
-    showSubMenu:boolean=false;
+    isActive:boolean=false;
+    showSubMenu:boolean;
     idoxSubMenuList:IdoxSubMenuList[];
 }
 
@@ -15,5 +16,10 @@ export class IdoxSubMenuList{
     subMenuOrderSr: number;
     formUrl: string;
     userID: number;
-    showCrud:boolean;
+    showCrud:boolean
+    c:boolean=true;
+    r:boolean=true;
+    u:boolean=true;
+    d:boolean=true;
+    isActive:boolean=false;
 }

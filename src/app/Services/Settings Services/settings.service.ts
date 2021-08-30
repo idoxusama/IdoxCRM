@@ -193,4 +193,32 @@ export class SettingsService {
     
     return this.http.post(requestUrl,data,requestOptions);
   }
+
+  getMenuSubMenuSettings(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/Setting/GetMenuSubMenuSetting';
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict), 
+    };
+
+    return this.http.post(requestUrl,data,requestOptions);
+  }
+
+  updateMenuSetting(data):Observable<any>{
+    let requestUrl = this.baseUrl+'/api/Setting/UpdateMenuSetting';
+    const headerDict = {
+      'Access-Control-Allow-Origin':'*',
+      "Authorization": "Bearer " + localStorage.getItem('access_token'),
+      'Accept': 'application/json'
+    }
+    const requestOptions = {                                                                                                                                                                                 
+      headers: new HttpHeaders(headerDict), 
+    };
+
+    return this.http.post(requestUrl,data,requestOptions);
+  }
 }
