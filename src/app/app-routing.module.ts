@@ -596,6 +596,7 @@ import { VenueLocationComponent } from './Components/Venue Location/venue-locati
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { CreateUserComponent } from './Components/Users/user/create-user/create-user.component';
+import { MenuSettingsComponent } from './Components/Users/menu-settings/menu-settings.component';
 
 const routes: Routes = [
   {
@@ -2746,6 +2747,15 @@ const routes: Routes = [
   children: [
     {
       path: '', component: ApplicationScreenObjectComponent, pathMatch: 'full', canActivate:[AuthGuard]
+    }
+  ]
+},
+{
+  path: 'Users/menu-settings',
+  component: AppLayoutComponent,
+  children: [
+    {
+      path: '', component: MenuSettingsComponent, pathMatch: 'full', canActivate:[AuthGuard]
     }
   ]
 },

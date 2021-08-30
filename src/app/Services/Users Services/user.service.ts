@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
   baseUrl:string=environment.apiUrl;
-  constructor(private _http:HttpClient,private router:Router) { }
+  constructor(private http:HttpClient,private router:Router) { }
 
   getUserData ():Observable<any>{
 
@@ -23,7 +23,7 @@ export class UserService {
       headers: new HttpHeaders(headerDict), 
     };
 
-    return this._http.get(FullUrl,requestOptions );
+    return this.http.get(FullUrl,requestOptions );
   }
 
   getUsers(data):Observable<any>{
@@ -37,7 +37,7 @@ export class UserService {
       headers: new HttpHeaders(headerDict), 
     };
 
-    return this._http.post(FullUrl,data,requestOptions );
+    return this.http.post(FullUrl,data,requestOptions );
   }
 
   getSearchedUserData(GroupID,isgoprivate):Observable<any>{
@@ -52,7 +52,7 @@ export class UserService {
       headers: new HttpHeaders(headerDict), 
     };
 
-    return this._http.get(FullUrl,requestOptions );
+    return this.http.get(FullUrl,requestOptions );
   }
 
 
@@ -68,7 +68,7 @@ export class UserService {
       headers: new HttpHeaders(headerDict), 
     };
     let FullUrl = this.baseUrl+"/api/User/RegisterCustomer";
-    return this._http.post(FullUrl,
+    return this.http.post(FullUrl,
       "GroupID="+Data.GroupID
       +"&ExpertID="+Data.ExpertID
       +"&ReferrerID="+Data.ReferrerID
@@ -104,7 +104,7 @@ export class UserService {
       headers: new HttpHeaders(headerDict), 
     };
     let FullUrl = this.baseUrl+"/api/User/DeleteUser";
-    return this._http.post(FullUrl,
+    return this.http.post(FullUrl,
       "ID="+DataID
       +"&DeletedBy="+localStorage.getItem("userName"),requestOptions);
   }
@@ -123,7 +123,7 @@ export class UserService {
     };
     
     let FullUrl = this.baseUrl+"/api/User/UpdateCustomer";
-    return this._http.post(FullUrl,
+    return this.http.post(FullUrl,
       "ID="+ Data.ID
       +"&GroupID="+Data.GroupID
       +"&ExpertID="+Data.ExpertID
@@ -160,7 +160,7 @@ export class UserService {
       headers: new HttpHeaders(headerDict), 
     };
 
-    return this._http.get(FullUrl,requestOptions );
+    return this.http.get(FullUrl,requestOptions );
   }
 
   getGroupIDData(GroupID , IsgoUserPrivate):Observable<any>{
@@ -175,7 +175,7 @@ export class UserService {
       headers: new HttpHeaders(headerDict), 
     };
 
-    return this._http.get(FullUrl,requestOptions );
+    return this.http.get(FullUrl,requestOptions );
   }
 
   getSecurityQuestionData():Observable<any>{
@@ -190,7 +190,7 @@ export class UserService {
       headers: new HttpHeaders(headerDict), 
     };
 
-    return this._http.get(FullUrl,requestOptions );
+    return this.http.get(FullUrl,requestOptions );
   }
 
   checkUserExist(userName):Observable<any>{
@@ -207,7 +207,7 @@ export class UserService {
       headers: new HttpHeaders(headerDict), 
     };
 
-    return this._http.post(FullUrl,modal,requestOptions );
+    return this.http.post(FullUrl,modal,requestOptions );
   }
 
   createUserPermissionPlusUserRole(data):Observable<any>{
@@ -221,7 +221,7 @@ export class UserService {
       headers: new HttpHeaders(headerDict), 
     };
 
-    return this._http.post(requestUrl,data,requestOptions);
+    return this.http.post(requestUrl,data,requestOptions);
   }
 
 
@@ -236,7 +236,7 @@ export class UserService {
       headers: new HttpHeaders(headerDict), 
     };
 
-    return this._http.post(requestUrl,data,requestOptions);
+    return this.http.post(requestUrl,data,requestOptions);
   }
 
   getUserRole(data):Observable<any>{
@@ -250,7 +250,7 @@ export class UserService {
       headers: new HttpHeaders(headerDict), 
     };
 
-    return this._http.post(requestUrl,data,requestOptions);
+    return this.http.post(requestUrl,data,requestOptions);
   }
 
   getUserRolePermission(data):Observable<any>{
@@ -265,7 +265,7 @@ export class UserService {
       headers: new HttpHeaders(headerDict), 
     };
 
-    return this._http.post(requestUrl,data,requestOptions);
+    return this.http.post(requestUrl,data,requestOptions);
   }
 
   updateUserPermissionPlusUserRole(data):Observable<any>{
@@ -279,7 +279,7 @@ export class UserService {
       headers: new HttpHeaders(headerDict), 
     };
 
-    return this._http.post(requestUrl,data,requestOptions);
+    return this.http.post(requestUrl,data,requestOptions);
   }
 
   updatePermissionStatus(data){
@@ -293,7 +293,7 @@ export class UserService {
       headers: new HttpHeaders(headerDict), 
     };
 
-    return this._http.post(requestUrl,data,requestOptions);
+    return this.http.post(requestUrl,data,requestOptions);
   }
 
   getUserType(data):Observable<any>{
@@ -307,9 +307,8 @@ export class UserService {
       headers: new HttpHeaders(headerDict), 
     };
 
-    return this._http.post(requestUrl,data,requestOptions);
+    return this.http.post(requestUrl,data,requestOptions);
   }
-
 }
 
 

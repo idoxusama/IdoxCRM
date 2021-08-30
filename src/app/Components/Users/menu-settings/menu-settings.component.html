@@ -1,0 +1,171 @@
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+    <div class="container my-3 main-container">
+      <div class="row align-items-center">
+        <div class="col">
+          <h2 class="content-color-primary page-title">Menu Settings</h2>
+          <p class="content-color-secondary page-sub-title">Menu settings by user or by user role.</p>
+        </div>
+        <div class="col-auto">
+          <button type="button" class="btn btn-rounded pink-gradient text-uppercase pr-3" (click)="saveSettings()"><span class="text-hide-xs">Save
+              Settings</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4 main-container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card mb-4 fullscreen">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input" value="ByUser" name="payment_option" id="byUser"
+                        style="cursor: pointer;" (change)="showDropDown($event)">
+                      <label class="custom-control-label" for="byUser"> <span class="">By User </span></label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input" value="ByRole" name="payment_option" id="byRole"
+                        style="cursor: pointer;" (change)="showDropDown($event)">
+                      <label class="custom-control-label" for="byRole"> <span class="">By Role </span></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6" *ngIf="menuBy=='ByRole'">
+              <select2 [data]="roles" [cssImport]="true" width="100%" (valueChanged)="selectDropdownItem($event)">
+              </select2>
+            </div>
+            <div class="col-md-6" *ngIf="menuBy=='ByUser'">
+              <select2 [data]="users" [cssImport]="true" width="100%" (valueChanged)="selectDropdownItem($event)">
+              </select2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="media">
+            <div class="media-body">
+              <h4 class="content-color-primary mb-0">Settings Board</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body p-0 border-bottom">
+          <smooth-dnd-container (drop)="onMenuDrop($event)">
+            <smooth-dnd-draggable *ngFor="let item of menuSettings;let i=index;">
+              <div style=" padding:5px">
+
+                <div class="border-top menu-item">
+                  <div class="row" style="margin: 5px;">
+                    <div class="col-md-6">
+                      <h5 class="content-color-primary mb-0" *ngIf="item.isMenuSettingChange">
+                        <span class="mr-2">{{item.menuOrderSr}}</span>{{item.menuSettingName}}
+                      </h5>
+                      <h5 class="content-color-primary mb-0" *ngIf="!item.isMenuSettingChange">
+                        <span class="mr-2">{{item.menuOrderSr}}</span>{{item.menuName}}
+                      </h5>
+                    </div>
+                    <div class="col-md-6 text-right">
+                      <button class="btn btn-sm primary-gradient mr-2" (click)="openMenuSettingModal(changeMenuSettingsModal,item.menuSettingID)">Edit</button>
+                      <button class="btn btn-sm text-white btn-warning mr-2" (click)="setMenuDefaultSettings(item.menuSettingID)">Default Menu Settings</button>
+                    </div>
+                  </div>
+                  <smooth-dnd-container (drop)="onSubMenuDrop($event,item.menuSettingID)" [groupName]="'1'" (dragEnter)="dragEnter(item.menuSettingID)" [getChildPayload]="getChildPayload">            
+                    <smooth-dnd-draggable *ngFor="let subMenu of item.subMenuSettingList;let i=index;">
+                      <div class="subMenu-item">
+                        <div class="row">
+                          <div class="col-md-4 text-center">
+                            <span class="mr-5">{{subMenu.subMenuOrderSr}}</span>
+                            <span *ngIf="subMenu.isSubMenuSettingsChange">{{subMenu.subMenuSettingName}}</span>
+                            <span *ngIf="!subMenu.isSubMenuSettingsChange">{{subMenu.subMenuName}}</span>
+                          </div>
+                          <div class="col-md-4 text-center">
+                            <span *ngIf="subMenu.isSubMenuSettingsChange">From Url: <a href="#">{{subMenu.subMenuSettingFormUrl}}</a></span>
+                            <span *ngIf="!subMenu.isSubMenuSettingsChange">From Url: <a href="#">{{subMenu.formUrl}}</a></span>
+                          </div>               
+                          <div class="col-md-4 text-right">
+                            <button class="btn btn-sm primary-gradient mr-2" (click)="openChangeSubMenuSettings(changeSubMenuSettingsModal,item.menuSettingID,subMenu.subMenuSettingID)">Edit</button>
+                            <button class="btn btn-sm text-white btn-warning mr-2" (click)="setSubMenuDefaultSettings(item.menuSettingID,subMenu.subMenuSettingID)">Default SubMenu Settings</button>
+                          </div>
+                        </div>
+                      </div>
+                    </smooth-dnd-draggable>
+                  </smooth-dnd-container>
+                </div>
+              </div>
+            </smooth-dnd-draggable>
+          </smooth-dnd-container>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<ng-template #changeSubMenuSettingsModal>
+  <div class="modal-header bg-primary">
+    <h4 class="modal-title pull-left text-white">Change Default Settings</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <form #f="ngForm" (ngSubmit)="saveSubMenuSettings()">
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Menu Name</label>
+        <input type="text" class="form-control" [(ngModel)]="changeSubMenuModel.menuName" name="menuName" #name="ngModel">
+      </div>
+      <div class="form-group">
+        <label>Form Url</label>
+        <input type="text" class="form-control" [(ngModel)]="changeSubMenuModel.formUrl" name="formUrl" #formUrl="ngModel" onlyCopyAndPaste>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-sm secondary-gradient mr-2" (click)="modalRef.hide()">Cancel</button>
+      <button type="submit" class="btn btn-sm primary-gradient mr-2">Save</button>
+    </div>
+  </form>
+  
+</ng-template>
+
+<ng-template #changeMenuSettingsModal>
+  <div class="modal-header bg-primary">
+    <h4 class="modal-title pull-left text-white">Change Default Settings</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <form #f="ngForm" (ngSubmit)="saveMenuSettings()">
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Menu Name</label>
+        <input type="text" class="form-control" [(ngModel)]="changeMenuModal.menuName" name="menuName" #name="ngModel">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-sm secondary-gradient mr-2" (click)="modalRef.hide()">Cancel</button>
+      <button type="submit" class="btn btn-sm primary-gradient mr-2">Save</button>
+    </div>
+  </form>
+  
+</ng-template>

@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { IdoxSubMenuList, UserMenus } from 'src/app/Models/Menu/Menu';
 import { GetRolePermissions, MenuPermissionList } from 'src/app/Models/Users Model/Permission';
 import { UserRolePermissions, UserRolePlusPermissions } from 'src/app/Models/Users Model/UserRolesPlusPermission';
+import { Select2DropdownService } from 'src/app/Services/select2-dropdown.service';
 import { SettingsService } from 'src/app/Services/Settings Services/settings.service';
 import { UserService } from 'src/app/Services/Users Services/user.service';
 
@@ -31,40 +32,13 @@ export class UserPermissionComponent implements OnInit {
 
   constructor(private userService: UserService,
     private settingsService: SettingsService,
-    private toasterService: ToastrService) { }
+    private toasterService: ToastrService,
+    private dropdownService:Select2DropdownService) { }
 
   ngOnInit() {
   }
 
   /* #region  Prepare Permissions Board */
-  prepareDropDown(optionsArray: Array<Select2OptionData>, data?: any[], selectedValue?) {
-    if (data) {
-      let defualtOption = {
-        id: '',
-        text: 'Select Option'
-      };
-      optionsArray.push(defualtOption);
-      data.forEach(element => {
-        let object = {
-          id: element.id,
-          text: element.text
-        };
-        optionsArray.push(object);
-      });
-    }
-
-    if (selectedValue) {
-      let options = optionsArray;
-      optionsArray.forEach(function (item, i) {
-        if (item.id == selectedValue) {
-          options.splice(i, 1);
-          options.unshift(item);
-        }
-      });
-      optionsArray = options;
-    }
-    return optionsArray;
-  }
 
   async getUserRoles() {
     let model = { RoleID: 0 };
@@ -73,7 +47,7 @@ export class UserPermissionComponent implements OnInit {
       if (result.outputObject) {
         result.outputObject.map(e => e.text = e.roleName);
         this.roles = [];
-        this.roles = this.prepareDropDown(this.roles, result.outputObject)
+        this.roles = this.dropdownService.prepareDropDown(this.roles, result.outputObject)
       }
     }
   }
@@ -90,7 +64,7 @@ export class UserPermissionComponent implements OnInit {
     if (result) {
       this.users = [];
       result.outputObject.map(e => e.text = e.firstName + ' ' + e.lastName);
-      this.users = this.prepareDropDown(this.users, result.outputObject);
+      this.users = this.dropdownService.prepareDropDown(this.users, result.outputObject);
     }
   }
 

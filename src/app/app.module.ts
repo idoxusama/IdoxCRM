@@ -297,6 +297,9 @@ import { ExpertQuestionsCreateComponent } from './Components/Medical Performa/ex
 import { CreateUserRoleComponent } from './Components/Users/Roles/create-user-role/create-user-role.component';
 import { UserRolesListComponent } from './Components/Users/Roles/user-roles-list/user-roles-list.component';
 import { CreateUserComponent } from './Components/Users/user/create-user/create-user.component';
+import { MenuSettingsComponent } from './Components/Users/menu-settings/menu-settings.component';
+import { NgxSmoothDnDModule } from 'ngx-smooth-dnd';
+import { OnlyCopyAndPasteDirective } from './custom-validations/onlyCopyAndPaste.directive';
 
 @NgModule({
   declarations: [	
@@ -505,6 +508,7 @@ import { CreateUserComponent } from './Components/Users/user/create-user/create-
     SecurityQuestionComponent,
     ApplicationConfigurationComponent,
     UserPermissionComponent,
+    MenuSettingsComponent,
     ApplicationScreenComponent,
     ApplicationScreenObjectComponent,
     AgingReportAllComponent,
@@ -572,7 +576,8 @@ import { CreateUserComponent } from './Components/Users/user/create-user/create-
     AlphabetsOnlyDirective,
     NotAllowSepacialChatactorDirective,
     DisableControlDirective,
-    InvalidControlScrollDirective
+    InvalidControlScrollDirective,
+    OnlyCopyAndPasteDirective
    ],
   entryComponents: [
     ConfirmModalDialogComponent
@@ -607,7 +612,8 @@ import { CreateUserComponent } from './Components/Users/user/create-user/create-
     }),
     Select2Module,
     PdfViewerModule,
-    NgxGalleryModule
+    NgxGalleryModule,
+    NgxSmoothDnDModule
   ],
   providers: [AuthGuard, DatePipe
     //   {
