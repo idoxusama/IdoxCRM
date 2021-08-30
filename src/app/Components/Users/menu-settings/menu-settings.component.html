@@ -88,7 +88,7 @@
                       <button class="btn btn-sm text-white btn-warning mr-2" (click)="setMenuDefaultSettings(item.menuSettingID)">Default Menu Settings</button>
                     </div>
                   </div>
-                  <smooth-dnd-container (drop)="onSubMenuDrop($event,item.menuSettingID)" [groupName]="'1'" (dragEnter)="dragEnter(item.menuSettingID)" [getChildPayload]="getChildPayload">            
+                  <smooth-dnd-container (drop)="onSubMenuDrop($event,item.menuSettingID)" [groupName]="'1'" (dragStart)="dragStart()" (dragEnter)="dragEnter(item.menuSettingID)" [getChildPayload]="getChildPayload">            
                     <smooth-dnd-draggable *ngFor="let subMenu of item.subMenuSettingList;let i=index;">
                       <div class="subMenu-item">
                         <div class="row">
