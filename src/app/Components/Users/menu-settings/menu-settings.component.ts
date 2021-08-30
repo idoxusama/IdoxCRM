@@ -34,6 +34,7 @@ export class MenuSettingsComponent implements OnInit {
   public removeIndex: number;
   public addedIndex: number;
   public itemTobeAdded: any = {};
+  public itemRemoved = false;
 
   public menuSettingsSave: SaveMenuSettings[] = [];
   public subMenuSettingsSave: SaveSubMenuSettingList[] = [];
@@ -103,6 +104,7 @@ export class MenuSettingsComponent implements OnInit {
   }
 
   async getMenuSettings(userID, roleID) {
+    this.menuId = null;
     this.userID = userID;
     this.userRoleId = roleID;
 
@@ -137,12 +139,16 @@ export class MenuSettingsComponent implements OnInit {
   }
 
   dragEnter(menuId) {
-    if(this.menuId !=null){
+    if (this.menuId != null) {
       // do nothing
     }
-    else{
+    else {
       this.menuId = menuId;
     }
+  }
+
+  dragStart() {
+    this.itemRemoved = false;
   }
 
   getChildPayload(index) {
@@ -151,27 +157,33 @@ export class MenuSettingsComponent implements OnInit {
 
   onSubMenuDrop(dropResult, menuId) {
     debugger
-    if(dropResult.removedIndex==null && dropResult.addedIndex>=0 &&  this.menuId!=menuId){
+    if (dropResult.removedIndex == null && dropResult.addedIndex>=0 && dropResult.addedIndex!==null && this.menuId != menuId) {
       let menu = this.menuSettings.find(e => e.menuSettingID == +this.menuId);
-      if(this.removeIndex>=0){
+      if (this.removeIndex >= 0 && this.itemRemoved==false) {
         this.itemTobeAdded = menu.subMenuSettingList.splice(this.removeIndex, 1)[0];
+        this.itemRemoved = true;
       }
     }
 
     if (dropResult.removedIndex != null && dropResult.addedIndex == null) {
       let menu = this.menuSettings.find(e => e.menuSettingID == menuId);
-      this.itemTobeAdded = menu.subMenuSettingList.splice(dropResult.removedIndex, 1)[0];
+      if (this.itemRemoved == false) {
+        this.itemTobeAdded = menu.subMenuSettingList.splice(dropResult.removedIndex, 1)[0];
+        this.itemRemoved = true;
+      }
     }
 
-    else if (dropResult.addedIndex != null && dropResult.removedIndex == null) {
+    if (dropResult.addedIndex != null && dropResult.removedIndex == null) {
       let menu = this.menuSettings.find(e => e.menuSettingID == menuId);
       if (!!Object.keys(this.itemTobeAdded).length) {
         menu.subMenuSettingList.unshift(this.itemTobeAdded);
-        this.itemTobeAdded={};
+        this.menuId=null;
+        this.itemTobeAdded ={};
       }
     }
 
     if (typeof (dropResult.addedIndex) === "number" && typeof (dropResult.removedIndex) === "number") {
+      this.menuId=null;
       let menu = this.menuSettings.find(e => e.menuSettingID == menuId);
       menu.subMenuSettingList = this.applyDrag(menu.subMenuSettingList, dropResult);
       let removedSubmenuOrder = menu.subMenuSettingList[dropResult.removedIndex].subMenuOrderSr;
@@ -285,7 +297,7 @@ export class MenuSettingsComponent implements OnInit {
           SubMenuName: e.isSubMenuSettingsChange ? e.subMenuSettingName : e.subMenuName,
           SubMenuLabel: e.subMenuLable,
           SubMenuOrderSr: e.subMenuOrderSr,
-          FormUrl: e.isSubMenuSettingsChange?e.subMenuSettingFormUrl:e.formUrl
+          FormUrl: e.isSubMenuSettingsChange ? e.subMenuSettingFormUrl : e.formUrl
         };
         menuSetting.subMenuSettingList.push(object);
       });
@@ -298,7 +310,7 @@ export class MenuSettingsComponent implements OnInit {
     await this.settingsService.updateMenuSetting(model).toPromise();
     this.toasterService.success("Menu settings updated successfully");
     this.menuSettingsSave.length = 0;
-    this.getMenuSettings(this.userID,this.userRoleId);
+    this.getMenuSettings(this.userID, this.userRoleId);
   }
   /* #endregion */
 }
