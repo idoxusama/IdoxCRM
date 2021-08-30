@@ -178,10 +178,12 @@ export class MenuSettingsComponent implements OnInit {
       if (!!Object.keys(this.itemTobeAdded).length) {
         menu.subMenuSettingList.unshift(this.itemTobeAdded);
         this.menuId=null;
+        this.itemTobeAdded ={};
       }
     }
 
     if (typeof (dropResult.addedIndex) === "number" && typeof (dropResult.removedIndex) === "number") {
+      this.menuId=null;
       let menu = this.menuSettings.find(e => e.menuSettingID == menuId);
       menu.subMenuSettingList = this.applyDrag(menu.subMenuSettingList, dropResult);
       let removedSubmenuOrder = menu.subMenuSettingList[dropResult.removedIndex].subMenuOrderSr;
