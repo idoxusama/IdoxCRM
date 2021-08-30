@@ -106,13 +106,23 @@ export class ViewReportComponent implements OnInit {
     if(result){
       this.expertRptLogResponse = result;
       this.logId = this.expertRptLogResponse.map(e=>{return e.expertRptLogID}).pop();
-      let lastItem = this.expertRptLogResponse[this.expertRptLogResponse.length - 1];
+      let lastItem = this.expertRptLogResponse[this.expertRptLogResponse.length];
       for (let i = 0; i < this.expertRptLogResponse.length; i++) {
-        if ((lastItem.expertRptLogResponseID !== this.expertRptLogResponse[i].expertRptLogResponseID &&
-          this.expertRptLogResponse[i].logResponseIsCaseClosed === false) || 
-          this.expertRptLogResponse[i].logResponseIsCaseClosed === true) {
+        let reqsender = (this.expertRptLogResponse[i].expertRptLogResponseState === 1 ? 3 :2)
+          
+        if (reqsender === +localStorage.getItem("userTypeID") ? this.expertRptLogResponse[i].isSameUserType=true : this.expertRptLogResponse[i].isSameUserType=false)
+        console.log(this.expertRptLogResponse[i].isSameUserType)
+        console.log(this.expertRptLogResponse[i].expertRptLogResponseState)
+        if(this.expertRptLogResponse[i].logResponseIsRespond === true)
+        {
           this.expertRptLogResponse[i].isOpen = false;
+          //this.expertRptLogResponse[i].isOpen = false;
         }
+        // if ((lastItem.expertRptLogResponseID !== this.expertRptLogResponse[i].expertRptLogResponseID &&
+        //   this.expertRptLogResponse[i].logResponseIsCaseClosed === false) || 
+        //   this.expertRptLogResponse[i].logResponseIsCaseClosed === true) {
+        //   this.expertRptLogResponse[i].isOpen = false;
+        // }
         else {
           this.expertRptLogResponse[i].isOpen = true;
         }

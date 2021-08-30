@@ -15,6 +15,7 @@ export class ExpertRptLogResponse{
     logResponseIsViewed:boolean;
     logResponseIsRespond:boolean;
     logResponseTotalSpendTime:string;
+    isSameUserType:boolean;
     expertRptLogRefImgResponse:ExpertReportLogRefImgResponse[];
 }
 

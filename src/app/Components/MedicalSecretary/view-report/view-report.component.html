@@ -152,11 +152,12 @@
                             </td>
                             <td>{{item.expertRptLogResponseNote}}</td>
                             <td>
-                                <div class="btn-group" dropdown *ngIf="!item.logResponseIsCaseClosed && item.isOpen">
+                                <div class="btn-group" dropdown *ngIf="!item.logResponseIsCaseClosed && item.isOpen && !item.isSameUserType">
                                     <a style="cursor: pointer;" id="button-animated" class="btn btn-sm btn-primary dropdown-toggle text-white"
                                         dropdownToggle aria-controls="dropdown-animated">Actions
                                         <span class="caret"></span>
                                     </a>
+                                    
                                     <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-animated">
                                         <li role="menuitem"><a style="cursor: pointer;" class="dropdown-item"
                                                 (click)="openResponceModal(responceCellTemplate,'Agree',item.expertRptLogResponseID)">Agree</a></li>
@@ -166,10 +167,27 @@
                                                 (click)="openResponceModal(responceCellTemplate,'Other',item.expertRptLogResponseID)">Other</a></li>
                                     </ul>
                                 </div>
+
+                                <div class="btn-group" dropdown *ngIf="!item.logResponseIsCaseClosed && item.isOpen && item.isSameUserType">
+                                    <a style="cursor: pointer;" id="button-animated" class="btn btn-sm btn-primary dropdown-toggle text-white"
+                                        dropdownToggle aria-controls="dropdown-animated">Actions
+                                        <span class="caret"></span>
+                                    </a>
+
+                                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-animated">
+                                        <li role="menuitem"><a style="cursor: pointer;" class="dropdown-item"
+                                                (click)="openResponceModal(responceCellTemplate,'Agree',item.expertRptLogResponseID)">Withdraw</a></li>
+                                        <li role="menuitem"><a style="cursor: pointer;" class="dropdown-item"
+                                                (click)="openResponceModal(responceCellTemplate,'Disagree',item.expertRptLogResponseID)">Modify</a></li>
+                                        <li role="menuitem"><a style="cursor: pointer;" class="dropdown-item"
+                                                (click)="openResponceModal(responceCellTemplate,'Other',item.expertRptLogResponseID)">Other</a></li>
+                                    </ul>
+                                </div>
+
                                 <div *ngIf="!item.logResponseIsCaseClosed && !item.isOpen">
                                     <span class="badge badge-danger mb-2">Responded</span>
                                 </div>
-                                <div *ngIf="item.logResponseIsCaseClosed && !item.isOpen">
+                                <div *ngIf="item.logResponseIsCaseClosed">
                                     <span class="badge badge-danger mb-2">Case Closed</span>
                                 </div>
                             </td>
