@@ -1,0 +1,162 @@
+<div class="container-fluid bg-light-opac">
+  <div class="row">
+    <div class="container my-3 main-container">
+      <div class="row align-items-center">
+        <div class="col">
+          <h2 class="content-color-primary page-title">Permission Board</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-2 main-container">
+  <div class="row ustify-content-center">
+    <div class="col-lg-12 col-md-12">
+      <div class="card mb-4">
+        <!-- <div class="card-header border-bottom">
+          <h5 class="content-color-primary mb-0">Permission Board By</h5>
+        </div> -->
+        <div class="card-body">
+          <div class="row ">
+            <div class="col-lg-12 col-md-12">
+              <div class="form-group ">
+                <label>Permission By</label>
+                <div class="row">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" value="false" id="updateRole"
+                      (change)="chkRoleName()">
+                    <label class="custom-control-label" for="updateRole">User List</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-lg-12 col-md-12">
+              <div class="form-group ">
+                <label>Name</label>
+                <!-- <input type="text" class="form-control" *ngIf="userRoleForm.get('chkRoleName').value===false" formControlName="roleName" placeholder="" (change)="getMenuWithSubMenu()"
+                  [ngClass]="{'is-invalid': userRoleForm.get('roleName').errors 
+                                && (userRoleForm.get('roleName').touched|| userRoleFormSubmit)}"> -->
+
+                <select2 [data]="userRoles" [cssImport]="true" [value]="userRoleForm.get('roleID').value" [ngClass]="{'is-invalid': userRoleForm.get('roleID').errors 
+                    && (userRoleForm.get('roleID').touched||userRoleForm)}" width="100%"
+                  (valueChanged)="setOptionType($event,'roleID')">
+                </select2>
+                <button type="button" (onclick)="getMenuWithSubMenu()">GetDate</button>
+                <div class="invalid-feedback"
+                  *ngIf="(userRoleForm.get('roleName').touched||userRoleFormSubmit) && userRoleForm.get('roleName').hasError('required')">
+                  This field is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+      <div class="card mb-4">
+        <div class="card-header border-bottom">
+          <h5 class="content-color-primary mb-0">Assigned Permissions</h5>
+        </div>
+        <form [formGroup]="userRoleForm" *ngIf="userRoleForm" (ngSubmit)="submitUserRole()">
+          <div class="card-body">
+            <!-- <div class="row ">
+          <div class="col-lg-12 col-md-12">
+            <div class="form-group ">
+              <label>Role Name</label>
+              <input type="text" class="form-control" formControlName="roleName" placeholder="" (change)="getMenuWithSubMenu()"
+                [ngClass]="{'is-invalid': userRoleForm.get('roleName').errors 
+                              && (userRoleForm.get('roleName').touched|| userRoleFormSubmit)}">
+              <div class="invalid-feedback"
+                *ngIf="(userRoleForm.get('roleName').touched||userRoleFormSubmit) && userRoleForm.get('roleName').hasError('required')">
+                This field is required
+              </div>
+            </div>
+          </div>
+        </div> -->
+            <div *ngIf="userPermissionRole.length>0">
+              <h5>Permissions</h5>
+              <div class="row">
+                <div class="col-lg-6 col-md-6" *ngFor="let item of userPermissionRole">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="permissionsList{{item.userRoleID}}"
+                            checked="checked">
+                          <label class="custom-control-label"
+                            for="permissionsList{{item.permitMenuID}}"><b>{{item.roleName}}</b></label>
+                        </div>
+                      </div>
+                      <ul class="list-group list-group-flush ml-3">
+                        <li class="list-group-item" *ngFor="let i of item.userPermissionList">
+                          <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="subMenu{{i.permitSubMenuID}}"
+                                checked="checked">
+                              <label class="custom-control-label"
+                                for="subMenu{{i.permitSubMenuID}}">{{i.subMenuName}}</label>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-2">
+                              <div class="form-group">
+                                <div *ngIf="i.c==true" class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input"
+                                    id="subMenu{{i.permitSubMenuID}}" checked="checked"
+                                    (change)="addUserRolePerminssions(item.permitMenuID,i.permitSubMenuID,'c',$event)">
+                                  <label class="custom-control-label" for="subMenu{{i.permitSubMenuID}}">C</label>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- <div class="col-sm-2">
+                              <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="subMenuR{{i.id}}"
+                                    [checked]="true" (change)="addUserRolePerminssions(item.id,i.id,'r',$event)">
+                                  <label class="custom-control-label" for="subMenuR{{i.id}}">R</label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-2">
+                              <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="subMenuU{{i.id}}"
+                                    [checked]="true" (change)="addUserRolePerminssions(item.id,i.id,'u',$event)">
+                                  <label class="custom-control-label" for="subMenuU{{i.id}}">U</label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-2">
+                              <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="subMenuD{{i.id}}"
+                                    [checked]="true" (change)="addUserRolePerminssions(item.id,i.id,'d',$event)">
+                                  <label class="custom-control-label" for="subMenuD{{i.id}}">D</label>
+                                </div>
+                              </div>
+                            </div> -->
+                          </div>
+
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div *ngIf="userPermissionRole.length>0" class="card-footer text-center">
+            <button type="submit" class="btn btn-success">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
