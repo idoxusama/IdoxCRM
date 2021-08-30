@@ -104,10 +104,10 @@ export class PermissionBoardComponent implements OnInit {
   async getRolePermission() {
 
     let modal = { RoleID: this.userRoleForm.get('roleID').value, UserPermissionID: 0, UserID: 0 };
-    let result = await this.settingsService.getUserRolePermission(modal).toPromise();
+    //let result = await this.settingsService.getUserRolePermission(modal).toPromise();
 
-    if (!result) return;
-    this.userPermissionRole = result.outputObject;
+    // if (!result) return;
+    // this.userPermissionRole = result.outputObject;
     //this.permissionsList = result.outputObject;
     result => {
       this.permissionsList = result.data.map(p => ({
